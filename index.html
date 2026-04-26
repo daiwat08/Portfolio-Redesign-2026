@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daiwat Thavai — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --t-xs:   12px;
+    --t-sm:   14px;
+    --t-base: 17px;
+    --t-h1:   48px;
+    --t-h2:   44px;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-snap-type: y mandatory; overflow-y: scroll; height: 100%; }
+  body {
+    font-family: 'Geist', sans-serif;
+    font-weight: 400; font-size: var(--t-base);
+    line-height: 1.8; -webkit-font-smoothing: antialiased;
+    overflow-x: hidden; height: 100%;
+  }
+
+  /* ── NAV ── */
+  .nav-top {
+    position: fixed; top: 20px; left: 50%;
+    transform: translateX(-50%); z-index: 9999;
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(0,0,0,0.09);
+    border-radius: 999px; height: 52px;
+    width: min(680px, calc(100vw - 48px));
+    padding: 0 8px 0 20px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    transition: background .4s, border-color .4s, box-shadow .4s;
+  }
+  .nav-top.nav-dark { background: rgba(15,15,15,0.85); border-color: rgba(255,255,255,0.1); box-shadow: 0 2px 24px rgba(0,0,0,0.4); }
+  .nav-top.nav-dark .nav-top__logo { color: #fff; }
+  .nav-top.nav-dark .nav-top__link { color: rgba(255,255,255,0.55); }
+  .nav-top.nav-dark .nav-top__link:hover { color: #fff; background: rgba(255,255,255,0.08); font-weight: 500; }
+  .nav-top.nav-dark .nav-top__cta { background: #fff; color: #111; }
+  .nav-top.nav-dark .nav-top__cta:hover { background: rgba(255,255,255,0.85); }
+  .nav-top__logo { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: #111; text-decoration: none; white-space: nowrap; flex-shrink: 0; transition: color .4s; }
+  .nav-top__links { flex: 1; display: flex; align-items: center; justify-content: center; }
+  .nav-top__link { font-size: var(--t-sm); color: #777; text-decoration: none; padding: 7px 16px; border-radius: 999px; transition: background .2s, color .2s; }
+  .nav-top__link:hover { color: #111; background: rgba(0,0,0,0.05); font-weight: 500; }
+  .nav-top__cta { font-size: var(--t-xs); font-weight: 400; color: #fff; text-decoration: none; background: #111; padding: 8px 18px; border-radius: 999px; flex-shrink: 0; transition: background .2s, color .2s; }
+  .nav-top__cta:hover { background: #4A7CFF; }
+
+  /* ── SECTIONS ── */
+  .section {
+    min-height: 100vh; height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 120px 32px; text-align: center;
+    scroll-snap-align: start; scroll-snap-stop: always;
+    overflow: hidden; position: relative;
+    transition: background 0.6s ease;
+  }
+  .section-inner { display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; z-index: 2; }
+  .eyebrow { font-family: 'Geist Mono', monospace; font-size: var(--t-xs); letter-spacing: 1px; margin-bottom: 20px; display: block; transition: opacity 0.4s ease; }
+  .section h1, .section h2 { font-family: 'Syne', sans-serif; font-weight: 800; line-height: 1.1; letter-spacing: -0.5px; max-width: 760px; transition: opacity 0.4s ease; }
+  .section h1 { font-size: var(--t-h1); }
+  .section h2 { font-size: var(--t-h2); }
+  .section p { font-size: var(--t-base); font-weight: 400; max-width: 720px; margin-top: 16px; line-height: 1.8; letter-spacing: 0.1px; transition: opacity 0.4s ease; }
+
+  /* ── GRADIENT OVERLAY — covers section bg with gradient on hover ── */
+  .section-gradient {
+    position: absolute; inset: 0; z-index: 1;
+    opacity: 0;
+    transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1);
+    pointer-events: none;
+  }
+  .section:has(.btn-light:hover) .section-gradient { opacity: 1; }
+
+  /* Each section's unique hover gradient */
+  .s1 .section-gradient { background: linear-gradient(140deg, rgba(13,27,42,0.55) 0%, rgba(26,80,128,0.35) 60%, rgba(74,124,255,0.15) 100%); }
+  .s2 .section-gradient { background: linear-gradient(140deg, rgba(80,10,8,0.55) 0%, rgba(155,35,23,0.35) 60%, rgba(217,79,56,0.15) 100%); }
+  .s3 .section-gradient { background: linear-gradient(140deg, rgba(6,26,8,0.55) 0%, rgba(18,74,24,0.35) 60%, rgba(34,139,48,0.15) 100%); }
+  .s4 .section-gradient { background: linear-gradient(140deg, rgba(13,18,48,0.55) 0%, rgba(36,52,128,0.35) 60%, rgba(74,94,192,0.15) 100%); }
+  .s5 .section-gradient { background: linear-gradient(140deg, rgba(0,40,32,0.55) 0%, rgba(0,94,82,0.35) 60%, rgba(0,160,144,0.15) 100%); }
+  .s6 .section-gradient { background: linear-gradient(140deg, rgba(5,15,34,0.55) 0%, rgba(13,58,128,0.35) 60%, rgba(26,114,212,0.15) 100%); }
+
+  /* Dim content on hover */
+  .section:has(.btn-light:hover) .eyebrow,
+  .section:has(.btn-light:hover) h2,
+  .section:has(.btn-light:hover) p { opacity: 0.3; }
+
+  /* ── BUTTONS ── */
+  .btn-outline { display: inline-block; margin-top: 36px; padding: 11px 28px; border-radius: 999px; font-size: var(--t-sm); font-weight: 400; text-decoration: none; transition: background .25s, color .25s, border-color .25s, box-shadow .25s, transform .15s; }
+  .btn-outline:hover { font-weight: 500; }
+  .btn-outline:active { transform: scale(0.96); box-shadow: none !important; }
+  .btn-primary { border: 1px solid #4A7CFF; color: #fff; background: #4A7CFF; }
+  .btn-primary:hover { background: #3a6ce8; border-color: #3a6ce8; box-shadow: 0 6px 24px rgba(74,124,255,0.4); }
+  .btn-secondary { border: 1px solid #111; color: #111; background: transparent; }
+  .btn-secondary:hover { background: #111; color: #fff; box-shadow: 0 6px 24px rgba(0,0,0,0.15); }
+  .btn-light { border: 1px solid rgba(255,255,255,0.5); color: #fff; background: transparent; display: inline-flex; align-items: center; gap: 0; overflow: hidden; }
+  .s1 .btn-light:hover { background: #fff; color: #0d1b2a; border-color: #fff; box-shadow: 0 6px 24px rgba(255,255,255,0.25); }
+  .s2 .btn-light:hover { background: #fff; color: #C0392B; border-color: #fff; box-shadow: 0 6px 24px rgba(255,255,255,0.25); }
+  .s3 .btn-light:hover { background: #fff; color: #1B5E20; border-color: #fff; box-shadow: 0 6px 24px rgba(255,255,255,0.25); }
+  .s4 .btn-light:hover { background: #fff; color: #3949AB; border-color: #fff; box-shadow: 0 6px 24px rgba(255,255,255,0.25); }
+  .s5 .btn-light:hover { background: #fff; color: #00897B; border-color: #fff; box-shadow: 0 6px 24px rgba(255,255,255,0.25); }
+  .s6 .btn-light:hover { background: #fff; color: #1565C0; border-color: #fff; box-shadow: 0 6px 24px rgba(255,255,255,0.25); }
+  .btn-arrow { display: inline-block; opacity: 0; max-width: 0; overflow: hidden; transition: opacity 0.25s ease, max-width 0.3s ease, margin 0.3s ease; color: inherit; font-size: 16px; margin-right: 0; white-space: nowrap; }
+  .btn-light:hover .btn-arrow { opacity: 1; max-width: 24px; margin-right: 6px; }
+
+  /* ── SECTION COLORS ── */
+  .s0 { background: #ffffff; } .s0 .eyebrow { color: #999; } .s0 h1 { color: #111; } .s0 p { color: #777; }
+  .s1 { background: #0d1b2a; } .s1 .eyebrow { color: rgba(255,255,255,0.55); } .s1 h2 { color: #fff; } .s1 p { color: rgba(255,255,255,0.75); }
+  .s2 { background: #C0392B; } .s2 .eyebrow { color: rgba(255,255,255,0.55); } .s2 h2 { color: #fff; } .s2 p { color: rgba(255,255,255,0.75); }
+  .s3 { background: #1B5E20; } .s3 .eyebrow { color: rgba(255,255,255,0.55); } .s3 h2 { color: #fff; } .s3 p { color: rgba(255,255,255,0.75); }
+  .s4 { background: #3949AB; } .s4 .eyebrow { color: rgba(255,255,255,0.55); } .s4 h2 { color: #fff; } .s4 p { color: rgba(255,255,255,0.75); }
+  .s5 { background: #00897B; } .s5 .eyebrow { color: rgba(255,255,255,0.55); } .s5 h2 { color: #fff; } .s5 p { color: rgba(255,255,255,0.75); }
+  .s6 { background: #1565C0; } .s6 .eyebrow { color: rgba(255,255,255,0.55); } .s6 h2 { color: #fff; } .s6 p { color: rgba(255,255,255,0.75); }
+
+  /* ── DARK THEME ── */
+  body.dark .s0 { background: #1a1a1a; } body.dark .s0 .eyebrow { color: #444; } body.dark .s0 h1 { color: #e8e8e8; } body.dark .s0 p { color: #666; }
+  body.dark .s0 .btn-secondary { border-color: #444; color: #aaa; } body.dark .s0 .btn-secondary:hover { background: #333; color: #fff; border-color: #333; }
+  body.dark .s1 { background: #1a2a4a; } body.dark .s2 { background: #3a1010; } body.dark .s3 { background: #0d2a10; }
+  body.dark .s4 { background: #141830; } body.dark .s5 { background: #082220; } body.dark .s6 { background: #0a1a30; }
+  body.dark .nav-top:not(.nav-dark) { background: rgba(20,20,20,0.92); border-color: rgba(255,255,255,0.08); }
+  body.dark .nav-top:not(.nav-dark) .nav-top__logo { color: #e8e8e8; }
+  body.dark .nav-top:not(.nav-dark) .nav-top__link { color: #555; }
+  body.dark .nav-top:not(.nav-dark) .nav-top__link:hover { color: #e8e8e8; background: rgba(255,255,255,0.06); }
+  body.dark .nav-top:not(.nav-dark) .nav-top__cta { background: #333; color: #fff; }
+
+  /* ── HERO FADE IN ── */
+  @keyframes up { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+  .s0 .eyebrow { opacity:0; animation: up .65s ease .10s forwards; }
+  .s0 h1       { opacity:0; animation: up .65s ease .22s forwards; }
+  .s0 p        { opacity:0; animation: up .65s ease .34s forwards; }
+
+  /* ── PREVIEW PANEL ── */
+  .case-preview {
+    position: absolute; right: 6vw; top: 50%;
+    transform: translateY(-50%) translateX(48px);
+    width: clamp(240px, 26vw, 360px);
+    height: clamp(380px, 60vh, 520px);
+    border-radius: 28px; overflow: hidden;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.5s cubic-bezier(0.22,1,0.36,1), transform 0.5s cubic-bezier(0.22,1,0.36,1);
+    z-index: 3;
+  }
+  .section:has(.btn-light:hover) .case-preview { opacity: 1; transform: translateY(-50%) translateX(0); }
+
+  .preview-bg { position: absolute; inset: 0; z-index: 0; }
+  .preview-tag { position: absolute; top: 22px; left: 22px; font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 1.5px; color: rgba(255,255,255,0.45); z-index: 4; text-transform: uppercase; }
+
+  .phone-wrap { position: absolute; bottom: -28px; left: 50%; transform: translateX(-50%); width: 68%; z-index: 2; }
+  .phone-shell {
+    width: 100%; aspect-ratio: 9/19.5;
+    background: #111; border-radius: 40px;
+    border: 2px solid rgba(255,255,255,0.15);
+    position: relative; overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.06), 0 40px 80px rgba(0,0,0,0.6);
+  }
+  .phone-island { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 32%; height: 24px; background: #000; border-radius: 999px; z-index: 10; }
+  .phone-screen { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: 0 0 32px; }
+  .screen-glow { position: absolute; inset: 0; z-index: 0; }
+  .screen-label { position: relative; z-index: 2; font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 800; color: rgba(255,255,255,0.95); letter-spacing: -0.5px; text-align: center; padding: 0 20px; line-height: 1.2; }
+  .screen-sub { position: relative; z-index: 2; font-family: 'Geist Mono', monospace; font-size: 8px; letter-spacing: 2px; color: rgba(255,255,255,0.35); margin-top: 8px; }
+
+  @media (max-width: 960px) { .case-preview { display: none; } }
+  @media (max-width: 640px) { .nav-top { width: calc(100vw - 32px); padding: 0 8px 0 16px; } .nav-top__links { display: none; } .section h1 { font-size: 36px; } .section h2 { font-size: 32px; } }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav-top" id="navTop">
+  <a href="#" class="nav-top__logo">Daiwat Thavai</a>
+  <nav class="nav-top__links">
+    <a href="#" class="nav-top__link">Work</a>
+    <a href="#" class="nav-top__link">About</a>
+    <a href="#" class="nav-top__link">Resume</a>
+  </nav>
+  <div style="display:flex; align-items:center; gap:8px;">
+    <button id="themeToggle" style="width:34px;height:34px;border-radius:50%;border:1px solid rgba(0,0,0,0.12);background:transparent;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .2s, transform .15s;flex-shrink:0;" aria-label="Toggle dark mode">🌙</button>
+    <a href="#" class="nav-top__cta">Dave AI ✦</a>
+  </div>
+</header>
+
+<!-- S0 HERO -->
+<section class="section s0" data-theme="light">
+  <div class="section-inner">
+    <span class="eyebrow">UX Designer & AI Enthusiast</span>
+    <h1>Bridging the distance between Tech &amp; Emotions</h1>
+    <p>Elegant design solutions, brought to life through creative coding.</p>
+    <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:36px;">
+      <a href="#" class="btn-outline btn-primary" style="margin-top:0;">Chat with Dave AI ✦</a>
+      <a href="#" class="btn-outline btn-secondary" style="margin-top:0;">Download Resume</a>
+    </div>
+  </div>
+</section>
+
+<!-- S1 GLOBAL BRIDGE -->
+<section class="section s1" data-theme="dark">
+  <div class="section-gradient"></div>
+  <div class="case-preview">
+    <div class="preview-bg" style="background: linear-gradient(140deg, #061018 0%, #0d2a4a 55%, #1a5080 100%);"></div>
+    <span class="preview-tag">01 — Safety · Community</span>
+    <div class="phone-wrap">
+      <div class="phone-shell">
+        <div class="phone-island"></div>
+        <div class="phone-screen">
+          <div class="screen-glow" style="background: radial-gradient(ellipse at 50% 25%, rgba(74,124,255,0.45) 0%, transparent 65%);"></div>
+          <span class="screen-label">Global<br>Bridge</span>
+          <span class="screen-sub">SAFETY · COMMUNITY</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-inner">
+    <span class="eyebrow">01 — Safety · Community</span>
+    <h2>Global Bridge</h2>
+    <p>A safety app helping international students navigate an unfamiliar city with confidence.</p>
+    <a href="#" class="btn-outline btn-light"><span class="btn-arrow">→</span>View Case Study</a>
+  </div>
+</section>
+
+<!-- S2 TATA -->
+<section class="section s2" data-theme="dark">
+  <div class="section-gradient"></div>
+  <div class="case-preview">
+    <div class="preview-bg" style="background: linear-gradient(140deg, #500a08 0%, #9b2317 55%, #d94f38 100%);"></div>
+    <span class="preview-tag">02 — Fleet Management</span>
+    <div class="phone-wrap">
+      <div class="phone-shell">
+        <div class="phone-island"></div>
+        <div class="phone-screen">
+          <div class="screen-glow" style="background: radial-gradient(ellipse at 50% 25%, rgba(220,80,60,0.5) 0%, transparent 65%);"></div>
+          <span class="screen-label">TATA<br>Fleet Edge</span>
+          <span class="screen-sub">FLEET MANAGEMENT</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-inner">
+    <span class="eyebrow">02 — Fleet Management</span>
+    <h2>TATA Fleet Edge</h2>
+    <p>Turning complex fleet data into fast, clear decisions — across mobile and web.</p>
+    <a href="#" class="btn-outline btn-light"><span class="btn-arrow">→</span>View Case Study</a>
+  </div>
+</section>
+
+<!-- S3 RICHIE AI -->
+<section class="section s3" data-theme="dark">
+  <div class="section-gradient"></div>
+  <div class="case-preview">
+    <div class="preview-bg" style="background: linear-gradient(140deg, #061a08 0%, #124a18 55%, #228b30 100%);"></div>
+    <span class="preview-tag">03 — Fintech · AI</span>
+    <div class="phone-wrap">
+      <div class="phone-shell">
+        <div class="phone-island"></div>
+        <div class="phone-screen">
+          <div class="screen-glow" style="background: radial-gradient(ellipse at 50% 25%, rgba(50,180,80,0.45) 0%, transparent 65%);"></div>
+          <span class="screen-label">RICHIE<br>AI</span>
+          <span class="screen-sub">FINTECH · AI</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-inner">
+    <span class="eyebrow">03 — Fintech · AI</span>
+    <h2>RICHIE AI</h2>
+    <p>An AI investment companion that makes financial decision-making feel intuitive and human.</p>
+    <a href="#" class="btn-outline btn-light"><span class="btn-arrow">→</span>View Case Study</a>
+  </div>
+</section>
+
+<!-- S4 TJU -->
+<section class="section s4" data-theme="dark">
+  <div class="section-gradient"></div>
+  <div class="case-preview">
+    <div class="preview-bg" style="background: linear-gradient(140deg, #0d1230 0%, #243480 55%, #4a5ec0 100%);"></div>
+    <span class="preview-tag">04 — EdTech · Research</span>
+    <div class="phone-wrap">
+      <div class="phone-shell">
+        <div class="phone-island"></div>
+        <div class="phone-screen">
+          <div class="screen-glow" style="background: radial-gradient(ellipse at 50% 25%, rgba(90,110,220,0.45) 0%, transparent 65%);"></div>
+          <span class="screen-label">TJU Course<br>Reg</span>
+          <span class="screen-sub">EDTECH · RESEARCH</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-inner">
+    <span class="eyebrow">04 — EdTech · Research</span>
+    <h2>TJU Course Reg</h2>
+    <p>Why students struggle with course registration — and what a better system looks like.</p>
+    <a href="#" class="btn-outline btn-light"><span class="btn-arrow">→</span>View Case Study</a>
+  </div>
+</section>
+
+<!-- S5 GLOBAL BRIDGE 2 -->
+<section class="section s5" data-theme="dark">
+  <div class="section-gradient"></div>
+  <div class="case-preview">
+    <div class="preview-bg" style="background: linear-gradient(140deg, #002820 0%, #005e52 55%, #00a090 100%);"></div>
+    <span class="preview-tag">05 — Research Study</span>
+    <div class="phone-wrap">
+      <div class="phone-shell">
+        <div class="phone-island"></div>
+        <div class="phone-screen">
+          <div class="screen-glow" style="background: radial-gradient(ellipse at 50% 25%, rgba(0,180,160,0.45) 0%, transparent 65%);"></div>
+          <span class="screen-label">Global<br>Bridge II</span>
+          <span class="screen-sub">RESEARCH STUDY</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-inner">
+    <span class="eyebrow">05 — Research Study</span>
+    <h2>Global Bridge</h2>
+    <p>How international students' needs and stress levels shift across the academic year.</p>
+    <a href="#" class="btn-outline btn-light"><span class="btn-arrow">→</span>View Case Study</a>
+  </div>
+</section>
+
+<!-- S6 DAVE AI -->
+<section class="section s6" data-theme="dark">
+  <div class="section-gradient"></div>
+  <div class="case-preview">
+    <div class="preview-bg" style="background: linear-gradient(140deg, #050f22 0%, #0d3a80 55%, #1a72d4 100%);"></div>
+    <span class="preview-tag">06 — AI Assistant</span>
+    <div class="phone-wrap">
+      <div class="phone-shell">
+        <div class="phone-island"></div>
+        <div class="phone-screen">
+          <div class="screen-glow" style="background: radial-gradient(ellipse at 50% 25%, rgba(30,120,220,0.5) 0%, transparent 65%);"></div>
+          <span class="screen-label">Dave<br>AI</span>
+          <span class="screen-sub">AI ASSISTANT</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-inner">
+    <span class="eyebrow">06 — AI Assistant</span>
+    <h2>Dave AI</h2>
+    <p>Trained on my full portfolio and background. Ask anything — real answers, not generic ones.</p>
+    <a href="#" class="btn-outline btn-light"><span class="btn-arrow">→</span>View Case Study</a>
+  </div>
+</section>
+
+<script>
+(function () {
+  const navTop   = document.getElementById('navTop');
+  const toggle   = document.getElementById('themeToggle');
+  const sections = document.querySelectorAll('.section');
+  toggle.addEventListener('click', function () {
+    const isDark = document.body.classList.toggle('dark');
+    toggle.textContent = isDark ? '☀️' : '🌙';
+  });
+  sections.forEach(function (sec) {
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.intersectionRatio > 0.5) {
+          navTop.classList.toggle('nav-dark', e.target.getAttribute('data-theme') === 'dark');
+        }
+      });
+    }, { threshold: [0.5] }).observe(sec);
+  });
+})();
+</script>
+</body>
+</html>
