@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TJU Course Registration — Case Study</title>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg:      #111113;
@@ -13,7 +13,7 @@
     --accent:  #4A7CFF;
     --warm:    #FF6B35;
     --text:    #e4e4e7;
-    --sub:     #a1a1aa;
+    --sub:     #b8b8b8;
     --white:   #ffffff;
 
     --t-xs:   12px;
@@ -41,20 +41,98 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* ─── NAV ─── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    height: 52px;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 32px;
-    background: rgba(17,17,19,0.80);
-    backdrop-filter: blur(24px) saturate(160%);
-    border-bottom: 1px solid var(--line);
+  /* ── LIGHT THEME ── */
+  body.light {
+    --bg: #f7f7f5;
+    --surface: #efefed;
+    --line: rgba(0,0,0,0.08);
+    --text: #222;
+    --sub: #555;
+    --white: #111;
+    --accent: #1d4ed8;
   }
-  .nav-logo { font-family: 'Geist Mono', monospace; font-size: var(--t-xs); letter-spacing: 1.5px; text-transform: uppercase; color: var(--sub); }
-  .nav-links { display: flex; gap: 28px; }
-  .nav-links a { font-size: var(--t-sm); color: var(--sub); text-decoration: none; transition: color .2s; }
-  .nav-links a:hover { color: var(--text); }
+  body.light .stat-cell { background: #f7f7f5; }
+  body.light h1, body.light h2, body.light h3 { color: #111; }
+  body.light .quote-text { color: #1a1a1a; }
+  body.light .badge-green { background: rgba(22,101,52,.08); color: #14532d; border-color: rgba(22,101,52,.25); }
+  body.light .badge-orange { background: rgba(146,64,14,.08); color: #78350f; border-color: rgba(146,64,14,.25); }
+  body.light .badge-blue { background: rgba(29,78,216,.08); color: #1e3a8a; border-color: rgba(29,78,216,.25); }
+  body.light .insight-card { background: #efefed; }
+  body.light .hmw-box { background: rgba(29,78,216,0.05); border-color: rgba(29,78,216,0.2); }
+  body.light .tag { color: #444; }
+  body.light em { color: #1d4ed8; }
+
+
+  /* ── FOCUS VISIBLE ── */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+
+  /* ── SKIP LINK ── */
+  .skip-link { position:absolute;top:-100%;left:16px;background:var(--accent);color:#fff;padding:8px 16px;border-radius:0 0 8px 8px;font-size:var(--t-sm);font-weight:500;text-decoration:none;z-index:200;transition:top .15s; }
+  .skip-link:focus { top:0; }
+
+  /* ── REDUCED MOTION ── */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity:1; transform:none; transition:none; }
+    html { scroll-behavior:auto; }
+  }
+
+  /* ══ TOP NAV ══ */
+  .nav-top{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;align-items:center;justify-content:space-between;gap:8px;background:rgba(255,255,255,0.93);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(0,0,0,0.08);border-radius:999px;height:64px;width:min(780px,calc(100vw - 48px));padding:0 11px 0 22px;box-shadow:0 2px 20px rgba(0,0,0,0.08);transition:opacity .3s,transform .3s,background .4s,border-color .4s;}
+  .nav-top.nav-hidden{opacity:0;transform:translateX(-50%) translateY(-10px);pointer-events:none;}
+  .nav-top.nav-dark{background:rgba(15,15,15,0.85);border-color:rgba(255,255,255,0.1);box-shadow:0 2px 24px rgba(0,0,0,0.4);}
+  .nav-top.nav-dark .nav-top__logo{color:#fff;}
+  .nav-top.nav-dark .nav-top__link{color:rgba(255,255,255,0.55);}
+  .nav-top.nav-dark .nav-top__link:hover{color:#fff;background:rgba(255,255,255,0.08);}
+  .nav-top.nav-dark .nav-top__cta{background:#fff;color:#111;}
+  .nav-top.nav-dark .theme-btn{border-color:rgba(255,255,255,0.2);}
+  .nav-top__logo{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:-.01em;color:#111;text-decoration:none;white-space:nowrap;flex-shrink:0;transition:color .4s;}
+  .nav-top__links{flex:1;display:flex;align-items:center;justify-content:center;}
+  .nav-top__link{font-size:14px;color:#777;text-decoration:none;padding:7px 16px;border-radius:999px;transition:background .2s,color .2s;}
+  .nav-top__link:hover{color:#111;background:rgba(0,0,0,0.05);}
+  .nav-top__right{display:flex;align-items:center;gap:8px;}
+  .nav-top__cta{font-size:13px;font-weight:600;color:#fff;text-decoration:none;background:#111;padding:8px 18px;border-radius:999px;flex-shrink:0;transition:background .2s;}
+  .nav-top__cta:hover{background:#4A7CFF;}
+  .theme-btn{width:34px;height:34px;border-radius:50%;border:1px solid rgba(0,0,0,0.12);background:transparent;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0;}
+  .theme-btn:hover{background:rgba(0,0,0,0.05);}
+
+  /* ══ PILL NAV ══ */
+  .nav-pill{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-10px);z-index:9999;display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(15,15,15,0.9);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,0.1);border-radius:999px;height:64px;width:116px;padding:0 11px;box-shadow:0 8px 32px rgba(0,0,0,0.3);opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s ease,width .45s cubic-bezier(.34,1.2,.64,1);}
+  .nav-pill.nav-visible{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;}
+  .nav-pill:hover{width:min(760px,calc(100vw - 48px));}
+  .nav-pill__icon{flex-shrink:0;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;z-index:2;}
+  .nav-pill__icon svg{width:16px;height:16px;color:rgba(255,255,255,.8);}
+  .nav-pill__links{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s ease;}
+  .nav-pill:hover .nav-pill__links{opacity:1;pointer-events:all;transition-delay:.1s;}
+  .nav-pill__link{font-size:14px;font-weight:500;color:rgba(255,255,255,.6);text-decoration:none;padding:8px 16px;border-radius:999px;transition:background .2s,color .2s;white-space:nowrap;}
+  .nav-pill__link:hover{color:white;background:rgba(255,255,255,.1);}
+  .nav-pill__theme{position:absolute;right:63px;opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:3;}
+  .nav-pill:hover .nav-pill__theme{opacity:1;pointer-events:all;transition-delay:.12s;}
+  .nav-pill__theme .theme-btn{border-color:rgba(255,255,255,0.25);font-size:14px;}
+  .nav-pill__theme .theme-btn:hover{background:rgba(255,255,255,0.1);}
+  .nav-pill__ring{flex-shrink:0;position:relative;width:42px;height:42px;z-index:2;}
+  .nav-pill__ring svg{display:block;width:42px;height:42px;transform:rotate(-90deg);}
+  .nav-pill__ring .r-track{fill:none;stroke:rgba(255,255,255,.2);stroke-width:1.8;}
+  .nav-pill__ring .r-fill{fill:none;stroke:rgba(255,255,255,.95);stroke-width:1.8;stroke-linecap:round;stroke-dasharray:106.81;stroke-dashoffset:106.81;transition:stroke-dashoffset .1s linear;}
+  .nav-pill__ring .r-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-family:'Geist Mono',monospace;color:rgba(255,255,255,.95);letter-spacing:-.02em;line-height:1;}
+  .nav-pill.nav-on-dark{background:rgba(255,255,255,.92);border-color:rgba(0,0,0,.1);}
+  .nav-pill.nav-on-dark .nav-pill__icon{background:rgba(0,0,0,.08);}
+  .nav-pill.nav-on-dark .nav-pill__icon svg{color:rgba(0,0,0,.6);}
+  .nav-pill.nav-on-dark .nav-pill__link{color:rgba(0,0,0,.5);}
+  .nav-pill.nav-on-dark .nav-pill__link:hover{background:rgba(0,0,0,.07);color:#111;}
+  .nav-pill.nav-on-dark .nav-pill__theme .theme-btn{border-color:rgba(0,0,0,0.15);}
+  .nav-pill.nav-on-dark .r-track{stroke:rgba(0,0,0,.15);}
+  .nav-pill.nav-on-dark .r-fill{stroke:rgba(0,0,0,.8);}
+  .nav-pill.nav-on-dark .r-pct{color:rgba(0,0,0,.7);}
+  @media(max-width:640px){
+    .nav-top{width:calc(100vw - 32px);padding:0 8px 0 16px;}
+    .nav-top__links{display:none;}
+    .nav-pill:hover{width:calc(100vw - 32px);}
+    .nav-pill__link{padding:8px 10px;font-size:13px;}
+  }
 
   /* ─── LAYOUT ─── */
   .col { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
@@ -90,7 +168,7 @@
     border-top: 1px solid var(--line);
     flex-wrap: wrap;
   }
-  .meta-item label { font-family: 'Geist Mono', monospace; font-size: var(--t-xs); letter-spacing: 1.5px; text-transform: uppercase; color: var(--sub); display: block; margin-bottom: 8px; }
+  .meta-item .meta-label { font-family: 'Geist Mono', monospace; font-size: var(--t-xs); letter-spacing: 1.5px; text-transform: uppercase; color: var(--sub); display: block; margin-bottom: 8px; }
   .meta-item span { font-family: 'Instrument Serif', serif; font-size: 22px; font-weight: 400; color: var(--white); letter-spacing: -0.3px; line-height: 1.2; }
 
   /* ─── STATS ─── */
@@ -179,6 +257,7 @@
     text-align: center;
   }
   .hmw-box h2 { font-size: 26px; max-width: 600px; margin: 12px auto 0; }
+  .hmw-text { font-family: 'Instrument Serif', serif; font-size: 26px; font-weight: 400; line-height: 1.3; letter-spacing: -0.3px; color: var(--white); max-width: 600px; margin: 12px auto 0; }
 
   /* ─── FLOW COMPARISON ─── */
   .flow-grid {
@@ -228,7 +307,7 @@
     border-radius: 0 6px 6px 0;
     font-family: 'Instrument Serif', serif;
     font-style: italic; font-size: var(--t-base);
-    color: var(--sub); line-height: 1.6;
+    color: var(--text); line-height: 1.6;
   }
 
   /* ─── DEPLOY NUMBERS ─── */
@@ -287,16 +366,49 @@
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <span class="nav-logo">Daiwat Thavai</span>
-  <div class="nav-links">
-    <a href="#">Work</a>
-    <a href="#">About</a>
-    <a href="#">Resume</a>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- TOP NAV -->
+<header class="nav-top nav-dark" id="navTop">
+  <a href="../index.html" class="nav-top__logo">Daiwat Thavai</a>
+  <nav class="nav-top__links" aria-label="Main navigation">
+    <a href="../index.html" class="nav-top__link">Home</a>
+    <a href="../index.html" class="nav-top__link">Work</a>
+    <a href="#" class="nav-top__link">About</a>
+    <a href="#" class="nav-top__link">Resume</a>
+  </nav>
+  <div class="nav-top__right">
+    <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">🌙</button>
+    <a href="#" class="nav-top__cta">Dave AI ✦</a>
+  </div>
+</header>
+
+<!-- PILL NAV -->
+<nav class="nav-pill" id="navPill" aria-label="Compact navigation">
+  <div class="nav-pill__icon">
+    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M3 2L13 8L8 9.5L6.5 14L3 2Z" fill="currentColor"/>
+    </svg>
+  </div>
+  <div class="nav-pill__links">
+    <a href="../index.html" class="nav-pill__link">Home</a>
+    <a href="../index.html" class="nav-pill__link">Work</a>
+    <a href="#" class="nav-pill__link">About</a>
+    <a href="#" class="nav-pill__link">Resume</a>
+  </div>
+  <div class="nav-pill__theme">
+    <button class="theme-btn" id="themeTogglePill" aria-label="Toggle theme">🌙</button>
+  </div>
+  <div class="nav-pill__ring">
+    <svg viewBox="0 0 42 42" aria-hidden="true">
+      <circle class="r-track" cx="21" cy="21" r="17"/>
+      <circle class="r-fill" id="navRingFill" cx="21" cy="21" r="17"/>
+    </svg>
+    <div class="r-pct" id="navRingPct">0%</div>
   </div>
 </nav>
 
+<main id="main-content">
 <!-- ─── HERO ─── -->
 <div class="hero">
   <div class="col">
@@ -304,16 +416,16 @@
     <h1>BannerWeb works.<br>Students <em>don't.</em></h1>
     <p style="max-width:500px; margin-top:16px;">A field research study into why course registration fails students at the exact moment they need clarity most — and what a better system could look like.</p>
     <div class="hero-meta">
-      <div class="meta-item"><label>Role</label><span>User Researcher</span></div>
-      <div class="meta-item"><label>Scope</label><span>Field Research</span></div>
-      <div class="meta-item"><label>Platform</label><span>BannerWeb · Desktop</span></div>
-      <div class="meta-item"><label>Type</label><span>Academic Project</span></div>
+      <div class="meta-item"><span class="meta-label">Role</span><span>User Researcher</span></div>
+      <div class="meta-item"><span class="meta-label">Scope</span><span>Field Research</span></div>
+      <div class="meta-item"><span class="meta-label">Platform</span><span>BannerWeb · Desktop</span></div>
+      <div class="meta-item"><span class="meta-label">Type</span><span>Academic Project</span></div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- 01 CONTEXT -->
-<div class="section">
+<section class="section">
   <div class="col">
     <div class="tag reveal"><span class="tag-dot"></span>01 — Context</div>
     <h2 class="reveal">The system is functional.<br>The experience is broken.</h2>
@@ -335,23 +447,23 @@
       </div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- 02 RESEARCH QUESTION -->
-<div class="section">
+<section class="section">
   <div class="col">
     <div class="tag reveal"><span class="tag-dot"></span>02 — Research Question</div>
     <h2 class="reveal">One question guided everything.</h2>
     <p class="reveal">After initial observation, the research question crystallised around a single reframe — not just what's wrong, but what a better system could actually feel like.</p>
     <div class="hmw-box reveal">
       <div class="tag" style="justify-content:center;"><span class="tag-dot"></span>How Might We</div>
-      <h2>How might we improve TJU's course registration process to make it more intuitive, less burdensome, and genuinely supportive of academic decision-making?</h2>
+      <p class="hmw-text">How might we improve TJU's course registration process to make it more intuitive, less burdensome, and genuinely supportive of academic decision-making?</p>
     </div>
   </div>
-</div>
+</section>
 
 <!-- 03 RESEARCH OBJECTIVES -->
-<div class="section">
+<section class="section">
   <div class="col">
     <div class="tag reveal"><span class="tag-dot"></span>03 — Research Objectives</div>
     <h2 class="reveal">Five questions.<br>One broken system.</h2>
@@ -379,10 +491,10 @@
       </div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- 04 FIELD RESEARCH -->
-<div class="section">
+<section class="section">
   <div class="col">
     <div class="tag reveal"><span class="tag-dot"></span>04 — Field Research</div>
     <h2 class="reveal">Watching students register<br>in real time.</h2>
@@ -394,10 +506,10 @@
       <div class="photo-cell">Field photo 03</div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- 05 KEY INSIGHTS -->
-<div class="section">
+<section class="section">
   <div class="col">
     <div class="tag reveal"><span class="tag-dot"></span>05 — Key Insights</div>
     <h2 class="reveal">Three findings that<br>changed the direction.</h2>
@@ -425,10 +537,10 @@
       </div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- 06 PERSONAS -->
-<div class="section">
+<section class="section">
   <div class="col">
     <div class="tag reveal"><span class="tag-dot"></span>06 — Personas</div>
     <h2 class="reveal">Three students.<br>Three breaking points.</h2>
@@ -476,10 +588,10 @@
       </div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- 07 CURRENT vs FUTURE -->
-<div class="section">
+<section class="section">
   <div class="col-wide">
     <div class="col" style="padding: 0 24px; max-width: var(--max); margin: 0 auto;">
       <div class="tag reveal"><span class="tag-dot"></span>07 — Current vs. Future State</div>
@@ -521,10 +633,10 @@
       </div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- 08 KEY FINDINGS -->
-<div class="section">
+<section class="section">
   <div class="col">
     <div class="tag reveal"><span class="tag-dot"></span>08 — Key Findings</div>
     <h2 class="reveal">Two systemic problems.<br>Two design directions.</h2>
@@ -553,7 +665,7 @@
       </div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- 09 REFLECTION -->
 <div class="final">
@@ -562,23 +674,70 @@
     <h2>The best research reveals what<br>users have accepted as normal.</h2>
     <p>Every student who opened a spreadsheet alongside BannerWeb had stopped seeing it as a problem. My job as a researcher was to see it for them, name it, and make the case that it didn't have to be that way.</p>
     <div>
-      <a href="#" class="btn">View Full Report</a>
+      <a href="../index.html" class="btn">← Back to Home</a>
       <a href="#" class="btn btn-primary">See Prototype →</a>
     </div>
     <div class="next-case">
       <span>Next case study</span>
-      <a href="#">Global Bridge →</a>
+      <a href="../global-bridge/">Global Bridge →</a>
     </div>
   </div>
-</div>
+</section>
+
+</main>
 
 <script>
+  // Reveal on scroll
   const revObs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('visible'); revObs.unobserve(e.target); }
     });
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+  // Navbar
+  (function(){
+    const navTop     = document.getElementById('navTop');
+    const navPill    = document.getElementById('navPill');
+    const rFill      = document.getElementById('navRingFill');
+    const rPct       = document.getElementById('navRingPct');
+    const toggleTop  = document.getElementById('themeToggle');
+    const togglePill = document.getElementById('themeTogglePill');
+    const CIRC = 2 * Math.PI * 17;
+
+    function onScroll(){
+      const h = document.documentElement;
+      const scrollY = h.scrollTop;
+      const total = h.scrollHeight - h.clientHeight;
+      const pct = total > 0 ? Math.min(scrollY / total, 1) : 0;
+      navTop.classList.toggle('nav-hidden', scrollY > 60);
+      navPill.classList.toggle('nav-visible', scrollY > 60);
+      rFill.style.strokeDashoffset = CIRC * (1 - pct);
+      rPct.textContent = Math.round(pct * 100) + '%';
+    }
+    window.addEventListener('scroll', onScroll, {passive:true});
+    onScroll();
+
+    function applyTheme(goLight){
+      document.body.classList.toggle('light', goLight);
+      const icon = goLight ? '☀️' : '🌙';
+      toggleTop.textContent  = icon;
+      togglePill.textContent = icon;
+    }
+    function toggleTheme(){ applyTheme(!document.body.classList.contains('light')); }
+    toggleTop.addEventListener('click', toggleTheme);
+    togglePill.addEventListener('click', toggleTheme);
+
+    document.querySelectorAll('[data-theme]').forEach(function(sec){
+      new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.intersectionRatio > 0.45)
+            navPill.classList.toggle('nav-on-dark',
+              e.target.getAttribute('data-theme') !== 'dark');
+        });
+      },{threshold:[0.45,0.55]}).observe(sec);
+    });
+  })();
 </script>
 
 </body>
