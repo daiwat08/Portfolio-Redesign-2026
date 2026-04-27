@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Richie AI — Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:      #0e2016;
+    --surface: #132a1c;
+    --line:    rgba(255,255,255,0.07);
+    --accent:  #4ade80;
+    --warm:    #FF6B35;
+    --text:    #e4e4e7;
+    --sub:     #a1a1aa;
+    --white:   #ffffff;
+
+    --t-xs:   12px;
+    --t-sm:   14px;
+    --t-base: 16px;
+    --t-md:   18px;
+    --t-lg:   22px;
+    --t-xl:   28px;
+    --t-2xl:  48px;
+
+    --max: 760px;
+    --wide: 1080px;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Geist', sans-serif;
+    font-weight: 300;
+    font-size: var(--t-base);
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: 52px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px;
+    background: rgba(14,32,22,0.85);
+    backdrop-filter: blur(24px) saturate(160%);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-logo {
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--sub);
+  }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a {
+    font-size: var(--t-sm);
+    color: var(--sub);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* ─── LAYOUT HELPERS ─── */
+  .col {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .col-wide {
+    max-width: var(--wide);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .section { padding: 96px 0; }
+  .section + .section { border-top: 1px solid var(--line); }
+
+  /* ─── TAG ─── */
+  .tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--sub);
+    margin-bottom: 20px;
+  }
+  .tag-dot {
+    width: 4px; height: 4px; border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ─── TYPOGRAPHY ─── */
+  h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: var(--t-2xl);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--white);
+  }
+  h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: var(--t-xl);
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: -0.3px;
+    color: var(--white);
+  }
+  h3 {
+    font-size: var(--t-md);
+    font-weight: 500;
+    color: var(--white);
+    line-height: 1.4;
+  }
+  em { font-style: italic; color: var(--accent); }
+  p { color: var(--sub); margin-top: 14px; }
+  p:first-child { margin-top: 0; }
+
+  /* ─── HERO ─── */
+  .hero {
+    padding: 140px 0 96px;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero-meta {
+    display: flex; gap: 64px;
+    margin-top: 56px;
+    padding-top: 40px;
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+  .meta-item label {
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--sub);
+    display: block;
+    margin-bottom: 10px;
+  }
+  .meta-item span {
+    font-size: 24px;
+    color: var(--text);
+    font-weight: 400;
+    font-family: 'Instrument Serif', serif;
+  }
+
+  /* ─── STATS ROW ─── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 48px;
+  }
+  .stats-row-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .stat-cell {
+    background: var(--bg);
+    padding: 36px 32px;
+  }
+  .stat-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 48px;
+    color: var(--white);
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+  .stat-num .accent { color: var(--accent); }
+  .stat-desc {
+    font-size: var(--t-sm);
+    color: var(--sub);
+    margin-top: 8px;
+    max-width: 200px;
+    line-height: 1.6;
+  }
+
+  /* ─── QUOTE BLOCK ─── */
+  .quote-block {
+    border-left: 2px solid var(--accent);
+    padding: 20px 24px;
+    margin: 40px 0;
+    background: rgba(74,222,128,0.04);
+    border-radius: 0 8px 8px 0;
+  }
+  .quote-text {
+    font-family: 'Instrument Serif', serif;
+    font-size: var(--t-lg);
+    font-style: italic;
+    color: var(--white);
+    line-height: 1.5;
+  }
+  .quote-attr {
+    font-size: var(--t-sm);
+    color: var(--sub);
+    margin-top: 12px;
+  }
+
+  /* ─── PROCESS STEPS ─── */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 40px;
+  }
+  .step {
+    background: var(--bg);
+    padding: 28px 24px;
+  }
+  .step-n {
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs);
+    color: var(--accent);
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+  .step-title { font-size: var(--t-sm); font-weight: 500; color: var(--white); margin-bottom: 6px; }
+  .step-body { font-size: var(--t-sm); color: var(--sub); line-height: 1.6; }
+
+  /* ─── JOURNEY TABLE ─── */
+  .jtable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 40px;
+    font-size: var(--t-sm);
+  }
+  .jtable th {
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--sub);
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+    font-weight: 400;
+  }
+  .jtable td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--line);
+    color: var(--sub);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .jtable tr:last-child td { border-bottom: none; }
+  .jtable td:first-child {
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--sub);
+    width: 110px;
+  }
+  .jtable td.pain { color: var(--warm); }
+  .jtable td.ok   { color: #4ade80; }
+  .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+  .dot-g { background: #4ade80; }
+  .dot-y { background: #facc15; }
+  .dot-r { background: #f87171; }
+
+  /* ─── SOLUTIONS ─── */
+  .solutions {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 12px; overflow: hidden;
+    margin-top: 40px;
+  }
+  .solution {
+    background: var(--bg);
+    padding: 36px 32px;
+  }
+  .solution-n {
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs); color: var(--accent);
+    letter-spacing: 1.5px; margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+
+  /* ─── PERSONAS ─── */
+  .personas-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 12px; overflow: hidden;
+    margin-top: 40px;
+  }
+  .persona-cell {
+    background: var(--bg);
+    padding: 36px 32px;
+  }
+  .persona-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(74,222,128,0.12);
+    border: 1px solid rgba(74,222,128,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs); letter-spacing: 1px;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+  .persona-name {
+    font-size: var(--t-md); font-weight: 500;
+    color: var(--white); margin-bottom: 4px;
+  }
+  .persona-type {
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs); color: var(--sub);
+    letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .persona-divider { height: 1px; background: var(--line); margin-bottom: 20px; }
+  .persona-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs); letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 8px; display: block;
+  }
+  .persona-text { font-size: var(--t-sm); color: var(--sub); line-height: 1.65; margin-bottom: 16px; }
+  .persona-quote {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic; font-size: var(--t-sm);
+    color: var(--sub); line-height: 1.6;
+    padding: 12px 16px;
+    border-left: 2px solid var(--line);
+    background: rgba(255,255,255,0.02);
+    border-radius: 0 6px 6px 0;
+  }
+
+  /* ─── INSIGHTS ─── */
+  .insights-grid {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 1px; background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 12px; overflow: hidden;
+    margin-top: 40px;
+  }
+  .insight-cell {
+    background: var(--bg); padding: 32px 28px;
+  }
+  .insight-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 40px; color: var(--accent);
+    opacity: 0.2; line-height: 1;
+    margin-bottom: 12px; display: block;
+  }
+  .insight-tag {
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs); letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 10px; display: block;
+  }
+  .insight-body { font-size: var(--t-sm); color: var(--sub); line-height: 1.7; }
+
+  /* ─── FEATURE LIST ─── */
+  .feature-list { margin-top: 40px; }
+  .feature-row {
+    display: grid; grid-template-columns: 200px 1fr;
+    gap: 32px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: start;
+  }
+  .feature-row:first-child { border-top: 1px solid var(--line); }
+  .feature-name {
+    font-size: var(--t-sm);
+    font-weight: 500;
+    color: var(--white);
+  }
+  .feature-desc { font-size: var(--t-sm); color: var(--sub); line-height: 1.7; }
+
+  /* ─── ITERATION LIST ─── */
+  .iter-list { margin-top: 40px; }
+  .iter-row {
+    display: grid; grid-template-columns: 80px 1fr auto;
+    gap: 24px; padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: start;
+  }
+  .iter-row:first-child { border-top: 1px solid var(--line); }
+  .iter-round {
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs); color: var(--sub);
+    letter-spacing: 1px; text-transform: uppercase;
+    padding-top: 2px;
+  }
+  .iter-title { font-size: var(--t-sm); font-weight: 500; color: var(--white); margin-bottom: 6px; }
+  .iter-body { font-size: var(--t-sm); color: var(--sub); line-height: 1.6; }
+  .badge {
+    display: inline-flex;
+    padding: 3px 10px; border-radius: 20px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px; letter-spacing: 0.5px;
+    white-space: nowrap;
+    align-self: start;
+    margin-top: 2px;
+  }
+  .badge-green { background: rgba(74,255,128,.08); color: #4ade80; border: 1px solid rgba(74,255,128,.15); }
+  .badge-orange { background: rgba(255,107,53,.08); color: var(--warm); border: 1px solid rgba(255,107,53,.15); }
+  .badge-blue { background: rgba(74,222,128,.08); color: var(--accent); border: 1px solid rgba(74,222,128,.15); }
+
+  /* ─── COLOR PALETTE ─── */
+  .palette {
+    display: flex; gap: 8px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--line);
+  }
+  .swatch {
+    height: 56px; flex: 1; min-width: 80px;
+    display: flex; align-items: flex-end; padding: 8px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.5px;
+  }
+
+  /* ─── WIREFRAME GRID ─── */
+  .wf-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 12px; margin-top: 40px;
+  }
+  .wf-frame {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    aspect-ratio: 9/16;
+    padding: 16px;
+    display: flex; flex-direction: column;
+    gap: 8px; justify-content: center;
+    position: relative;
+  }
+  .wf-bar { height: 5px; border-radius: 3px; background: var(--line); }
+  .wf-bar.accent { background: rgba(74,222,128,.25); }
+  .wf-bar.short { width: 55%; }
+  .wf-bar.med { width: 75%; }
+  .wf-tag {
+    position: absolute; bottom: 10px; left: 12px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px; color: var(--sub);
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+
+  /* ─── DEPLOY NUMBERS ─── */
+  .deploy-nums {
+    display: flex; gap: 48px;
+    margin-top: 40px; flex-wrap: wrap;
+  }
+  .dn-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 40px; color: var(--white);
+    line-height: 1; letter-spacing: -1px;
+  }
+  .dn-num em { color: var(--accent); font-style: normal; }
+  .dn-label { font-size: var(--t-sm); color: var(--sub); margin-top: 4px; max-width: 140px; line-height: 1.5; }
+
+  /* ─── CALLOUT ─── */
+  .callout {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-top: 32px;
+  }
+  .callout p { color: var(--text); margin: 0; font-size: var(--t-sm); }
+
+  /* ─── FINAL ─── */
+  .final {
+    padding: 120px 0;
+    text-align: center;
+    border-top: 1px solid var(--line);
+  }
+  .final h2 { margin-bottom: 16px; }
+  .final p { max-width: 440px; margin: 0 auto 32px; }
+  .btn {
+    display: inline-block;
+    padding: 11px 28px;
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 100px;
+    font-size: var(--t-sm);
+    color: var(--text);
+    text-decoration: none;
+    transition: background .2s, border-color .2s;
+  }
+  .btn:hover { background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.25); }
+  .btn-primary {
+    background: var(--accent);
+    border-color: transparent;
+    color: #0a1a0f;
+    margin-left: 10px;
+  }
+  .btn-primary:hover { background: #22c55e; }
+
+  /* ─── SPLIT ─── */
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  /* ─── FADE IN ─── */
+  @keyframes up {
+    from { opacity:0; transform: translateY(16px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+  .hero .col > * {
+    opacity: 0;
+    animation: up 0.7s ease forwards;
+  }
+  .hero .col > *:nth-child(1) { animation-delay: .1s; }
+  .hero .col > *:nth-child(2) { animation-delay: .22s; }
+  .hero .col > *:nth-child(3) { animation-delay: .34s; }
+  .hero .col > *:nth-child(4) { animation-delay: .46s; }
+
+  /* ─── REVEAL ─── */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity .65s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.16,1,.3,1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal.d1 { transition-delay: .08s; }
+  .reveal.d2 { transition-delay: .16s; }
+  .reveal.d3 { transition-delay: .24s; }
+
+  hr { border: none; border-top: 1px solid var(--line); }
+
+  @media (max-width: 768px) {
+    .steps { grid-template-columns: 1fr 1fr; }
+    .stats-row-3 { grid-template-columns: 1fr; }
+    .solutions, .personas-grid, .insights-grid { grid-template-columns: 1fr; }
+    .feature-row { grid-template-columns: 1fr; gap: 8px; }
+    .iter-row { grid-template-columns: 1fr; }
+    .wf-grid { grid-template-columns: repeat(2,1fr); }
+    .split { grid-template-columns: 1fr; gap: 32px; }
+    .hero-meta { gap: 32px; }
+    .deploy-nums { gap: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">Daiwat Thavai</span>
+  <div class="nav-links">
+    <a href="#">Work</a>
+    <a href="#">About</a>
+    <a href="#">Resume</a>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<div class="hero">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>Product Design · Fintech · 2023</div>
+    <h1>Designing a <em>trusted</em><br>AI companion.</h1>
+    <p style="max-width:480px; margin-top:16px;">A personalised AI investment companion that makes financial decision-making feel intuitive, proactive, and human — built for Verde Finance.</p>
+    <div class="hero-meta">
+      <div class="meta-item"><label>Role</label><span>Design Intern</span></div>
+      <div class="meta-item"><label>Duration</label><span>3 Months</span></div>
+      <div class="meta-item"><label>Platform</label><span>iOS · Android</span></div>
+      <div class="meta-item"><label>Status</label><span>Deployed</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── 01 CONTEXT ─── -->
+<div class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>01 — Context</div>
+    <h2 class="reveal d1">Investing is intimidating.<br>Richie AI makes it personal.</h2>
+    <p class="reveal d2">Most Fintech apps overwhelm users with data. Richie AI needed to do the opposite — surface the right insight at the right moment, in language that feels personal rather than algorithmic.</p>
+    <div class="stats-row stats-row-3 reveal d3">
+      <div class="stat-cell">
+        <div class="stat-num"><span class="accent">67</span>%</div>
+        <div class="stat-desc">of users felt overwhelmed by the investment dashboard on first use</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num"><span class="accent">43</span>%</div>
+        <div class="stat-desc">dropped off before completing the onboarding flow</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num"><span class="accent">2.1</span>×</div>
+        <div class="stat-desc">higher retention when users received a personalised insight in session one</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── 02 CATALYST ─── -->
+<div class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>02 — The Insight</div>
+    <h2 class="reveal d1">The research finding that<br>changed everything.</h2>
+    <p class="reveal d2">My quantitative data showed the what, but it didn't explain the why. After eight user interviews, a clear pattern emerged: Users didn't distrust the AI—they distrusted themselves. </p>
+    <div class="quote-block reveal d3">
+      <div class="quote-text">"Most people don't avoid investing because they lack money — they avoid it because they don't trust themselves to make the right call."</div>
+      <div class="quote-attr">— Recurring theme across 6 of 8 user interviews</div>
+    </div>
+    <p class="reveal d3">Every design decision after that moment was filtered through one question: <em>Does this build trust, or erode it?</em></p>
+  </div>
+</div>
+
+<!-- ─── 03 PROCESS ─── -->
+<div class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>03 — Process</div>
+    <h2 class="reveal d1">From user insight to execution.</h2>
+    <p class="reveal d2">Four phases. No skipping steps.</p>
+    <div class="steps reveal d3">
+      <div class="step">
+        <div class="step-n">01</div>
+        <div class="step-title">Discover</div>
+        <div class="step-body">8 user interviews, analytics review, session recordings, competitive audit</div>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div>
+        <div class="step-title">Define</div>
+        <div class="step-body">Persona synthesis, journey mapping, HMW framing, trust framework</div>
+      </div>
+      <div class="step">
+        <div class="step-n">03</div>
+        <div class="step-title">Ideate</div>
+        <div class="step-body">Crazy-8s, paper wireframes, design principles for AI transparency</div>
+      </div>
+      <div class="step">
+        <div class="step-n">04</div>
+        <div class="step-title">Build</div>
+        <div class="step-body">High-fidelity screens, design system, component library in Figma</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── 04 RESEARCH ─── -->
+<div class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>04 — Research Insights</div>
+    <h2 class="reveal d1">Three findings.<br>One clear direction.</h2>
+    <p class="reveal d2">Insights drawn from analytics data, session recordings, and user interviews across varying levels of investment experience.</p>
+    <div class="insights-grid reveal d3">
+      <div class="insight-cell">
+        <span class="insight-num">01</span>
+        <span class="insight-tag">Top Finding</span>
+        <div class="insight-body">Users trusted AI recommendations more when they could see the reasoning — not just the outcome. Opacity killed trust faster than a bad recommendation.</div>
+      </div>
+      <div class="insight-cell">
+        <span class="insight-num">02</span>
+        <span class="insight-tag">Biggest Surprise</span>
+        <div class="insight-body">Users didn't want more features. They wanted fewer, better-timed moments. A single well-placed insight beat a dashboard full of charts every time.</div>
+      </div>
+      <div class="insight-cell">
+        <span class="insight-num">03</span>
+        <span class="insight-tag">Key Pivot</span>
+        <div class="insight-body">Onboarding wasn't a form — it was a relationship. Users who felt heard during setup were significantly more likely to trust the AI's first recommendation.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── 05 PERSONAS ─── -->
+<div class="section">
+  <div class="col-wide">
+    <div class="col" style="max-width:var(--max); margin: 0 auto; padding: 0 24px;">
+      <div class="tag reveal"><span class="tag-dot"></span>05 — User Personas</div>
+      <h2 class="reveal d1">Three users.<br>Three relationships with money.</h2>
+      <p class="reveal d2">Every design decision was filtered through these three archetypes — real patterns drawn from our interview sessions and usage data.</p>
+    </div>
+    <div class="personas-grid reveal d3" style="margin: 40px 24px 0;">
+      <div class="persona-cell">
+        <div class="persona-avatar">AM</div>
+        <div class="persona-name">Alex M.</div>
+        <div class="persona-type">Anxious Beginner · Age 26</div>
+        <div class="persona-divider"></div>
+        <span class="persona-label">Background</span>
+        <div class="persona-text">First job, some savings. Wants to invest but paralysed by fear of making the wrong call. Opens the app, sees charts, closes the app.</div>
+        <span class="persona-label">Needs</span>
+        <div class="persona-text">Reassurance. Simple language. A clear first step that doesn't feel risky.</div>
+        <div class="persona-quote">"Just tell me what to do — I don't need to understand all of it yet."</div>
+      </div>
+      <div class="persona-cell">
+        <div class="persona-avatar">SP</div>
+        <div class="persona-name">Sarah P.</div>
+        <div class="persona-type">Busy Professional · Age 34</div>
+        <div class="persona-divider"></div>
+        <span class="persona-label">Background</span>
+        <div class="persona-text">Earns well, has a portfolio, checks it once a month. Knows she should be more hands-on but doesn't have the time to manage it actively.</div>
+        <span class="persona-label">Needs</span>
+        <div class="persona-text">Proactive alerts that matter. No noise. Tell her when she needs to act — not just when something changed.</div>
+        <div class="persona-quote">"I don't want to check daily. I want it to tell me when I need to pay attention."</div>
+      </div>
+      <div class="persona-cell">
+        <div class="persona-avatar">JK</div>
+        <div class="persona-name">James K.</div>
+        <div class="persona-type">Active Investor · Age 41</div>
+        <div class="persona-divider"></div>
+        <span class="persona-label">Background</span>
+        <div class="persona-text">Experienced. Uses multiple platforms. Switched to Richie AI for the AI layer but frustrated that the interface treats him like a beginner.</div>
+        <span class="persona-label">Needs</span>
+        <div class="persona-text">Depth on demand. Full data when he wants it. Explanations that match his knowledge level — not dumbed down.</div>
+        <div class="persona-quote">"I already know what a P/E ratio is. Stop explaining the basics."</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── 06 SOLUTIONS ─── -->
+<div class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>06 — Solutions</div>
+    <h2 class="reveal d1">Two problems.<br>Two solutions.</h2>
+    <p class="reveal d2">The research surfaced two distinct failure modes. Each needed its own answer.</p>
+    <div class="solutions reveal d3">
+      <div class="solution">
+        <div class="solution-n">Problem 01</div>
+        <h3>Data overload kills engagement</h3>
+        <p style="margin-top:10px;">Redesigned the home screen around a single AI insight card — one clear, personalised message each session. Portfolio data moved one level deeper, accessible but not the first thing users see.</p>
+        <p style="margin-top:10px; font-style:italic; font-size: var(--t-sm);">Data without context isn't information — it's anxiety.</p>
+      </div>
+      <div class="solution">
+        <div class="solution-n">Problem 02</div>
+        <h3>Black-box AI breaks trust</h3>
+        <p style="margin-top:10px;">Introduced a transparent reasoning layer — every AI recommendation shows a 2-sentence explanation of why Richie is suggesting it. Users can expand for full detail or act immediately.</p>
+        <p style="margin-top:10px; font-style:italic; font-size: var(--t-sm);">7 of 8 users trusted a recommendation more when they understood the why.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── 07 DESIGN SYSTEM ─── -->
+<div class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>07 — Design System</div>
+    <h2 class="reveal d1">Building the visual language<br>for all three users.</h2>
+    <p class="reveal d2">A system that scales from beginner reassurance to expert depth — without switching contexts.</p>
+    <div class="palette reveal d3">
+      <div class="swatch" style="background:#1A6B45;">Brand</div>
+      <div class="swatch" style="background:#0F0F0F;">Dark</div>
+      <div class="swatch" style="background:#22913D;">Success</div>
+      <div class="swatch" style="background:#EF4444;">Loss</div>
+      <div class="swatch" style="background:#F59E0B;">Caution</div>
+      <div class="swatch" style="background:#F7F7F5; color:rgba(0,0,0,0.3);">Surface</div>
+    </div>
+    <div class="feature-list reveal d3">
+      <div class="feature-row">
+        <div class="feature-name">AI Insight Card</div>
+        <div class="feature-desc">One personalised message per session surfaces on the home screen. Portfolio data lives one tap deeper — present but not overwhelming. The card adapts its tone based on user profile: reassuring for Alex, concise for Sarah, data-rich for James.</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-name">Transparent Reasoning</div>
+        <div class="feature-desc">Every AI recommendation includes a visible 2-sentence explanation. Users can expand to see the full reasoning chain. This single feature increased trust scores across all three personas in usability testing.</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-name">Conversational Onboarding</div>
+        <div class="feature-desc">Goal-setting and risk tolerance captured through a chat-like interface rather than forms. Users who completed this flow showed 2.1× higher retention — they felt heard before they were shown anything.</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-name">Proactive Alerts</div>
+        <div class="feature-desc">Smart notification system that alerts only on meaningful portfolio events — not every price tick. Frequency tuned per user profile. Sarah gets weekly digests; James gets real-time signals on his chosen watchlist.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── 08 ITERATIONS ─── -->
+<div class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>08 — Iteration</div>
+    <h2 class="reveal d1">What broke.<br>What we fixed.</h2>
+    <div class="iter-list reveal d2">
+      <div class="iter-row">
+        <div class="iter-round">Round 1</div>
+        <div>
+          <div class="iter-title">Home screen caused instant overwhelm</div>
+          <div class="iter-body">Users opened to a wall of charts and left within 30 seconds. Moved portfolio data behind a single AI insight card — one clear message, one next step.</div>
+        </div>
+        <span class="badge badge-green">Fixed</span>
+      </div>
+      <div class="iter-row">
+        <div class="iter-round">Round 2</div>
+        <div>
+          <div class="iter-title">Onboarding felt like a financial form</div>
+          <div class="iter-body">Users rushed through, skipping questions. Redesigned as a conversational flow — one question at a time, progress indicator, plain language throughout.</div>
+        </div>
+        <span class="badge badge-orange">Redesigned</span>
+      </div>
+      <div class="iter-row">
+        <div class="iter-round">Round 3</div>
+        <div>
+          <div class="iter-title">AI recommendations felt opaque and untrustworthy</div>
+          <div class="iter-body">Users acted on only 12% of recommendations when no reasoning was shown. Added transparent 2-sentence rationale — action rate increased to 41% in testing.</div>
+        </div>
+        <span class="badge badge-blue">Validated</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── 09 SCREENS ─── -->
+<div class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>09 — Screens</div>
+    <h2 class="reveal d1">From wireframe to final design.</h2>
+    <p class="reveal d2">Every screen went through at least 3 iterations. Getting the flow right before the pixels.</p>
+    <div class="wf-grid reveal d3">
+      <div class="wf-frame">
+        <div class="wf-bar accent med"></div>
+        <div class="wf-bar short"></div>
+        <div class="wf-bar med"></div>
+        <div class="wf-bar"></div>
+        <div class="wf-bar short"></div>
+        <div class="wf-tag">Home</div>
+      </div>
+      <div class="wf-frame">
+        <div class="wf-bar"></div>
+        <div class="wf-bar accent"></div>
+        <div class="wf-bar short"></div>
+        <div class="wf-bar med"></div>
+        <div class="wf-bar short"></div>
+        <div class="wf-tag">Onboarding</div>
+      </div>
+      <div class="wf-frame">
+        <div class="wf-bar short"></div>
+        <div class="wf-bar"></div>
+        <div class="wf-bar accent med"></div>
+        <div class="wf-bar short"></div>
+        <div class="wf-bar"></div>
+        <div class="wf-tag">Portfolio</div>
+      </div>
+      <div class="wf-frame">
+        <div class="wf-bar med"></div>
+        <div class="wf-bar short"></div>
+        <div class="wf-bar accent"></div>
+        <div class="wf-bar med"></div>
+        <div class="wf-bar short"></div>
+        <div class="wf-tag">AI Insight</div>
+      </div>
+    </div>
+    <div class="callout reveal d3" style="margin-top:24px;">
+      <p>Replace these wireframe placeholders with final Figma exports — modified for NDA as needed. The layout and labels are already structured to match your screen titles.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ─── 10 OUTCOMES ─── -->
+<div class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>10 — Outcomes</div>
+    <h2 class="reveal d1">Designed for trust.<br>Measured by retention.</h2>
+    <p class="reveal d2">Within the internship period, redesigned flows were shipped to production. Early metrics from A/B testing showed meaningful movement across all three target areas.</p>
+    <div class="deploy-nums reveal d3">
+      <div>
+        <div class="dn-num"><em>41</em>%</div>
+        <div class="dn-label">AI recommendation action rate — up from 12%</div>
+      </div>
+      <div>
+        <div class="dn-num"><em>2.1</em>×</div>
+        <div class="dn-label">Retention lift for users with a personalised session-1 insight</div>
+      </div>
+      <div>
+        <div class="dn-num"><em>3</em></div>
+        <div class="dn-label">Rounds of usability testing across all three personas</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── FINAL ─── -->
+<div class="final">
+  <div class="col">
+    <div class="tag" style="justify-content:center;"><span class="tag-dot"></span>Reflection</div>
+    <h2>Designing for trust is harder<br>than designing for usability.</h2>
+    <p>Richie AI taught me that in fintech, trust is the product. Every interaction either builds or erodes a user's confidence. The technical capability of the AI meant nothing if users couldn't understand or rely on its decisions.</p>
+    <div>
+      <a href="#" class="btn">View Process Deck</a>
+      <a href="#" class="btn btn-primary">See Prototype →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// Reveal on scroll
+const revObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); revObs.unobserve(e.target); }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+</script>
+</body>
+</html>
