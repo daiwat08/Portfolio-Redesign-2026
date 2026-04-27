@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TJU Course Registration — Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:      #111113;
+    --surface: #18181b;
+    --line:    rgba(255,255,255,0.08);
+    --accent:  #4A7CFF;
+    --warm:    #FF6B35;
+    --text:    #e4e4e7;
+    --sub:     #a1a1aa;
+    --white:   #ffffff;
+
+    --t-xs:   12px;
+    --t-sm:   14px;
+    --t-base: 16px;
+    --t-md:   18px;
+    --t-lg:   22px;
+    --t-xl:   28px;
+    --t-2xl:  32px;
+
+    --max: 760px;
+    --wide: 1080px;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Geist', sans-serif;
+    font-weight: 300;
+    font-size: var(--t-base);
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: 52px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px;
+    background: rgba(17,17,19,0.80);
+    backdrop-filter: blur(24px) saturate(160%);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-logo { font-family: 'Geist Mono', monospace; font-size: var(--t-xs); letter-spacing: 1.5px; text-transform: uppercase; color: var(--sub); }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { font-size: var(--t-sm); color: var(--sub); text-decoration: none; transition: color .2s; }
+  .nav-links a:hover { color: var(--text); }
+
+  /* ─── LAYOUT ─── */
+  .col { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+  .col-wide { max-width: var(--wide); margin: 0 auto; padding: 0 24px; }
+  .section { padding: 96px 0; }
+  .section + .section { border-top: 1px solid var(--line); }
+
+  /* ─── TAG ─── */
+  .tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--sub);
+    margin-bottom: 20px;
+  }
+  .tag-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+  /* ─── TYPOGRAPHY ─── */
+  h1 { font-family: 'Instrument Serif', serif; font-size: 48px; font-weight: 400; line-height: 1.15; letter-spacing: -0.5px; color: var(--white); }
+  h2 { font-family: 'Instrument Serif', serif; font-size: 32px; font-weight: 400; line-height: 1.25; letter-spacing: -0.3px; color: var(--white); }
+  h3 { font-size: var(--t-md); font-weight: 500; color: var(--white); line-height: 1.4; }
+  em { font-style: italic; color: var(--accent); }
+  p { color: var(--sub); margin-top: 14px; }
+  p:first-child { margin-top: 0; }
+
+  /* ─── HERO ─── */
+  .hero { padding: 140px 0 96px; border-bottom: 1px solid var(--line); }
+  .hero-meta {
+    display: flex; gap: 48px;
+    margin-top: 48px; padding-top: 32px;
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+  .meta-item label { font-family: 'Geist Mono', monospace; font-size: var(--t-xs); letter-spacing: 1.5px; text-transform: uppercase; color: var(--sub); display: block; margin-bottom: 8px; }
+  .meta-item span { font-family: 'Instrument Serif', serif; font-size: 22px; font-weight: 400; color: var(--white); letter-spacing: -0.3px; line-height: 1.2; }
+
+  /* ─── STATS ─── */
+  .stats-row {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--line);
+    border: 1px solid var(--line); border-radius: 12px;
+    overflow: hidden; margin-top: 48px;
+  }
+  .stats-row-2 { grid-template-columns: 1fr 1fr; }
+  .stat-cell { background: var(--bg); padding: 36px 32px; }
+  .stat-num { font-family: 'Instrument Serif', serif; font-size: 48px; color: var(--white); line-height: 1; letter-spacing: -1px; }
+  .stat-num .accent { color: var(--accent); }
+  .stat-desc { font-size: var(--t-sm); color: var(--sub); margin-top: 8px; max-width: 200px; line-height: 1.6; }
+
+  /* ─── QUOTE ─── */
+  .quote-block { border-left: 2px solid var(--accent); padding: 20px 24px; margin: 40px 0; background: rgba(74,124,255,0.04); border-radius: 0 8px 8px 0; }
+  .quote-text { font-family: 'Instrument Serif', serif; font-size: var(--t-lg); font-style: italic; color: var(--white); line-height: 1.5; }
+  .quote-attr { font-size: var(--t-sm); color: var(--sub); margin-top: 12px; }
+
+  /* ─── STEPS ─── */
+  .steps {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1px; background: var(--line);
+    border: 1px solid var(--line); border-radius: 12px;
+    overflow: hidden; margin-top: 40px;
+  }
+  .step { background: var(--bg); padding: 28px 24px; }
+  .step-n { font-family: 'Geist Mono', monospace; font-size: var(--t-xs); color: var(--accent); letter-spacing: 1px; margin-bottom: 10px; }
+  .step-title { font-size: var(--t-sm); font-weight: 500; color: var(--white); margin-bottom: 6px; }
+  .step-body { font-size: var(--t-sm); color: var(--sub); line-height: 1.6; }
+
+  /* ─── OBJECTIVES LIST ─── */
+  .obj-list { margin-top: 40px; }
+  .obj-row {
+    display: grid; grid-template-columns: 40px 1fr;
+    gap: 20px; padding: 20px 0;
+    border-bottom: 1px solid var(--line); align-items: start;
+  }
+  .obj-row:first-child { border-top: 1px solid var(--line); }
+  .obj-n { font-family: 'Geist Mono', monospace; font-size: var(--t-xs); color: var(--accent); letter-spacing: 1px; padding-top: 2px; }
+  .obj-body { font-size: var(--t-sm); color: var(--sub); line-height: 1.7; }
+
+  /* ─── INSIGHT CARDS ─── */
+  .insight-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--line);
+    border: 1px solid var(--line); border-radius: 12px;
+    overflow: hidden; margin-top: 40px;
+  }
+  .insight-card { background: var(--bg); padding: 32px 28px; }
+  .insight-n { font-family: 'Geist Mono', monospace; font-size: var(--t-xs); color: var(--accent); letter-spacing: 1px; margin-bottom: 10px; }
+  .insight-tag-label { font-size: var(--t-xs); font-family: 'Geist Mono', monospace; letter-spacing: 1px; text-transform: uppercase; color: var(--sub); margin-bottom: 10px; display: block; }
+  .insight-body { font-size: var(--t-sm); color: var(--sub); line-height: 1.7; }
+
+  /* ─── PERSONA CARDS ─── */
+  .persona-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--line);
+    border: 1px solid var(--line); border-radius: 12px;
+    overflow: hidden; margin-top: 40px;
+  }
+  .persona-card { background: var(--bg); padding: 32px 28px; }
+  .persona-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(74,124,255,0.15);
+    border: 1px solid rgba(74,124,255,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Geist Mono', monospace; font-size: var(--t-xs);
+    color: var(--accent); letter-spacing: 1px;
+    margin-bottom: 20px;
+  }
+  .persona-name { font-size: var(--t-md); font-weight: 500; color: var(--white); margin-bottom: 4px; }
+  .persona-type { font-family: 'Geist Mono', monospace; font-size: var(--t-xs); color: var(--sub); letter-spacing: 1px; margin-bottom: 20px; display: block; }
+  .persona-divider { height: 1px; background: var(--line); margin-bottom: 20px; }
+  .persona-label { font-family: 'Geist Mono', monospace; font-size: var(--t-xs); color: var(--accent); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; display: block; }
+  .persona-text { font-size: var(--t-sm); color: var(--sub); line-height: 1.7; margin-bottom: 16px; }
+
+  /* ─── HMW BOX ─── */
+  .hmw-box {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 44px;
+    margin-top: 40px;
+    text-align: center;
+  }
+  .hmw-box h2 { font-size: 26px; max-width: 600px; margin: 12px auto 0; }
+
+  /* ─── FLOW COMPARISON ─── */
+  .flow-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; background: var(--line);
+    border: 1px solid var(--line); border-radius: 12px;
+    overflow: hidden; margin-top: 40px;
+  }
+  .flow-card { background: var(--bg); padding: 0; }
+  .flow-head { padding: 20px 28px; border-bottom: 1px solid var(--line); }
+  .flow-head-label { font-family: 'Geist Mono', monospace; font-size: var(--t-xs); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; display: block; }
+  .flow-head-label.red { color: var(--warm); }
+  .flow-head-label.blue { color: var(--accent); }
+  .flow-head-title { font-size: var(--t-sm); font-weight: 500; color: var(--white); }
+  .flow-body { padding: 24px 28px; }
+  .flow-img {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 8px; aspect-ratio: 16/9;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--sub); font-size: var(--t-xs);
+    font-family: 'Geist Mono', monospace;
+    letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .flow-points { display: flex; flex-direction: column; gap: 10px; }
+  .flow-point { display: flex; gap: 10px; align-items: flex-start; font-size: var(--t-sm); color: var(--sub); line-height: 1.6; }
+  .flow-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 7px; }
+  .flow-dot.red { background: var(--warm); }
+  .flow-dot.blue { background: var(--accent); }
+
+  /* ─── FINDINGS ─── */
+  .finding-list { margin-top: 40px; }
+  .finding-row {
+    display: grid; grid-template-columns: 200px 1fr;
+    gap: 32px; padding: 32px 0;
+    border-bottom: 1px solid var(--line); align-items: start;
+  }
+  .finding-row:first-child { border-top: 1px solid var(--line); }
+  .finding-label-wrap { }
+  .finding-n { font-family: 'Geist Mono', monospace; font-size: var(--t-xs); color: var(--accent); letter-spacing: 1px; margin-bottom: 8px; display: block; }
+  .finding-name { font-size: var(--t-sm); font-weight: 500; color: var(--white); line-height: 1.4; }
+  .finding-body { font-size: var(--t-sm); color: var(--sub); line-height: 1.7; }
+  .finding-quote {
+    border-left: 2px solid rgba(74,124,255,0.3);
+    padding: 12px 16px; margin-top: 16px;
+    background: rgba(74,124,255,0.03);
+    border-radius: 0 6px 6px 0;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic; font-size: var(--t-base);
+    color: var(--sub); line-height: 1.6;
+  }
+
+  /* ─── DEPLOY NUMBERS ─── */
+  .deploy-nums { display: flex; gap: 48px; margin-top: 40px; flex-wrap: wrap; }
+  .dn-num { font-family: 'Instrument Serif', serif; font-size: 40px; color: var(--white); line-height: 1; letter-spacing: -1px; }
+  .dn-num em { color: var(--accent); font-style: normal; }
+  .dn-label { font-size: var(--t-sm); color: var(--sub); margin-top: 4px; max-width: 160px; line-height: 1.5; }
+
+  /* ─── CALLOUT ─── */
+  .callout { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 28px 32px; margin-top: 32px; }
+  .callout p { color: var(--text); margin: 0; font-size: var(--t-sm); }
+
+  /* ─── PHOTO GRID ─── */
+  .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 40px; }
+  .photo-cell {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 10px; aspect-ratio: 4/3;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Geist Mono', monospace; font-size: var(--t-xs);
+    color: var(--sub); letter-spacing: 1px; text-transform: uppercase;
+  }
+
+  /* ─── FINAL ─── */
+  .final { padding: 120px 0; text-align: center; border-top: 1px solid var(--line); }
+  .final h2 { margin-bottom: 16px; }
+  .final p { max-width: 440px; margin: 0 auto 32px; }
+  .btn { display: inline-block; padding: 11px 28px; border: 1px solid rgba(255,255,255,.15); border-radius: 100px; font-size: var(--t-sm); color: var(--text); text-decoration: none; transition: background .2s, border-color .2s; }
+  .btn:hover { background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.25); }
+  .btn-primary { background: var(--accent); border-color: transparent; color: white; margin-left: 10px; }
+  .btn-primary:hover { background: #3a6ce8; }
+
+  /* ─── NEXT CASE ─── */
+  .next-case {
+    margin-top: 64px; padding-top: 40px;
+    border-top: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    font-family: 'Geist Mono', monospace; font-size: var(--t-xs);
+    letter-spacing: 1.5px; text-transform: uppercase; color: var(--sub);
+  }
+  .next-case a { color: var(--white); text-decoration: none; font-family: 'Instrument Serif', serif; font-size: 20px; letter-spacing: -0.2px; }
+  .next-case a:hover { color: var(--accent); }
+
+  /* ─── ANIMATION ─── */
+  @keyframes up { from { opacity:0; transform: translateY(16px); } to { opacity:1; transform: translateY(0); } }
+  .hero .col > * { opacity: 0; animation: up 0.7s ease forwards; }
+  .hero .col > *:nth-child(1) { animation-delay: .1s; }
+  .hero .col > *:nth-child(2) { animation-delay: .22s; }
+  .hero .col > *:nth-child(3) { animation-delay: .34s; }
+  .hero .col > *:nth-child(4) { animation-delay: .46s; }
+  .hero .col > *:nth-child(5) { animation-delay: .58s; }
+
+  /* ─── REVEAL ON SCROLL ─── */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity .65s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.16,1,.3,1); }
+  .reveal.visible { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">Daiwat Thavai</span>
+  <div class="nav-links">
+    <a href="#">Work</a>
+    <a href="#">About</a>
+    <a href="#">Resume</a>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<div class="hero">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>UX Research · Thomas Jefferson University</div>
+    <h1>BannerWeb works.<br>Students <em>don't.</em></h1>
+    <p style="max-width:500px; margin-top:16px;">A field research study into why course registration fails students at the exact moment they need clarity most — and what a better system could look like.</p>
+    <div class="hero-meta">
+      <div class="meta-item"><label>Role</label><span>User Researcher</span></div>
+      <div class="meta-item"><label>Scope</label><span>Field Research</span></div>
+      <div class="meta-item"><label>Platform</label><span>BannerWeb · Desktop</span></div>
+      <div class="meta-item"><label>Type</label><span>Academic Project</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 01 CONTEXT -->
+<div class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>01 — Context</div>
+    <h2 class="reveal">The system is functional.<br>The experience is broken.</h2>
+    <p class="reveal">BannerWeb allows students to search, add, and drop courses. Technically, it works. But in practice, students find it confusing, stressful, and completely disconnected from how they actually make decisions about their education.</p>
+    <p class="reveal">This research project set out to understand why the experience feels broken — and to propose a direction that makes course registration feel less like a bureaucratic task and more like a supported academic decision.</p>
+
+    <div class="stats-row reveal" style="margin-top:48px;">
+      <div class="stat-cell">
+        <div class="stat-num"><span class="accent">8</span>+</div>
+        <div class="stat-desc">students observed during live registration sessions</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num"><span class="accent">3</span>×</div>
+        <div class="stat-desc">longer than expected — average time to complete registration</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num"><span class="accent">100</span>%</div>
+        <div class="stat-desc">of observed students needed external help at least once</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 RESEARCH QUESTION -->
+<div class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>02 — Research Question</div>
+    <h2 class="reveal">One question guided everything.</h2>
+    <p class="reveal">After initial observation, the research question crystallised around a single reframe — not just what's wrong, but what a better system could actually feel like.</p>
+    <div class="hmw-box reveal">
+      <div class="tag" style="justify-content:center;"><span class="tag-dot"></span>How Might We</div>
+      <h2>How might we improve TJU's course registration process to make it more intuitive, less burdensome, and genuinely supportive of academic decision-making?</h2>
+    </div>
+  </div>
+</div>
+
+<!-- 03 RESEARCH OBJECTIVES -->
+<div class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>03 — Research Objectives</div>
+    <h2 class="reveal">Five questions.<br>One broken system.</h2>
+    <p class="reveal">Each objective was designed to uncover a different layer of the registration experience — from individual mental models to institutional failure points.</p>
+    <div class="obj-list reveal">
+      <div class="obj-row">
+        <div class="obj-n">01</div>
+        <div class="obj-body">Understand the mental model students bring to registration — what do they expect vs. what they actually find?</div>
+      </div>
+      <div class="obj-row">
+        <div class="obj-n">02</div>
+        <div class="obj-body">Identify specific friction points in the BannerWeb flow through field observation and think-aloud sessions.</div>
+      </div>
+      <div class="obj-row">
+        <div class="obj-n">03</div>
+        <div class="obj-body">Understand the role of advisors and support staff — where do students turn when the system fails them?</div>
+      </div>
+      <div class="obj-row">
+        <div class="obj-n">04</div>
+        <div class="obj-body">Explore what a holistic support system could look like — integrating advising, scheduling, and registration in one place.</div>
+      </div>
+      <div class="obj-row">
+        <div class="obj-n">05</div>
+        <div class="obj-body">Propose a future-state direction grounded in actual student behaviour — not assumed pain points.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 04 FIELD RESEARCH -->
+<div class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>04 — Field Research</div>
+    <h2 class="reveal">Watching students register<br>in real time.</h2>
+    <p class="reveal">All sessions used think-aloud protocol to capture real-time decision making. Contextual interviews with students and academic advisors followed each observation.</p>
+
+    <div class="photo-grid reveal">
+      <div class="photo-cell">Field photo 01</div>
+      <div class="photo-cell">Field photo 02</div>
+      <div class="photo-cell">Field photo 03</div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 KEY INSIGHTS -->
+<div class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>05 — Key Insights</div>
+    <h2 class="reveal">Three findings that<br>changed the direction.</h2>
+    <p class="reveal">The most revealing moments weren't when users complained — they were when users shrugged. Every workaround had become invisible to them.</p>
+
+    <div class="quote-block reveal">
+      <div class="quote-text">"Students don't fail at course registration because they're careless — they fail because the system wasn't designed around how they think."</div>
+    </div>
+
+    <div class="insight-grid reveal">
+      <div class="insight-card">
+        <div class="insight-n">01</div>
+        <span class="insight-tag-label">#1 Finding</span>
+        <div class="insight-body">Students arrived with a mental model built around course names and professor recommendations — not the prerequisite codes and section numbers BannerWeb requires.</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-n">02</div>
+        <span class="insight-tag-label">Biggest Surprise</span>
+        <div class="insight-body">Every student observed used external tools — spreadsheets, notes apps, group chats — to plan before touching BannerWeb. The system was the last step, not the first.</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-n">03</div>
+        <span class="insight-tag-label">Key Pivot</span>
+        <div class="insight-body">Advisors were absorbing enormous friction from the broken system. They spent most of their time explaining the interface — not advising academically. The system was failing staff too.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 06 PERSONAS -->
+<div class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>06 — Personas</div>
+    <h2 class="reveal">Three students.<br>Three breaking points.</h2>
+    <p class="reveal">These archetypes emerged directly from field research — real patterns from real sessions, not invented profiles.</p>
+
+    <div class="persona-grid reveal">
+      <div class="persona-card">
+        <div class="persona-avatar">MR</div>
+        <div class="persona-name">Maya R.</div>
+        <span class="persona-type">First-year · Age 18</span>
+        <div class="persona-divider"></div>
+        <span class="persona-label">Situation</span>
+        <div class="persona-text">First time registering. Has a list of courses from orientation but can't find them by name — only by code. Has no idea what half the fields mean.</div>
+        <span class="persona-label">Biggest struggle</span>
+        <div class="persona-text">Understanding prerequisite logic. Can't tell if she qualifies for a course without asking an advisor.</div>
+        <div class="quote-block" style="margin:0; padding: 14px 18px;">
+          <div class="quote-text" style="font-size:14px;">"I've been on this page for 20 minutes and I still don't know if I can take this class."</div>
+        </div>
+      </div>
+      <div class="persona-card">
+        <div class="persona-avatar">JT</div>
+        <div class="persona-name">James T.</div>
+        <span class="persona-type">Third-year · Age 21</span>
+        <div class="persona-divider"></div>
+        <span class="persona-label">Situation</span>
+        <div class="persona-text">Experienced user, frustrated every semester. Has a system — spreadsheet + BannerWeb — but finds himself re-entering the same information repeatedly.</div>
+        <span class="persona-label">Biggest struggle</span>
+        <div class="persona-text">Time conflicts. Has to manually check for overlaps because BannerWeb doesn't surface them clearly.</div>
+        <div class="quote-block" style="margin:0; padding: 14px 18px;">
+          <div class="quote-text" style="font-size:14px;">"I've done this 5 times. It shouldn't still take me two hours."</div>
+        </div>
+      </div>
+      <div class="persona-card">
+        <div class="persona-avatar">DK</div>
+        <div class="persona-name">Dr. Karen D.</div>
+        <span class="persona-type">Academic Advisor · 8 yrs</span>
+        <div class="persona-divider"></div>
+        <span class="persona-label">Situation</span>
+        <div class="persona-text">Spends registration week fielding questions that should be answerable by the system itself. Most questions are about interface confusion, not academic decisions.</div>
+        <span class="persona-label">Biggest struggle</span>
+        <div class="persona-text">Scaling her time. Gets 40+ emails in the first week of registration — most about the same three interface issues.</div>
+        <div class="quote-block" style="margin:0; padding: 14px 18px;">
+          <div class="quote-text" style="font-size:14px;">"My job is to guide students academically. Instead I'm explaining what a CRN number is."</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 07 CURRENT vs FUTURE -->
+<div class="section">
+  <div class="col-wide">
+    <div class="col" style="padding: 0 24px; max-width: var(--max); margin: 0 auto;">
+      <div class="tag reveal"><span class="tag-dot"></span>07 — Current vs. Future State</div>
+      <h2 class="reveal">From fragmented flow<br>to holistic system.</h2>
+      <p class="reveal">After synthesising field findings, the gap between what exists and what's needed became impossible to ignore.</p>
+    </div>
+    <div style="padding: 0 24px; margin-top: 40px;">
+      <div class="flow-grid reveal">
+        <div class="flow-card">
+          <div class="flow-head">
+            <span class="flow-head-label red">Current state — What it is</span>
+            <div class="flow-head-title">Fragmented + confusing</div>
+          </div>
+          <div class="flow-body">
+            <div class="flow-img">Current BannerWeb flow</div>
+            <div class="flow-points">
+              <div class="flow-point"><div class="flow-dot red"></div>Students plan externally, then manually re-enter everything into BannerWeb</div>
+              <div class="flow-point"><div class="flow-dot red"></div>No conflict detection — students discover time clashes after the fact</div>
+              <div class="flow-point"><div class="flow-dot red"></div>Prerequisites shown as codes, not plain language — requires advisor translation</div>
+              <div class="flow-point"><div class="flow-dot red"></div>Advisors flooded with interface questions instead of academic guidance</div>
+            </div>
+          </div>
+        </div>
+        <div class="flow-card">
+          <div class="flow-head">
+            <span class="flow-head-label blue">Future state — What it could be</span>
+            <div class="flow-head-title">Integrated + supportive</div>
+          </div>
+          <div class="flow-body">
+            <div class="flow-img">Proposed system flow</div>
+            <div class="flow-points">
+              <div class="flow-point"><div class="flow-dot blue"></div>Planning and registration happen in one place — no external spreadsheets needed</div>
+              <div class="flow-point"><div class="flow-dot blue"></div>Real-time conflict detection surfaces schedule clashes before they happen</div>
+              <div class="flow-point"><div class="flow-dot blue"></div>Prerequisites explained in plain language with direct eligibility confirmation</div>
+              <div class="flow-point"><div class="flow-dot blue"></div>Advisors integrated at the point of need — not after the system has already failed</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 08 KEY FINDINGS -->
+<div class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>08 — Key Findings</div>
+    <h2 class="reveal">Two systemic problems.<br>Two design directions.</h2>
+    <p class="reveal">Each finding pointed at a structural failure — not a user error. The proposed directions address root causes, not symptoms.</p>
+
+    <div class="finding-list">
+      <div class="finding-row reveal">
+        <div class="finding-label-wrap">
+          <span class="finding-n">Finding 01</span>
+          <div class="finding-name">Students were doing all their planning outside the system</div>
+        </div>
+        <div>
+          <div class="finding-body">Build the planning layer into the registration system. A visual schedule builder that lets students drag, drop, and plan before committing — then submit directly. Eliminate the external spreadsheet step entirely.</div>
+          <div class="finding-quote">"Every student we observed had an external document open alongside BannerWeb. That's a system design failure, not a user behaviour problem."</div>
+        </div>
+      </div>
+      <div class="finding-row reveal">
+        <div class="finding-label-wrap">
+          <span class="finding-n">Finding 02</span>
+          <div class="finding-name">Advisors were absorbing interface friction the system should solve</div>
+        </div>
+        <div>
+          <div class="finding-body">Build infrastructure so advisors don't need to be involved in basic navigation. Plain-language prerequisites, real-time eligibility checks, and conflict detection surface the right information at the right moment.</div>
+          <div class="finding-quote">"Every minute an advisor spends explaining a CRN number is a minute they're not helping a student make better academic decisions."</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 09 REFLECTION -->
+<div class="final">
+  <div class="col">
+    <div class="tag" style="justify-content:center;"><span class="tag-dot"></span>Reflection</div>
+    <h2>The best research reveals what<br>users have accepted as normal.</h2>
+    <p>Every student who opened a spreadsheet alongside BannerWeb had stopped seeing it as a problem. My job as a researcher was to see it for them, name it, and make the case that it didn't have to be that way.</p>
+    <div>
+      <a href="#" class="btn">View Full Report</a>
+      <a href="#" class="btn btn-primary">See Prototype →</a>
+    </div>
+    <div class="next-case">
+      <span>Next case study</span>
+      <a href="#">Global Bridge →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const revObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); revObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+</script>
+
+</body>
+</html>
