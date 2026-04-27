@@ -97,7 +97,7 @@
   p:first-child{margin-top:0;}
 
   /* ── HERO — same as GB ── */
-  .hero{padding:140px 0 96px;border-bottom:1px solid var(--line);}
+
 
   .hero-img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:12px;display:block;}
   .hero-img-placeholder{width:100%;aspect-ratio:1/1;background:var(--surface);border:1px solid var(--line);border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Geist Mono',monospace;font-size:var(--t-xs);color:var(--sub);letter-spacing:1px;text-transform:uppercase;}
@@ -224,6 +224,88 @@
     text-transform: uppercase;
     color: rgba(255,255,255,0.4);
   }
+
+  /* ── HERO TEXT WRAP — proper breathing room ── */
+  .hero-text-wrap {
+    padding: 96px 0 120px;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero-text-wrap h1 {
+    margin-top: 20px;
+    margin-bottom: 0;
+  }
+  .hero-lead {
+    font-size: var(--t-md) !important;
+    line-height: 1.8 !important;
+    margin-top: 32px !important;
+    color: var(--text) !important;
+  }
+
+
+
+
+  /* ── GLOBAL SECTION SPACING ── */
+  .section { padding: 112px 0; }
+  .section + .section { border-top: 1px solid var(--line); }
+
+  /* Give headings more room */
+  .section h2 { margin-bottom: 8px; }
+  .section .tag { margin-bottom: 16px; }
+  .section > .col > p { margin-top: 16px; margin-bottom: 0; }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 140px 0 100px;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero .tag { margin-bottom: 20px; }
+  .hero h1 { margin-bottom: 0; }
+
+  /* Photo sits between headline and body text */
+  .hero-img-wrap {
+    margin: 48px 0 40px;
+    position: relative;
+  }
+  .hero-img {
+    width: 100%;
+    height: 480px;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: 12px;
+    display: block;
+  }
+  .hero-img-placeholder {
+    width: 100%;
+    height: 480px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--sub);
+  }
+  .hero-caption {
+    margin-top: 10px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--sub);
+  }
+  .hero-lead {
+    font-size: var(--t-md);
+    line-height: 1.8;
+    color: var(--text);
+    margin-top: 0;
+  }
+  .hero p { margin-top: 20px; }
+  .hero .stats-row { margin-top: 56px; }
+  .hero .quote-block { margin-top: 40px; margin-bottom: 0; }
 </style>
 </head>
 <body>
@@ -265,25 +347,22 @@
 <!-- ── HERO ── -->
 <div class="hero" data-theme="dark">
   <div class="col">
+
     <div class="tag"><span class="tag-dot"></span>Designer · Researcher · Builder</div>
     <h1>Making technology<br>feel <em>human.</em></h1>
-    <div class="hero-split">
-      <div>
-        <p>UX Designer and AI Enthusiast based in Philadelphia. Master's in Interaction Design from Thomas Jefferson University. Currently at Eranova AI.</p>
-        <p>I didn't start in design — I started in frustration. Watching smart people fail at simple tasks because the interface assumed they thought like an engineer. That gap is what I design for.</p>
-        <p>Soccer gave me discipline. Fashion sharpened my eye for detail. Both show up in every design I make.</p>
 
-      </div>
-
-      <div>
-        <img src="assets/photo.jpg" alt="Daiwat Thavai" class="hero-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="hero-img-placeholder" style="display:none;">Add assets/photo.jpg</div>
-        <div class="hero-caption">Philadelphia, PA · 2026</div>
-      </div>
+    <!-- Photo AFTER headline, BEFORE body text -->
+    <div class="hero-img-wrap">
+      <img src="assets/photo.jpg" alt="Daiwat Thavai" class="hero-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="hero-img-placeholder" style="display:none;">Add assets/photo.jpg</div>
+      <div class="hero-caption">Philadelphia, PA · 2026</div>
     </div>
 
-    <!-- Stats below the split -->
-    <div class="stats-row" style="margin-top:48px;">
+    <p class="hero-lead">UX Designer and AI Enthusiast based in Philadelphia. Master's in Interaction Design from Thomas Jefferson University. Currently at Eranova AI.</p>
+    <p>I didn't start in design — I started in frustration. Watching smart people fail at simple tasks because the interface assumed they thought like an engineer. That gap is what I design for.</p>
+    <p>Soccer gave me discipline. Fashion sharpened my eye for detail. Both show up in every design I make.</p>
+
+    <div class="stats-row">
       <div class="stat-cell">
         <div class="stat-num"><span class="accent">5</span>+</div>
         <div class="stat-desc">Years of design experience across 5 companies</div>
@@ -294,9 +373,10 @@
       </div>
     </div>
 
-    <div class="quote-block" style="margin-top:32px;">
+    <div class="quote-block">
       <p class="quote-text">"The best interface is the one you never notice. The worst one makes you feel stupid."</p>
     </div>
+
   </div>
 </div>
 
