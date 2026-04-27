@@ -28,27 +28,155 @@
     position: fixed; top: 20px; left: 50%;
     transform: translateX(-50%); z-index: 9999;
     display: flex; align-items: center; justify-content: space-between; gap: 8px;
-    background: rgba(255,255,255,0.92);
+    background: rgba(15,15,15,0.85);
     backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid rgba(0,0,0,0.09);
+    border: 1px solid rgba(255,255,255,0.1);
     border-radius: 999px; height: 52px;
     width: min(680px, calc(100vw - 48px));
     padding: 0 8px 0 20px;
-    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
-    transition: background .4s, border-color .4s, box-shadow .4s;
+    box-shadow: 0 2px 24px rgba(0,0,0,0.4);
+    transition: background .4s, border-color .4s, box-shadow .4s, opacity .3s, transform .3s;
   }
-  .nav-top.nav-dark { background: rgba(15,15,15,0.85); border-color: rgba(255,255,255,0.1); box-shadow: 0 2px 24px rgba(0,0,0,0.4); }
-  .nav-top.nav-dark .nav-top__logo { color: #fff; }
-  .nav-top.nav-dark .nav-top__link { color: rgba(255,255,255,0.55); }
-  .nav-top.nav-dark .nav-top__link:hover { color: #fff; background: rgba(255,255,255,0.08); font-weight: 500; }
-  .nav-top.nav-dark .nav-top__cta { background: #fff; color: #111; }
-  .nav-top.nav-dark .nav-top__cta:hover { background: rgba(255,255,255,0.85); }
-  .nav-top__logo { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: #111; text-decoration: none; white-space: nowrap; flex-shrink: 0; transition: color .4s; }
+  .nav-top.nav-hidden { opacity: 0; transform: translateX(-50%) translateY(-10px); pointer-events: none; }
+  /* Light variant — used on S0 white hero */
+  .nav-top.nav-light { background: rgba(255,255,255,0.92); border-color: rgba(0,0,0,0.09); box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+  .nav-top.nav-light .nav-top__logo { color: #111 !important; }
+  .nav-top.nav-light .nav-top__link { color: #555 !important; }
+  .nav-top.nav-light .nav-top__link:hover { color: #111 !important; background: rgba(0,0,0,0.05); }
+  .nav-top.nav-light .nav-top__cta { background: #111; color: #fff; }
+  /* Default (dark) nav text */
+  .nav-top__logo { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: #fff; text-decoration: none; white-space: nowrap; flex-shrink: 0; transition: color .4s; }
   .nav-top__links { flex: 1; display: flex; align-items: center; justify-content: center; }
-  .nav-top__link { font-size: var(--t-sm); color: #777; text-decoration: none; padding: 7px 16px; border-radius: 999px; transition: background .2s, color .2s; }
-  .nav-top__link:hover { color: #111; background: rgba(0,0,0,0.05); font-weight: 500; }
-  .nav-top__cta { font-size: var(--t-xs); font-weight: 400; color: #fff; text-decoration: none; background: #111; padding: 8px 18px; border-radius: 999px; flex-shrink: 0; transition: background .2s, color .2s; }
-  .nav-top__cta:hover { background: #4A7CFF; }
+  .nav-top__link { font-size: var(--t-sm); color: rgba(255,255,255,0.6); text-decoration: none; padding: 7px 16px; border-radius: 999px; transition: background .2s, color .2s; }
+  .nav-top__link:hover { color: #fff; background: rgba(255,255,255,0.1); font-weight: 500; }
+  .nav-top__cta { font-size: var(--t-xs); font-weight: 400; color: #111; text-decoration: none; background: #fff; padding: 8px 18px; border-radius: 999px; flex-shrink: 0; transition: background .2s, color .2s; }
+  .nav-top__cta:hover { background: #4A7CFF; color: #fff; }
+
+  /* ── PILL NAV ── */
+  .nav-pill {
+    position: fixed; top: 16px; left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    z-index: 9999;
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    background: rgba(15,15,15,0.9);
+    backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 999px; height: 64px; width: 116px;
+    padding: 0 11px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    opacity: 0; pointer-events: none;
+    transition: opacity .3s ease, transform .3s ease, width .45s cubic-bezier(.34,1.2,.64,1);
+  }
+  .nav-pill.nav-visible { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: all; }
+  .nav-pill:hover { width: min(760px, calc(100vw - 48px)); }
+  .nav-pill__icon { flex-shrink: 0; width: 42px; height: 42px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; z-index: 2; }
+  .nav-pill__icon svg { width: 16px; height: 16px; color: rgba(255,255,255,.8); }
+  .nav-pill__links { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .2s ease; }
+  .nav-pill:hover .nav-pill__links { opacity: 1; pointer-events: all; transition-delay: .1s; }
+  .nav-pill__link { font-size: 14px; font-weight: 500; color: rgba(255,255,255,.6); text-decoration: none; padding: 8px 16px; border-radius: 999px; transition: background .2s, color .2s; white-space: nowrap; }
+  .nav-pill__link:hover { color: white; background: rgba(255,255,255,.1); }
+  .nav-pill__theme { position: absolute; right: 63px; opacity: 0; pointer-events: none; transition: opacity .2s ease; z-index: 3; }
+  .nav-pill:hover .nav-pill__theme { opacity: 1; pointer-events: all; transition-delay: .12s; }
+  .nav-pill__theme .theme-btn { width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.25); background: transparent; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: background .2s; }
+  .nav-pill__theme .theme-btn:hover { background: rgba(255,255,255,0.1); }
+  .nav-pill__ring { flex-shrink: 0; position: relative; width: 42px; height: 42px; z-index: 2; }
+  .nav-pill__ring svg { display: block; width: 42px; height: 42px; transform: rotate(-90deg); }
+  .nav-pill__ring .r-track { fill: none; stroke: rgba(255,255,255,.2); stroke-width: 1.8; }
+  .nav-pill__ring .r-fill { fill: none; stroke: rgba(255,255,255,.95); stroke-width: 1.8; stroke-linecap: round; stroke-dasharray: 106.81; stroke-dashoffset: 106.81; transition: stroke-dashoffset .3s ease; }
+  .nav-pill__ring .r-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; font-family: 'Geist Mono', monospace; color: rgba(255,255,255,.95); letter-spacing: -.02em; line-height: 1; }
+  .nav-pill.nav-on-dark { background: rgba(255,255,255,.92); border-color: rgba(0,0,0,.1); }
+  .nav-pill.nav-on-dark .nav-pill__icon { background: rgba(0,0,0,.08); }
+  .nav-pill.nav-on-dark .nav-pill__icon svg { color: rgba(0,0,0,.6); }
+  .nav-pill.nav-on-dark .nav-pill__link { color: rgba(0,0,0,.5); }
+  .nav-pill.nav-on-dark .nav-pill__link:hover { background: rgba(0,0,0,.07); color: #111; }
+  .nav-pill.nav-on-dark .nav-pill__theme .theme-btn { border-color: rgba(0,0,0,0.2); }
+  .nav-pill.nav-on-dark .r-track { stroke: rgba(0,0,0,.15); }
+  .nav-pill.nav-on-dark .r-fill { stroke: rgba(0,0,0,.8); }
+  .nav-pill.nav-on-dark .r-pct { color: rgba(0,0,0,.7); }
+
+
+  /* ── HAMBURGER MENU (mobile) ── */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 34px; height: 34px;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    align-items: center;
+    flex-shrink: 0;
+    transition: background .2s;
+  }
+  .nav-hamburger { border-color: rgba(255,255,255,0.2); }
+  .nav-hamburger:hover { background: rgba(255,255,255,0.1); }
+  .nav-top.nav-light .nav-hamburger { border-color: rgba(0,0,0,0.12); }
+  .nav-top.nav-light .nav-hamburger:hover { background: rgba(0,0,0,0.05); }
+  .nav-hamburger span {
+    display: block;
+    width: 14px; height: 1.5px;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform .3s, opacity .3s;
+  }
+  .nav-top.nav-light .nav-hamburger span { background: #111; }
+  /* Animated X when open */
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* Mobile dropdown menu */
+  .nav-mobile-menu {
+    position: fixed;
+    top: 88px; left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    width: min(680px, calc(100vw - 48px));
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(0,0,0,0.09);
+    border-radius: 20px;
+    padding: 8px;
+    z-index: 9998;
+    opacity: 0; pointer-events: none;
+    transition: opacity .25s ease, transform .25s ease;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  }
+  .nav-mobile-menu.open {
+    opacity: 1; pointer-events: all;
+    transform: translateX(-50%) translateY(0);
+  }
+  .nav-mobile-menu a {
+    display: block;
+    font-size: 15px; font-weight: 500;
+    color: #333;
+    text-decoration: none;
+    padding: 14px 20px;
+    border-radius: 12px;
+    transition: background .2s, color .2s;
+  }
+  .nav-mobile-menu a:hover { background: rgba(0,0,0,0.05); color: #111; }
+  .nav-mobile-menu .menu-divider {
+    height: 1px;
+    background: rgba(0,0,0,0.07);
+    margin: 4px 0;
+  }
+
+  /* Dark version of mobile menu */
+  .nav-mobile-menu.menu-dark {
+    background: rgba(15,15,15,0.95);
+    border-color: rgba(255,255,255,0.1);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .nav-mobile-menu.menu-dark a { color: rgba(255,255,255,0.7); }
+  .nav-mobile-menu.menu-dark a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+  .nav-mobile-menu.menu-dark .menu-divider { background: rgba(255,255,255,0.08); }
+
+  @media (min-width: 769px) {
+    .nav-mobile-menu { display: none !important; }
+  }
 
   /* ── SECTIONS ── */
   .section {
@@ -164,13 +292,13 @@
   .screen-sub { position: relative; z-index: 2; font-family: 'Geist Mono', monospace; font-size: 8px; letter-spacing: 2px; color: rgba(255,255,255,0.35); margin-top: 8px; }
 
   @media (max-width: 960px) { .case-preview { display: none; } }
-  @media (max-width: 640px) { .nav-top { width: calc(100vw - 32px); padding: 0 8px 0 16px; } .nav-top__links { display: none; } .section h1 { font-size: 36px; } .section h2 { font-size: 32px; } }
+  @media (max-width: 768px) { .nav-top { width: calc(100vw - 32px); padding: 0 8px 0 16px; } .nav-top__links { display: none !important; } .nav-hamburger { display: flex !important; } .nav-top__cta { display: none !important; } .section h1 { font-size: 36px; } .section h2 { font-size: 32px; } }
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<header class="nav-top" id="navTop">
+<header class="nav-top nav-light" id="navTop">
   <a href="#" class="nav-top__logo">Daiwat Thavai</a>
   <nav class="nav-top__links">
     <a href="#" class="nav-top__link">Work</a>
@@ -179,9 +307,45 @@
   </nav>
   <div style="display:flex; align-items:center; gap:8px;">
     <button id="themeToggle" style="width:34px;height:34px;border-radius:50%;border:1px solid rgba(0,0,0,0.12);background:transparent;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .2s, transform .15s;flex-shrink:0;" aria-label="Toggle dark mode">🌙</button>
-    <a href="#" class="nav-top__cta">Dave AI ✦</a>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="#" class="nav-top__cta" id="navCta">Dave AI ✦</a>
   </div>
 </header>
+
+<!-- MOBILE MENU -->
+<div class="nav-mobile-menu" id="navMobileMenu">
+  <a href="#">Work</a>
+  <a href="#">About</a>
+  <a href="#">Resume</a>
+  <div class="menu-divider"></div>
+  <a href="#" style="color:#4A7CFF;font-weight:600;">Dave AI ✦</a>
+</div>
+
+<!-- PILL NAV -->
+<nav class="nav-pill" id="navPill" aria-label="Compact navigation">
+  <div class="nav-pill__icon">
+    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M3 2L13 8L8 9.5L6.5 14L3 2Z" fill="currentColor"/>
+    </svg>
+  </div>
+  <div class="nav-pill__links">
+    <a href="#" class="nav-pill__link">Work</a>
+    <a href="#" class="nav-pill__link">About</a>
+    <a href="#" class="nav-pill__link">Resume</a>
+  </div>
+  <div class="nav-pill__theme">
+    <button class="theme-btn" id="themeTogglePill" aria-label="Toggle theme">🌙</button>
+  </div>
+  <div class="nav-pill__ring">
+    <svg viewBox="0 0 42 42" aria-hidden="true">
+      <circle class="r-track" cx="21" cy="21" r="17"/>
+      <circle class="r-fill" id="navRingFill" cx="21" cy="21" r="17"/>
+    </svg>
+    <div class="r-pct" id="navRingPct">0%</div>
+  </div>
+</nav>
 
 <!-- S0 HERO -->
 <section class="section s0" data-theme="light">
@@ -217,7 +381,7 @@
     <span class="eyebrow">01 — Safety · Community</span>
     <h2>Global Bridge</h2>
     <p>A safety app helping international students navigate an unfamiliar city with confidence.</p>
-    <a href="global-bridge/" class="btn-outline btn-light"><span class="btn-arrow">→</span>View Case Study</a>
+    <a href="#" class="btn-outline btn-light"><span class="btn-arrow">→</span>View Case Study</a>
   </div>
 </section>
 
@@ -267,7 +431,7 @@
     <span class="eyebrow">03 — Fintech · AI</span>
     <h2>RICHIE AI</h2>
     <p>An AI investment companion that makes financial decision-making feel intuitive and human.</p>
-    <a href="RichieAI" class="btn-outline btn-light"><span class="btn-arrow">→</span>View Case Study</a>
+    <a href="#" class="btn-outline btn-light"><span class="btn-arrow">→</span>View Case Study</a>
   </div>
 </section>
 
@@ -292,7 +456,7 @@
     <span class="eyebrow">04 — EdTech · Research</span>
     <h2>TJU Course Reg</h2>
     <p>Why students struggle with course registration — and what a better system looks like.</p>
-    <a href="TJU" class="btn-outline btn-light"><span class="btn-arrow">→</span>View Case Study</a>
+    <a href="#" class="btn-outline btn-light"><span class="btn-arrow">→</span>View Case Study</a>
   </div>
 </section>
 
@@ -348,18 +512,99 @@
 
 <script>
 (function () {
-  const navTop   = document.getElementById('navTop');
-  const toggle   = document.getElementById('themeToggle');
-  const sections = document.querySelectorAll('.section');
-  toggle.addEventListener('click', function () {
-    const isDark = document.body.classList.toggle('dark');
-    toggle.textContent = isDark ? '☀️' : '🌙';
+  const navTop      = document.getElementById('navTop');
+  const navPill     = document.getElementById('navPill');
+  const rFill       = document.getElementById('navRingFill');
+  const rPct        = document.getElementById('navRingPct');
+  const toggle      = document.getElementById('themeToggle');
+  const togglePill  = document.getElementById('themeTogglePill');
+  const sections    = document.querySelectorAll('.section');
+  const CIRC        = 2 * Math.PI * 17;
+  const total       = sections.length;
+  let currentIndex  = 0;
+
+  /* ── Hamburger menu ── */
+  const hamburger = document.getElementById('navHamburger');
+  const mobileMenu = document.getElementById('navMobileMenu');
+
+  hamburger.addEventListener('click', function() {
+    const isOpen = hamburger.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', isOpen);
+    mobileMenu.classList.toggle('open', isOpen);
+    /* Match dark/light style of current section */
+    const isDarkSection = !navTop.classList.contains('nav-light');
+    mobileMenu.classList.toggle('menu-dark', isDarkSection);
   });
-  sections.forEach(function (sec) {
+
+  /* Close menu when clicking outside */
+  document.addEventListener('click', function(e) {
+    if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      mobileMenu.classList.remove('open');
+    }
+  });
+
+  /* Close menu when a link is clicked */
+  mobileMenu.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      mobileMenu.classList.remove('open');
+    });
+  });
+
+  /* ── Theme toggle — both in sync ── */
+  function applyTheme(isDark) {
+    document.body.classList.toggle('dark', isDark);
+    const icon = isDark ? '☀️' : '🌙';
+    toggle.textContent = icon;
+    togglePill.textContent = icon;
+    /* In dark mode S0 is dark too — remove nav-light */
+    if (isDark) {
+      navTop.classList.remove('nav-light');
+    } else {
+      /* Only restore nav-light if we're on S0 */
+      const s0 = document.querySelector('.s0');
+      const rect = s0.getBoundingClientRect();
+      if (rect.top >= -window.innerHeight/2) {
+        navTop.classList.add('nav-light');
+      }
+    }
+  }
+  toggle.addEventListener('click', function () {
+    applyTheme(!document.body.classList.contains('dark'));
+  });
+  togglePill.addEventListener('click', function () {
+    applyTheme(!document.body.classList.contains('dark'));
+  });
+
+  /* ── Section observer — handles nav dark/light + pill show/hide + ring progress ── */
+  sections.forEach(function (sec, index) {
     new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (e.intersectionRatio > 0.5) {
-          navTop.classList.toggle('nav-dark', e.target.getAttribute('data-theme') === 'dark');
+          currentIndex = index;
+
+          const theme = e.target.getAttribute('data-theme');
+          const isLight = theme === 'light';
+          const isHero  = index === 0;
+
+          /* Top nav: show on hero (S0), hide on all other sections */
+          navTop.classList.toggle('nav-hidden', !isHero);
+          /* S0 white bg → light nav. Dark sections → dark nav (default) */
+          navTop.classList.toggle('nav-light', isLight);
+
+          /* Pill: hide on hero, show on all other sections */
+          navPill.classList.toggle('nav-visible', !isHero);
+          /* Pill: on DARK bg sections → dark pill (default) */
+          /* Pill: on LIGHT bg sections → white pill */
+          navPill.classList.toggle('nav-on-dark', isLight);
+
+          /* Progress ring based on section index */
+          const pct = index / (total - 1);
+          rFill.style.strokeDashoffset = CIRC * (1 - pct);
+          rPct.textContent = Math.round(pct * 100) + '%';
         }
       });
     }, { threshold: [0.5] }).observe(sec);
