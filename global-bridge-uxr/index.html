@@ -23,6 +23,13 @@
   body.light .stat-cell,body.light .step,body.light .method-cell,body.light .finding-card{background:#f7f7f5;}
   body.light .placeholder{background:rgba(0,0,0,0.04);border-color:rgba(0,0,0,0.12);}
   body.light .placeholder-label{color:rgba(0,0,0,0.35);}
+  .img-wrap{width:100%;margin-top:32px;}
+  .img-wrap img{width:100%;display:block;border-radius:10px;}
+  .img-dark{display:block;}
+  .img-light{display:none;}
+  body.light .img-dark{display:none;}
+  body.light .img-light{display:block;}
+  .img-caption{font-family:'Geist Mono',monospace;font-size:var(--t-xs);color:var(--sub);letter-spacing:1px;text-transform:uppercase;margin-top:10px;}
 
   /* NAV TOP */
   .nav-top{
@@ -291,11 +298,11 @@
     </div>
     <p style="margin-top:24px;">Students had the tools to reach out — but not the social permission to use them. That became the lens for everything that followed.</p>
 
-    <!-- IMAGE PLACEHOLDER -->
+    <!-- IMAGE: Secondary research — add when ready -->
     <div class="placeholder" style="aspect-ratio:16/7;margin-top:32px;">
       <div class="placeholder-icon">📊</div>
       <div class="placeholder-label">Secondary research artifact</div>
-      <div class="placeholder-hint">Figma export: 760 × 333 px · Screenshot of Data.gov or Clery Act data you referenced</div>
+      <div class="placeholder-hint">Figma export: 760 × 333 px · Screenshot of Data.gov or Clery Act data</div>
     </div>
   </div>
 </section>
@@ -343,7 +350,7 @@
       </div>
     </div>
 
-    <!-- IMAGE PLACEHOLDER -->
+    <!-- IMAGE: Interview guide — add when ready -->
     <div class="placeholder" style="aspect-ratio:16/7;margin-top:32px;">
       <div class="placeholder-icon">📋</div>
       <div class="placeholder-label">Interview guide artifact</div>
@@ -374,11 +381,11 @@
       </div>
     </div>
 
-    <!-- IMAGE PLACEHOLDER -->
+    <!-- IMAGE: Affinity map — add when ready -->
     <div class="placeholder" style="aspect-ratio:16/9;margin-top:32px;">
       <div class="placeholder-icon">🗂</div>
       <div class="placeholder-label">Affinity map — synthesis board</div>
-      <div class="placeholder-hint">Figma export: 760 × 428 px · FigJam / Miro export — make it large and legible, this is the most important artifact</div>
+      <div class="placeholder-hint">Figma export: 760 × 428 px · FigJam / Miro export</div>
     </div>
   </div>
 </section>
@@ -420,11 +427,11 @@
       </div>
     </div>
 
-    <!-- IMAGE PLACEHOLDER -->
+    <!-- IMAGE: Rainbow chart — add when ready -->
     <div class="placeholder" style="aspect-ratio:16/7;margin-top:32px;">
       <div class="placeholder-icon">🌈</div>
       <div class="placeholder-label">Rainbow chart / findings summary table</div>
-      <div class="placeholder-hint">Figma export: 760 × 333 px · Your structured findings matrix — one of the strongest artifacts in this case study</div>
+      <div class="placeholder-hint">Figma export: 760 × 333 px · Your structured findings matrix</div>
     </div>
   </div>
 </section>
@@ -451,22 +458,32 @@
     <!-- PRETOTYPING EVIDENCE -->
     <div style="margin-top:32px;">
       <div style="font-family:'Geist Mono',monospace;font-size:var(--t-xs);letter-spacing:1.2px;text-transform:uppercase;color:var(--sub);margin-bottom:16px;">Pretotyping evidence</div>
-      <div style="display:flex;flex-direction:column;gap:12px;">
-        <div class="placeholder" style="aspect-ratio:16/7;margin-top:0;">
-          <div class="placeholder-icon">💬</div>
-          <div class="placeholder-label">WhatsApp group chat</div>
-          <div class="placeholder-hint">Figma export: 760 × 333 px · Mechanical Turk peer review chat screenshot</div>
+      <div style="display:flex;flex-direction:column;gap:24px;">
+
+        <div>
+          <div class="img-wrap" style="margin-top:0;">
+            <img class="img-dark"  src="assets/Mechanical Turk 1 - Dark.png"  alt="Mechanical Turk experiment 1 — peer review WhatsApp group chat">
+            <img class="img-light" src="assets/Mechanical Turk 1 - Light.png" alt="Mechanical Turk experiment 1 — peer review WhatsApp group chat">
+          </div>
+          <div class="img-caption">Mechanical Turk 01 — Peer review chat group</div>
         </div>
-        <div class="placeholder" style="aspect-ratio:16/7;margin-top:0;">
-          <div class="placeholder-icon">📝</div>
-          <div class="placeholder-label">Google Form responses</div>
-          <div class="placeholder-hint">Figma export: 760 × 333 px · Post-pilot questionnaire — participant feedback on peer feature</div>
+
+        <div>
+          <div class="img-wrap" style="margin-top:0;">
+            <img class="img-dark"  src="assets/Mechanical Turk 2 - Dark.png"  alt="Mechanical Turk experiment 2 — location sharing peer connect">
+            <img class="img-light" src="assets/Mechanical Turk 2 - Light.png" alt="Mechanical Turk experiment 2 — location sharing peer connect">
+          </div>
+          <div class="img-caption">Mechanical Turk 02 — Peer connect feature validation</div>
         </div>
-        <div class="placeholder" style="aspect-ratio:16/7;margin-top:0;">
-          <div class="placeholder-icon">✅</div>
-          <div class="placeholder-label">Assumption validation</div>
-          <div class="placeholder-hint">Figma export: 760 × 333 px · Risky assumption results — all validated green</div>
+
+        <div>
+          <div class="img-wrap" style="margin-top:0;">
+            <img class="img-dark"  src="assets/Pretotyping Plan.png"           alt="Pretotyping plan — risky assumption validation results">
+            <img class="img-light" src="assets/Pretotyping Plan - Light.png"   alt="Pretotyping plan — risky assumption validation results">
+          </div>
+          <div class="img-caption">Pretotyping plan — all assumptions validated</div>
         </div>
+
       </div>
     </div>
   </div>
@@ -493,23 +510,31 @@
       </div>
     </div>
 
-    <!-- IMAGE PLACEHOLDER -->
-    <div style="margin-top:40px;display:flex;flex-direction:column;gap:12px;">
-      <div class="placeholder" style="aspect-ratio:16/9;margin-top:0;">
-        <div class="placeholder-icon">📸</div>
-        <div class="placeholder-label">Stakeholder presentation — wide shot</div>
-        <div class="placeholder-hint">Figma export: 760 × 428 px · Meeting1.png — full room photo showing real-world research communication</div>
+    <!-- IMPACT IMAGES -->
+    <div style="margin-top:40px;display:flex;flex-direction:column;gap:24px;">
+
+      <div>
+        <div class="img-wrap" style="margin-top:0;">
+          <img src="assets/meeting.png" alt="Stakeholder presentation — presenting research findings to the room">
+        </div>
+        <div class="img-caption">Stakeholder presentation — Thomas Jefferson University</div>
       </div>
-      <div class="placeholder" style="aspect-ratio:16/9;margin-top:0;">
-        <div class="placeholder-icon">📸</div>
-        <div class="placeholder-label">Presenting to stakeholders</div>
-        <div class="placeholder-hint">Figma export: 760 × 428 px · Meeting2.png — closer shot at the presentation</div>
+
+      <div>
+        <div class="img-wrap" style="margin-top:0;">
+          <img src="assets/presentation.png" alt="Presenting research findings to stakeholders">
+        </div>
+        <div class="img-caption">Presenting research insights to university leadership</div>
       </div>
-      <div class="placeholder" style="aspect-ratio:16/6;margin-top:0;">
-        <div class="placeholder-icon">📊</div>
-        <div class="placeholder-label">Fake front door analytics</div>
-        <div class="placeholder-hint">Figma export: 760 × 285 px · 36 users / 177 events — Google Analytics or Webflow dashboard screenshot</div>
+
+      <div>
+        <div class="img-wrap" style="margin-top:0;">
+          <img class="img-dark"  src="assets/Fake front Door - Dark.png"  alt="Fake front door analytics — 36 users, 177 events">
+          <img class="img-light" src="assets/Fake front Door - Light.png" alt="Fake front door analytics — 36 users, 177 events">
+        </div>
+        <div class="img-caption">Fake front door — 36 users · 177 interaction events in week one</div>
       </div>
+
     </div>
   </div>
 </section>
