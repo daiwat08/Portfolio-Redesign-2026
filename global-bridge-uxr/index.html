@@ -606,6 +606,78 @@
       });
     },{threshold:[0.45,0.55]}).observe(sec);
   });
+
+  // LIGHTBOX
+  const lb = document.createElement('div');
+  lb.id = 'lightbox';
+  lb.style.cssText = [
+    'position:fixed','inset:0','z-index:99999',
+    'background:rgba(0,0,0,0.92)',
+    'display:none','align-items:center','justify-content:center',
+    'cursor:zoom-out','padding:24px',
+    'backdrop-filter:blur(8px)',
+    'transition:opacity .25s ease',
+    'opacity:0'
+  ].join(';');
+  const lbImg = document.createElement('img');
+  lbImg.style.cssText = [
+    'max-width:90vw','max-height:90vh',
+    'border-radius:10px',
+    'box-shadow:0 32px 80px rgba(0,0,0,0.6)',
+    'transform:scale(0.95)',
+    'transition:transform .3s cubic-bezier(.34,1.2,.64,1)',
+    'object-fit:contain'
+  ].join(';');
+  const lbClose = document.createElement('button');
+  lbClose.textContent = '✕';
+  lbClose.style.cssText = [
+    'position:fixed','top:20px','right:24px',
+    'background:rgba(255,255,255,0.1)',
+    'border:1px solid rgba(255,255,255,0.2)',
+    'color:#fff','font-size:16px',
+    'width:40px','height:40px','border-radius:50%',
+    'cursor:pointer','display:flex',
+    'align-items:center','justify-content:center',
+    'transition:background .2s'
+  ].join(';');
+  lbClose.addEventListener('mouseenter', function(){ this.style.background='rgba(255,255,255,0.2)'; });
+  lbClose.addEventListener('mouseleave', function(){ this.style.background='rgba(255,255,255,0.1)'; });
+  lb.appendChild(lbImg);
+  lb.appendChild(lbClose);
+  document.body.appendChild(lb);
+
+  function openLightbox(src, alt){
+    lbImg.src = src;
+    lbImg.alt = alt || '';
+    lb.style.display = 'flex';
+    requestAnimationFrame(function(){
+      lb.style.opacity = '1';
+      lbImg.style.transform = 'scale(1)';
+    });
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(){
+    lb.style.opacity = '0';
+    lbImg.style.transform = 'scale(0.95)';
+    setTimeout(function(){ lb.style.display = 'none'; }, 250);
+    document.body.style.overflow = '';
+  }
+  lb.addEventListener('click', closeLightbox);
+  lbClose.addEventListener('click', function(e){ e.stopPropagation(); closeLightbox(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeLightbox(); });
+
+  // Make all .img-wrap images clickable
+  function initLightboxImages(){
+    document.querySelectorAll('.img-wrap img').forEach(function(img){
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', function(){
+        if(this.style.display === 'none') return;
+        openLightbox(this.src, this.alt);
+      });
+    });
+  }
+  initLightboxImages();
+
 })();
 </script>
 </body>
