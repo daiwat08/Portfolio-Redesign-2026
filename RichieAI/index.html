@@ -102,7 +102,38 @@
   }
   .skip-link:focus { top:0; }
 
+  /* ── FLOW THEME TOGGLE ── */
+  body.light .flow-light { display: block !important; }
+  body.light .flow-dark  { display: none !important; }
+  body:not(.light) .flow-light { display: none !important; }
+  body:not(.light) .flow-dark  { display: block !important; }
+
+  /* ── SCREEN THEME TOGGLE ── */
+  body.light .screen-dark  { display: none !important; }
+  body.light .screen-light { display: block !important; }
+  body:not(.light) .screen-dark  { display: block !important; }
+  body:not(.light) .screen-light { display: none !important; }
+
   /* ── REDUCED MOTION ── */
+  /* ── MOBILE PROGRESS BAR ── */
+  .mobile-progress-bar {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    width: 0%;
+    background: #4ade80;
+    z-index: 99999;
+    transition: width 0.08s linear;
+    border-radius: 0 999px 999px 0;
+    box-shadow: 0 0 8px rgba(74,222,128,0.4);
+  }
+  body.light .mobile-progress-bar { background: #166534; box-shadow: none; }
+
+  @media(max-width:640px){
+    .mobile-progress-bar { display: block; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .reveal { opacity:1; transform:none; transition:none; }
     html { scroll-behavior:auto; }
@@ -137,6 +168,19 @@
   .nav-top__cta{font-size:13px;font-weight:600;color:#fff;text-decoration:none;background:#111;padding:8px 18px;border-radius:999px;flex-shrink:0;transition:background .2s;}
   .nav-top__cta:hover{background:#4A7CFF;}
   .theme-btn{width:34px;height:34px;border-radius:50%;border:1px solid rgba(0,0,0,0.12);background:transparent;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0;}
+  /* On mobile, show theme btn inside pill right side */
+  @media(max-width:640px){
+    .theme-btn#themeToggle{
+      width:28px;height:28px;
+      font-size:13px;
+      border-color:rgba(0,0,0,0.08);
+      background:rgba(0,0,0,0.06);
+    }
+    .nav-top.nav-dark .theme-btn#themeToggle{
+      background:rgba(255,255,255,0.08);
+      border-color:rgba(255,255,255,0.12);
+    }
+  }
   .theme-btn:hover{background:rgba(0,0,0,0.05);}
 
   /* ══ PILL NAV ══ */
@@ -155,6 +199,7 @@
     transition:opacity .3s ease,transform .3s ease,width .45s cubic-bezier(.34,1.2,.64,1);
   }
   .nav-pill.nav-visible{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;}
+  .nav-pill:hover{opacity:1 !important;transform:translateX(-50%) translateY(0) !important;pointer-events:all !important;}
   .nav-pill:hover{width:min(760px,calc(100vw - 48px));}
   .nav-pill__icon{flex-shrink:0;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;z-index:2;}
   .nav-pill__icon svg{width:16px;height:16px;color:rgba(255,255,255,.8);}
@@ -180,11 +225,276 @@
   .nav-pill.nav-on-dark .r-track{stroke:rgba(0,0,0,.15);}
   .nav-pill.nav-on-dark .r-fill{stroke:rgba(0,0,0,.8);}
   .nav-pill.nav-on-dark .r-pct{color:rgba(0,0,0,.7);}
+  /* ── MOBILE NAV ── */
+  .nav-mobile {
+    display: none;
+    position: fixed; top: 16px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    width: calc(100vw - 32px);
+    height: 48px;
+    background: rgba(15,15,15,0.88);
+    backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 999px;
+    padding: 0 8px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    align-items: center;
+    gap: 10px;
+  }
+  .nav-mobile__theme {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+  .nav-mobile__theme:hover { background: rgba(255,255,255,0.14); }
+  .nav-mobile__bar-wrap {
+    flex: 1;
+    display: flex; align-items: center;
+    padding: 0 4px;
+  }
+  .nav-mobile__bar-track {
+    width: 100%; height: 3px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .nav-mobile__bar-fill {
+    height: 100%;
+    width: 0%;
+    background: #4ade80;
+    border-radius: 999px;
+    transition: width 0.08s linear;
+    box-shadow: 0 0 6px rgba(74,222,128,0.5);
+  }
+  body.light .nav-mobile {
+    background: rgba(255,255,255,0.92);
+    border-color: rgba(0,0,0,0.08);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+  }
+  body.light .nav-mobile__theme {
+    background: rgba(0,0,0,0.05);
+    border-color: rgba(0,0,0,0.1);
+  }
+  body.light .nav-mobile__bar-track { background: rgba(0,0,0,0.08); }
+  body.light .nav-mobile__bar-fill { background: #166534; box-shadow: none; }
+  body.light .nav-hamburger { background: #111; }
+  body.light .nav-hamburger span { background: white; }
+
+  /* ── HAMBURGER ── */
+  .nav-hamburger{
+    display:none;
+    flex-direction:column;justify-content:center;align-items:center;
+    gap:3.5px;width:28px;height:28px;
+    background:rgba(0,0,0,0.85);
+    border:none;
+    border-radius:50%;cursor:pointer;flex-shrink:0;
+    transition:background .3s;
+  }
+  .nav-hamburger:hover{background:rgba(0,0,0,0.7);}
+  .nav-hamburger span{
+    display:block;width:10px;height:1.3px;
+    background:white;border-radius:2px;
+    transition:transform .35s cubic-bezier(.34,1.2,.64,1),opacity .25s;
+  }
+  body.light .nav-hamburger{ background:#111; }
+  body.light .nav-hamburger span{ background:white; }
+  .nav-hamburger.open{ background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.15); }
+  .nav-hamburger.open span{ background:white; }
+  .nav-hamburger.open span:nth-child(1){transform:translateY(4.8px) rotate(45deg);}
+  .nav-hamburger.open span:nth-child(2){opacity:0;}
+  .nav-hamburger.open span:nth-child(3){transform:translateY(-4.8px) rotate(-45deg);}
+
+  /* ── MOBILE FULLSCREEN OVERLAY ── */
+  .nav-mobile-menu{
+    position:fixed;
+    top:0;left:0;right:0;bottom:0;
+    z-index:9998;
+    background:rgba(8,22,12,0);
+    pointer-events:none;
+    opacity:0;
+    visibility:hidden;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    justify-content:center;
+    padding:80px 36px 56px;
+    transition:background 0.4s ease, opacity 0.4s ease, visibility 0s linear 0.4s;
+  }
+  .nav-mobile-menu.open{
+    background:rgba(8,22,12,0.97);
+    pointer-events:all;
+    opacity:1;
+    visibility:visible;
+    transition:background 0.4s ease, opacity 0.4s ease, visibility 0s linear 0s;
+  }
+  /* ── Light theme overlay ── */
+  body.light .nav-mobile-menu.open{
+    background:rgba(247,247,245,0.98) !important;
+  }
+  body.light .nav-mobile-menu__item{
+    color:rgba(0,0,0,0) !important;
+  }
+  body.light .nav-mobile-menu.open .nav-mobile-menu__item{
+    color:rgba(0,0,0,0.22) !important;
+  }
+  body.light .nav-mobile-menu.open .nav-mobile-menu__item.active{
+    color:rgba(0,0,0,0.8) !important;
+    font-style:normal;
+  }
+  body.light .nav-mobile-menu.open .nav-mobile-menu__item:hover{
+    color:rgba(0,0,0,0.5) !important;
+  }
+  body.light .nav-mobile-menu__item.active::before{
+    background:#166534 !important;
+  }
+  body.light .nav-mobile-menu.open .nav-mobile-menu__divider{
+    background:rgba(0,0,0,0.08) !important;
+  }
+  body.light .nav-mobile-menu__cta{
+    background:#166534 !important;
+    color:white !important;
+  }
+  /* Instrument Serif italic links */
+  .nav-mobile-menu__item{
+    display:block;
+    font-family:'Instrument Serif',serif;
+    font-style:italic;
+    font-size:36px;
+    font-weight:400;
+    color:rgba(255,255,255,0);
+    padding:10px 0;
+    text-decoration:none;
+    letter-spacing:-0.3px;
+    line-height:1.2;
+    transition:color 0.3s ease, transform 0.45s cubic-bezier(.16,1,.3,1);
+    transform:translateY(20px);
+    width:100%;
+  }
+  .nav-mobile-menu.open .nav-mobile-menu__item{
+    color:rgba(255,255,255,0.28);
+    transform:translateY(0);
+  }
+  .nav-mobile-menu.open .nav-mobile-menu__item:nth-child(1){transition-delay:0.04s;}
+  .nav-mobile-menu.open .nav-mobile-menu__item:nth-child(2){transition-delay:0.09s;}
+  .nav-mobile-menu.open .nav-mobile-menu__item:nth-child(3){transition-delay:0.14s;}
+  .nav-mobile-menu.open .nav-mobile-menu__item:nth-child(5){transition-delay:0.19s;}
+  .nav-mobile-menu__item:hover{color:rgba(255,255,255,0.65) !important;}
+  .nav-mobile-menu__item.active{
+    font-style:normal;
+    color:rgba(255,255,255,0.85) !important;
+  }
+  .nav-mobile-menu__item.active::before{
+    content:'';
+    display:inline-block;
+    width:5px;height:5px;border-radius:50%;
+    background:#4ade80;
+    margin-right:10px;
+    vertical-align:middle;
+    margin-bottom:3px;
+  }
+  .nav-mobile-menu__divider{
+    width:24px;height:1px;
+    background:rgba(255,255,255,0);
+    margin:8px 0;
+    transition:background 0.3s ease 0.18s;
+  }
+  .nav-mobile-menu.open .nav-mobile-menu__divider{background:rgba(255,255,255,0.1);}
+  .nav-mobile-menu__bottom{display:none;}
+  .nav-mobile-menu__cta{
+    display:inline-block;
+    margin-top:24px;
+    font-family:'Geist',sans-serif;
+    font-size:12px;font-weight:600;
+    color:#0a1a0f;background:#4ade80;
+    padding:10px 22px;border-radius:999px;
+    text-decoration:none;
+    opacity:0;transform:translateY(8px);
+    transition:opacity 0.3s ease 0.28s, transform 0.3s ease 0.28s;
+  }
+  .nav-mobile-menu.open .nav-mobile-menu__cta{opacity:1;transform:translateY(0);}
+
   @media(max-width:640px){
-    .nav-top{width:calc(100vw - 32px);padding:0 8px 0 16px;}
+    /* Top nav — wider pill with 3 elements */
+    .nav-top{
+      width:calc(100vw - 32px);
+      padding:0 6px 0 16px;
+      border-radius:999px;
+      height:48px;
+      top:10px;
+    }
+    /* Mobile pill always dark regardless of theme */
+    .nav-top{
+      background:rgba(15,15,15,0.88) !important;
+      border-color:rgba(255,255,255,0.1) !important;
+    }
+    .nav-top__logo{ color:#fff !important; }
+    .nav-top .theme-btn{
+      background:rgba(255,255,255,0.08) !important;
+      border-color:rgba(255,255,255,0.15) !important;
+    }
+    .nav-hamburger{
+      background:rgba(255,255,255,0.12) !important;
+      border:1px solid rgba(255,255,255,0.15) !important;
+    }
+    .nav-hamburger span{ background:white !important; }
     .nav-top__links{display:none;}
-    .nav-pill:hover{width:calc(100vw - 32px);}
-    .nav-pill__link{padding:8px 10px;font-size:13px;}
+    .nav-top__cta{display:none;}
+    .nav-hamburger{display:flex;}
+
+    /* Hide pill nav entirely on mobile */
+    .nav-pill{display:none !important;visibility:hidden !important;pointer-events:none !important;}
+
+    /* Fullscreen overlay */
+    .nav-mobile-menu{
+      display:flex;
+    }
+
+    /* Stats — single column on mobile */
+    .stats-row,
+    .stats-row-3 { grid-template-columns: 1fr !important; }
+
+    /* Steps — 2 col on mobile */
+    .steps { grid-template-columns: 1fr 1fr; }
+
+    /* Solutions — single column */
+    .solutions { grid-template-columns: 1fr; }
+
+    /* Personas — single column */
+    .personas-grid { grid-template-columns: 1fr; }
+
+    /* Insights — single column */
+    .insights-grid { grid-template-columns: 1fr; }
+
+    /* Deploy nums — single column */
+    .deploy-nums { grid-template-columns: 1fr !important; }
+
+    /* Screens grid — 2 col */
+    .wf-grid { grid-template-columns: 1fr 1fr; }
+
+    /* Feature rows — stack */
+    .feature-row { grid-template-columns: 1fr; gap: 6px; }
+
+    /* Iter rows — stack */
+    .iter-row { grid-template-columns: 1fr; }
+    .iter-row .badge { align-self: flex-start; margin-top: 8px; }
+
+    /* Hero meta — 2 col */
+    .hero-meta { gap: 24px; }
+    .meta-item { min-width: 40%; }
+
+    /* Section padding */
+    .section { padding: 80px 0; }
+    .hero { padding: 100px 0 64px; }
+
+    /* Palette swatches */
+    .palette { flex-wrap: wrap; }
+    .swatch { min-width: 80px; }
   }
 
   /* ─── LAYOUT HELPERS ─── */
@@ -404,7 +714,10 @@
   .solution {
     background: var(--bg);
     padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
   }
+  .solution p:last-child { margin-top: auto; padding-top: 16px; }
   .solution-n {
     font-family: 'Geist Mono', monospace;
     font-size: var(--t-xs); color: var(--accent);
@@ -423,7 +736,9 @@
   .persona-cell {
     background: var(--bg);
     padding: 36px 32px;
+    display: flex; flex-direction: column;
   }
+  .persona-quote { margin-top: auto; }
   .persona-avatar {
     width: 44px; height: 44px; border-radius: 50%;
     background: rgba(74,222,128,0.12);
@@ -562,35 +877,43 @@
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 10px;
-    aspect-ratio: 9/16;
-    padding: 16px;
+    overflow: hidden;
     display: flex; flex-direction: column;
-    gap: 8px; justify-content: center;
-    position: relative;
   }
-  .wf-bar { height: 5px; border-radius: 3px; background: var(--line); }
-  .wf-bar.accent { background: rgba(74,222,128,.25); }
-  .wf-bar.short { width: 55%; }
-  .wf-bar.med { width: 75%; }
+  .wf-frame img {
+    width: 100%; aspect-ratio: 9/16;
+    object-fit: cover; display: block;
+  }
   .wf-tag {
-    position: absolute; bottom: 10px; left: 12px;
     font-family: 'Geist Mono', monospace;
-    font-size: 12px; color: var(--sub);
+    font-size: 11px; color: var(--sub);
     letter-spacing: 1px; text-transform: uppercase;
+    padding: 10px 14px;
+    border-top: 1px solid var(--line);
   }
 
   /* ─── DEPLOY NUMBERS ─── */
   .deploy-nums {
-    display: flex; gap: 48px;
-    margin-top: 40px; flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 40px;
+  }
+  .deploy-nums > div {
+    background: var(--bg);
+    padding: 36px 32px;
   }
   .dn-num {
     font-family: 'Instrument Serif', serif;
-    font-size: 40px; color: var(--white);
+    font-size: 48px; color: var(--white);
     line-height: 1; letter-spacing: -1px;
   }
   .dn-num em { color: var(--accent); font-style: normal; }
-  .dn-label { font-size: var(--t-sm); color: var(--sub); margin-top: 4px; max-width: 140px; line-height: 1.5; }
+  .dn-label { font-size: var(--t-sm); color: var(--sub); margin-top: 8px; max-width: 180px; line-height: 1.6; }
 
   /* ─── CALLOUT ─── */
   .callout {
@@ -628,6 +951,7 @@
     margin-left: 10px;
   }
   .btn-primary:hover { background: #22c55e; }
+  body.light .btn-primary { color: #ffffff; }
 
   /* ─── SPLIT ─── */
   .split {
@@ -679,14 +1003,15 @@
     .wf-grid { grid-template-columns: repeat(2,1fr); }
     .split { grid-template-columns: 1fr; gap: 32px; }
     .hero-meta { gap: 32px; }
-    .deploy-nums { gap: 32px; }
+    .deploy-nums { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 <a href="#main-content" class="skip-link">Skip to main content</a>
+<div class="mobile-progress-bar" id="mobileProgressBar"></div>
 
-<!-- TOP NAV -->
+<!-- TOP NAV — desktop -->
 <header class="nav-top nav-dark" id="navTop">
   <a href="../index.html" class="nav-top__logo">Daiwat Thavai</a>
   <nav class="nav-top__links">
@@ -698,8 +1023,34 @@
   <div class="nav-top__right">
     <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">🌙</button>
     <a href="#" class="nav-top__cta">Dave AI ✦</a>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
+
+<!-- MOBILE NAV — theme + progress bar + hamburger -->
+<header class="nav-mobile" id="navMobile">
+  <button class="nav-mobile__theme" id="themeToggleMobile" aria-label="Toggle theme">🌙</button>
+  <div class="nav-mobile__bar-wrap">
+    <div class="nav-mobile__bar-track">
+      <div class="nav-mobile__bar-fill" id="navMobileBarFill"></div>
+    </div>
+  </div>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- MOBILE FULLSCREEN OVERLAY -->
+<div class="nav-mobile-menu" id="navMobileMenu" role="dialog" aria-label="Mobile navigation">
+  <a href="../index.html" class="nav-mobile-menu__item active">Home</a>
+  <a href="../index.html" class="nav-mobile-menu__item">Work</a>
+  <a href="#" class="nav-mobile-menu__item">About</a>
+  <div class="nav-mobile-menu__divider"></div>
+  <a href="#" class="nav-mobile-menu__item">Resume</a>
+  <a href="#" class="nav-mobile-menu__cta">Dave AI ✦</a>
+</div>
 
 <!-- PILL NAV -->
 <nav class="nav-pill" id="navPill">
@@ -810,6 +1161,219 @@
   </div>
 </section>
 
+<!-- ─── 03B USER FLOW ─── -->
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>03b — User Flow</div>
+    <h2 class="reveal d1">Mapping the system before<br>designing the screens.</h2>
+    <p class="reveal d2">Before any screen was designed, the full app flow was mapped — every entry point, every decision, every dead end. The key discovery: Richie Chat needed to be reachable from anywhere in the app, not siloed as a tab.</p>
+  </div>
+  <div class="col-wide reveal d3" style="margin-top:40px; padding: 0 24px;">
+    <!-- Light theme: original PNG -->
+    <img
+      class="flow-light"
+      src="assets/RichieAI_-_Workflow.png"
+      alt="Richie AI user flow diagram"
+      style="width:100%; border-radius:16px; display:none;"
+    />
+    <!-- Dark theme: SVG -->
+    <div class="flow-dark" style="
+      background: #0e2016;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      overflow: hidden;
+      padding: 48px 32px;
+    ">
+      <svg viewBox="0 0 1100 780" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+        <defs>
+          <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="rgba(255,255,255,0.25)"/>
+          </marker>
+          <marker id="arr-accent" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#4ade80"/>
+          </marker>
+        </defs>
+
+        <!-- ── STYLES via inline attrs ── -->
+        <!-- bg already set on container -->
+
+        <!-- ════ LEFT: AUTH FLOW ════ -->
+
+        <!-- Notification -->
+        <rect x="10" y="358" width="100" height="36" rx="8" fill="#4ade80"/>
+        <text x="60" y="381" text-anchor="middle" font-family="Geist,sans-serif" font-size="11" font-weight="500" fill="#0a1a0f">Notification</text>
+
+        <!-- arrow -->
+        <line x1="110" y1="376" x2="148" y2="376" stroke="rgba(255,255,255,0.25)" stroke-width="1.2" marker-end="url(#arr)"/>
+        <text x="129" y="370" text-anchor="middle" font-family="Geist Mono,monospace" font-size="9" fill="rgba(255,255,255,0.3)">Start</text>
+
+        <!-- Splash Screen -->
+        <rect x="150" y="358" width="110" height="36" rx="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+        <text x="205" y="381" text-anchor="middle" font-family="Geist,sans-serif" font-size="11" fill="#e4e4e7">Splash Screen</text>
+
+        <!-- arrow -->
+        <line x1="260" y1="376" x2="298" y2="376" stroke="rgba(255,255,255,0.25)" stroke-width="1.2" marker-end="url(#arr)"/>
+
+        <!-- Have an account? diamond -->
+        <polygon points="330,350 390,376 330,402 270,376" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <text x="330" y="373" text-anchor="middle" font-family="Geist,sans-serif" font-size="9.5" fill="#a1a1aa">Have an</text>
+        <text x="330" y="384" text-anchor="middle" font-family="Geist,sans-serif" font-size="9.5" fill="#a1a1aa">account?</text>
+
+        <!-- Yes → Richie AI -->
+        <line x1="390" y1="376" x2="428" y2="376" stroke="rgba(255,255,255,0.25)" stroke-width="1.2" marker-end="url(#arr)"/>
+        <text x="409" y="370" text-anchor="middle" font-family="Geist Mono,monospace" font-size="9" fill="rgba(255,255,255,0.3)">Yes</text>
+
+        <!-- No → Create Account -->
+        <line x1="330" y1="402" x2="330" y2="490" stroke="rgba(255,255,255,0.25)" stroke-width="1.2" marker-end="url(#arr)"/>
+        <text x="340" y="450" font-family="Geist Mono,monospace" font-size="9" fill="rgba(255,255,255,0.3)">No</text>
+
+        <!-- Create Account -->
+        <rect x="270" y="492" width="120" height="36" rx="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+        <text x="330" y="515" text-anchor="middle" font-family="Geist,sans-serif" font-size="11" fill="#e4e4e7">Create Account</text>
+
+        <!-- Create → Verify -->
+        <line x1="270" y1="510" x2="232" y2="510" stroke="rgba(255,255,255,0.25)" stroke-width="1.2" marker-end="url(#arr)"/>
+        <text x="251" y="504" text-anchor="middle" font-family="Geist Mono,monospace" font-size="9" fill="rgba(255,255,255,0.3)">Created</text>
+
+        <!-- Verify Email diamond -->
+        <polygon points="180,484 230,510 180,536 130,510" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <text x="180" y="507" text-anchor="middle" font-family="Geist,sans-serif" font-size="9.5" fill="#a1a1aa">Verify</text>
+        <text x="180" y="518" text-anchor="middle" font-family="Geist,sans-serif" font-size="9.5" fill="#a1a1aa">Email</text>
+
+        <!-- Verified → up to Richie AI level -->
+        <line x1="180" y1="484" x2="180" y2="376" stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
+        <line x1="180" y1="376" x2="428" y2="376" stroke="rgba(255,255,255,0.25)" stroke-width="1.2" marker-end="url(#arr)"/>
+        <text x="165" y="430" font-family="Geist Mono,monospace" font-size="9" fill="rgba(255,255,255,0.3)">Verified</text>
+
+        <!-- Failed loop -->
+        <line x1="130" y1="510" x2="100" y2="510" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <line x1="100" y1="510" x2="100" y2="560" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <line x1="100" y1="560" x2="270" y2="560" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <line x1="270" y1="560" x2="270" y2="528" stroke="rgba(255,255,255,0.15)" stroke-width="1" marker-end="url(#arr)"/>
+        <text x="104" y="540" font-family="Geist Mono,monospace" font-size="9" fill="rgba(255,255,255,0.2)">Failed / Try again</text>
+
+        <!-- ════ CENTRE: RICHIE AI HUB ════ -->
+
+        <!-- Richie AI box -->
+        <rect x="430" y="358" width="110" height="36" rx="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+        <text x="485" y="381" text-anchor="middle" font-family="Geist,sans-serif" font-size="11" fill="#e4e4e7">Richie AI</text>
+
+        <!-- arrow to hub -->
+        <line x1="540" y1="376" x2="578" y2="376" stroke="rgba(255,255,255,0.25)" stroke-width="1.2" marker-end="url(#arr)"/>
+
+        <!-- Central HUB diamond (big) -->
+        <polygon points="650,320 730,376 650,432 570,376" fill="#132a1c" stroke="#4ade80" stroke-width="1.5"/>
+        <text x="650" y="368" text-anchor="middle" font-family="Geist,sans-serif" font-size="9.5" fill="#4ade80">Suggested Prompts</text>
+        <text x="650" y="381" text-anchor="middle" font-family="Geist,sans-serif" font-size="9.5" fill="#4ade80">Trending Topics</text>
+        <text x="650" y="394" text-anchor="middle" font-family="Geist,sans-serif" font-size="9.5" fill="#4ade80">Recent Chats</text>
+
+        <!-- New Chat branch (up-left from Richie AI) -->
+        <line x1="485" y1="358" x2="485" y2="310" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
+        <line x1="485" y1="310" x2="528" y2="310" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" marker-end="url(#arr)"/>
+
+        <!-- New Chat diamond -->
+        <polygon points="565,285 615,310 565,335 515,310" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <text x="565" y="307" text-anchor="middle" font-family="Geist,sans-serif" font-size="9.5" fill="#a1a1aa">New</text>
+        <text x="565" y="318" text-anchor="middle" font-family="Geist,sans-serif" font-size="9.5" fill="#a1a1aa">Chat</text>
+
+        <!-- New Chat → Chat Started -->
+        <line x1="515" y1="310" x2="478" y2="310" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" marker-end="url(#arr)"/>
+        <rect x="390" y="294" width="86" height="32" rx="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+        <text x="433" y="314" text-anchor="middle" font-family="Geist,sans-serif" font-size="10" fill="#e4e4e7">Chat started</text>
+
+        <!-- Go Back label on New Chat -->
+        <text x="488" y="302" font-family="Geist Mono,monospace" font-size="8.5" fill="rgba(255,255,255,0.25)">Go Back</text>
+
+        <!-- ════ TOP: SUGGESTED PROMPTS ════ -->
+
+        <!-- Hub → Suggested Prompts (up) -->
+        <line x1="650" y1="320" x2="650" y2="240" stroke="#4ade80" stroke-width="1.2" stroke-opacity="0.4" marker-end="url(#arr-accent)"/>
+
+        <!-- Suggested Prompts node -->
+        <rect x="590" y="204" width="120" height="36" rx="8" fill="#4ade80"/>
+        <text x="650" y="227" text-anchor="middle" font-family="Geist,sans-serif" font-size="11" font-weight="500" fill="#0a1a0f">Suggested Prompts</text>
+
+        <!-- → view all prompts diamond -->
+        <line x1="650" y1="204" x2="650" y2="168" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" marker-end="url(#arr)"/>
+        <polygon points="650,130 700,155 650,180 600,155" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <text x="650" y="152" text-anchor="middle" font-family="Geist,sans-serif" font-size="9.5" fill="#a1a1aa">View all</text>
+        <text x="650" y="163" text-anchor="middle" font-family="Geist,sans-serif" font-size="9.5" fill="#a1a1aa">prompts</text>
+
+        <!-- → List of suggested prompts -->
+        <line x1="650" y1="130" x2="650" y2="88" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" marker-end="url(#arr)"/>
+        <rect x="586" y="52" width="128" height="36" rx="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+        <text x="650" y="75" text-anchor="middle" font-family="Geist,sans-serif" font-size="10" fill="#e4e4e7">List of suggested prompts</text>
+
+        <!-- → Refresh Prompt diamond -->
+        <line x1="714" y1="70" x2="800" y2="70" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" marker-end="url(#arr)"/>
+        <polygon points="850,44 910,70 850,96 790,70" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <text x="850" y="67" text-anchor="middle" font-family="Geist,sans-serif" font-size="9.5" fill="#a1a1aa">Refresh</text>
+        <text x="850" y="78" text-anchor="middle" font-family="Geist,sans-serif" font-size="9.5" fill="#a1a1aa">Prompt</text>
+
+        <!-- Refresh → Chat started (right) -->
+        <line x1="910" y1="70" x2="980" y2="70" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
+        <line x1="980" y1="70" x2="980" y2="310" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
+        <line x1="980" y1="310" x2="948" y2="310" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" marker-end="url(#arr)"/>
+        <rect x="862" y="294" width="86" height="32" rx="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+        <text x="905" y="314" text-anchor="middle" font-family="Geist,sans-serif" font-size="10" fill="#e4e4e7">Chat started</text>
+        <text x="944" y="180" font-family="Geist Mono,monospace" font-size="8.5" fill="rgba(255,255,255,0.2)">Go Back</text>
+
+        <!-- ════ BOTTOM: TRENDING TOPICS ════ -->
+
+        <!-- Hub → Trending Topics (down) -->
+        <line x1="650" y1="432" x2="650" y2="510" stroke="#4ade80" stroke-width="1.2" stroke-opacity="0.4" marker-end="url(#arr-accent)"/>
+
+        <!-- Trending Topics node -->
+        <rect x="590" y="512" width="120" height="36" rx="8" fill="#4ade80"/>
+        <text x="650" y="535" text-anchor="middle" font-family="Geist,sans-serif" font-size="11" font-weight="500" fill="#0a1a0f">Trending Topics</text>
+
+        <!-- → List of trending topics diamond -->
+        <line x1="650" y1="548" x2="650" y2="596" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" marker-end="url(#arr)"/>
+        <polygon points="650,598 710,624 650,650 590,624" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <text x="650" y="621" text-anchor="middle" font-family="Geist,sans-serif" font-size="9.5" fill="#a1a1aa">List of</text>
+        <text x="650" y="632" text-anchor="middle" font-family="Geist,sans-serif" font-size="9.5" fill="#a1a1aa">Trending topics</text>
+
+        <!-- Pick a topic → Chat started -->
+        <line x1="710" y1="624" x2="800" y2="624" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" marker-end="url(#arr)"/>
+        <text x="752" y="618" text-anchor="middle" font-family="Geist Mono,monospace" font-size="9" fill="rgba(255,255,255,0.3)">Pick a topic</text>
+        <rect x="802" y="608" width="86" height="32" rx="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+        <text x="845" y="628" text-anchor="middle" font-family="Geist,sans-serif" font-size="10" fill="#e4e4e7">Chat started</text>
+
+        <!-- Go back -->
+        <text x="556" y="680" font-family="Geist Mono,monospace" font-size="8.5" fill="rgba(255,255,255,0.2)">Go Back</text>
+        <line x1="590" y1="624" x2="490" y2="624" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <line x1="490" y1="624" x2="490" y2="432" stroke="rgba(255,255,255,0.15)" stroke-width="1" marker-end="url(#arr)"/>
+
+        <!-- ════ RIGHT: RECENT CHATS ════ -->
+
+        <!-- Hub → Recent Chats (right) -->
+        <line x1="730" y1="376" x2="788" y2="376" stroke="#4ade80" stroke-width="1.2" stroke-opacity="0.4" marker-end="url(#arr-accent)"/>
+        <text x="756" y="368" text-anchor="middle" font-family="Geist Mono,monospace" font-size="8.5" fill="rgba(255,255,255,0.3)">Recent Chats</text>
+
+        <!-- List of Recent Chats diamond -->
+        <polygon points="840,350 900,376 840,402 780,376" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <text x="840" y="373" text-anchor="middle" font-family="Geist,sans-serif" font-size="9" fill="#a1a1aa">List of Recent</text>
+        <text x="840" y="384" text-anchor="middle" font-family="Geist,sans-serif" font-size="9" fill="#a1a1aa">Chats</text>
+
+        <!-- Pick a chat → Chat started -->
+        <line x1="900" y1="376" x2="950" y2="376" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" marker-end="url(#arr)"/>
+        <text x="922" y="368" text-anchor="middle" font-family="Geist Mono,monospace" font-size="8.5" fill="rgba(255,255,255,0.3)">Pick a chat</text>
+        <rect x="952" y="360" width="86" height="32" rx="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+        <text x="995" y="380" text-anchor="middle" font-family="Geist,sans-serif" font-size="10" fill="#e4e4e7">Chat started</text>
+
+        <!-- Go back from Recent Chats -->
+        <text x="782" y="430" font-family="Geist Mono,monospace" font-size="8.5" fill="rgba(255,255,255,0.2)">Go back</text>
+
+      </svg>
+    </div>
+  </div>
+  <div class="col" style="margin-top:24px;">
+    <div class="callout reveal">
+      <p><strong style="color:var(--white);">Key flow decision —</strong> Richie Chat is accessible from a persistent bottom bar on every screen. Users don't navigate to it — it's always there. This was a deliberate choice to reduce the friction between having a question and asking it.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ─── 04 RESEARCH ─── -->
 <section class="section">
   <div class="col">
@@ -882,24 +1446,29 @@
   </div>
 </section>
 
-<!-- ─── 06 SOLUTIONS ─── -->
+<!-- ─── 06 THE BIG IDEA ─── -->
 <section class="section">
   <div class="col">
-    <div class="tag reveal"><span class="tag-dot"></span>06 — Solutions</div>
-    <h2 class="reveal d1">Two problems.<br>Two solutions.</h2>
-    <p class="reveal d2">The research surfaced two distinct failure modes. Each needed its own answer.</p>
-    <div class="solutions reveal d3">
+    <div class="tag reveal"><span class="tag-dot"></span>06 — The Big Idea</div>
+    <h2 class="reveal d1">Stop showing users everything.<br>Let them <em>ask</em> instead.</h2>
+    <p class="reveal d2">The core insight from research was simple but uncomfortable: traditional stock dashboards show users everything about a stock — price, volume, P/E ratio, 52-week range — all at once. For most users, that's not information. That's paralysis.</p>
+    <div class="quote-block reveal d3">
+      <div class="quote-text">"I just wanted to know if I should be worried about Tesla. Instead I got a page of numbers I didn't understand."</div>
+      <div class="quote-attr">— Interview participant, 5 months into investing</div>
+    </div>
+    <p class="reveal d3">The answer wasn't to simplify the data — it was to change the interaction model entirely. Instead of presenting everything and hoping the user finds what matters, <em>Richie Chat</em> lets users ask exactly what's on their mind and get a direct, conversational answer.</p>
+    <div class="solutions reveal d3" style="margin-top:40px;">
       <div class="solution">
-        <div class="solution-n">Problem 01</div>
-        <h3>Data overload kills engagement</h3>
-        <p style="margin-top:10px;">Redesigned the home screen around a single AI insight card — one clear, personalised message each session. Portfolio data moved one level deeper, accessible but not the first thing users see.</p>
-        <p style="margin-top:10px; font-style:italic; font-size: var(--t-sm);">Data without context isn't information — it's anxiety.</p>
+        <div class="solution-n">Old Model</div>
+        <h3>Dashboard dumps everything</h3>
+        <p style="margin-top:10px;">Open a stock. See 20 data points. Feel overwhelmed. Close the app. Repeat. The information was technically accurate but emotionally useless — users couldn't locate what they actually needed to make a decision.</p>
+        <p style="margin-top:10px; font-style:italic; font-size: var(--t-sm);">More data, less confidence.</p>
       </div>
       <div class="solution">
-        <div class="solution-n">Problem 02</div>
-        <h3>Black-box AI breaks trust</h3>
-        <p style="margin-top:10px;">Introduced a transparent reasoning layer — every AI recommendation shows a 2-sentence explanation of why Richie is suggesting it. Users can expand for full detail or act immediately.</p>
-        <p style="margin-top:10px; font-style:italic; font-size: var(--t-sm);">7 of 8 users trusted a recommendation more when they understood the why.</p>
+        <div class="solution-n">Richie Chat</div>
+        <h3>Conversation surfaces what matters</h3>
+        <p style="margin-top:10px;">User types "Is Apple a good buy right now?" Richie responds with a 3-sentence answer tailored to their risk profile and portfolio — with the option to go deeper. The full data is still there. It just doesn't lead anymore.</p>
+        <p style="margin-top:10px; font-style:italic; font-size: var(--t-sm);">One question. One answer. One decision.</p>
       </div>
     </div>
   </div>
@@ -909,8 +1478,8 @@
 <section class="section">
   <div class="col">
     <div class="tag reveal"><span class="tag-dot"></span>07 — Design System</div>
-    <h2 class="reveal d1">Building the visual language<br>for all three users.</h2>
-    <p class="reveal d2">A system that scales from beginner reassurance to expert depth — without switching contexts.</p>
+    <h2 class="reveal d1">Building the visual language<br>for Richie Chat.</h2>
+    <p class="reveal d2">Every component was designed around one principle: the interface should feel like a knowledgeable friend, not a financial terminal.</p>
     <div class="palette reveal d3">
       <div class="swatch" style="background:#1A6B45;">Brand</div>
       <div class="swatch" style="background:#0F0F0F;">Dark</div>
@@ -921,20 +1490,47 @@
     </div>
     <div class="feature-list reveal d3">
       <div class="feature-row">
-        <div class="feature-name">AI Insight Card</div>
-        <div class="feature-desc">One personalised message per session surfaces on the home screen. Portfolio data lives one tap deeper — present but not overwhelming. The card adapts its tone based on user profile: reassuring for Alex, concise for Sarah, data-rich for James.</div>
+        <div class="feature-name">Richie Chat Interface</div>
+        <div class="feature-desc">The core surface — a conversational input that lets users ask any question about any stock. Richie responds in plain language, personalised to their risk profile. The full data is always available one tap deeper, but it never leads. The question leads.</div>
       </div>
       <div class="feature-row">
-        <div class="feature-name">Transparent Reasoning</div>
-        <div class="feature-desc">Every AI recommendation includes a visible 2-sentence explanation. Users can expand to see the full reasoning chain. This single feature increased trust scores across all three personas in usability testing.</div>
+        <div class="feature-name">Adaptive Response Depth</div>
+        <div class="feature-desc">Richie's default answer is always 3 sentences — beginner-friendly, jargon-free. A "Show me more" tap reveals charts, ratios, and full analyst data. This single toggle served Alex, Sarah, and James without ever asking them to declare their experience level.</div>
       </div>
       <div class="feature-row">
         <div class="feature-name">Conversational Onboarding</div>
-        <div class="feature-desc">Goal-setting and risk tolerance captured through a chat-like interface rather than forms. Users who completed this flow showed 2.1× higher retention — they felt heard before they were shown anything.</div>
+        <div class="feature-desc">Goal-setting and risk tolerance captured through the same chat interface — not a form. Users enter the app already familiar with how Richie talks, because onboarding and the core product feel identical. No mode switch, no learning curve.</div>
       </div>
       <div class="feature-row">
-        <div class="feature-name">Proactive Alerts</div>
-        <div class="feature-desc">Smart notification system that alerts only on meaningful portfolio events — not every price tick. Frequency tuned per user profile. Sarah gets weekly digests; James gets real-time signals on his chosen watchlist.</div>
+        <div class="feature-name">Proactive Follow-ups</div>
+        <div class="feature-desc">Richie surfaces unprompted check-ins when something meaningful changes in a stock the user has asked about before. Not a price alert — a contextual nudge: "You asked about Apple last week. Here's what changed." Relevance over frequency.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 07B PROCESS NARRATIVE ─── -->
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>07b — How It Was Designed</div>
+    <h2 class="reveal d1">The decisions behind<br>the screens.</h2>
+    <p class="reveal d2">I didn't start with the chat interface. I started with the question: <em>at what moment does a user actually need information about a stock?</em> Not when the app opens — when they have a specific thought. "Should I sell?" "Is this dip temporary?" "What happened today?" That's a question-shaped moment, not a dashboard-shaped moment.</p>
+    <div class="feature-list reveal d3">
+      <div class="feature-row">
+        <div class="feature-name">Why conversational?</div>
+        <div class="feature-desc">In every interview, users described their anxiety in the form of a question — never a statement. "I don't know if I should be buying right now." "Is my portfolio too risky?" That language told me the interface needed to match how they were already thinking. A chat input is the most natural container for a question.</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-name">Why not just search?</div>
+        <div class="feature-desc">Search returns results. Richie Chat returns an answer — shaped by the user's portfolio, risk tolerance, and history. That personalisation is what makes it feel like a financial advisor rather than a search engine. The underlying data is the same; the framing is completely different.</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-name">How I handled depth</div>
+        <div class="feature-desc">The hardest design challenge was serving Alex (anxious beginner) and James (active investor) in the same interface. The solution: Richie's default answer is always beginner-friendly — 3 sentences, plain language, one recommendation. A "Show me more" tap reveals the full data layer. Depth on demand, not depth by default.</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-name">The constraint I worked within</div>
+        <div class="feature-desc">This was a 3-month internship with an existing product and engineering team. I couldn't redesign the entire app — I had to identify the highest-leverage intervention. Richie Chat was a feature addition, not a rebuild. That constraint actually sharpened the thinking: one new surface, maximum impact.</div>
       </div>
     </div>
   </div>
@@ -949,24 +1545,24 @@
       <div class="iter-row">
         <div class="iter-round">Round 1</div>
         <div>
-          <div class="iter-title">Home screen caused instant overwhelm</div>
-          <div class="iter-body">Users opened to a wall of charts and left within 30 seconds. Moved portfolio data behind a single AI insight card — one clear message, one next step.</div>
+          <div class="iter-title">Users didn't know what to ask Richie</div>
+          <div class="iter-body">The first version launched with a blank chat input. Users froze — a blank prompt felt like an exam question. Added suggested prompts ("Is Tesla a good buy?", "Why is my portfolio down?") that disappear once the user starts typing. Engagement with the chat jumped significantly.</div>
         </div>
         <span class="badge badge-green">Fixed</span>
       </div>
       <div class="iter-row">
         <div class="iter-round">Round 2</div>
         <div>
-          <div class="iter-title">Onboarding felt like a financial form</div>
-          <div class="iter-body">Users rushed through, skipping questions. Redesigned as a conversational flow — one question at a time, progress indicator, plain language throughout.</div>
+          <div class="iter-title">Richie's answers felt too long and text-heavy</div>
+          <div class="iter-body">Early responses averaged 6–8 sentences. Users skimmed and missed the key point. Redesigned the response format: one bold headline answer, two supporting sentences, then a "Show me more" tap for depth. Reading time dropped, comprehension improved.</div>
         </div>
         <span class="badge badge-orange">Redesigned</span>
       </div>
       <div class="iter-row">
         <div class="iter-round">Round 3</div>
         <div>
-          <div class="iter-title">AI recommendations felt opaque and untrustworthy</div>
-          <div class="iter-body">Users acted on only 12% of recommendations when no reasoning was shown. Added transparent 2-sentence rationale — action rate increased to 41% in testing.</div>
+          <div class="iter-title">Users couldn't find the chat from the home screen</div>
+          <div class="iter-body">Richie Chat was buried in the navigation in early builds. Users went straight to their portfolio and never discovered it. Moved the chat input to a persistent bar at the bottom of every screen — always one tap away, regardless of where the user is in the app.</div>
         </div>
         <span class="badge badge-blue">Validated</span>
       </div>
@@ -982,36 +1578,24 @@
     <p class="reveal d2">Every screen went through at least 3 iterations. Getting the flow right before the pixels.</p>
     <div class="wf-grid reveal d3">
       <div class="wf-frame">
-        <div class="wf-bar accent med"></div>
-        <div class="wf-bar short"></div>
-        <div class="wf-bar med"></div>
-        <div class="wf-bar"></div>
-        <div class="wf-bar short"></div>
+        <img class="screen-dark"  src="assets/Home-dark.png"  alt="Home screen dark"/>
+        <img class="screen-light" src="assets/home-light.png" alt="Home screen light"/>
         <div class="wf-tag">Home</div>
       </div>
       <div class="wf-frame">
-        <div class="wf-bar"></div>
-        <div class="wf-bar accent"></div>
-        <div class="wf-bar short"></div>
-        <div class="wf-bar med"></div>
-        <div class="wf-bar short"></div>
-        <div class="wf-tag">Onboarding</div>
+        <img class="screen-dark"  src="assets/chat- dark.png"  alt="Chat screen dark"/>
+        <img class="screen-light" src="assets/chat light.png"  alt="Chat screen light"/>
+        <div class="wf-tag">Richie Chat</div>
       </div>
       <div class="wf-frame">
-        <div class="wf-bar short"></div>
-        <div class="wf-bar"></div>
-        <div class="wf-bar accent med"></div>
-        <div class="wf-bar short"></div>
-        <div class="wf-bar"></div>
-        <div class="wf-tag">Portfolio</div>
+        <img class="screen-dark"  src="assets/suggested prompt - dark.png"  alt="Suggested prompts dark"/>
+        <img class="screen-light" src="assets/suggested prompt - light.png" alt="Suggested prompts light"/>
+        <div class="wf-tag">Suggested Prompts</div>
       </div>
       <div class="wf-frame">
-        <div class="wf-bar med"></div>
-        <div class="wf-bar short"></div>
-        <div class="wf-bar accent"></div>
-        <div class="wf-bar med"></div>
-        <div class="wf-bar short"></div>
-        <div class="wf-tag">AI Insight</div>
+        <img class="screen-dark"  src="assets/trending topics - dark.png"  alt="Trending topics dark"/>
+        <img class="screen-light" src="assets/trending topics - light.png" alt="Trending topics light"/>
+        <div class="wf-tag">Trending Topics</div>
       </div>
     </div>
     <div class="callout reveal d3" style="margin-top:24px;">
@@ -1045,18 +1629,53 @@
 
 </main>
 
+<!-- ─── WHAT I'D DO DIFFERENTLY ─── -->
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>11 — Next Time</div>
+    <h2 class="reveal d1">What I'd do differently<br>with more time.</h2>
+    <div class="iter-list reveal d2">
+      <div class="iter-row">
+        <div class="iter-round">01</div>
+        <div>
+          <div class="iter-title">Test the chat input earlier — much earlier</div>
+          <div class="iter-body">I validated the concept through interviews before designing, but I wish I'd put a rough prototype of the chat interface in front of users in week two rather than week six. Some of the wording and tone decisions I made late would have been better informed by early conversation testing.</div>
+        </div>
+        <span class="badge badge-orange">Earlier</span>
+      </div>
+      <div class="iter-row">
+        <div class="iter-round">02</div>
+        <div>
+          <div class="iter-title">Map the edge cases for bad or uncertain AI responses</div>
+          <div class="iter-body">What does Richie say when it genuinely doesn't know? When market conditions are too volatile to give a clear answer? I designed the happy path well. The error states and uncertain states deserved the same rigour — in fintech, those moments are high stakes.</div>
+        </div>
+        <span class="badge badge-orange">Incomplete</span>
+      </div>
+      <div class="iter-row">
+        <div class="iter-round">03</div>
+        <div>
+          <div class="iter-title">Build a conversation history that creates value over time</div>
+          <div class="iter-body">Richie Chat in its current form is stateless — each conversation starts fresh. With more time, I'd design a history layer where Richie remembers past questions and proactively follows up: "Last month you asked about Tesla's dip — here's what happened since." That's where the real retention lives.</div>
+        </div>
+        <span class="badge badge-blue">Future</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ─── FINAL ─── -->
 <footer class="final">
   <div class="col">
     <div class="tag" style="justify-content:center;"><span class="tag-dot"></span>Reflection</div>
-    <h2>Designing for trust is harder<br>than designing for usability.</h2>
-    <p>Richie AI taught me that in fintech, trust is the product. Every interaction either builds or erodes a user's confidence. The technical capability of the AI meant nothing if users couldn't understand or rely on its decisions.</p>
-    <div>
+    <h2>The best financial tool is one<br>that feels like a conversation.</h2>
+    <p>Richie AI taught me that in fintech, the interface <em>is</em> the trust. Every word, every response, every empty state either builds a user's confidence or erodes it. Designing Richie Chat meant thinking less like a UI designer and more like a financial advisor — what does this person actually need to hear right now, and how do I say it in a way that helps them act?</p>
+    <p style="margin-top:12px;">That question is the one I'll carry into every product I work on next.</p>
+    <div style="margin-top:32px;">
       <a href="../index.html" class="btn">← Back to Home</a>
       <a href="#" class="btn btn-primary">See Prototype →</a>
     </div>
   </div>
-</section>
+</footer>
 
 <script>
 // Reveal on scroll
@@ -1066,6 +1685,66 @@ const revObs = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+// Mobile nav — hamburger + theme toggle
+(function(){
+  const hamburger  = document.getElementById('navHamburger');
+  const mobileMenu = document.getElementById('navMobileMenu');
+  const themeMobile = document.getElementById('themeToggleMobile');
+
+  function closeMenu(){
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', false);
+  }
+
+  // Open / close on hamburger tap
+  if(hamburger && mobileMenu){
+    hamburger.addEventListener('click', function(e){
+      e.stopPropagation();
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen);
+    });
+  }
+
+  // Close when a menu link is tapped
+  if(mobileMenu){
+    mobileMenu.querySelectorAll('a').forEach(function(link){
+      link.addEventListener('click', closeMenu);
+    });
+
+    // Close on tap outside menu items
+    document.addEventListener('click', function(e){
+      if(!mobileMenu.classList.contains('open')) return;
+      const isOnHamburger = hamburger && hamburger.contains(e.target);
+      const isOnItem = mobileMenu.contains(e.target);
+      if(!isOnHamburger && !isOnItem) closeMenu();
+    });
+
+    // Close on swipe up
+    let touchStartY = 0;
+    mobileMenu.addEventListener('touchstart', function(e){
+      touchStartY = e.touches[0].clientY;
+    }, {passive:true});
+    mobileMenu.addEventListener('touchend', function(e){
+      if(touchStartY - e.changedTouches[0].clientY > 60) closeMenu();
+    }, {passive:true});
+  }
+
+  // Mobile theme toggle
+  if(themeMobile){
+    themeMobile.addEventListener('click', function(){
+      const goLight = !document.body.classList.contains('light');
+      document.body.classList.toggle('light', goLight);
+      const icon = goLight ? '☀️' : '🌙';
+      ['themeToggle','themeTogglePill','themeToggleMobile'].forEach(function(id){
+        const el = document.getElementById(id);
+        if(el) el.textContent = icon;
+      });
+    });
+  }
+})();
 
 // Navbar
 (function(){
@@ -1077,13 +1756,27 @@ document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
   const togglePill = document.getElementById('themeTogglePill');
   const CIRC = 2 * Math.PI * 17;
 
+  const mobileBar = document.getElementById('mobileProgressBar');
+
   function onScroll(){
     const h = document.documentElement;
     const scrollY = h.scrollTop;
     const total = h.scrollHeight - h.clientHeight;
     const pct = total > 0 ? Math.min(scrollY / total, 1) : 0;
-    navTop.classList.toggle('nav-hidden', scrollY > 60);
-    navPill.classList.toggle('nav-visible', scrollY > 60);
+    // On mobile, never hide the top nav — pill nav is hidden anyway
+    const isMobile = window.innerWidth <= 640;
+    if(!isMobile){
+      navTop.classList.toggle('nav-hidden', scrollY > 80);
+      navPill.classList.toggle('nav-visible', scrollY > 80);
+    } else {
+      navTop.classList.remove('nav-hidden');
+      navPill.classList.remove('nav-visible');
+      // Update mobile progress bar (top line)
+      if(mobileBar) mobileBar.style.width = (pct * 100) + '%';
+      // Update mobile nav bar fill
+      const mobileBarFill = document.getElementById('navMobileBarFill');
+      if(mobileBarFill) mobileBarFill.style.width = (pct * 100) + '%';
+    }
     rFill.style.strokeDashoffset = CIRC * (1 - pct);
     rPct.textContent = Math.round(pct * 100) + '%';
   }
