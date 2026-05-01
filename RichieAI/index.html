@@ -108,6 +108,14 @@
   body:not(.light) .flow-light { display: none !important; }
   body:not(.light) .flow-dark  { display: block !important; }
 
+  /* Flow image lightbox trigger */
+  .flow-light, .flow-dark {
+    cursor: zoom-in;
+    transition: opacity 0.2s;
+    border-radius: 16px;
+  }
+  .flow-light:hover, .flow-dark:hover { opacity: 0.9; }
+
   /* ── LIGHTBOX ── */
   .lightbox {
     position: fixed;
@@ -1245,12 +1253,13 @@
       style="width:100%; border-radius:16px; display:none;"
     />
     <!-- Dark theme: SVG -->
-    <div class="flow-dark" style="
+    <div class="flow-dark" id="flowDarkContainer" style="
       background: #0e2016;
       border: 1px solid rgba(255,255,255,0.07);
       border-radius: 16px;
       overflow: hidden;
       padding: 48px 32px;
+      cursor: zoom-in;
     ">
       <svg viewBox="0 0 1100 780" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
         <defs>
@@ -1868,11 +1877,8 @@ document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
   var lightboxImg = document.getElementById('lightboxImg');
   var showcase = document.querySelector('.screens-showcase');
 
-  function openLightbox(){
-    // Show the correct theme image
-    var activeImg = showcase.querySelector('img:not([style*="display: none"])') ||
-                    showcase.querySelector('.screen-dark');
-    lightboxImg.src = activeImg.src;
+  function openLightbox(src){
+    lightboxImg.src = src;
     lightbox.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
@@ -1882,13 +1888,39 @@ document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
     document.body.style.overflow = '';
   }
 
+  // Screens showcase
   if(showcase){
-    showcase.addEventListener('click', openLightbox);
+    showcase.addEventListener('click', function(){
+      var activeImg = showcase.querySelector('.screen-dark');
+      var isLight = document.body.classList.contains('light');
+      if(isLight){
+        activeImg = showcase.querySelector('.screen-light') || activeImg;
+      }
+      openLightbox(activeImg.src);
+    });
+  }
+
+  // Flow images
+  document.querySelectorAll('.flow-light, .flow-dark').forEach(function(img){
+    img.addEventListener('click', function(){
+      openLightbox(this.src);
+    });
+  });
+
+  // Also wire up the inline SVG flow container
+  var flowDark = document.querySelector('.flow-dark');
+  if(flowDark){
+    flowDark.style.cursor = 'zoom-in';
   }
 
   // Close on backdrop click
   lightbox.addEventListener('click', function(e){
-    if(e.target === lightbox || e.target === lightboxImg) closeLightbox();
+    if(e.target === lightbox) closeLightbox();
+  });
+
+  // Close on image click
+  lightboxImg.addEventListener('click', function(e){
+    e.stopPropagation();
   });
 
   // Close on X button
