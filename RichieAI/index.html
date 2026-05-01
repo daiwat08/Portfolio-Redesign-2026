@@ -108,6 +108,71 @@
   body:not(.light) .flow-light { display: none !important; }
   body:not(.light) .flow-dark  { display: block !important; }
 
+  /* ── LIGHTBOX ── */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(0,0,0,0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    cursor: zoom-out;
+    visibility: hidden;
+    transition: background 0.35s ease, visibility 0s linear 0.35s;
+  }
+  .lightbox.open {
+    background: rgba(0,0,0,0.92);
+    visibility: visible;
+    transition: background 0.35s ease, visibility 0s linear 0s;
+  }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 12px;
+    object-fit: contain;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.35s ease, transform 0.35s cubic-bezier(.16,1,.3,1);
+    cursor: default;
+  }
+  .lightbox.open img {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: white;
+    font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .lightbox-close:hover { background: rgba(255,255,255,0.2); }
+
+  /* ── SCREENS SHOWCASE ── */
+  .screens-showcase {
+    margin-top: 40px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    cursor: zoom-in;
+    transition: opacity 0.2s;
+  }
+  .screens-showcase:hover { opacity: 0.92; }
+  .screens-showcase img {
+    width: 100%;
+    height: auto;
+    display: block;
+    pointer-events: none;
+  }
+
   /* ── SCREEN THEME TOGGLE ── */
   body.light .screen-dark  { display: none !important; }
   body.light .screen-light { display: block !important; }
@@ -883,14 +948,9 @@
   }
   .wf-frame img {
     width: 100%;
-    height: 260px;
-    object-fit: cover;
-    object-position: top;
+    height: auto;
     display: block;
     border-radius: 10px 10px 0 0;
-  }
-  @media(max-width:640px){
-    .wf-frame img { height: 200px; }
   }
   .wf-tag {
     font-family: 'Geist Mono', monospace;
@@ -1584,27 +1644,9 @@
     <div class="tag reveal"><span class="tag-dot"></span>09 — Screens</div>
     <h2 class="reveal d1">From wireframe to final design.</h2>
     <p class="reveal d2">Every screen went through at least 3 iterations. Getting the flow right before the pixels.</p>
-    <div class="wf-grid reveal d3">
-      <div class="wf-frame">
-        <img class="screen-dark"  src="/RichieAI/assets/home-dark.png"  alt="Home screen dark"/>
-        <img class="screen-light" src="/RichieAI/assets/home-light.png" alt="Home screen light"/>
-        <div class="wf-tag">Home</div>
-      </div>
-      <div class="wf-frame">
-        <img class="screen-dark"  src="/RichieAI/assets/chat-dark.png"  alt="Chat screen dark"/>
-        <img class="screen-light" src="/RichieAI/assets/chat-light.png"  alt="Chat screen light"/>
-        <div class="wf-tag">Richie Chat</div>
-      </div>
-      <div class="wf-frame">
-        <img class="screen-dark"  src="/RichieAI/assets/suggested-prompt-dark.png"  alt="Suggested prompts dark"/>
-        <img class="screen-light" src="/RichieAI/assets/suggested-prompt-light.png" alt="Suggested prompts light"/>
-        <div class="wf-tag">Suggested Prompts</div>
-      </div>
-      <div class="wf-frame">
-        <img class="screen-dark"  src="/RichieAI/assets/trending-topics-dark.png"  alt="Trending topics dark"/>
-        <img class="screen-light" src="/RichieAI/assets/trending-topics-light.png" alt="Trending topics light"/>
-        <div class="wf-tag">Trending Topics</div>
-      </div>
+    <div class="screens-showcase reveal d3">
+      <img class="screen-dark"  src="/RichieAI/assets/screens-dark.png"  alt="Richie AI screens dark"/>
+      <img class="screen-light" src="/RichieAI/assets/screens-light.png" alt="Richie AI screens light"/>
     </div>
     <div class="callout reveal d3" style="margin-top:24px;">
       <p>Replace these wireframe placeholders with final Figma exports — modified for NDA as needed. The layout and labels are already structured to match your screen titles.</p>
@@ -1813,5 +1855,50 @@ document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
 })();
 </script>
 
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" role="dialog" aria-label="Screen preview">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕</button>
+  <img id="lightboxImg" src="" alt="Screen preview"/>
+</div>
+
+<script>
+// Lightbox
+(function(){
+  var lightbox = document.getElementById('lightbox');
+  var lightboxImg = document.getElementById('lightboxImg');
+  var showcase = document.querySelector('.screens-showcase');
+
+  function openLightbox(){
+    // Show the correct theme image
+    var activeImg = showcase.querySelector('img:not([style*="display: none"])') ||
+                    showcase.querySelector('.screen-dark');
+    lightboxImg.src = activeImg.src;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox(){
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  if(showcase){
+    showcase.addEventListener('click', openLightbox);
+  }
+
+  // Close on backdrop click
+  lightbox.addEventListener('click', function(e){
+    if(e.target === lightbox || e.target === lightboxImg) closeLightbox();
+  });
+
+  // Close on X button
+  document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+
+  // Close on Escape
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeLightbox();
+  });
+})();
+</script>
 </body>
 </html>
