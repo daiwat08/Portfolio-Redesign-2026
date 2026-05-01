@@ -883,11 +883,14 @@
   }
   .wf-frame img {
     width: 100%;
-    height: 480px;
+    height: 260px;
     object-fit: cover;
     object-position: top;
     display: block;
     border-radius: 10px 10px 0 0;
+  }
+  @media(max-width:640px){
+    .wf-frame img { height: 200px; }
   }
   .wf-tag {
     font-family: 'Geist Mono', monospace;
