@@ -181,7 +181,53 @@
     overflow: hidden; position: relative;
     transition: background 0.8s cubic-bezier(0.22,1,0.36,1);
   }
-  .section-inner { display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; z-index: 2; }
+
+  /* ── PARALLAX ENTRANCE — heavy ── */
+  .section-inner {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    position: relative; z-index: 2;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: transform 1.1s cubic-bezier(0.16,1,0.3,1), opacity 0.8s ease;
+  }
+  .section.is-active .section-inner { transform: translateY(0); opacity: 1; }
+  .section.is-leaving .section-inner { transform: translateY(-80px); opacity: 0; transition: transform 0.5s cubic-bezier(0.55,0,0.45,1), opacity 0.3s ease; }
+
+  /* Staggered children — deeper offsets */
+  .section-inner .eyebrow { transform: translateY(40px); opacity: 0; transition: transform 0.9s cubic-bezier(0.16,1,0.3,1) 0.05s, opacity 0.7s ease 0.05s; }
+  .section.is-active .section-inner .eyebrow { transform: translateY(0); opacity: 1; }
+
+  .section-inner h1, .section-inner h2 { transform: translateY(60px); opacity: 0; transition: transform 1.1s cubic-bezier(0.16,1,0.3,1) 0.15s, opacity 0.9s ease 0.15s; }
+  .section.is-active .section-inner h1, .section.is-active .section-inner h2 { transform: translateY(0); opacity: 1; }
+
+  .section-inner p { transform: translateY(40px); opacity: 0; transition: transform 1s cubic-bezier(0.16,1,0.3,1) 0.28s, opacity 0.8s ease 0.28s; }
+  .section.is-active .section-inner p { transform: translateY(0); opacity: 1; }
+
+  .section-inner .btn-outline, .section-inner > div { transform: translateY(30px); opacity: 0; transition: transform 0.9s cubic-bezier(0.16,1,0.3,1) 0.42s, opacity 0.7s ease 0.42s; }
+  .section.is-active .section-inner .btn-outline, .section.is-active .section-inner > div { transform: translateY(0); opacity: 1; }
+
+  /* Phone mockup — comes from far below with heavy spring */
+  .case-preview {
+    position: absolute; right: 6vw; top: 50%;
+    transform: translateY(calc(-50% + 120px)) translateX(48px) scale(0.92);
+    width: clamp(240px, 26vw, 360px);
+    height: clamp(380px, 60vh, 520px);
+    border-radius: 28px; overflow: hidden;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s,
+                transform 1.2s cubic-bezier(0.16,1,0.3,1) 0.2s;
+    z-index: 3;
+  }
+  .section.is-active .case-preview {
+    transform: translateY(-50%) translateX(0) scale(1);
+    opacity: 1;
+  }
+  .section.is-leaving .case-preview {
+    transform: translateY(calc(-50% - 80px)) scale(0.95) translateX(0) !important;
+    opacity: 0 !important;
+    transition: transform 0.45s cubic-bezier(0.55,0,0.45,1), opacity 0.25s ease !important;
+  }
   .eyebrow { font-family: 'Geist Mono', monospace; font-size: var(--t-xs); letter-spacing: 1px; margin-bottom: 20px; display: block; transition: opacity 0.4s ease; }
   .section h1, .section h2 { font-family: 'Syne', sans-serif; font-weight: 800; line-height: 1.1; letter-spacing: -0.5px; max-width: 760px; transition: opacity 0.4s ease; }
   .section h1 { font-size: var(--t-h1); }
@@ -356,6 +402,33 @@
 
   @media (max-width: 960px) { .case-preview { display: none; } }
   @media (max-width: 768px) { .nav-top { width: calc(100vw - 32px); padding: 0 8px 0 16px; } .nav-top__links { display: none !important; } .nav-hamburger { display: flex !important; } .nav-top__cta { display: none !important; } .section h1 { font-size: 36px; } .section h2 { font-size: 32px; } }
+
+  /* ── MOBILE — full brand color when section is active (no hover on touch) ── */
+  @media (hover: none) and (pointer: coarse) {
+    .s1.is-active { background: #0F0F0F; }
+    .s1.is-active .eyebrow { color: rgba(255,255,255,0.4); }
+    .s1.is-active h2 { color: #fff; }
+    .s1.is-active p  { color: rgba(255,255,255,0.6); }
+    .s1.is-active .btn-light { border-color: rgba(255,255,255,0.5); color: #fff; }
+
+    .s2.is-active { background: #007AFF; }
+    .s2.is-active .eyebrow { color: rgba(255,255,255,0.55); }
+    .s2.is-active h2 { color: #fff; }
+    .s2.is-active p  { color: rgba(255,255,255,0.75); }
+    .s2.is-active .btn-light { border-color: rgba(255,255,255,0.5); color: #fff; }
+
+    .s3.is-active { background: #1B5E20; }
+    .s3.is-active .eyebrow { color: rgba(255,255,255,0.55); }
+    .s3.is-active h2 { color: #fff; }
+    .s3.is-active p  { color: rgba(255,255,255,0.75); }
+    .s3.is-active .btn-light { border-color: rgba(255,255,255,0.5); color: #fff; }
+
+    .s4.is-active { background: #003D99; }
+    .s4.is-active .eyebrow { color: rgba(255,255,255,0.55); }
+    .s4.is-active h2 { color: #fff; }
+    .s4.is-active p  { color: rgba(255,255,255,0.75); }
+    .s4.is-active .btn-light { border-color: rgba(255,255,255,0.5); color: #fff; }
+  }
 </style>
 </head>
 <body>
@@ -592,35 +665,44 @@
     applyTheme(!document.body.classList.contains('dark'));
   });
 
-  /* ── Section observer — handles nav dark/light + pill show/hide + ring progress + in-view color ── */
+  /* ── Section observer — parallax entrance + nav ── */
+  let prevIndex = 0;
   sections.forEach(function (sec, index) {
     new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
-        /* Trigger color at 30% visibility — feels like it floods in as you scroll */
-        sec.classList.toggle('in-view', e.intersectionRatio > 0.3);
-
-        if (e.intersectionRatio > 0.3) {
+        if (e.intersectionRatio > 0.5) {
+          /* Mark previous section as leaving */
+          if (prevIndex !== index) {
+            sections[prevIndex].classList.remove('is-active');
+            sections[prevIndex].classList.add('is-leaving');
+            setTimeout(function() {
+              sections[prevIndex].classList.remove('is-leaving');
+            }, 600);
+            prevIndex = index;
+          }
+          /* Activate current */
+          sec.classList.add('is-active');
+          sec.classList.remove('is-leaving');
           currentIndex = index;
 
           const isHero    = index === 0;
           const isBranded = index > 0;
 
-          /* Top nav: show on hero, hide on others */
           navTop.classList.toggle('nav-hidden', !isHero);
-          navTop.classList.toggle('nav-light', isHero || !isBranded);
-
-          /* Pill: hide on hero, show on others */
+          navTop.classList.remove('nav-light');
           navPill.classList.toggle('nav-visible', !isHero);
           navPill.classList.toggle('nav-on-dark', !isBranded);
 
-          /* Progress ring */
           const pct = index / (total - 1);
           rFill.style.strokeDashoffset = CIRC * (1 - pct);
           rPct.textContent = Math.round(pct * 100) + '%';
         }
       });
-    }, { threshold: [0, 0.1, 0.2, 0.3, 0.5, 0.8, 1.0] }).observe(sec);
+    }, { threshold: [0.5] }).observe(sec);
   });
+
+  /* Activate hero immediately */
+  sections[0].classList.add('is-active');
 })();
 </script>
 </body>
