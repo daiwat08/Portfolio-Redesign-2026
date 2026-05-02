@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eranova AI — Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:      #0a0a0a;
+    --surface: #111111;
+    --line:    rgba(255,255,255,0.07);
+    --accent:  #e8e8e8;
+    --warm:    #a1a1a1;
+    --text:    #e4e4e7;
+    --sub:     #888888;
+    --white:   #ffffff;
+
+    --t-xs:   12px;
+    --t-sm:   14px;
+    --t-base: 16px;
+    --t-md:   18px;
+    --t-lg:   22px;
+    --t-xl:   28px;
+    --t-2xl:  48px;
+
+    --max:  760px;
+    --wide: 1080px;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Geist', sans-serif;
+    font-weight: 300;
+    font-size: var(--t-base);
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── LIGHT THEME ── */
+  body.light {
+    --bg:      #f7f7f5;
+    --surface: #efefed;
+    --line:    rgba(0,0,0,0.08);
+    --text:    #222;
+    --sub:     #555;
+    --white:   #111;
+    --accent:  #222222;
+    --warm:    #555;
+  }
+  body.light .badge-green  { background: rgba(30,30,30,0.07); color: #111; border-color: rgba(0,0,0,0.2); }
+  body.light .badge-orange { background: rgba(80,80,80,0.07); color: #444; border-color: rgba(0,0,0,0.15); }
+  body.light .badge-blue   { background: rgba(50,50,50,0.07); color: #333; border-color: rgba(0,0,0,0.15); }
+  body.light .quote-text   { color: #1a1a1a; }
+  body.light .quote-attr   { color: #444; }
+  body.light .iter-round   { color: #444; }
+  body.light .tag          { color: #444; }
+  body.light .stat-cell    { background: #f7f7f5; }
+  body.light .step         { background: #f7f7f5; }
+  body.light .solution     { background: #f7f7f5; }
+  body.light h1, body.light h2, body.light h3 { color: #111; }
+  body.light .quote-block  { background: rgba(0,0,0,0.03); border-color: #111; }
+  body.light em            { color: #111; }
+
+  /* ── FLOW THEME TOGGLE ── */
+  body.light .flow-light { display: block !important; }
+  body.light .flow-dark  { display: none !important; }
+  body:not(.light) .flow-light { display: none !important; }
+  body:not(.light) .flow-dark  { display: block !important; }
+
+  /* ── SKIP LINK ── */
+  .skip-link {
+    position:absolute; top:-100%; left:16px;
+    background:var(--accent); color:#000;
+    padding:8px 16px; border-radius:0 0 8px 8px;
+    font-size:var(--t-sm); font-weight:500;
+    text-decoration:none; z-index:200; transition:top .15s;
+  }
+  .skip-link:focus { top:0; }
+
+  /* ── MOBILE PROGRESS BAR ── */
+  .mobile-progress-bar {
+    display: none;
+    position: fixed; top:0; left:0;
+    height: 3px; width: 0%;
+    background: #e8e8e8;
+    z-index: 99999;
+    transition: width 0.08s linear;
+    border-radius: 0 999px 999px 0;
+    box-shadow: 0 0 8px rgba(232,232,232,0.3);
+  }
+  body.light .mobile-progress-bar { background: #111; box-shadow: none; }
+  @media(max-width:640px){ .mobile-progress-bar { display: block; } }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity:1; transform:none; transition:none; }
+    html { scroll-behavior:auto; }
+  }
+
+  /* ══ TOP NAV ══ */
+  .nav-top {
+    position:fixed; top:16px; left:50%;
+    transform:translateX(-50%); z-index:9999;
+    display:flex; align-items:center; justify-content:space-between; gap:8px;
+    background:rgba(255,255,255,0.93);
+    backdrop-filter:blur(24px) saturate(180%);
+    border:1px solid rgba(0,0,0,0.08);
+    border-radius:999px; height:64px;
+    width:min(780px,calc(100vw - 48px));
+    padding:0 11px 0 22px;
+    box-shadow:0 2px 20px rgba(0,0,0,0.08);
+    transition:opacity .3s,transform .3s,background .4s,border-color .4s;
+  }
+  .nav-top.nav-hidden { opacity:0; transform:translateX(-50%) translateY(-10px); pointer-events:none; }
+  .nav-top.nav-dark   { background:rgba(10,10,10,0.88); border-color:rgba(255,255,255,0.1); box-shadow:0 2px 24px rgba(0,0,0,0.5); }
+  .nav-top.nav-dark .nav-top__logo  { color:#fff; }
+  .nav-top.nav-dark .nav-top__link  { color:rgba(255,255,255,0.5); }
+  .nav-top.nav-dark .nav-top__link:hover { color:#fff; background:rgba(255,255,255,0.08); }
+  .nav-top.nav-dark .nav-top__cta   { background:#fff; color:#111; }
+  .nav-top.nav-dark .theme-btn      { border-color:rgba(255,255,255,0.2); }
+  .nav-top__logo  { font-family:'Syne',sans-serif; font-size:14px; font-weight:700; letter-spacing:-.01em; color:#111; text-decoration:none; white-space:nowrap; flex-shrink:0; transition:color .4s; }
+  .nav-top__links { flex:1; display:flex; align-items:center; justify-content:center; }
+  .nav-top__link  { font-size:14px; color:#777; text-decoration:none; padding:7px 16px; border-radius:999px; transition:background .2s,color .2s; }
+  .nav-top__link:hover { color:#111; background:rgba(0,0,0,0.05); }
+  .nav-top__right { display:flex; align-items:center; gap:8px; }
+  .nav-top__cta   { font-size:13px; font-weight:600; color:#fff; text-decoration:none; background:#111; padding:8px 18px; border-radius:999px; flex-shrink:0; transition:background .2s; }
+  .nav-top__cta:hover { background:#333; }
+  .theme-btn { width:34px; height:34px; border-radius:50%; border:1px solid rgba(0,0,0,0.12); background:transparent; cursor:pointer; font-size:15px; display:flex; align-items:center; justify-content:center; transition:background .2s; flex-shrink:0; }
+  .theme-btn:hover { background:rgba(0,0,0,0.05); }
+
+  /* ══ PILL NAV ══ */
+  .nav-pill {
+    position:fixed; top:16px; left:50%;
+    transform:translateX(-50%) translateY(-10px);
+    z-index:9999;
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    background:rgba(10,10,10,0.9);
+    backdrop-filter:blur(24px) saturate(180%);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:999px; height:64px; width:116px;
+    padding:0 11px;
+    box-shadow:0 8px 32px rgba(0,0,0,0.3);
+    opacity:0; pointer-events:none;
+    transition:opacity .3s ease,transform .3s ease,width .45s cubic-bezier(.34,1.2,.64,1);
+  }
+  .nav-pill.nav-visible { opacity:1; transform:translateX(-50%) translateY(0); pointer-events:all; }
+  .nav-pill:hover { opacity:1 !important; transform:translateX(-50%) translateY(0) !important; pointer-events:all !important; width:min(760px,calc(100vw - 48px)); }
+  .nav-pill__icon { flex-shrink:0; width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; z-index:2; }
+  .nav-pill__icon svg { width:16px; height:16px; color:rgba(255,255,255,.8); }
+  .nav-pill__links { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .2s ease; }
+  .nav-pill:hover .nav-pill__links { opacity:1; pointer-events:all; transition-delay:.1s; }
+  .nav-pill__link { font-size:14px; font-weight:500; color:rgba(255,255,255,.6); text-decoration:none; padding:8px 16px; border-radius:999px; transition:background .2s,color .2s; white-space:nowrap; }
+  .nav-pill__link:hover { color:white; background:rgba(255,255,255,.1); }
+  .nav-pill__theme { position:absolute; right:63px; opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:3; }
+  .nav-pill:hover .nav-pill__theme { opacity:1; pointer-events:all; transition-delay:.12s; }
+  .nav-pill__theme .theme-btn { border-color:rgba(255,255,255,0.25); font-size:14px; }
+  .nav-pill__ring { flex-shrink:0; position:relative; width:42px; height:42px; z-index:2; }
+  .nav-pill__ring svg { display:block; width:42px; height:42px; transform:rotate(-90deg); }
+  .nav-pill__ring .r-track { fill:none; stroke:rgba(255,255,255,.2); stroke-width:1.8; }
+  .nav-pill__ring .r-fill  { fill:none; stroke:rgba(255,255,255,.95); stroke-width:1.8; stroke-linecap:round; stroke-dasharray:106.81; stroke-dashoffset:106.81; transition:stroke-dashoffset .1s linear; }
+  .nav-pill__ring .r-pct   { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; font-family:'Geist Mono',monospace; color:rgba(255,255,255,.95); letter-spacing:-.02em; line-height:1; }
+
+  /* ── HAMBURGER ── */
+  .nav-hamburger { display:none; flex-direction:column; justify-content:center; align-items:center; gap:3.5px; width:28px; height:28px; background:rgba(0,0,0,0.85); border:none; border-radius:50%; cursor:pointer; flex-shrink:0; transition:background .3s; }
+  .nav-hamburger span { display:block; width:10px; height:1.3px; background:white; border-radius:2px; transition:transform .35s cubic-bezier(.34,1.2,.64,1),opacity .25s; }
+  .nav-hamburger.open span:nth-child(1) { transform:translateY(4.8px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity:0; }
+  .nav-hamburger.open span:nth-child(3) { transform:translateY(-4.8px) rotate(-45deg); }
+
+  /* ── MOBILE OVERLAY ── */
+  .nav-mobile-menu {
+    position:fixed; top:0; left:0; right:0; bottom:0; z-index:9998;
+    background:rgba(5,5,5,0); pointer-events:none; opacity:0; visibility:hidden;
+    display:flex; flex-direction:column; align-items:flex-start; justify-content:center;
+    padding:80px 36px 56px;
+    transition:background 0.4s ease,opacity 0.4s ease,visibility 0s linear 0.4s;
+  }
+  .nav-mobile-menu.open { background:rgba(5,5,5,0.97); pointer-events:all; opacity:1; visibility:visible; transition:background 0.4s ease,opacity 0.4s ease,visibility 0s linear 0s; }
+  .nav-mobile-menu__item { display:block; font-family:'Instrument Serif',serif; font-style:italic; font-size:36px; font-weight:400; color:rgba(255,255,255,0); padding:10px 0; text-decoration:none; letter-spacing:-0.3px; line-height:1.2; transition:color 0.3s ease,transform 0.45s cubic-bezier(.16,1,.3,1); transform:translateY(20px); width:100%; }
+  .nav-mobile-menu.open .nav-mobile-menu__item { color:rgba(255,255,255,0.28); transform:translateY(0); }
+  .nav-mobile-menu.open .nav-mobile-menu__item:nth-child(1) { transition-delay:0.04s; }
+  .nav-mobile-menu.open .nav-mobile-menu__item:nth-child(2) { transition-delay:0.09s; }
+  .nav-mobile-menu.open .nav-mobile-menu__item:nth-child(3) { transition-delay:0.14s; }
+  .nav-mobile-menu__item:hover { color:rgba(255,255,255,0.65) !important; }
+  .nav-mobile-menu__item.active { font-style:normal; color:rgba(255,255,255,0.85) !important; }
+  .nav-mobile-menu__divider { width:24px; height:1px; background:rgba(255,255,255,0); margin:8px 0; transition:background 0.3s ease 0.18s; }
+  .nav-mobile-menu.open .nav-mobile-menu__divider { background:rgba(255,255,255,0.1); }
+  .nav-mobile-menu__cta { display:inline-block; margin-top:24px; font-family:'Geist',sans-serif; font-size:12px; font-weight:600; color:#000; background:#e8e8e8; padding:10px 22px; border-radius:999px; text-decoration:none; opacity:0; transform:translateY(8px); transition:opacity 0.3s ease 0.28s,transform 0.3s ease 0.28s; }
+  .nav-mobile-menu.open .nav-mobile-menu__cta { opacity:1; transform:translateY(0); }
+
+  @media(max-width:640px){
+    .nav-top { width:calc(100vw - 32px); padding:0 6px 0 16px; border-radius:999px; height:48px; top:10px; background:rgba(10,10,10,0.88) !important; border-color:rgba(255,255,255,0.1) !important; }
+    .nav-top__logo { color:#fff !important; }
+    .nav-top__links, .nav-top__cta { display:none; }
+    .nav-hamburger { display:flex; background:rgba(255,255,255,0.12) !important; border:1px solid rgba(255,255,255,0.15) !important; }
+    .nav-hamburger span { background:white !important; }
+    .nav-pill { display:none !important; visibility:hidden !important; pointer-events:none !important; }
+    .nav-mobile-menu { display:flex; }
+    .stats-row,.stats-row-3 { grid-template-columns: 1fr !important; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .solutions { grid-template-columns: 1fr; }
+    .insights-grid { grid-template-columns: 1fr; }
+    .iter-row { grid-template-columns: 1fr; }
+    .iter-row .badge { align-self: flex-start; margin-top: 8px; }
+    .hero-meta { gap: 24px; }
+    .meta-item { min-width: 40%; }
+    .section { padding: 80px 0; }
+    .hero { padding: 100px 0 64px; }
+    .feature-row { grid-template-columns: 1fr; gap: 6px; }
+    .split { grid-template-columns: 1fr; gap: 32px; }
+  }
+
+  /* ─── LAYOUT ─── */
+  .col      { max-width: var(--max);  margin:0 auto; padding:0 24px; }
+  .col-wide { max-width: var(--wide); margin:0 auto; padding:0 24px; }
+  .section  { padding: 96px 0; }
+  .section + .section { border-top: 1px solid var(--line); }
+
+  /* ─── TAG ─── */
+  .tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs); letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--sub); margin-bottom: 20px;
+  }
+  .tag-dot { width:4px; height:4px; border-radius:50%; background:var(--accent); flex-shrink:0; }
+
+  /* ─── TYPOGRAPHY ─── */
+  h1 { font-family:'Instrument Serif',serif; font-size:var(--t-2xl); font-weight:400; line-height:0.95; letter-spacing:-0.03em; color:var(--white); }
+  h2 { font-family:'Instrument Serif',serif; font-size:var(--t-xl); font-weight:400; line-height:1.3; letter-spacing:-0.3px; color:var(--white); }
+  h3 { font-size:var(--t-md); font-weight:500; color:var(--white); line-height:1.4; }
+  em { font-style:italic; color:var(--accent); }
+  p  { color:var(--sub); margin-top:14px; }
+  p:first-child { margin-top:0; }
+
+  /* ─── HERO ─── */
+  .hero { padding:140px 0 96px; border-bottom:1px solid var(--line); }
+  .hero-meta { display:flex; gap:64px; margin-top:56px; padding-top:40px; border-top:1px solid var(--line); flex-wrap:wrap; }
+  .meta-item label { font-family:'Geist Mono',monospace; font-size:var(--t-xs); letter-spacing:1.5px; text-transform:uppercase; color:var(--sub); display:block; margin-bottom:10px; }
+  .meta-item span  { font-size:24px; color:var(--text); font-weight:400; font-family:'Instrument Serif',serif; }
+
+  /* ─── STATS ROW ─── */
+  .stats-row   { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-top:48px; }
+  .stats-row-3 { grid-template-columns:1fr 1fr 1fr; }
+  .stat-cell   { background:var(--bg); padding:36px 32px; }
+  .stat-num    { font-family:'Instrument Serif',serif; font-size:48px; color:var(--white); line-height:1; letter-spacing:-1px; }
+  .stat-num .accent { color:var(--accent); }
+  .stat-desc   { font-size:var(--t-sm); color:var(--sub); margin-top:8px; max-width:200px; line-height:1.6; }
+
+  /* ─── QUOTE BLOCK ─── */
+  .quote-block { border-left:2px solid var(--accent); padding:20px 24px; margin:40px 0; background:rgba(232,232,232,0.04); border-radius:0 8px 8px 0; }
+  .quote-text  { font-family:'Instrument Serif',serif; font-size:var(--t-lg); font-style:italic; color:var(--white); line-height:1.5; }
+  .quote-attr  { font-size:var(--t-sm); color:var(--sub); margin-top:12px; }
+
+  /* ─── PROCESS STEPS ─── */
+  .steps   { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-top:40px; }
+  .step    { background:var(--bg); padding:28px 24px; }
+  .step-n  { font-family:'Geist Mono',monospace; font-size:var(--t-xs); color:var(--accent); letter-spacing:1px; margin-bottom:10px; }
+  .step-title { font-size:var(--t-sm); font-weight:500; color:var(--white); margin-bottom:6px; }
+  .step-body  { font-size:var(--t-sm); color:var(--sub); line-height:1.6; }
+
+  /* ─── SOLUTIONS (used for audit findings) ─── */
+  .solutions { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-top:40px; }
+  .solution  { background:var(--bg); padding:36px 32px; display:flex; flex-direction:column; }
+  .solution-n { font-family:'Geist Mono',monospace; font-size:var(--t-xs); color:var(--accent); letter-spacing:1.5px; margin-bottom:14px; text-transform:uppercase; }
+
+  /* ─── INSIGHTS GRID ─── */
+  .insights-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-top:40px; }
+  .insight-cell  { background:var(--bg); padding:32px 28px; }
+  .insight-num   { font-family:'Instrument Serif',serif; font-size:40px; color:var(--accent); opacity:0.25; line-height:1; margin-bottom:12px; display:block; }
+  .insight-tag   { font-family:'Geist Mono',monospace; font-size:var(--t-xs); letter-spacing:1.5px; text-transform:uppercase; color:var(--accent); margin-bottom:10px; display:block; }
+  .insight-body  { font-size:var(--t-sm); color:var(--sub); line-height:1.7; }
+
+  /* ─── FEATURE LIST ─── */
+  .feature-list { margin-top:40px; }
+  .feature-row  { display:grid; grid-template-columns:200px 1fr; gap:32px; padding:24px 0; border-bottom:1px solid var(--line); align-items:start; }
+  .feature-row:first-child { border-top:1px solid var(--line); }
+  .feature-name { font-size:var(--t-sm); font-weight:500; color:var(--white); }
+  .feature-desc { font-size:var(--t-sm); color:var(--sub); line-height:1.7; }
+
+  /* ─── ITERATION LIST ─── */
+  .iter-list  { margin-top:40px; }
+  .iter-row   { display:grid; grid-template-columns:80px 1fr auto; gap:24px; padding:24px 0; border-bottom:1px solid var(--line); align-items:start; }
+  .iter-row:first-child { border-top:1px solid var(--line); }
+  .iter-round { font-family:'Geist Mono',monospace; font-size:var(--t-xs); color:var(--sub); letter-spacing:1px; text-transform:uppercase; padding-top:2px; }
+  .iter-title { font-size:var(--t-sm); font-weight:500; color:var(--white); margin-bottom:6px; }
+  .iter-body  { font-size:var(--t-sm); color:var(--sub); line-height:1.6; }
+  .badge { display:inline-flex; padding:3px 10px; border-radius:20px; font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:0.5px; white-space:nowrap; align-self:start; margin-top:2px; }
+  .badge-green  { background:rgba(232,232,232,.07); color:#e8e8e8; border:1px solid rgba(232,232,232,.15); }
+  .badge-orange { background:rgba(160,160,160,.07); color:#aaaaaa; border:1px solid rgba(160,160,160,.15); }
+  .badge-blue   { background:rgba(200,200,200,.07); color:#cccccc; border:1px solid rgba(200,200,200,.15); }
+
+  /* ─── CALLOUT ─── */
+  .callout { background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:28px 32px; margin-top:32px; }
+  .callout p { color:var(--text); margin:0; font-size:var(--t-sm); }
+
+  /* ─── PALETTE SWATCHES ─── */
+  .palette { display:flex; gap:8px; margin-top:32px; flex-wrap:wrap; border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--line); }
+  .swatch  { height:56px; flex:1; min-width:80px; display:flex; align-items:flex-end; padding:8px; font-family:'Geist Mono',monospace; font-size:11px; color:rgba(255,255,255,0.5); letter-spacing:0.5px; }
+
+  /* ─── FINAL ─── */
+  .final { padding:120px 0; text-align:center; border-top:1px solid var(--line); }
+  .final h2 { margin-bottom:16px; }
+  .final p  { max-width:440px; margin:0 auto 32px; }
+  .btn         { display:inline-block; padding:11px 28px; border:1px solid rgba(255,255,255,.15); border-radius:100px; font-size:var(--t-sm); color:var(--text); text-decoration:none; transition:background .2s,border-color .2s; }
+  .btn:hover   { background:rgba(255,255,255,.05); border-color:rgba(255,255,255,.25); }
+  .btn-primary { background:var(--accent); border-color:transparent; color:#0a0a0a; margin-left:10px; }
+  .btn-primary:hover { background:#ffffff; }
+  body.light .btn-primary { color:#ffffff; background:#111; }
+  body.light .btn { border-color:rgba(0,0,0,.15); color:#222; }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes up { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+  .hero .col > * { opacity:0; animation:up 0.7s ease forwards; }
+  .hero .col > *:nth-child(1) { animation-delay:.1s; }
+  .hero .col > *:nth-child(2) { animation-delay:.22s; }
+  .hero .col > *:nth-child(3) { animation-delay:.34s; }
+  .hero .col > *:nth-child(4) { animation-delay:.46s; }
+  .reveal { opacity:0; transform:translateY(20px); transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1); }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+  .reveal.d1 { transition-delay:.08s; }
+  .reveal.d2 { transition-delay:.16s; }
+  .reveal.d3 { transition-delay:.24s; }
+  hr { border:none; border-top:1px solid var(--line); }
+
+  @media(max-width:768px){
+    .steps { grid-template-columns:1fr 1fr; }
+    .stats-row-3 { grid-template-columns:1fr; }
+    .solutions,.insights-grid { grid-template-columns:1fr; }
+    .feature-row { grid-template-columns:1fr; gap:8px; }
+    .iter-row { grid-template-columns:1fr; }
+    .split { grid-template-columns:1fr; gap:32px; }
+    .hero-meta { gap:32px; }
+  }
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<div class="mobile-progress-bar" id="mobileProgressBar"></div>
+
+<!-- TOP NAV -->
+<header class="nav-top nav-dark" id="navTop">
+  <a href="../index.html" class="nav-top__logo">Daiwat Thavai</a>
+  <nav class="nav-top__links">
+    <a href="../index.html" class="nav-top__link">Home</a>
+    <a href="../index.html" class="nav-top__link">Work</a>
+    <a href="#" class="nav-top__link">About</a>
+    <a href="#" class="nav-top__link">Resume</a>
+  </nav>
+  <div class="nav-top__right">
+    <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">🌙</button>
+    <a href="#" class="nav-top__cta">Portfolio ✦</a>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- MOBILE OVERLAY -->
+<div class="nav-mobile-menu" id="navMobileMenu" role="dialog" aria-label="Mobile navigation">
+  <a href="../index.html" class="nav-mobile-menu__item active">Home</a>
+  <a href="../index.html" class="nav-mobile-menu__item">Work</a>
+  <a href="#" class="nav-mobile-menu__item">About</a>
+  <div class="nav-mobile-menu__divider"></div>
+  <a href="#" class="nav-mobile-menu__item">Resume</a>
+  <a href="#" class="nav-mobile-menu__cta">Portfolio ✦</a>
+</div>
+
+<!-- PILL NAV -->
+<nav class="nav-pill" id="navPill">
+  <div class="nav-pill__icon">
+    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M3 2L13 8L8 9.5L6.5 14L3 2Z" fill="currentColor"/>
+    </svg>
+  </div>
+  <div class="nav-pill__links">
+    <a href="../index.html" class="nav-pill__link">Home</a>
+    <a href="../index.html" class="nav-pill__link">Work</a>
+    <a href="#" class="nav-pill__link">About</a>
+    <a href="#" class="nav-pill__link">Resume</a>
+  </div>
+  <div class="nav-pill__theme">
+    <button class="theme-btn" id="themeTogglePill" aria-label="Toggle theme">🌙</button>
+  </div>
+  <div class="nav-pill__ring">
+    <svg viewBox="0 0 42 42">
+      <circle class="r-track" cx="21" cy="21" r="17"/>
+      <circle class="r-fill" id="navRingFill" cx="21" cy="21" r="17"/>
+    </svg>
+    <div class="r-pct" id="navRingPct">0%</div>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<main id="main-content">
+<div class="hero">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>UX · Branding · Web Dev · 2026</div>
+    <h1>Redesigning an AI startup<br>to feel <em>enterprise</em>.</h1>
+    <p style="max-width:500px; margin-top:16px;">A full redesign of Eranova AI's website and brand — from a basic landing page to a credible, enterprise-grade digital presence — built in 3 months using Nielsen's heuristics, Figma, and OpenAI's Codex.</p>
+    <div class="hero-meta">
+      <div class="meta-item"><label>Role</label><span>UX / Graphic Design Intern</span></div>
+      <div class="meta-item"><label>Duration</label><span>3 Months</span></div>
+      <div class="meta-item"><label>Company</label><span>Eranova AI</span></div>
+      <div class="meta-item"><label>Deliverables</label><span>Website · Brand · LinkedIn</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── 01 CONTEXT ─── -->
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>01 — Context</div>
+    <h2 class="reveal d1">A landing page with<br>an enterprise-sized opportunity.</h2>
+    <p class="reveal d2">Eranova AI had a problem most startups would want: unexpected traction. What started as a simple marketing landing page was pulling in real enterprise clients — but the site didn't look the part. The brand felt generic, the UX was broken in ways nobody had documented, and there was no design system to speak of.</p>
+    <p class="reveal d2">The brief was simple. Make it feel enterprise. Build something that closes deals before a sales call happens.</p>
+    <div class="stats-row stats-row-3 reveal d3">
+      <div class="stat-cell">
+        <div class="stat-num"><span class="accent">3</span></div>
+        <div class="stat-desc">months to audit, rebrand, and launch the full redesigned site</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num"><span class="accent">50</span></div>
+        <div class="stat-desc">branded LinkedIn posts produced after A/B testing content formats</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num"><span class="accent">1</span></div>
+        <div class="stat-desc">master template scaling across all solution and case study pages</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 02 AUDIT ─── -->
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>02 — UX Audit</div>
+    <h2 class="reveal d1">Before redesigning anything,<br>I documented everything wrong.</h2>
+    <p class="reveal d2">I ran a systematic evaluation of the existing site using Nielsen's 10 Usability Heuristics — a recognised industry framework for identifying UX failures. Every issue was captured and presented to the CEO in a PowerPoint deck to build alignment before a single pixel was changed.</p>
+    <div class="quote-block reveal d3">
+      <div class="quote-text">"You can't redesign something well if you haven't understood exactly why it's broken. The audit wasn't just research — it was the pitch for the redesign."</div>
+    </div>
+    <div class="solutions reveal">
+      <div class="solution">
+        <div class="solution-n">H1 — Visibility of System Status</div>
+        <h3>No CTA in the hero</h3>
+        <p>Primary actions — "Get Started" and "Learn More" — were buried at the bottom of the page. Enterprise visitors landed with no immediate next step. First impressions were wasted.</p>
+      </div>
+      <div class="solution">
+        <div class="solution-n">H4 — Consistency & Standards</div>
+        <h3>Broken theme across pages</h3>
+        <p>The homepage was full dark-mode. Inner pages abruptly switched to light mode, only the navbar stayed dark. Jarring and unpolished — the digital equivalent of walking from a cinema into bright sunlight.</p>
+      </div>
+      <div class="solution">
+        <div class="solution-n">H8 — Aesthetic & Minimalist Design</div>
+        <h3>Filler content burying the lead</h3>
+        <p>A full-screen section consumed nearly two scrolls to deliver one generic sentence. It pushed all the valuable content further down and significantly raised the risk of abandonment.</p>
+      </div>
+      <div class="solution">
+        <div class="solution-n">H8 — Aesthetic & Minimalist Design</div>
+        <h3>Weak visual hierarchy on CTAs</h3>
+        <p>"See all solutions" — the key next action for the entire solutions section — was styled as a low-contrast text link. No prominence, no weight. Easy to miss entirely.</p>
+      </div>
+      <div class="solution">
+        <div class="solution-n">Visual Language</div>
+        <h3>Inconsistent icon & font styles</h3>
+        <p>Icon styles mixed freely across the interface. Font weights and sizes had no coherent system, making the site feel unfinished and untrustworthy to enterprise visitors making fast judgements.</p>
+      </div>
+      <div class="solution">
+        <div class="solution-n">Brand Perception</div>
+        <h3>Not enterprise-grade</h3>
+        <p>The overall aesthetic — grey tones, inconsistent spacing, no design system — failed to communicate the quality of the product behind it. The site didn't match the ambition of the business.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 03 PROCESS ─── -->
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>03 — Process</div>
+    <h2 class="reveal d1">Three months.<br>Three distinct phases.</h2>
+    <p class="reveal d2">Each month had a clear focus. No overlapping, no jumping ahead.</p>
+    <div class="steps reveal d3">
+      <div class="step">
+        <div class="step-n">Month 01</div>
+        <div class="step-title">Audit & Strategy</div>
+        <div class="step-body">Nielsen heuristic evaluation, CEO presentation, alignment on redesign direction and brand shift</div>
+      </div>
+      <div class="step">
+        <div class="step-n">Month 02</div>
+        <div class="step-title">Design & Build</div>
+        <div class="step-body">Figma design for all pages, Codex-powered development, master template for all solution pages</div>
+      </div>
+      <div class="step">
+        <div class="step-n">Month 03</div>
+        <div class="step-title">Brand & Content</div>
+        <div class="step-body">LinkedIn A/B testing, 50 branded posts, full brand asset library, colour and type system</div>
+      </div>
+      <div class="step">
+        <div class="step-n">Throughout</div>
+        <div class="step-title">CEO Check-ins</div>
+        <div class="step-body">Structured stakeholder reviews at each phase, feedback loops to keep the work aligned with business goals</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 04 REBRAND ─── -->
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>04 — Rebrand</div>
+    <h2 class="reveal d1">From grey and white<br>to pure <em>black and white</em>.</h2>
+    <p class="reveal d2">The original site lived in an ambiguous grey zone — neither confident nor considered. The rebrand made a deliberate choice: strip everything back to black and white. The aesthetic draws from the language of AI itself — binary, precise, zero noise. Clean like code. Trustworthy like a system that works.</p>
+    <p class="reveal d3">Every element either earns its place or disappears. That constraint became the design system.</p>
+
+    <div class="palette reveal" style="margin-top: 40px;">
+      <div class="swatch" style="background:#0a0a0a; flex:1.5;">#0A0A0A<br>Background</div>
+      <div class="swatch" style="background:#111111;">#111111<br>Surface</div>
+      <div class="swatch" style="background:#555555;">#555555<br>Muted</div>
+      <div class="swatch" style="background:#888888;">#888888<br>Sub</div>
+      <div class="swatch" style="background:#e8e8e8; color:rgba(0,0,0,0.4);">#E8E8E8<br>Accent</div>
+      <div class="swatch" style="background:#ffffff; color:rgba(0,0,0,0.4);">#FFFFFF<br>White</div>
+    </div>
+
+    <div class="feature-list reveal" style="margin-top: 40px;">
+      <div class="feature-row">
+        <div class="feature-name">Before</div>
+        <div class="feature-desc">Grey & white palette, mixed icon styles, no defined type scale, no design system, light-and-dark page inconsistency</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-name">After</div>
+        <div class="feature-desc">Pure black & white system, unified icon library, defined typography hierarchy, reusable component library, consistent dark theme across all pages</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-name">Concept</div>
+        <div class="feature-desc">The visual language is intentionally binary — drawing from the feel of AI itself. No colour distractions. The product and the content do the talking. Zero and one.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 05 FIGMA TO CODEX ─── -->
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>05 — Design & Build</div>
+    <h2 class="reveal d1">Figma first.<br>Codex to ship.</h2>
+    <p class="reveal d2">The redesign had an aggressive one-month build window. The workflow had to be tight. Every design decision happened in Figma first — layouts, components, spacing, content hierarchy. Only once the design was solid did development begin.</p>
+    <p class="reveal d3">OpenAI's Codex translated the Figma specs into production code at speed. The initial prompts and creative direction were mine. As page complexity grew — especially across the solutions architecture — the senior developer joined to handle advanced implementation while I maintained design ownership throughout.</p>
+
+    <div class="callout reveal">
+      <p><strong style="color:var(--white);">Key design decision —</strong> Rather than designing each solution page individually, I built one master template covering layout, component structure, spacing rules, and content hierarchy. That single template scaled across every product use case without redesigning from scratch each time.</p>
+    </div>
+
+    <div class="insights-grid reveal" style="margin-top: 40px;">
+      <div class="insight-cell">
+        <span class="insight-num">01</span>
+        <span class="insight-tag">Design</span>
+        <div class="insight-body">Designed all pages in Figma — homepage, solutions index, and the master template — before any code was written. Design thinking always led.</div>
+      </div>
+      <div class="insight-cell">
+        <span class="insight-num">02</span>
+        <span class="insight-tag">Prompt</span>
+        <div class="insight-body">Fed Figma specs into Codex with structured prompts. Iterated on output to match design intent. AI accelerated execution — it didn't replace design judgment.</div>
+      </div>
+      <div class="insight-cell">
+        <span class="insight-num">03</span>
+        <span class="insight-tag">Collaborate</span>
+        <div class="insight-body">As complexity increased, the senior developer handled advanced implementation. Figma was the single source of truth. Design direction stayed mine throughout.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 06 LINKEDIN ─── -->
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>06 — Brand & LinkedIn</div>
+    <h2 class="reveal d1">50 posts.<br>All <em>data-driven</em>.</h2>
+    <p class="reveal d2">The LinkedIn work wasn't production for the sake of production. It started with research. I studied existing post formats and performance patterns for Eranova's audience, then ran A/B tests across different post types before designing a single deliverable. The content strategy came directly from what the data showed — not from assumptions.</p>
+    <div class="iter-list reveal d3">
+      <div class="iter-row">
+        <div class="iter-round">01</div>
+        <div>
+          <div class="iter-title">Research & A/B Testing</div>
+          <div class="iter-body">Studied existing post performance patterns. Tested different formats — image-heavy vs text-first, short vs long-form, carousel vs static — to understand what resonated with Eranova's specific audience before committing to a design direction.</div>
+        </div>
+        <span class="badge badge-green">Complete</span>
+      </div>
+      <div class="iter-row">
+        <div class="iter-round">02</div>
+        <div>
+          <div class="iter-title">Content Strategy Redesign</div>
+          <div class="iter-body">Used A/B findings to define a new content approach — consistent brand voice, visual template system, and a posting cadence that felt intentional rather than ad hoc.</div>
+        </div>
+        <span class="badge badge-green">Complete</span>
+      </div>
+      <div class="iter-row">
+        <div class="iter-round">03</div>
+        <div>
+          <div class="iter-title">50 Branded Posts + Asset Library</div>
+          <div class="iter-body">Produced 50 branded LinkedIn posts using the new system, alongside a full brand asset library — colour system, typography guidelines, and reusable components — giving the team a consistent foundation for all future communications.</div>
+        </div>
+        <span class="badge badge-green">Complete</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 07 REFLECTION ─── -->
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>07 — Reflection</div>
+    <h2 class="reveal d1">What I carried<br>out of this.</h2>
+    <div class="insights-grid reveal d3" style="margin-top: 40px;">
+      <div class="insight-cell">
+        <span class="insight-num">01</span>
+        <span class="insight-tag">On Audits</span>
+        <div class="insight-body">Good design work starts before Figma. Building the evidence, presenting it to a CEO, and earning alignment was just as important as anything I designed. Without that foundation, the redesign had no clear direction.</div>
+      </div>
+      <div class="insight-cell">
+        <span class="insight-num">02</span>
+        <span class="insight-tag">On AI + Design</span>
+        <div class="insight-body">Working with Codex sharpened how I think about handoffs. When your Figma work is precise, AI executes it fast. When it isn't, the gaps show immediately. It made me a more rigorous and intentional designer.</div>
+      </div>
+      <div class="insight-cell">
+        <span class="insight-num">03</span>
+        <span class="insight-tag">On Content</span>
+        <div class="insight-body">Test before you produce at scale. The A/B data shaped the entire LinkedIn strategy. That discipline — lead with research, follow with execution — is something I'll carry into every project.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FINAL ─── -->
+<footer class="final">
+  <div class="col">
+    <div class="tag" style="justify-content:center;"><span class="tag-dot"></span>Eranova AI · 2026</div>
+    <h2>Enterprise credibility, built<br>from the ground up.</h2>
+    <p>Three months. One audit. One rebrand. One site launch. Fifty posts. One team that went from a generic landing page to a brand that looked like it belonged in the room with enterprise clients.</p>
+    <div style="margin-top:32px;">
+      <a href="../index.html" class="btn">← Back to Work</a>
+    </div>
+  </div>
+</footer>
+</main>
+
+<script>
+// Reveal on scroll
+const revObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); revObs.unobserve(e.target); }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+// Hamburger + mobile theme
+(function(){
+  const hamburger  = document.getElementById('navHamburger');
+  const mobileMenu = document.getElementById('navMobileMenu');
+
+  function closeMenu(){
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', false);
+  }
+
+  if(hamburger && mobileMenu){
+    hamburger.addEventListener('click', function(e){
+      e.stopPropagation();
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen);
+    });
+  }
+  if(mobileMenu){
+    mobileMenu.querySelectorAll('a').forEach(function(link){ link.addEventListener('click', closeMenu); });
+    document.addEventListener('click', function(e){
+      if(!mobileMenu.classList.contains('open')) return;
+      if(!(hamburger && hamburger.contains(e.target)) && !mobileMenu.contains(e.target)) closeMenu();
+    });
+  }
+})();
+
+// Navbar scroll + theme toggle
+(function(){
+  const navTop    = document.getElementById('navTop');
+  const navPill   = document.getElementById('navPill');
+  const rFill     = document.getElementById('navRingFill');
+  const rPct      = document.getElementById('navRingPct');
+  const toggleTop = document.getElementById('themeToggle');
+  const togglePill= document.getElementById('themeTogglePill');
+  const CIRC = 2 * Math.PI * 17;
+  const mobileBar = document.getElementById('mobileProgressBar');
+
+  function onScroll(){
+    const h = document.documentElement;
+    const scrollY = h.scrollTop;
+    const total   = h.scrollHeight - h.clientHeight;
+    const pct     = total > 0 ? Math.min(scrollY / total, 1) : 0;
+    const isMobile = window.innerWidth <= 640;
+    if(!isMobile){
+      navTop.classList.toggle('nav-hidden', scrollY > 80);
+      navPill.classList.toggle('nav-visible', scrollY > 80);
+    } else {
+      navTop.classList.remove('nav-hidden');
+      navPill.classList.remove('nav-visible');
+      if(mobileBar) mobileBar.style.width = (pct * 100) + '%';
+    }
+    rFill.style.strokeDashoffset = CIRC * (1 - pct);
+    rPct.textContent = Math.round(pct * 100) + '%';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  function applyTheme(goLight){
+    document.body.classList.toggle('light', goLight);
+    const icon = goLight ? '☀️' : '🌙';
+    toggleTop.textContent  = icon;
+    togglePill.textContent = icon;
+  }
+  function toggleTheme(){ applyTheme(!document.body.classList.contains('light')); }
+  if(toggleTop)  toggleTop.addEventListener('click', toggleTheme);
+  if(togglePill) togglePill.addEventListener('click', toggleTheme);
+})();
+</script>
+</body>
+</html>
