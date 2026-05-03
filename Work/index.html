@@ -57,10 +57,10 @@
     position: fixed; bottom: 36px; left: 50%;
     transform: translateX(-50%);
     z-index: 9999;
-    display: flex; align-items: center; gap: 8px;
-    background: rgba(255,255,255,0.85);
+    display: flex; align-items: center; gap: 4px;
+    background: rgba(15,15,15,0.85);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(0,0,0,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
     border-radius: 999px;
     padding: 6px 8px;
     transition: background 0.4s, border-color 0.4s;
@@ -70,12 +70,12 @@
     font-size: 11px; letter-spacing: 0.5px;
     padding: 7px 16px; border-radius: 999px;
     border: none; cursor: pointer;
-    background: transparent; color: rgba(0,0,0,0.45);
+    background: transparent; color: rgba(255,255,255,0.5);
     transition: background 0.2s, color 0.2s;
     white-space: nowrap;
   }
-  .filter-btn:hover { color: #111; background: rgba(0,0,0,0.06); }
-  .filter-btn.active { background: #111; color: #fff; }
+  .filter-btn:hover { color: #fff; background: rgba(255,255,255,0.1); }
+  .filter-btn.active { background: #fff; color: #111; }
 
   /* ── HORIZONTAL SCROLL CONTAINER ── */
   .scroll-container {
@@ -195,16 +195,19 @@
   .progress-dots {
     position: fixed; right: 32px; top: 50%;
     transform: translateY(-50%);
-    display: flex; flex-direction: column; gap: 10px;
+    display: flex; flex-direction: column; gap: 12px;
     z-index: 9999;
   }
   .dot {
     width: 6px; height: 6px; border-radius: 50%;
-    background: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.9);
+    border: none; cursor: pointer; padding: 0;
+    display: block;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.3);
     transition: background 0.3s, transform 0.3s;
-    cursor: pointer;
   }
-  .dot.active { background: #fff; transform: scale(1.4); }
+  .dot:hover { transform: scale(1.3); }
+  .dot.active { background: #fff; transform: scale(1.5); box-shadow: 0 0 0 2px rgba(0,0,0,0.4); }
 
   /* ── EMPTY STATE ── */
   .empty-state {
@@ -218,8 +221,79 @@
   .empty-title { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; color: rgba(255,255,255,0.4); }
   .empty-sub { font-size: 14px; color: rgba(255,255,255,0.25); }
 
+  /* ── WCAG: Focus indicators ── */
+  *:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  .filter-btn:focus-visible, .panel-cta:focus-visible, .nav-top__link:focus-visible, .nav-top__logo:focus-visible, .nav-top__cta:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+  }
+  .dot:focus-visible { outline: 2px solid #fff; outline-offset: 4px; border-radius: 50%; }
+
+  /* ── WCAG: Contrast fixes — bump opacity on low-contrast text ── */
+  .panel-number { color: rgba(255,255,255,0.7); }
+  .panel-category { color: rgba(255,255,255,0.75); }
+  .panel-tag { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.4); }
+  .panel-desc { color: rgba(255,255,255,0.85); }
+  .empty-sub { color: rgba(255,255,255,0.6); }
+  .empty-title { color: rgba(255,255,255,0.7); }
+  .dot { background: rgba(255,255,255,0.5); }
+
+  /* ── WCAG: Reduced motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation: none; }
+    .panel-inner { transition: none; opacity: 1; transform: none; }
+    * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  }
+  /* ── MOCKUP PREVIEW ── */
+  .mockup {
+    position: absolute; right: 8vw; top: 50%;
+    transform: translateY(-50%) translateX(60px) scale(0.94);
+    width: clamp(280px, 28vw, 400px);
+    height: clamp(400px, 62vh, 540px);
+    border-radius: 24px; overflow: hidden;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.1s,
+                transform 1s cubic-bezier(0.16,1,0.3,1) 0.1s;
+    z-index: 3;
+    background: #0d0d0d;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+  }
+  .panel:has(.panel-cta:hover) .mockup {
+    transform: translateY(-50%) translateX(0) scale(1);
+    opacity: 1;
+  }
+  .mock-bar { display: flex; align-items: center; gap: 6px; padding: 12px 16px; background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.06); flex-shrink: 0; }
+  .mock-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .mock-title-bar { font-family: 'Geist Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.35); margin-left: 6px; letter-spacing: 1px; }
+  .mock-content { flex: 1; padding: 18px; display: flex; flex-direction: column; gap: 10px; overflow: hidden; }
+  .mock-inner { width: 100%; height: 100%; display: flex; flex-direction: column; }
+  .mock-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 14px; }
+  .mock-label { font-family: 'Geist Mono', monospace; font-size: 9px; letter-spacing: 1.5px; color: rgba(255,255,255,0.3); text-transform: uppercase; margin-bottom: 8px; display: block; }
+  .mock-line { height: 7px; border-radius: 4px; background: rgba(255,255,255,0.1); margin-bottom: 5px; }
+  .mock-line.s { width: 45%; } .mock-line.m { width: 70%; } .mock-line.l { width: 95%; }
+  .mock-line.bright { background: rgba(255,255,255,0.25); height: 9px; }
+  .mock-stat-num { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; color: rgba(255,255,255,0.9); line-height: 1; }
+  .mock-stat-sub { font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 3px; }
+  .mock-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .mock-avatar { width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.12); flex-shrink: 0; }
+  .mock-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .mock-chart { display: flex; align-items: flex-end; gap: 3px; height: 50px; }
+  .mock-bar-c { flex: 1; border-radius: 3px 3px 0 0; background: rgba(255,255,255,0.12); }
+  .mock-bar-c.hi { background: rgba(255,255,255,0.4); }
+  .mock-check-item { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .mock-check-circle { width: 15px; height: 15px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.25); flex-shrink: 0; }
+  .mock-check-circle.done { background: rgba(255,255,255,0.18); border-color: transparent; }
+  .mock-map-area { flex: 1; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); position: relative; overflow: hidden; min-height: 100px; }
+  .mock-pin { width: 8px; height: 8px; border-radius: 50%; position: absolute; }
+  .mock-pin-ring { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid; position: absolute; opacity: 0.35; }
+  @media (max-width: 960px) { .mockup { display: none; } }
+
   /* ── DARK MODE ── */
-  body.dark { background-color: #141414; }
   body.dark .nav { background: rgba(15,15,15,0.85); border-color: rgba(255,255,255,0.1); }
   body.dark .nav__logo { color: #fff; }
   body.dark .nav__link { color: rgba(255,255,255,0.5); }
@@ -265,16 +339,15 @@
 </header>
 
 <!-- FILTER PILLS -->
-<div class="filters">
-  <button class="filter-btn active" data-filter="all">All</button>
-  <button class="filter-btn" data-filter="ux">UX</button>
-  <button class="filter-btn" data-filter="ai">AI</button>
-  <button class="filter-btn" data-filter="research">Research</button>
-  <button class="filter-btn" data-filter="0-1">0→1</button>
+<div class="filters" role="group" aria-label="Filter projects">
+  <button class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
+  <button class="filter-btn" data-filter="ux" aria-pressed="false">UX</button>
+  <button class="filter-btn" data-filter="ai" aria-pressed="false">AI</button>
+  <button class="filter-btn" data-filter="research" aria-pressed="false">Research</button>
+  <button class="filter-btn" data-filter="0-1" aria-pressed="false">0→1</button>
 </div>
 
-<!-- PROGRESS DOTS -->
-<div class="progress-dots" id="progressDots"></div>
+<div class="progress-dots" id="progressDots" role="group" aria-label="Project navigation"></div>
 
 <!-- SCROLL HINT -->
 <div class="scroll-hint" id="scrollHint">
@@ -289,11 +362,38 @@
 </div>
 
 <!-- HORIZONTAL SCROLL CONTAINER -->
-<div class="scroll-container" id="scrollContainer">
+<main>
+<div class="scroll-container" id="scrollContainer" role="region" aria-label="Project gallery" tabindex="0">
 
   <!-- 1. Global Bridge -->
   <div class="panel" data-color="#007AFF" data-tags="ux,research">
-    <div class="panel-marquee"><div class="marquee-track"><span>Global Bridge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Global Bridge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Global Bridge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Global Bridge&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="panel-marquee" aria-hidden="true"><div class="marquee-track"><span>Global Bridge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Global Bridge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Global Bridge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Global Bridge&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="mockup" aria-hidden="true">
+      <div class="mock-inner">
+        <div class="mock-bar"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div><span class="mock-title-bar">Global Bridge · Safety Map</span></div>
+        <div class="mock-content">
+          <div class="mock-card">
+            <span class="mock-label">Nearby Safe Spots</span>
+            <div class="mock-map-area" style="min-height:130px;">
+              <div class="mock-pin" style="background:#4A7CFF;top:40%;left:50%;"></div>
+              <div class="mock-pin-ring" style="border-color:#4A7CFF;top:calc(40% - 7px);left:calc(50% - 7px);"></div>
+              <div class="mock-pin" style="background:#34C759;top:25%;left:30%;"></div>
+              <div class="mock-pin" style="background:#34C759;top:60%;left:70%;"></div>
+              <div class="mock-pin" style="background:#FF9500;top:70%;left:25%;"></div>
+            </div>
+          </div>
+          <div class="mock-grid2">
+            <div class="mock-card"><div class="mock-stat-num">12</div><div class="mock-stat-sub">Safe spots nearby</div></div>
+            <div class="mock-card"><div class="mock-stat-num">4.8</div><div class="mock-stat-sub">Avg safety score</div></div>
+          </div>
+          <div class="mock-card">
+            <span class="mock-label">Community Alerts</span>
+            <div class="mock-row"><div class="mock-avatar"></div><div><div class="mock-line bright m"></div><div class="mock-line s"></div></div></div>
+            <div class="mock-row"><div class="mock-avatar"></div><div><div class="mock-line bright l"></div><div class="mock-line m"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="panel-inner">
       <span class="panel-number">01</span>
       <span class="panel-category">UX/UI Design · Research</span>
@@ -310,7 +410,30 @@
 
   <!-- 2. TATA Fleet Edge -->
   <div class="panel" data-color="#CC2200" data-tags="ux,0-1">
-    <div class="panel-marquee"><div class="marquee-track"><span>TATA Fleet Edge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>TATA Fleet Edge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>TATA Fleet Edge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>TATA Fleet Edge&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="panel-marquee" aria-hidden="true"><div class="marquee-track"><span>TATA Fleet Edge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>TATA Fleet Edge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>TATA Fleet Edge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>TATA Fleet Edge&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="mockup" aria-hidden="true">
+      <div class="mock-inner">
+        <div class="mock-bar"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div><span class="mock-title-bar">Fleet Edge · Dashboard</span></div>
+        <div class="mock-content">
+          <div class="mock-grid2">
+            <div class="mock-card"><div class="mock-stat-num">248</div><div class="mock-stat-sub">Active vehicles</div></div>
+            <div class="mock-card"><div class="mock-stat-num">94%</div><div class="mock-stat-sub">On-time rate</div></div>
+          </div>
+          <div class="mock-card">
+            <span class="mock-label">Fleet Performance</span>
+            <div class="mock-chart">
+              <div class="mock-bar-c" style="height:40%"></div><div class="mock-bar-c" style="height:60%"></div><div class="mock-bar-c hi" style="height:80%"></div><div class="mock-bar-c" style="height:55%"></div><div class="mock-bar-c" style="height:70%"></div><div class="mock-bar-c hi" style="height:90%"></div><div class="mock-bar-c" style="height:65%"></div>
+            </div>
+          </div>
+          <div class="mock-card">
+            <span class="mock-label">Active Routes</span>
+            <div class="mock-check-item"><div class="mock-check-circle done"></div><div><div class="mock-line bright m"></div></div></div>
+            <div class="mock-check-item"><div class="mock-check-circle done"></div><div><div class="mock-line bright l"></div></div></div>
+            <div class="mock-check-item"><div class="mock-check-circle"></div><div><div class="mock-line m"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="panel-inner">
       <span class="panel-number">02</span>
       <span class="panel-category">Enterprise Dashboard · 0→1</span>
@@ -327,7 +450,34 @@
 
   <!-- 3. Richie AI -->
   <div class="panel" data-color="#1B5E20" data-tags="ai,0-1">
-    <div class="panel-marquee"><div class="marquee-track"><span>Richie AI&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Richie AI&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Richie AI&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Richie AI&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="panel-marquee" aria-hidden="true"><div class="marquee-track"><span>Richie AI&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Richie AI&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Richie AI&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Richie AI&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="mockup" aria-hidden="true">
+      <div class="mock-inner">
+        <div class="mock-bar"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div><span class="mock-title-bar">Richie AI · Portfolio</span></div>
+        <div class="mock-content">
+          <div class="mock-card">
+            <span class="mock-label">Portfolio Value</span>
+            <div class="mock-stat-num" style="font-size:28px;">$24,830</div>
+            <div class="mock-stat-sub" style="color:rgba(52,199,89,0.8);margin-top:4px;">↑ 12.4% this month</div>
+          </div>
+          <div class="mock-card">
+            <span class="mock-label">Performance</span>
+            <div class="mock-chart">
+              <div class="mock-bar-c" style="height:35%"></div><div class="mock-bar-c" style="height:50%"></div><div class="mock-bar-c" style="height:45%"></div><div class="mock-bar-c hi" style="height:70%"></div><div class="mock-bar-c" style="height:60%"></div><div class="mock-bar-c hi" style="height:85%"></div><div class="mock-bar-c hi" style="height:95%"></div>
+            </div>
+          </div>
+          <div class="mock-grid2">
+            <div class="mock-card"><div class="mock-stat-num">8</div><div class="mock-stat-sub">Holdings</div></div>
+            <div class="mock-card"><div class="mock-stat-num">3</div><div class="mock-stat-sub">AI insights</div></div>
+          </div>
+          <div class="mock-card">
+            <span class="mock-label">AI Recommendation</span>
+            <div class="mock-line bright l"></div>
+            <div class="mock-line m"></div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="panel-inner">
       <span class="panel-number">03</span>
       <span class="panel-category">Fintech · AI · 0→1</span>
@@ -344,7 +494,30 @@
 
   <!-- 4. TJU Course Registration -->
   <div class="panel" data-color="#4B0082" data-tags="ux,research">
-    <div class="panel-marquee"><div class="marquee-track"><span>TJU Course Registration&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>TJU Course Registration&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>TJU Course Registration&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="panel-marquee" aria-hidden="true"><div class="marquee-track"><span>TJU Course Registration&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>TJU Course Registration&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>TJU Course Registration&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="mockup" aria-hidden="true">
+      <div class="mock-inner">
+        <div class="mock-bar"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div><span class="mock-title-bar">TJU · Course Registration</span></div>
+        <div class="mock-content">
+          <div class="mock-card">
+            <span class="mock-label">Spring 2025 — My Schedule</span>
+            <div class="mock-check-item"><div class="mock-check-circle done"></div><div><div class="mock-line bright l"></div><div class="mock-line s"></div></div></div>
+            <div class="mock-check-item"><div class="mock-check-circle done"></div><div><div class="mock-line bright m"></div><div class="mock-line s"></div></div></div>
+            <div class="mock-check-item"><div class="mock-check-circle"></div><div><div class="mock-line m"></div><div class="mock-line s"></div></div></div>
+            <div class="mock-check-item" style="border:none"><div class="mock-check-circle"></div><div><div class="mock-line m"></div><div class="mock-line s"></div></div></div>
+          </div>
+          <div class="mock-grid2">
+            <div class="mock-card"><div class="mock-stat-num">18</div><div class="mock-stat-sub">Credits enrolled</div></div>
+            <div class="mock-card"><div class="mock-stat-num">2</div><div class="mock-stat-sub">Slots remaining</div></div>
+          </div>
+          <div class="mock-card">
+            <span class="mock-label">Prerequisite Check</span>
+            <div class="mock-line bright l"></div>
+            <div class="mock-line m"></div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="panel-inner">
       <span class="panel-number">04</span>
       <span class="panel-category">Educational Platform · UX</span>
@@ -361,7 +534,29 @@
 
   <!-- 5. Calorie Wise -->
   <div class="panel" data-color="#1A3A7A" data-tags="ux,0-1">
-    <div class="panel-marquee"><div class="marquee-track"><span>Calorie Wise&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Calorie Wise&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Calorie Wise&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Calorie Wise&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="panel-marquee" aria-hidden="true"><div class="marquee-track"><span>Calorie Wise&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Calorie Wise&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Calorie Wise&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Calorie Wise&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="mockup" aria-hidden="true">
+      <div class="mock-inner">
+        <div class="mock-bar"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div><span class="mock-title-bar">Calorie Wise · Today</span></div>
+        <div class="mock-content">
+          <div class="mock-card" style="text-align:center">
+            <span class="mock-label">Calories Remaining</span>
+            <div class="mock-stat-num" style="font-size:36px;text-align:center">842</div>
+            <div class="mock-stat-sub" style="text-align:center">of 2,000 goal</div>
+          </div>
+          <div class="mock-grid2">
+            <div class="mock-card"><div class="mock-stat-num">142g</div><div class="mock-stat-sub">Protein</div></div>
+            <div class="mock-card"><div class="mock-stat-num">68g</div><div class="mock-stat-sub">Carbs</div></div>
+          </div>
+          <div class="mock-card">
+            <span class="mock-label">Today's Meals</span>
+            <div class="mock-check-item"><div class="mock-check-circle done"></div><div><div class="mock-line bright m"></div></div></div>
+            <div class="mock-check-item"><div class="mock-check-circle done"></div><div><div class="mock-line bright l"></div></div></div>
+            <div class="mock-check-item" style="border:none"><div class="mock-check-circle"></div><div><div class="mock-line s"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="panel-inner">
       <span class="panel-number">05</span>
       <span class="panel-category">Mobile App · 0→1</span>
@@ -378,7 +573,29 @@
 
   <!-- 6. Hair Food -->
   <div class="panel" data-color="#8B0057" data-tags="ux,0-1">
-    <div class="panel-marquee"><div class="marquee-track"><span>Hair Food&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Hair Food&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Hair Food&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Hair Food&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="panel-marquee" aria-hidden="true"><div class="marquee-track"><span>Hair Food&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Hair Food&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Hair Food&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Hair Food&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="mockup" aria-hidden="true">
+      <div class="mock-inner">
+        <div class="mock-bar"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div><span class="mock-title-bar">Hair Food · Shop</span></div>
+        <div class="mock-content">
+          <div class="mock-card">
+            <span class="mock-label">Your Hair Profile</span>
+            <div class="mock-row"><div class="mock-avatar" style="width:40px;height:40px;"></div><div style="flex:1"><div class="mock-line bright m"></div><div class="mock-line s"></div></div></div>
+          </div>
+          <div class="mock-card">
+            <span class="mock-label">Recommended For You</span>
+            <div class="mock-grid2" style="gap:6px">
+              <div style="background:rgba(255,255,255,0.06);border-radius:8px;padding:10px;"><div class="mock-line bright l"></div><div class="mock-line m"></div><div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:rgba(255,255,255,0.8);margin-top:6px;">$24</div></div>
+              <div style="background:rgba(255,255,255,0.06);border-radius:8px;padding:10px;"><div class="mock-line bright l"></div><div class="mock-line s"></div><div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:rgba(255,255,255,0.8);margin-top:6px;">$18</div></div>
+            </div>
+          </div>
+          <div class="mock-grid2">
+            <div class="mock-card"><div class="mock-stat-num">4.9</div><div class="mock-stat-sub">Match score</div></div>
+            <div class="mock-card"><div class="mock-stat-num">12</div><div class="mock-stat-sub">Products found</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="panel-inner">
       <span class="panel-number">06</span>
       <span class="panel-category">E-commerce · 0→1</span>
@@ -395,7 +612,33 @@
 
   <!-- 7. WIFY Mobile App -->
   <div class="panel" data-color="#1A6B1A" data-tags="ux,0-1">
-    <div class="panel-marquee"><div class="marquee-track"><span>WIFY Mobile App&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>WIFY Mobile App&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>WIFY Mobile App&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>WIFY Mobile App&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="panel-marquee" aria-hidden="true"><div class="marquee-track"><span>WIFY Mobile App&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>WIFY Mobile App&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>WIFY Mobile App&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>WIFY Mobile App&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="mockup" aria-hidden="true">
+      <div class="mock-inner">
+        <div class="mock-bar"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div><span class="mock-title-bar">WIFY · Nearby Spots</span></div>
+        <div class="mock-content">
+          <div class="mock-card">
+            <span class="mock-label">WiFi Map</span>
+            <div class="mock-map-area" style="min-height:120px;">
+              <div class="mock-pin" style="background:#34C759;top:45%;left:48%;"></div>
+              <div class="mock-pin-ring" style="border-color:#34C759;top:calc(45% - 7px);left:calc(48% - 7px);"></div>
+              <div class="mock-pin" style="background:#fff;top:30%;left:65%;width:6px;height:6px;"></div>
+              <div class="mock-pin" style="background:#fff;top:65%;left:30%;width:6px;height:6px;"></div>
+              <div class="mock-pin" style="background:#fff;top:25%;left:35%;width:6px;height:6px;"></div>
+            </div>
+          </div>
+          <div class="mock-grid2">
+            <div class="mock-card"><div class="mock-stat-num">7</div><div class="mock-stat-sub">Free spots</div></div>
+            <div class="mock-card"><div class="mock-stat-num">98ms</div><div class="mock-stat-sub">Avg ping</div></div>
+          </div>
+          <div class="mock-card">
+            <span class="mock-label">Top Spot</span>
+            <div class="mock-line bright l"></div>
+            <div class="mock-line m"></div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="panel-inner">
       <span class="panel-number">07</span>
       <span class="panel-category">Mobile App · 0→1</span>
@@ -412,7 +655,30 @@
 
   <!-- 8. Analytics -->
   <div class="panel" data-color="#7A5500" data-tags="ai,ux">
-    <div class="panel-marquee"><div class="marquee-track"><span>Analytics&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Analytics&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Analytics&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Analytics&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="panel-marquee" aria-hidden="true"><div class="marquee-track"><span>Analytics&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Analytics&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Analytics&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Analytics&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="mockup" aria-hidden="true">
+      <div class="mock-inner">
+        <div class="mock-bar"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div><span class="mock-title-bar">Analytics · Dashboard</span></div>
+        <div class="mock-content">
+          <div class="mock-grid2">
+            <div class="mock-card"><div class="mock-stat-num">128k</div><div class="mock-stat-sub">Total events</div></div>
+            <div class="mock-card"><div class="mock-stat-num">↑38%</div><div class="mock-stat-sub">vs last week</div></div>
+          </div>
+          <div class="mock-card">
+            <span class="mock-label">Event Trend</span>
+            <div class="mock-chart">
+              <div class="mock-bar-c" style="height:30%"></div><div class="mock-bar-c" style="height:45%"></div><div class="mock-bar-c" style="height:40%"></div><div class="mock-bar-c hi" style="height:65%"></div><div class="mock-bar-c hi" style="height:75%"></div><div class="mock-bar-c hi" style="height:90%"></div><div class="mock-bar-c hi" style="height:100%"></div>
+            </div>
+          </div>
+          <div class="mock-card">
+            <span class="mock-label">Top Funnels</span>
+            <div class="mock-check-item"><div class="mock-check-circle done"></div><div><div class="mock-line bright l"></div></div></div>
+            <div class="mock-check-item"><div class="mock-check-circle done"></div><div><div class="mock-line bright m"></div></div></div>
+            <div class="mock-check-item" style="border:none"><div class="mock-check-circle"></div><div><div class="mock-line s"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="panel-inner">
       <span class="panel-number">08</span>
       <span class="panel-category">AI · Analytics</span>
@@ -429,7 +695,29 @@
 
   <!-- 9. Wanderer -->
   <div class="panel" data-color="#C44A00" data-tags="ux,0-1">
-    <div class="panel-marquee"><div class="marquee-track"><span>Wanderer&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Wanderer&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Wanderer&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Wanderer&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="panel-marquee" aria-hidden="true"><div class="marquee-track"><span>Wanderer&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Wanderer&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Wanderer&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Wanderer&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="mockup" aria-hidden="true">
+      <div class="mock-inner">
+        <div class="mock-bar"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div><span class="mock-title-bar">Wanderer · Plan Trip</span></div>
+        <div class="mock-content">
+          <div class="mock-card">
+            <span class="mock-label">Philadelphia → NYC</span>
+            <div class="mock-stat-num" style="font-size:20px;">3 days · 14 stops</div>
+          </div>
+          <div class="mock-card">
+            <span class="mock-label">Itinerary</span>
+            <div class="mock-check-item"><div class="mock-check-circle done"></div><div><div class="mock-line bright l"></div><div class="mock-line s"></div></div></div>
+            <div class="mock-check-item"><div class="mock-check-circle done"></div><div><div class="mock-line bright m"></div><div class="mock-line s"></div></div></div>
+            <div class="mock-check-item"><div class="mock-check-circle"></div><div><div class="mock-line m"></div><div class="mock-line s"></div></div></div>
+            <div class="mock-check-item" style="border:none"><div class="mock-check-circle"></div><div><div class="mock-line s"></div></div></div>
+          </div>
+          <div class="mock-grid2">
+            <div class="mock-card"><div class="mock-stat-num">$340</div><div class="mock-stat-sub">Est. budget</div></div>
+            <div class="mock-card"><div class="mock-stat-num">4.7</div><div class="mock-stat-sub">AI score</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="panel-inner">
       <span class="panel-number">09</span>
       <span class="panel-category">Mobile App · 0→1</span>
@@ -445,6 +733,7 @@
   </div>
 
 </div>
+</main>
 
 <script>
 (function() {
@@ -461,9 +750,12 @@
   // Build dots
   function buildDots() {
     dotsContainer.innerHTML = '';
-    visiblePanels.forEach(function(_, i) {
-      var dot = document.createElement('div');
+    visiblePanels.forEach(function(panel, i) {
+      var dot = document.createElement('button');
+      var title = panel.querySelector('.panel-title');
       dot.className = 'dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', 'Go to project ' + (title ? title.textContent : i + 1));
+      dot.setAttribute('aria-current', i === 0 ? 'true' : 'false');
       dot.addEventListener('click', function() { scrollToPanel(i); });
       dotsContainer.appendChild(dot);
     });
@@ -471,7 +763,10 @@
 
   function updateDots(idx) {
     var dots = dotsContainer.querySelectorAll('.dot');
-    dots.forEach(function(d, i) { d.classList.toggle('active', i === idx); });
+    dots.forEach(function(d, i) {
+      d.classList.toggle('active', i === idx);
+      d.setAttribute('aria-current', i === idx ? 'true' : 'false');
+    });
   }
 
   function scrollToPanel(idx) {
@@ -583,8 +878,12 @@
 
   filterBtns.forEach(function(btn) {
     btn.addEventListener('click', function() {
-      filterBtns.forEach(function(b) { b.classList.remove('active'); });
+      filterBtns.forEach(function(b) {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
       btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
       applyFilter(btn.getAttribute('data-filter'));
     });
   });
