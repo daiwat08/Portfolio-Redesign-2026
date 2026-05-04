@@ -42,7 +42,7 @@
   .nav-top.nav-hidden { opacity: 0 !important; transform: translateX(-50%) translateY(-10px) !important; pointer-events: none !important; }
   .nav-top__logo { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: #fff; text-decoration: none; white-space: nowrap; flex-shrink: 0; transition: color .4s; }
   .nav-top__links { flex: 1; display: flex; align-items: center; justify-content: center; }
-  .nav-top__link { font-size: var(--t-sm); color: rgba(255,255,255,0.6); text-decoration: none; padding: 7px 16px; border-radius: 999px; transition: background .2s, color .2s; }
+  .nav-top__link { font-size: var(--t-sm); color: rgba(255,255,255,0.82); text-decoration: none; padding: 7px 16px; border-radius: 999px; transition: background .2s, color .2s; }
   .nav-top__link:hover { color: #fff; background: rgba(255,255,255,0.1); font-weight: 500; }
   .nav-top__cta { font-size: var(--t-xs); font-weight: 400; color: #111; text-decoration: none; background: #fff; padding: 8px 18px; border-radius: 999px; flex-shrink: 0; transition: background .2s, color .2s; }
   .nav-top__cta:hover { background: #4A7CFF; color: #fff; }
@@ -68,7 +68,7 @@
   .nav-pill__icon svg { width: 16px; height: 16px; color: rgba(255,255,255,.8); }
   .nav-pill__links { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .2s ease; }
   .nav-pill:hover .nav-pill__links { opacity: 1; pointer-events: all; transition-delay: .1s; }
-  .nav-pill__link { font-size: 14px; font-weight: 500; color: rgba(255,255,255,.6); text-decoration: none; padding: 8px 16px; border-radius: 999px; transition: background .2s, color .2s; white-space: nowrap; }
+  .nav-pill__link { font-size: 14px; font-weight: 500; color: rgba(255,255,255,.82); text-decoration: none; padding: 8px 16px; border-radius: 999px; transition: background .2s, color .2s; white-space: nowrap; }
   .nav-pill__link:hover { color: white; background: rgba(255,255,255,.1); }
   .nav-pill__theme { position: absolute; right: 63px; opacity: 0; pointer-events: none; transition: opacity .2s ease; z-index: 3; }
   .nav-pill:hover .nav-pill__theme { opacity: 1; pointer-events: all; transition-delay: .12s; }
@@ -78,7 +78,7 @@
   .nav-pill__ring svg { display: block; width: 42px; height: 42px; transform: rotate(-90deg); }
   .nav-pill__ring .r-track { fill: none; stroke: rgba(255,255,255,.2); stroke-width: 1.8; }
   .nav-pill__ring .r-fill { fill: none; stroke: rgba(255,255,255,.95); stroke-width: 1.8; stroke-linecap: round; stroke-dasharray: 106.81; stroke-dashoffset: 106.81; transition: stroke-dashoffset .3s ease; }
-  .nav-pill__ring .r-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; font-family: 'Geist Mono', monospace; color: rgba(255,255,255,.95); letter-spacing: -.02em; line-height: 1; }
+  .nav-pill__ring .r-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; font-family: 'Geist Mono', monospace; color: rgba(255,255,255,.95); letter-spacing: -.02em; line-height: 1; }
   .nav-pill.nav-on-dark { background: rgba(255,255,255,.92); border-color: rgba(0,0,0,.1); }
   .nav-pill.nav-on-dark .nav-pill__icon { background: rgba(0,0,0,.08); }
   .nav-pill.nav-on-dark .nav-pill__icon svg { color: rgba(0,0,0,.6); }
@@ -172,9 +172,9 @@
   /* Metrics cards */
   .metrics-label {
     font-family: 'Geist Mono', monospace;
-    font-size: 10px;
+    font-size: 12px;
     letter-spacing: 2px;
-    color: rgba(255,255,255,0.4);
+    color: rgba(255,255,255,0.75);
     margin-top: 28px;
     margin-bottom: 10px;
     text-transform: uppercase;
@@ -219,12 +219,12 @@
   .section.is-active .project-tags { transform: translateY(0); opacity: 1; }
   .project-tag {
     font-family: 'Geist Mono', monospace;
-    font-size: 10px;
+    font-size: 12px;
     letter-spacing: 1px;
     padding: 6px 14px;
     border-radius: 999px;
-    border: 1px solid rgba(255,255,255,0.2);
-    color: rgba(255,255,255,0.5);
+    border: 1px solid rgba(255,255,255,0.5);
+    color: rgba(255,255,255,0.8);
     background: transparent;
     text-transform: uppercase;
     transition: border-color 0.4s, color 0.4s;
@@ -313,19 +313,19 @@
   .s0 .btn-secondary { border-color: rgba(0,0,0,0.2); color: #111; }
 
   /* Hero dark theme text */
-  body.dark .s0 .eyebrow { color: rgba(255,255,255,0.4) !important; }
+  body.dark .s0 .eyebrow { color: rgba(255,255,255,0.65) !important; }
   body.dark .s0 h1 { color: #e8e8e8 !important; }
   body.dark .s0 p { color: rgba(255,255,255,0.55) !important; }
   body.dark .s0 .btn-secondary { border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.7); }
 
   /* Project sections — text always white since bg is always dark/colored */
-  .s1 .eyebrow, .s2 .eyebrow, .s3 .eyebrow, .s4 .eyebrow { color: rgba(255,255,255,0.5); }
+  .s1 .eyebrow, .s2 .eyebrow, .s3 .eyebrow, .s4 .eyebrow { color: rgba(255,255,255,0.75); }
   .s1 h2, .s2 h2, .s3 h2, .s4 h2 { color: #fff; }
   .s1 p, .s2 p, .s3 p, .s4 p { color: rgba(255,255,255,0.75); }
   .s1 .btn-light, .s2 .btn-light, .s3 .btn-light, .s4 .btn-light { border-color: rgba(255,255,255,0.4); color: #fff; }
-  .s1 .metrics-label, .s2 .metrics-label, .s3 .metrics-label, .s4 .metrics-label { color: rgba(255,255,255,0.4); }
+  .s1 .metrics-label, .s2 .metrics-label, .s3 .metrics-label, .s4 .metrics-label { color: rgba(255,255,255,0.75); }
   .s1 .metric-card, .s2 .metric-card, .s3 .metric-card, .s4 .metric-card { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.7); }
-  .s1 .project-tag, .s2 .project-tag, .s3 .project-tag, .s4 .project-tag { border-color: rgba(255,255,255,0.25); color: rgba(255,255,255,0.55); }
+  .s1 .project-tag, .s2 .project-tag, .s3 .project-tag, .s4 .project-tag { border-color: rgba(255,255,255,0.5); color: rgba(255,255,255,0.8); }
   .s1 .marquee-track span, .s2 .marquee-track span, .s3 .marquee-track span, .s4 .marquee-track span { -webkit-text-stroke: 1px rgba(255,255,255,0.1); color: transparent; }
 
   /* All sections transparent — body background driven by scroll JS */
@@ -383,7 +383,7 @@
     transition: transform 0.45s cubic-bezier(0.55,0,0.45,1), opacity 0.25s ease !important;
   }
   .preview-bg { position: absolute; inset: 0; z-index: 0; }
-  .preview-tag { position: absolute; top: 22px; left: 22px; font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 1.5px; color: rgba(255,255,255,0.45); z-index: 4; text-transform: uppercase; }
+  .preview-tag { position: absolute; top: 22px; left: 22px; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 1.5px; color: rgba(255,255,255,0.7); z-index: 4; text-transform: uppercase; }
   .phone-wrap { position: absolute; bottom: -28px; left: 50%; transform: translateX(-50%); width: 68%; z-index: 2; }
   .phone-shell {
     width: 100%; aspect-ratio: 9/19.5;
@@ -396,7 +396,7 @@
   .phone-screen { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: 0 0 32px; }
   .screen-glow { position: absolute; inset: 0; z-index: 0; }
   .screen-label { position: relative; z-index: 2; font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 800; color: rgba(255,255,255,0.95); letter-spacing: -0.5px; text-align: center; padding: 0 20px; line-height: 1.2; }
-  .screen-sub { position: relative; z-index: 2; font-family: 'Geist Mono', monospace; font-size: 8px; letter-spacing: 2px; color: rgba(255,255,255,0.35); margin-top: 8px; }
+  .screen-sub { position: relative; z-index: 2; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 2px; color: rgba(255,255,255,0.55); margin-top: 8px; }
 
   /* ── LAPTOP MOCKUP ── */
   .case-preview--laptop {
@@ -416,22 +416,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0;
-  }
-  .laptop-img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    /* Blend black background into section background */
-    
-    filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
-  }
-  .laptop-wrap {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     padding: 12px;
   }
   .laptop-img {
@@ -439,10 +423,15 @@
     height: 100%;
     object-fit: contain;
     filter: drop-shadow(0 40px 60px rgba(0,0,0,0.7));
+    mix-blend-mode: lighten;
+  }
+
+  .laptop-reveal img {
+    mix-blend-mode: lighten;
   }
 
   /* ── DARK MODE ── */
-  body.dark .s0 { background: #1a1a1a; } body.dark .s0 .eyebrow { color: #444; } body.dark .s0 h1 { color: #e8e8e8; } body.dark .s0 p { color: #666; }
+  body.dark .s0 { background: #1a1a1a; } body.dark .s0 .eyebrow { color: #888; } body.dark .s0 h1 { color: #e8e8e8; } body.dark .s0 p { color: #999; }
   body.dark .s0 .btn-secondary { border-color: #444; color: #aaa; } body.dark .s0 .btn-secondary:hover { background: #333; color: #fff; border-color: #333; }
   body.dark .s1 { background: #1a1a1a; }
   body.dark .s2 { background: #003f85; }
@@ -450,7 +439,7 @@
   body.dark .s4 { background: #001f4d; }
   body.dark .nav-top:not(.nav-dark) { background: rgba(20,20,20,0.92); border-color: rgba(255,255,255,0.08); }
   body.dark .nav-top:not(.nav-dark) .nav-top__logo { color: #e8e8e8; }
-  body.dark .nav-top:not(.nav-dark) .nav-top__link { color: #555; }
+  body.dark .nav-top:not(.nav-dark) .nav-top__link { color: #999; }
   body.dark .nav-top:not(.nav-dark) .nav-top__link:hover { color: #e8e8e8; background: rgba(255,255,255,0.06); }
   body.dark .nav-top:not(.nav-dark) .nav-top__cta { background: #333; color: #fff; }
 
@@ -479,6 +468,51 @@
   .s0 .eyebrow { opacity:0; animation: up .65s ease .10s forwards; }
   .s0 h1       { opacity:0; animation: up .65s ease .22s forwards; }
   .s0 p        { opacity:0; animation: up .65s ease .34s forwards; }
+
+  /* ── MACBOOK HOVER REVEAL ── */
+  .s1 { position: relative; overflow: hidden; }
+
+  .laptop-reveal {
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%) translateX(40px);
+    width: clamp(360px, 46vw, 620px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1),
+                transform 0.5s cubic-bezier(0.16,1,0.3,1);
+    z-index: 10;
+    filter: drop-shadow(0 40px 60px rgba(0,0,0,0.7));
+  }
+
+  .laptop-reveal img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Reveal only on button hover/focus */
+  .laptop-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+    pointer-events: none;
+  }
+
+  /* WCAG: ensure sufficient contrast on metric cards */
+  .metric-card {
+    color: rgba(255,255,255,0.85) !important;
+  }
+
+  /* WCAG: focus styles */
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid #4A7CFF;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+
 </style>
 </head>
 <body>
@@ -501,13 +535,13 @@
 </header>
 
 <!-- MOBILE MENU -->
-<div class="nav-mobile-menu" id="navMobileMenu">
+<nav class="nav-mobile-menu" id="navMobileMenu" aria-label="Mobile navigation">
   <a href="Work/index.html">Work</a>
   <a href="AboutMe/index.html">About</a>
   <a href="#">Resume</a>
   <div class="menu-divider"></div>
   <a href="#" style="color:#4A7CFF;font-weight:600;">Dave AI ✦</a>
-</div>
+</nav>
 
 <!-- PILL NAV -->
 <nav class="nav-pill" id="navPill" aria-label="Compact navigation">
@@ -517,8 +551,8 @@
     </svg>
   </div>
   <div class="nav-pill__links">
-    <a href="#" class="nav-pill__link">Work</a>
-    <a href="#" class="nav-pill__link">About</a>
+    <a href="Work/index.html" class="nav-pill__link">Work</a>
+    <a href="AboutMe/index.html" class="nav-pill__link">About</a>
     <a href="#" class="nav-pill__link">Resume</a>
   </div>
   <div class="nav-pill__theme">
@@ -529,7 +563,7 @@
       <circle class="r-track" cx="21" cy="21" r="17"/>
       <circle class="r-fill" id="navRingFill" cx="21" cy="21" r="17"/>
     </svg>
-    <div class="r-pct" id="navRingPct">0%</div>
+    <div class="r-pct" id="navRingPct" role="status" aria-label="Scroll progress">0%</div>
   </div>
 </nav>
 
@@ -553,7 +587,13 @@
   <div class="case-preview case-preview--laptop">
     <div class="preview-bg" style="background: #050810;"></div>
     <span class="preview-tag">01 — AI · Product Design</span>
-    
+    <div class="laptop-wrap">
+      <img class="laptop-img" src="MacBook_Air.png" alt="Eranova AI website shown on a MacBook Air" />
+    </div>
+  </div>
+
+  <div class="laptop-reveal" id="laptopReveal">
+    <img src="MacBook_Air.png" alt="Eranova AI website shown on a MacBook Air" />
   </div>
   <div class="section-inner">
     <span class="eyebrow">01 — AI · Product Design</span>
@@ -571,6 +611,7 @@
     </div>
     <a href="EranovaAI/index.html" class="btn-outline btn-light"><span class="btn-arrow">→</span>View Case Study</a>
   </div>
+
 </section>
 
 <!-- S2 GLOBAL BRIDGE -->
@@ -772,7 +813,7 @@
     if (isDark) {
       s0Section.querySelector('h1').style.color = '#e8e8e8';
       s0Section.querySelector('p').style.color = 'rgba(255,255,255,0.5)';
-      s0Section.querySelector('.eyebrow').style.color = 'rgba(255,255,255,0.3)';
+      s0Section.querySelector('.eyebrow').style.color = 'rgba(255,255,255,0.65)';
     } else {
       s0Section.querySelector('h1').style.color = '#111';
       s0Section.querySelector('p').style.color = '#555';
@@ -831,6 +872,46 @@
 
   sections[0].classList.add('is-active');
 })();
+
+
+  // MacBook hover reveal
+  (function() {
+    const btn = document.querySelector('.s1 .btn-light');
+    const reveal = document.getElementById('laptopReveal');
+    if (!btn || !reveal) return;
+
+    // Only reveal on button hover
+    btn.addEventListener('mouseenter', () => reveal.classList.add('is-visible'));
+    btn.addEventListener('mouseleave', () => reveal.classList.remove('is-visible'));
+
+    // WCAG: keyboard focus
+    btn.addEventListener('focus', () => reveal.classList.add('is-visible'));
+    btn.addEventListener('blur',  () => reveal.classList.remove('is-visible'));
+  })();
+
+  // WCAG: phone preview panels — reveal on focus as well as hover (s2, s3, s4)
+  (function() {
+    ['.s2', '.s3', '.s4'].forEach(function(sel) {
+      const section = document.querySelector(sel);
+      if (!section) return;
+      const btn = section.querySelector('.btn-light');
+      const preview = section.querySelector('.case-preview');
+      if (!btn || !preview) return;
+
+      function showPreview() {
+        preview.style.transform = 'translateY(-50%) translateX(0) scale(1)';
+        preview.style.opacity = '1';
+      }
+      function hidePreview() {
+        preview.style.transform = '';
+        preview.style.opacity = '';
+      }
+
+      btn.addEventListener('focus', showPreview);
+      btn.addEventListener('blur',  hidePreview);
+    });
+  })();
+
 </script>
 </body>
 </html>
