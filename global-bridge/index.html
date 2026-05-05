@@ -267,6 +267,41 @@
     .iter-row{grid-template-columns:1fr;}
     .stats-row{grid-template-columns:1fr;}
   }
+
+  /* ══════════════════════════════
+     LIGHTBOX
+  ══════════════════════════════ */
+  .lb-trigger{cursor:zoom-in;transition:opacity .2s;}
+  .lb-trigger:hover{opacity:.85;}
+  .lb-overlay{
+    display:none;position:fixed;inset:0;z-index:99999;
+    background:rgba(0,0,0,.92);
+    backdrop-filter:blur(12px);
+    align-items:center;justify-content:center;
+    padding:24px;
+  }
+  .lb-overlay.lb-open{display:flex;}
+  .lb-overlay img{
+    max-width:min(1100px,90vw);max-height:90vh;
+    object-fit:contain;border-radius:8px;
+    animation:lb-in .2s ease;
+  }
+  @keyframes lb-in{from{opacity:0;transform:scale(.96);}to{opacity:1;transform:scale(1);}}
+  .lb-close{
+    position:fixed;top:20px;right:24px;
+    width:40px;height:40px;border-radius:50%;
+    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
+    color:#fff;font-size:20px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:background .2s;
+  }
+  .lb-close:hover{background:rgba(255,255,255,.22);}
+  .lb-caption{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+    font-size:13px;color:rgba(255,255,255,.5);
+    font-family:'Geist Mono',monospace;letter-spacing:.5px;
+    white-space:nowrap;
+  }
 </style>
 </head>
 <body>
@@ -412,8 +447,8 @@
     <h2>Features that make<br>Global Bridge unique.</h2>
     <div class="feature-list">
       <div class="feature-row"><div class="feature-name">Peer Connect</div><div class="feature-desc">Students connect with peers who share similar interests, fostering a supportive community among international students.</div></div>
-      <div class="feature-row feature-row--has-img"><div class="feature-name">Siri Design</div><div class="feature-desc">Voice-activated Siri commands ensure discreet, hands-free emergency alerts that automatically notify three pre-set contacts.</div><img src="Assets/Siri-Dark.png" alt="Siri integration" class="feature-img feature-img--dark"><img src="Assets/Siri-light.png" alt="Siri integration" class="feature-img feature-img--light"></div>
-      <div class="feature-row feature-row--has-img"><div class="feature-name">iWatch Design</div><div class="feature-desc">Apple Watch interface triggers an alert to three pre-selected contacts, bypassing the need for a phone entirely.</div><img src="Assets/iWatch-dark.png" alt="Apple Watch interface" class="feature-img feature-img--dark"><img src="Assets/iWatch-light.png" alt="Apple Watch interface" class="feature-img feature-img--light"></div>
+      <div class="feature-row feature-row--has-img"><div class="feature-name">Siri Design</div><div class="feature-desc">Voice-activated Siri commands ensure discreet, hands-free emergency alerts that automatically notify three pre-set contacts.</div><img src="Assets/Siri-Dark.png" alt="Siri integration" class="feature-img feature-img--dark lb-trigger"><img src="Assets/Siri-light.png" alt="Siri integration" class="feature-img feature-img--light lb-trigger"></div>
+      <div class="feature-row feature-row--has-img"><div class="feature-name">iWatch Design</div><div class="feature-desc">Apple Watch interface triggers an alert to three pre-selected contacts, bypassing the need for a phone entirely.</div><img src="Assets/iWatch-dark.png" alt="Apple Watch interface" class="feature-img feature-img--dark lb-trigger"><img src="Assets/iWatch-light.png" alt="Apple Watch interface" class="feature-img feature-img--light lb-trigger"></div>
     </div>
   </div>
 </section>
@@ -441,10 +476,10 @@
       <div><div class="dn-num"><em>100</em>%</div><div class="dn-label">Critical Path Resolution for Jefferson students.</div></div>
     </div>
     <div style="margin-top:40px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-      <img src="Assets/Meeting1.png" alt="TJU meeting" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;">
-      <img src="Assets/Meeting2.png" alt="Presenting at TJU" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;">
-      <img src="Assets/Meeting3.png" alt="TJU presentation" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;">
-      <img src="Assets/Meeting4.png" alt="With TJU director" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;">
+      <img src="Assets/Meeting1.png" class="lb-trigger" alt="TJU meeting" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;">
+      <img src="Assets/Meeting2.png" class="lb-trigger" alt="Presenting at TJU" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;">
+      <img src="Assets/Meeting3.png" class="lb-trigger" alt="TJU presentation" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;">
+      <img src="Assets/Meeting4.png" class="lb-trigger" alt="With TJU director" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;">
     </div>
   </div>
 </section>
@@ -455,8 +490,8 @@
     <h2>From wireframe to final design.</h2>
     <p>Every screen went through at least 3 iterations.</p>
     <div style="margin-top:40px;">
-      <img src="Assets/screens-dark.png" alt="Final UI screens" class="screens-img--dark">
-      <img src="Assets/screens-light.png" alt="Final UI screens" class="screens-img--light">
+      <img src="Assets/screens-dark.png" alt="Final UI screens" class="screens-img--dark lb-trigger">
+      <img src="Assets/screens-light.png" alt="Final UI screens" class="screens-img--light lb-trigger">
     </div>
   </div>
 </section>
@@ -524,6 +559,49 @@
     },{threshold:[0.45,0.55]}).observe(sec);
   });
 })();
+
+  /* ── Lightbox ── */
+  (function(){
+    const overlay = document.getElementById('lbOverlay');
+    const lbImg   = document.getElementById('lbImg');
+    const lbCap   = document.getElementById('lbCaption');
+    const lbClose = document.getElementById('lbClose');
+
+    function openLb(src, alt){
+      lbImg.src = src;
+      lbImg.alt = alt;
+      lbCap.textContent = alt;
+      overlay.classList.add('lb-open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLb(){
+      overlay.classList.remove('lb-open');
+      document.body.style.overflow = '';
+      lbImg.src = '';
+    }
+
+    document.querySelectorAll('img.lb-trigger').forEach(function(img){
+      img.addEventListener('click', function(){
+        openLb(img.src, img.alt);
+      });
+    });
+
+    lbClose.addEventListener('click', closeLb);
+    overlay.addEventListener('click', function(e){
+      if(e.target === overlay) closeLb();
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape') closeLb();
+    });
+  })();
+
 </script>
+
+<!-- LIGHTBOX -->
+<div class="lb-overlay" id="lbOverlay" role="dialog" aria-modal="true">
+  <button class="lb-close" id="lbClose" aria-label="Close">&#x2715;</button>
+  <img id="lbImg" src="" alt="">
+  <div class="lb-caption" id="lbCaption"></div>
+</div>
 </body>
 </html>
