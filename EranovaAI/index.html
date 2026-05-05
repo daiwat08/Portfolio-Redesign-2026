@@ -336,13 +336,42 @@
     .hero-meta { gap:32px; }
   }
 
-  /* ─── MARQUEE ─── */
-  @keyframes marquee-left  { from { transform: translateX(0); } to { transform: translateX(-33.333%); } }
-  @keyframes marquee-right { from { transform: translateX(-33.333%); } to { transform: translateX(0); } }
-  .marquee-left  { animation: marquee-left  40s linear infinite; }
-  .marquee-right { animation: marquee-right 40s linear infinite; }
-  .marquee-left:hover, .marquee-right:hover { animation-play-state: paused; }
-
+  /* ── LIGHTBOX ── */
+  .lightbox-trigger { cursor: zoom-in; transition: opacity 0.2s, transform 0.2s; }
+  .lightbox-trigger:hover { opacity: 0.88; transform: scale(1.005); }
+  .lightbox-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 99999;
+    background: rgba(0,0,0,0.92);
+    backdrop-filter: blur(12px);
+    align-items: center; justify-content: center;
+    padding: 24px;
+    cursor: zoom-out;
+  }
+  .lightbox-overlay.open { display: flex; animation: lb-in 0.25s cubic-bezier(0.16,1,0.3,1); }
+  @keyframes lb-in { from { opacity:0; } to { opacity:1; } }
+  .lightbox-img {
+    max-width: 92vw; max-height: 88vh;
+    border-radius: 12px;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.8);
+    animation: lb-scale 0.3s cubic-bezier(0.16,1,0.3,1);
+    cursor: default;
+  }
+  @keyframes lb-scale { from { transform: scale(0.93); opacity:0; } to { transform: scale(1); opacity:1; } }
+  .lightbox-close {
+    position: fixed; top: 20px; right: 24px;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+    color: #fff; font-size: 18px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .lightbox-close:hover { background: rgba(255,255,255,0.2); }
+  .lightbox-label {
+    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+    font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 1.5px;
+    text-transform: uppercase; color: rgba(255,255,255,0.4);
+  }
 </style>
 </head>
 <body>
@@ -406,7 +435,7 @@
 <main id="main-content">
 <div class="hero">
   <div class="col">
-    <div class="tag"><span class="tag-dot"></span>UX · Branding · Web Dev · 2024</div>
+    <div class="tag"><span class="tag-dot"></span>UX · Branding · Web Dev · 2026</div>
     <h1>Redesigning an AI startup<br>to feel <em>enterprise</em>.</h1>
     <p style="max-width:500px; margin-top:16px;">A full redesign of Eranova AI's website and brand — from a basic landing page to a credible, enterprise-grade digital presence — built in 3 months using Nielsen's heuristics, Figma, and OpenAI's Codex.</p>
     <div class="hero-meta">
@@ -451,17 +480,6 @@
     <div class="quote-block reveal d3">
       <div class="quote-text">"You can't redesign something well if you haven't understood exactly why it's broken. The audit wasn't just research — it was the pitch for the redesign."</div>
     </div>
-
-    <!-- Heuristics audit image -->
-    <div class="reveal" style="margin-top:40px; border:1px solid var(--line); border-radius:12px; overflow:hidden;">
-      <div style="padding:16px 24px; border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between;">
-        <span style="font-family:'Geist Mono',monospace; font-size:var(--t-xs); letter-spacing:1.5px; text-transform:uppercase; color:var(--sub);">Audit Presentation — CEO Review</span>
-        <span style="font-family:'Geist Mono',monospace; font-size:var(--t-xs); color:var(--sub); opacity:0.5;">Nielsen's 10 Usability Heuristics</span>
-      </div>
-      <img class="flow-dark"  src="./assets/heuristics - dark.png"  alt="Heuristic evaluation slides presented to CEO — dark"  style="width:100%; display:block;"/>
-      <img class="flow-light" src="./assets/heuristics - light.png" alt="Heuristic evaluation slides presented to CEO — light" style="width:100%; display:block;"/>
-    </div>
-
     <div class="solutions reveal">
       <div class="solution">
         <div class="solution-n">H1 — Visibility of System Status</div>
@@ -536,29 +554,6 @@
     <p class="reveal d2">The original site lived in an ambiguous grey zone — neither confident nor considered. The rebrand made a deliberate choice: strip everything back to black and white. The aesthetic draws from the language of AI itself — binary, precise, zero noise. Clean like code. Trustworthy like a system that works.</p>
     <p class="reveal d3">Every element either earns its place or disappears. That constraint became the design system.</p>
 
-
-    <!-- BEFORE / AFTER -->
-    <div class="reveal" style="margin-top:48px;">
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:12px; overflow:hidden;">
-        <div style="background:var(--bg); padding:0; display:flex; flex-direction:column;">
-          <div style="padding:20px 24px 14px; border-bottom:1px solid var(--line);">
-            <span style="font-family:'Geist Mono',monospace; font-size:var(--t-xs); letter-spacing:1.5px; text-transform:uppercase; color:var(--sub);">Before — Dark Grey Charcoal</span>
-          </div>
-          <div style="overflow:hidden; flex:1;">
-            <img src="./assets/Old.png" alt="Eranova AI original website" style="width:100%; display:block; object-fit:cover; object-position:top; max-height:520px;"/>
-          </div>
-        </div>
-        <div style="background:var(--bg); padding:0; display:flex; flex-direction:column;">
-          <div style="padding:20px 24px 14px; border-bottom:1px solid var(--line);">
-            <span style="font-family:'Geist Mono',monospace; font-size:var(--t-xs); letter-spacing:1.5px; text-transform:uppercase; color:var(--sub);">After — Pure Black & White</span>
-          </div>
-          <div style="overflow:hidden; flex:1;">
-            <img src="./assets/New.png" alt="Eranova AI redesigned website" style="width:100%; display:block; object-fit:cover; object-position:top; max-height:520px;"/>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="palette reveal" style="margin-top: 40px;">
       <div class="swatch" style="background:#0a0a0a; flex:1.5;">#0A0A0A<br>Background</div>
       <div class="swatch" style="background:#111111;">#111111<br>Surface</div>
@@ -566,6 +561,18 @@
       <div class="swatch" style="background:#888888;">#888888<br>Sub</div>
       <div class="swatch" style="background:#e8e8e8; color:rgba(0,0,0,0.4);">#E8E8E8<br>Accent</div>
       <div class="swatch" style="background:#ffffff; color:rgba(0,0,0,0.4);">#FFFFFF<br>White</div>
+    </div>
+
+
+    <div class="before-after reveal" style="margin-top:40px;display:flex;flex-direction:column;gap:12px;">
+      <div>
+        <div style="font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);margin-bottom:10px;">Before — Dark Grey Charcoal</div>
+        <img src="assets/Old.png" alt="Eranova AI website before redesign" data-label="Before — Dark Grey Charcoal" class="lightbox-trigger" style="width:100%;border-radius:12px;border:1px solid var(--line);display:block;" />
+      </div>
+      <div style="margin-top:4px;">
+        <div style="font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);margin-bottom:10px;">After — Pure Black & White</div>
+        <img src="assets/New.png" alt="Eranova AI website after redesign" data-label="After — Pure Black & White" class="lightbox-trigger" style="width:100%;border-radius:12px;border:1px solid var(--line);display:block;" />
+      </div>
     </div>
 
     <div class="feature-list reveal" style="margin-top: 40px;">
@@ -581,50 +588,6 @@
         <div class="feature-name">Concept</div>
         <div class="feature-desc">The visual language is intentionally binary — drawing from the feel of AI itself. No colour distractions. The product and the content do the talking. Zero and one.</div>
       </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ─── 04.5 DESIGN SYSTEM ─── -->
-<section class="section">
-  <div class="col">
-    <div class="tag reveal"><span class="tag-dot"></span>04.5 — Design System</div>
-    <h2 class="reveal d1">Built as tokens.<br><em>Shipped as a style guide.</em></h2>
-    <p class="reveal d2">Before a single line of code was written, the entire visual system was defined as Figma Variables — a structured set of design tokens covering icons, surfaces, and borders. Each token was mapped to a semantic name so the system could be understood and applied consistently by anyone touching the project.</p>
-    <p class="reveal d3">Once the token system was complete, it was exported into an MDN-style markdown file — a human-readable style guide that served as the single source of truth fed into OpenAI's Codex. This meant Codex wasn't guessing at colours or spacing — it was working from the exact same system defined in Figma.</p>
-
-    <!-- Figma Variables Screenshot -->
-    <div class="reveal" style="margin-top:40px; border:1px solid var(--line); border-radius:12px; overflow:hidden;">
-      <div style="padding:16px 24px; border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between;">
-        <span style="font-family:'Geist Mono',monospace; font-size:var(--t-xs); letter-spacing:1.5px; text-transform:uppercase; color:var(--sub);">Figma — Design Variables</span>
-        <span style="font-family:'Geist Mono',monospace; font-size:var(--t-xs); color:var(--sub); opacity:0.5;">16 mapped · 79 alias · 91 brand</span>
-      </div>
-      <img class="flow-dark"  src="./assets/design-system-dark.png"  alt="Figma design variables — dark theme"  style="width:100%; display:block;"/>
-      <img class="flow-light" src="./assets/design-system-light.png" alt="Figma design variables — light theme" style="width:100%; display:block;"/>
-    </div>
-
-    <!-- Token groups -->
-    <div class="steps reveal" style="margin-top:24px; grid-template-columns: repeat(3,1fr);">
-      <div class="step">
-        <div class="step-n">Icon</div>
-        <div class="step-title">6 tokens</div>
-        <div class="step-body">default, color, action, error, success, disabled — every icon state defined</div>
-      </div>
-      <div class="step">
-        <div class="step-n">Surface</div>
-        <div class="step-title">5 tokens</div>
-        <div class="step-body">page, error, success, neutral, disabled — background system for all UI states</div>
-      </div>
-      <div class="step">
-        <div class="step-n">Border</div>
-        <div class="step-title">5 tokens</div>
-        <div class="step-body">Matched to surface states — consistent boundary treatment across all components</div>
-      </div>
-    </div>
-
-    <div class="callout reveal" style="margin-top:24px;">
-      <p><strong style="color:var(--white);">Figma → MDN → Codex —</strong> The token system was exported as a structured markdown file defining every colour, spacing rule, and component behaviour. That file was fed directly to Codex as a style guide, ensuring the generated code matched the Figma design system exactly — no translation errors, no guesswork.</p>
     </div>
   </div>
 </section>
@@ -660,34 +623,6 @@
     </div>
   </div>
 </section>
-
-
-<!-- ─── LINKEDIN MARQUEE ─── -->
-<div style="margin: 0; padding: 64px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); overflow:hidden; position:relative;">
-
-  <!-- Edge fades -->
-  <div style="position:absolute; top:0; left:0; width:120px; height:100%; background:linear-gradient(to right, var(--bg), transparent); z-index:2; pointer-events:none;"></div>
-  <div style="position:absolute; top:0; right:0; width:120px; height:100%; background:linear-gradient(to left, var(--bg), transparent); z-index:2; pointer-events:none;"></div>
-
-  <!-- Label -->
-  <div style="text-align:center; margin-bottom:32px; position:relative; z-index:3;">
-    <span style="font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--sub);">LinkedIn Content — 50 Posts Produced</span>
-  </div>
-
-  <!-- Track 1: scroll left -->
-  <div style="overflow:hidden; margin-bottom:16px;">
-    <div class="marquee-track marquee-left" style="display:flex; gap:16px; width:max-content;">
-      <img src="./assets/LI-1.png" alt="LinkedIn post 1" style="height:200px; width:auto; border-radius:8px; flex-shrink:0; display:block; object-fit:cover;"/><img src="./assets/LI-2.png" alt="LinkedIn post 2" style="height:200px; width:auto; border-radius:8px; flex-shrink:0; display:block; object-fit:cover;"/><img src="./assets/LI-3.png" alt="LinkedIn post 3" style="height:200px; width:auto; border-radius:8px; flex-shrink:0; display:block; object-fit:cover;"/><img src="./assets/LI-4.png" alt="LinkedIn post 4" style="height:200px; width:auto; border-radius:8px; flex-shrink:0; display:block; object-fit:cover;"/><img src="./assets/LI-1.png" alt="LinkedIn post 1" style="height:200px; width:auto; border-radius:8px; flex-shrink:0; display:block; object-fit:cover;"/><img src="./assets/LI-2.png" alt="LinkedIn post 2" style="height:200px; width:auto; border-radius:8px; flex-shrink:0; display:block; object-fit:cover;"/><img src="./assets/LI-3.png" alt="LinkedIn post 3" style="height:200px; width:auto; border-radius:8px; flex-shrink:0; display:block; object-fit:cover;"/><img src="./assets/LI-4.png" alt="LinkedIn post 4" style="height:200px; width:auto; border-radius:8px; flex-shrink:0; display:block; object-fit:cover;"/><img src="./assets/LI-1.png" alt="LinkedIn post 1" style="height:200px; width:auto; border-radius:8px; flex-shrink:0; display:block; object-fit:cover;"/><img src="./assets/LI-2.png" alt="LinkedIn post 2" style="height:200px; width:auto; border-radius:8px; flex-shrink:0; display:block; object-fit:cover;"/><img src="./assets/LI-3.png" alt="LinkedIn post 3" style="height:200px; width:auto; border-radius:8px; flex-shrink:0; display:block; object-fit:cover;"/><img src="./assets/LI-4.png" alt="LinkedIn post 4" style="height:200px; width:auto; border-radius:8px; flex-shrink:0; display:block; object-fit:cover;"/>
-    </div>
-  </div>
-
-  <!-- Track 2: scroll right -->
-  <div style="overflow:hidden;">
-    <div class="marquee-track marquee-right" style="display:flex; gap:16px; width:max-content;">
-      <img src="./assets/LI-5.png" alt="LinkedIn post 5" style="height:200px; width:auto; border-radius:8px; flex-shrink:0; display:block; object-fit:cover;"/><img src="./assets/LI6.png" alt="LinkedIn post 6" style="height:200px; width:auto; border-radius:8px; flex-shrink:0; display:block; object-fit:cover;"/><img src="./assets/LI-7.png" alt="LinkedIn post 7" style="height:200px; width:auto; border-radius:8px; flex-shrink:0; display:block; object-fit:cover;"/><img src="./assets/LI-8.png" alt="LinkedIn post 8" style="height:200px; width:auto; border-radius:8px; flex-shrink:0; display:block; object-fit:cover;"/><img src="./assets/LI-5.png" alt="LinkedIn post 5" style="height:200px; width:auto; border-radius:8px; flex-shrink:0; display:block; object-fit:cover;"/><img src="./assets/LI6.png" alt="LinkedIn post 6" style="height:200px; width:auto; border-radius:8px; flex-shrink:0; display:block; object-fit:cover;"/><img src="./assets/LI-7.png" alt="LinkedIn post 7" style="height:200px; width:auto; border-radius:8px; flex-shrink:0; display:block; object-fit:cover;"/><img src="./assets/LI-8.png" alt="LinkedIn post 8" style="height:200px; width:auto; border-radius:8px; flex-shrink:0; display:block; object-fit:cover;"/><img src="./assets/LI-5.png" alt="LinkedIn post 5" style="height:200px; width:auto; border-radius:8px; flex-shrink:0; display:block; object-fit:cover;"/><img src="./assets/LI6.png" alt="LinkedIn post 6" style="height:200px; width:auto; border-radius:8px; flex-shrink:0; display:block; object-fit:cover;"/><img src="./assets/LI-7.png" alt="LinkedIn post 7" style="height:200px; width:auto; border-radius:8px; flex-shrink:0; display:block; object-fit:cover;"/><img src="./assets/LI-8.png" alt="LinkedIn post 8" style="height:200px; width:auto; border-radius:8px; flex-shrink:0; display:block; object-fit:cover;"/>
-    </div>
-  </div>
-</div>
 
 <!-- ─── 06 LINKEDIN ─── -->
 <section class="section">
@@ -752,7 +687,7 @@
 <!-- ─── FINAL ─── -->
 <footer class="final">
   <div class="col">
-    <div class="tag" style="justify-content:center;"><span class="tag-dot"></span>Eranova AI · 2024</div>
+    <div class="tag" style="justify-content:center;"><span class="tag-dot"></span>Eranova AI · 2026</div>
     <h2>Enterprise credibility, built<br>from the ground up.</h2>
     <p>Three months. One audit. One rebrand. One site launch. Fifty posts. One team that went from a generic landing page to a brand that looked like it belonged in the room with enterprise clients.</p>
     <div style="margin-top:32px;">
@@ -839,6 +774,44 @@ document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
   function toggleTheme(){ applyTheme(!document.body.classList.contains('light')); }
   if(toggleTop)  toggleTop.addEventListener('click', toggleTheme);
   if(togglePill) togglePill.addEventListener('click', toggleTheme);
+})();
+</script>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕</button>
+  <img class="lightbox-img" id="lightboxImg" src="" alt="" />
+  <div class="lightbox-label" id="lightboxLabel"></div>
+</div>
+
+<script>
+(function(){
+  const overlay  = document.getElementById('lightbox');
+  const img      = document.getElementById('lightboxImg');
+  const label    = document.getElementById('lightboxLabel');
+  const closeBtn = document.getElementById('lightboxClose');
+
+  function open(src, alt, lbl) {
+    img.src = src; img.alt = alt;
+    label.textContent = lbl || '';
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    overlay.classList.remove('open');
+    img.src = '';
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.lightbox-trigger').forEach(function(el) {
+    el.addEventListener('click', function() {
+      open(el.src, el.alt, el.dataset.label);
+    });
+  });
+
+  closeBtn.addEventListener('click', function(e){ e.stopPropagation(); close(); });
+  overlay.addEventListener('click', function(e){ if(e.target === overlay) close(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') close(); });
 })();
 </script>
 </body>
