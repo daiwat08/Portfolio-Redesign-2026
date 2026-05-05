@@ -430,6 +430,26 @@
   body.light .lk-card--stat, body.light .lk-card--quote { background: #f7f7f5; }
   body.light .lk-avatar { background: #111; color: #fff; }
 
+  /* image-only marquee cards */
+  .lk-img-card {
+    flex-shrink: 0;
+    width: 300px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    transition: border-color .2s, transform .2s;
+  }
+  .lk-img-card:hover { border-color: rgba(255,255,255,0.2); transform: scale(1.02); }
+  .lk-img-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    cursor: zoom-in;
+  }
+  @media(max-width:640px){
+    .lk-img-card { width: 220px; border-radius: 10px; }
+  }
+
   @media(max-width:640px){
     .lk-marquee-wrap {
       -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
@@ -561,14 +581,14 @@
     <!-- Heuristics audit images — theme-aware -->
     <div class="reveal" style="margin-top:40px; margin-bottom:8px;">
       <img
-        src="EranovaAI/assets/heuristics-dark.png"
+        src="assets/heuristics - dark.png"
         alt="UX Audit — Nielsen Heuristics (dark)"
         data-label="UX AUDIT · HEURISTICS EVALUATION"
         class="lightbox-trigger flow-dark"
         style="width:100%; border-radius:12px; display:block; border:1px solid var(--line);"
       />
       <img
-        src="EranovaAI/assets/heuristics-light.png"
+        src="assets/heuristics - light.png"
         alt="UX Audit — Nielsen Heuristics (light)"
         data-label="UX AUDIT · HEURISTICS EVALUATION"
         class="lightbox-trigger flow-light"
@@ -660,10 +680,14 @@
     </div>
 
 
-    <div class="before-after reveal" style="margin-top:40px;display:flex;flex-direction:column;gap:12px;">
+    <div class="before-after reveal" style="margin-top:40px;display:flex;flex-direction:column;gap:20px;">
       <div>
-        <div style="font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);margin-bottom:10px;">Before — Dark Grey Charcoal</div>
-        <img src="EranovaAI/assets/old.png" alt="Before — Dark Grey Charcoal" style="width:100%;border-radius:8px;display:block;" />
+        <div style="font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);margin-bottom:10px;">Before</div>
+        <img src="assets/Old.png" alt="Before — Old website design" data-label="BEFORE — OLD DESIGN" class="lightbox-trigger" style="width:100%;border-radius:8px;display:block;border:1px solid var(--line);" />
+      </div>
+      <div>
+        <div style="font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);margin-bottom:10px;">After</div>
+        <img src="assets/New.png" alt="After — Redesigned website" data-label="AFTER — REDESIGNED" class="lightbox-trigger" style="width:100%;border-radius:8px;display:block;border:1px solid var(--line);" />
       </div>
     </div>
 
@@ -724,96 +748,36 @@
     <p class="reveal d2">The LinkedIn work wasn't production for the sake of production. It started with research. I studied existing post formats and performance patterns for Eranova's audience, then ran A/B tests across different post types before designing a single deliverable. The content strategy came directly from what the data showed — not from assumptions.</p>
   </div>
 
-  <!-- MARQUEE: two rows -->
+  <!-- MARQUEE: two rows with real LI images -->
   <div class="lk-marquee-wrap reveal" style="margin:48px 0; display:flex; flex-direction:column; gap:14px;">
 
-    <!-- ROW 1 — left to right -->
+    <!-- ROW 1 — left to right: LI-1, LI-2, LI-3, LI-4 -->
     <div class="lk-marquee">
       <div class="lk-track lk-track--ltr">
-        <div class="lk-card">
-          <div class="lk-card__header"><div class="lk-avatar">E</div><div><div class="lk-name">Eranova AI</div><div class="lk-handle">AI Infrastructure · 2,400 followers</div></div></div>
-          <div class="lk-card__body">Enterprise AI isn't about replacing teams. It's about giving them leverage they've never had before. Here's what that looks like in practice →</div>
-          <div class="lk-card__tag">#EnterpriseAI #AIStrategy</div>
-        </div>
-        <div class="lk-card lk-card--stat">
-          <div class="lk-stat-big">3×</div>
-          <div class="lk-stat-label">faster decision-making with AI-augmented workflows</div>
-          <div class="lk-card__tag">#DataDriven #Productivity</div>
-        </div>
-        <div class="lk-card">
-          <div class="lk-card__header"><div class="lk-avatar">E</div><div><div class="lk-name">Eranova AI</div><div class="lk-handle">AI Infrastructure · 2,400 followers</div></div></div>
-          <div class="lk-card__body">Most AI projects fail not because of the model — but because of the integration. We documented the 5 patterns that actually work at enterprise scale.</div>
-          <div class="lk-card__tag">#AIImplementation #Enterprise</div>
-        </div>
-        <div class="lk-card lk-card--quote">
-          <div class="lk-q">"The ROI isn't in the AI. It's in the process redesign the AI forces you to do."</div>
-          <div class="lk-q-attr">— Eranova AI, Q1 2026</div>
-        </div>
-        <!-- duplicate -->
-        <div class="lk-card">
-          <div class="lk-card__header"><div class="lk-avatar">E</div><div><div class="lk-name">Eranova AI</div><div class="lk-handle">AI Infrastructure · 2,400 followers</div></div></div>
-          <div class="lk-card__body">Enterprise AI isn't about replacing teams. It's about giving them leverage they've never had before. Here's what that looks like in practice →</div>
-          <div class="lk-card__tag">#EnterpriseAI #AIStrategy</div>
-        </div>
-        <div class="lk-card lk-card--stat">
-          <div class="lk-stat-big">3×</div>
-          <div class="lk-stat-label">faster decision-making with AI-augmented workflows</div>
-          <div class="lk-card__tag">#DataDriven #Productivity</div>
-        </div>
-        <div class="lk-card">
-          <div class="lk-card__header"><div class="lk-avatar">E</div><div><div class="lk-name">Eranova AI</div><div class="lk-handle">AI Infrastructure · 2,400 followers</div></div></div>
-          <div class="lk-card__body">Most AI projects fail not because of the model — but because of the integration. We documented the 5 patterns that actually work at enterprise scale.</div>
-          <div class="lk-card__tag">#AIImplementation #Enterprise</div>
-        </div>
-        <div class="lk-card lk-card--quote">
-          <div class="lk-q">"The ROI isn't in the AI. It's in the process redesign the AI forces you to do."</div>
-          <div class="lk-q-attr">— Eranova AI, Q1 2026</div>
-        </div>
+        <div class="lk-img-card"><img src="assets/LI-1.png" alt="LinkedIn post 1" class="lightbox-trigger" data-label="LINKEDIN POST · 01" /></div>
+        <div class="lk-img-card"><img src="assets/LI-2.png" alt="LinkedIn post 2" class="lightbox-trigger" data-label="LINKEDIN POST · 02" /></div>
+        <div class="lk-img-card"><img src="assets/LI-3.png" alt="LinkedIn post 3" class="lightbox-trigger" data-label="LINKEDIN POST · 03" /></div>
+        <div class="lk-img-card"><img src="assets/LI-4.png" alt="LinkedIn post 4" class="lightbox-trigger" data-label="LINKEDIN POST · 04" /></div>
+        <!-- duplicate for seamless loop -->
+        <div class="lk-img-card"><img src="assets/LI-1.png" alt="LinkedIn post 1" class="lightbox-trigger" data-label="LINKEDIN POST · 01" /></div>
+        <div class="lk-img-card"><img src="assets/LI-2.png" alt="LinkedIn post 2" class="lightbox-trigger" data-label="LINKEDIN POST · 02" /></div>
+        <div class="lk-img-card"><img src="assets/LI-3.png" alt="LinkedIn post 3" class="lightbox-trigger" data-label="LINKEDIN POST · 03" /></div>
+        <div class="lk-img-card"><img src="assets/LI-4.png" alt="LinkedIn post 4" class="lightbox-trigger" data-label="LINKEDIN POST · 04" /></div>
       </div>
     </div>
 
-    <!-- ROW 2 — right to left -->
+    <!-- ROW 2 — right to left: LI-5, LI6, LI-7, LI-8 -->
     <div class="lk-marquee">
       <div class="lk-track lk-track--rtl">
-        <div class="lk-card">
-          <div class="lk-card__header"><div class="lk-avatar">E</div><div><div class="lk-name">Eranova AI</div><div class="lk-handle">AI Infrastructure · 2,400 followers</div></div></div>
-          <div class="lk-card__body">We ran an experiment: gave two teams the same dataset. One used our platform. One didn't. The gap after 30 days was significant. Thread below ↓</div>
-          <div class="lk-card__tag">#CaseStudy #AITools</div>
-        </div>
-        <div class="lk-card lk-card--stat">
-          <div class="lk-stat-big">50</div>
-          <div class="lk-stat-label">branded posts shipped. Zero off-brand. All data-backed.</div>
-          <div class="lk-card__tag">#ContentStrategy #BrandVoice</div>
-        </div>
-        <div class="lk-card">
-          <div class="lk-card__header"><div class="lk-avatar">E</div><div><div class="lk-name">Eranova AI</div><div class="lk-handle">AI Infrastructure · 2,400 followers</div></div></div>
-          <div class="lk-card__body">Security is the #1 objection we hear from enterprise buyers. So we built our compliance architecture around that question before it could be asked.</div>
-          <div class="lk-card__tag">#AICompliance #Security</div>
-        </div>
-        <div class="lk-card lk-card--quote">
-          <div class="lk-q">"Build credibility before the sales call. By the time they meet us, they already trust us."</div>
-          <div class="lk-q-attr">— Brand Strategy, Eranova AI</div>
-        </div>
-        <!-- duplicate -->
-        <div class="lk-card">
-          <div class="lk-card__header"><div class="lk-avatar">E</div><div><div class="lk-name">Eranova AI</div><div class="lk-handle">AI Infrastructure · 2,400 followers</div></div></div>
-          <div class="lk-card__body">We ran an experiment: gave two teams the same dataset. One used our platform. One didn't. The gap after 30 days was significant. Thread below ↓</div>
-          <div class="lk-card__tag">#CaseStudy #AITools</div>
-        </div>
-        <div class="lk-card lk-card--stat">
-          <div class="lk-stat-big">50</div>
-          <div class="lk-stat-label">branded posts shipped. Zero off-brand. All data-backed.</div>
-          <div class="lk-card__tag">#ContentStrategy #BrandVoice</div>
-        </div>
-        <div class="lk-card">
-          <div class="lk-card__header"><div class="lk-avatar">E</div><div><div class="lk-name">Eranova AI</div><div class="lk-handle">AI Infrastructure · 2,400 followers</div></div></div>
-          <div class="lk-card__body">Security is the #1 objection we hear from enterprise buyers. So we built our compliance architecture around that question before it could be asked.</div>
-          <div class="lk-card__tag">#AICompliance #Security</div>
-        </div>
-        <div class="lk-card lk-card--quote">
-          <div class="lk-q">"Build credibility before the sales call. By the time they meet us, they already trust us."</div>
-          <div class="lk-q-attr">— Brand Strategy, Eranova AI</div>
-        </div>
+        <div class="lk-img-card"><img src="assets/LI-5.png" alt="LinkedIn post 5" class="lightbox-trigger" data-label="LINKEDIN POST · 05" /></div>
+        <div class="lk-img-card"><img src="assets/LI6.png" alt="LinkedIn post 6" class="lightbox-trigger" data-label="LINKEDIN POST · 06" /></div>
+        <div class="lk-img-card"><img src="assets/LI-7.png" alt="LinkedIn post 7" class="lightbox-trigger" data-label="LINKEDIN POST · 07" /></div>
+        <div class="lk-img-card"><img src="assets/LI-8.png" alt="LinkedIn post 8" class="lightbox-trigger" data-label="LINKEDIN POST · 08" /></div>
+        <!-- duplicate for seamless loop -->
+        <div class="lk-img-card"><img src="assets/LI-5.png" alt="LinkedIn post 5" class="lightbox-trigger" data-label="LINKEDIN POST · 05" /></div>
+        <div class="lk-img-card"><img src="assets/LI6.png" alt="LinkedIn post 6" class="lightbox-trigger" data-label="LINKEDIN POST · 06" /></div>
+        <div class="lk-img-card"><img src="assets/LI-7.png" alt="LinkedIn post 7" class="lightbox-trigger" data-label="LINKEDIN POST · 07" /></div>
+        <div class="lk-img-card"><img src="assets/LI-8.png" alt="LinkedIn post 8" class="lightbox-trigger" data-label="LINKEDIN POST · 08" /></div>
       </div>
     </div>
 
