@@ -292,6 +292,7 @@
   .btn-light:hover .btn-arrow { opacity: 1; max-width: 24px; margin-right: 6px; }
 
   /* Force all content visible */
+  .section-inner--bottom,
   .section-inner,
   .section-inner .eyebrow,
   .section-inner h1,
@@ -443,8 +444,63 @@
   body.dark .nav-top:not(.nav-dark) .nav-top__link:hover { color: #e8e8e8; background: rgba(255,255,255,0.06); }
   body.dark .nav-top:not(.nav-dark) .nav-top__cta { background: #333; color: #fff; }
 
+  /* ── SECTION INNER BOTTOM (metrics/tags/button) ── */
+  .project-section .section-inner--bottom {
+    align-items: flex-start;
+    text-align: left;
+    max-width: 46%;
+    min-width: 320px;
+    margin-top: 0;
+  }
+
   /* ── MOBILE ── */
-  @media (max-width: 960px) { .case-preview { display: none; } }
+  @media (max-width: 960px) {
+    .section.project-section {
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 100px 24px 60px;
+    }
+    .project-section .section-inner {
+      max-width: 100%;
+      min-width: unset;
+      width: 100%;
+      align-items: flex-start;
+      text-align: left;
+      order: 1;
+    }
+    .case-preview {
+      position: relative !important;
+      right: auto !important;
+      top: auto !important;
+      transform: none !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      width: 100% !important;
+      height: clamp(260px, 50vw, 380px) !important;
+      border-radius: 20px !important;
+      margin-top: 28px;
+      margin-bottom: 4px;
+      order: 2;
+    }
+    .case-preview--laptop {
+      height: clamp(200px, 56vw, 340px) !important;
+      background: transparent !important;
+      overflow: visible !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+    }
+    .laptop-reveal { display: none !important; }
+    .project-section .section-inner--bottom {
+      max-width: 100%;
+      min-width: unset;
+      width: 100%;
+      order: 3;
+      margin-top: 28px;
+    }
+    .btn-outline { align-self: flex-start; }
+  }
+
   @media (max-width: 768px) {
     .nav-top { width: calc(100vw - 32px); padding: 0 8px 0 16px; }
     .nav-top__links { display: none !important; }
@@ -452,8 +508,7 @@
     .nav-top__cta { display: none !important; }
     .section h1 { font-size: 36px; }
     .section h2 { font-size: 32px; }
-    .btn-outline { width: auto; align-self: center; }
-    .section-inner { width: 100%; padding: 0 24px; }
+    .section-inner { width: 100%; }
     .section-bg-label { font-size: clamp(60px, 18vw, 120px); }
   }
   @media (hover: none) and (pointer: coarse) {
@@ -599,6 +654,8 @@
     <span class="eyebrow">01 — AI · Product Design</span>
     <h2>Eranova AI</h2>
     <p>How might we design a website that makes <strong>enterprise clients</strong> feel instantly <strong>confident and informed</strong>?</p>
+  </div>
+  <div class="section-inner section-inner--bottom">
     <span class="metrics-label">Metrics</span>
     <div class="metrics-cards">
       <div class="metric-card">Audited 8 heuristic violations, rebranded the design system from 186 tokens, and shipped a full site in 4 weeks</div>
@@ -636,6 +693,8 @@
     <span class="eyebrow">02 — Safety · Community</span>
     <h2>Global Bridge</h2>
     <p>How might we build a <strong>community safety net</strong> for international students navigating <strong>Philadelphia alone</strong>?</p>
+  </div>
+  <div class="section-inner section-inner--bottom">
     <span class="metrics-label">Metrics</span>
     <div class="metrics-cards">
       <div class="metric-card">Tested with 18 international students across 4 universities.</div>
@@ -672,6 +731,8 @@
     <span class="eyebrow">03 — Fintech · AI</span>
     <h2>Richie AI</h2>
     <p>How might we make <strong>portfolio management</strong> feel personal enough to keep users coming <strong>back every day</strong>?</p>
+  </div>
+  <div class="section-inner section-inner--bottom">
     <span class="metrics-label">Metrics</span>
     <div class="metrics-cards">
       <div class="metric-card">87% of beta users reported feeling more confident in investment choices.</div>
@@ -708,6 +769,8 @@
     <span class="eyebrow">04 — Research Study</span>
     <h2>Global Bridge Research</h2>
     <p>Behind every international student is a story of <strong>adaptation, stress, and resilience</strong> — we wanted to understand it.</p>
+  </div>
+  <div class="section-inner section-inner--bottom">
     <span class="metrics-label">Metrics</span>
     <div class="metrics-cards">
       <div class="metric-card">Conducted 24 in-depth interviews across 3 semesters of academic life.</div>
