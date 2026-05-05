@@ -216,10 +216,21 @@
   .solution-n{font-family:'Geist Mono',monospace;font-size:var(--t-xs);color:var(--accent-text);letter-spacing:1.5px;margin-bottom:14px;text-transform:uppercase;}
   .feature-list{margin-top:40px;}
   .feature-row{display:grid;grid-template-columns:200px 1fr;gap:32px;padding:24px 0;border-bottom:1px solid var(--line);align-items:start;}
+  .feature-row.feature-row--has-img{grid-template-columns:200px 1fr auto;align-items:center;padding:32px 0;}
   .feature-row:first-child{border-top:1px solid var(--line);}
   .feature-row:last-child{border-bottom:none;}
   .feature-name{font-size:var(--t-sm);font-weight:500;color:var(--white);}
   .feature-desc{font-size:var(--t-sm);color:var(--sub);line-height:1.7;}
+  .feature-img{width:220px;border-radius:10px;display:block;flex-shrink:0;}
+  .feature-img--dark{display:block;}
+  .feature-img--light{display:none;}
+  body.light .feature-img--dark{display:none;}
+  body.light .feature-img--light{display:block;}
+  .screens-img--dark{display:block;width:100%;border-radius:12px;}
+  .screens-img--light{display:none;width:100%;border-radius:12px;}
+  body.light .screens-img--dark{display:none;}
+  body.light .screens-img--light{display:block;}
+  @media(max-width:640px){.feature-row.feature-row--has-img{grid-template-columns:1fr;}.feature-img{width:100%;max-width:340px;}}
   .iter-list{margin-top:40px;}
   .iter-row{display:grid;grid-template-columns:80px 1fr auto;gap:24px;padding:24px 0;border-bottom:1px solid var(--line);align-items:start;}
   .iter-row:first-child{border-top:1px solid var(--line);}
@@ -399,8 +410,8 @@
     <h2>Features that make<br>Global Bridge unique.</h2>
     <div class="feature-list">
       <div class="feature-row"><div class="feature-name">Peer Connect</div><div class="feature-desc">Students connect with peers who share similar interests, fostering a supportive community among international students.</div></div>
-      <div class="feature-row"><div class="feature-name">Siri Design</div><div class="feature-desc">Voice-activated Siri commands ensure discreet, hands-free emergency alerts that automatically notify three pre-set contacts.</div></div>
-      <div class="feature-row"><div class="feature-name">iWatch Design</div><div class="feature-desc">Apple Watch interface triggers an alert to three pre-selected contacts, bypassing the need for a phone entirely.</div></div>
+      <div class="feature-row feature-row--has-img"><div class="feature-name">Siri Design</div><div class="feature-desc">Voice-activated Siri commands ensure discreet, hands-free emergency alerts that automatically notify three pre-set contacts.</div><img src="assets/Siri-Dark.png" alt="Siri integration" class="feature-img feature-img--dark"><img src="assets/Siri-light.png" alt="Siri integration" class="feature-img feature-img--light"></div>
+      <div class="feature-row feature-row--has-img"><div class="feature-name">iWatch Design</div><div class="feature-desc">Apple Watch interface triggers an alert to three pre-selected contacts, bypassing the need for a phone entirely.</div><img src="assets/iWatch-dark.png" alt="Apple Watch interface" class="feature-img feature-img--dark"><img src="assets/iWatch-light.png" alt="Apple Watch interface" class="feature-img feature-img--light"></div>
     </div>
   </div>
 </section>
@@ -427,12 +438,11 @@
       <div><div class="dn-num"><em>3</em></div><div class="dn-label">Testing Cycles to isolate friction points.</div></div>
       <div><div class="dn-num"><em>100</em>%</div><div class="dn-label">Critical Path Resolution for Jefferson students.</div></div>
     </div>
-    <div style="margin-top:40px;display:flex;flex-direction:column;gap:12px;">
-      <img src="Assets/Meeting1.png" alt="TJU meeting" style="width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-        <img src="Assets/Meeting2.png" alt="Presenting at TJU" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;">
-        <img src="Assets/Meeting4.png" alt="With TJU director" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;">
-      </div>
+    <div style="margin-top:40px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <img src="assets/Meeting1.png" alt="TJU meeting" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;">
+      <img src="assets/Meeting2.png" alt="Presenting at TJU" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;">
+      <img src="assets/Meeting3.png" alt="TJU presentation" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;">
+      <img src="assets/Meeting4.png" alt="With TJU director" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;">
     </div>
   </div>
 </section>
@@ -442,11 +452,9 @@
     <div class="tag"><span class="tag-dot"></span>09 — Screens</div>
     <h2>From wireframe to final design.</h2>
     <p>Every screen went through at least 3 iterations.</p>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:40px;">
-      <img src="Assets/FinalUI/Login Screen.png" alt="Login" style="width:100%;height:auto;border-radius:10px;">
-      <img src="Assets/FinalUI/Home- ReturningUSer.png" alt="Home" style="width:100%;height:auto;border-radius:10px;">
-      <img src="Assets/FinalUI/Home- List of Alerts.png" alt="Alerts" style="width:100%;height:auto;border-radius:10px;">
-      <img src="Assets/FinalUI/Peer Matching3.0.png" alt="Peer Matching" style="width:100%;height:auto;border-radius:10px;">
+    <div style="margin-top:40px;">
+      <img src="assets/screens-dark.png" alt="Final UI screens" class="screens-img--dark">
+      <img src="assets/screens-light.png" alt="Final UI screens" class="screens-img--light">
     </div>
   </div>
 </section>
