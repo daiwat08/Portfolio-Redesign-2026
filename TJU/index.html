@@ -7,13 +7,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:      #111113;
-    --surface: #18181b;
-    --line:    rgba(255,255,255,0.08);
-    --accent:  #4A7CFF;
-    --warm:    #FF6B35;
-    --text:    #e4e4e7;
-    --sub:     #b8b8b8;
+    --bg:      #0f1c3f;
+    --surface: #1a2d5a;
+    --line:    rgba(255,255,255,0.13);
+    --accent:  #6b9fff;
+    --warm:    #FF8C5A;
+    --text:    #f0f0f4;
+    --sub:     #a8b8d8;
     --white:   #ffffff;
 
     --t-xs:   12px;
@@ -83,7 +83,7 @@
   /* ══ TOP NAV ══ */
   .nav-top{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;align-items:center;justify-content:space-between;gap:8px;background:rgba(255,255,255,0.93);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(0,0,0,0.08);border-radius:999px;height:64px;width:min(780px,calc(100vw - 48px));padding:0 11px 0 22px;box-shadow:0 2px 20px rgba(0,0,0,0.08);transition:opacity .3s,transform .3s,background .4s,border-color .4s;}
   .nav-top.nav-hidden{opacity:0;transform:translateX(-50%) translateY(-10px);pointer-events:none;}
-  .nav-top.nav-dark{background:rgba(15,15,15,0.85);border-color:rgba(255,255,255,0.1);box-shadow:0 2px 24px rgba(0,0,0,0.4);}
+  .nav-top.nav-dark{background:rgba(10,18,45,0.85);border-color:rgba(255,255,255,0.1);box-shadow:0 2px 24px rgba(0,0,0,0.4);}
   .nav-top.nav-dark .nav-top__logo{color:#fff;}
   .nav-top.nav-dark .nav-top__link{color:rgba(255,255,255,0.55);}
   .nav-top.nav-dark .nav-top__link:hover{color:#fff;background:rgba(255,255,255,0.08);}
@@ -100,7 +100,7 @@
   .theme-btn:hover{background:rgba(0,0,0,0.05);}
 
   /* ══ PILL NAV ══ */
-  .nav-pill{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-10px);z-index:9999;display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(15,15,15,0.9);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,0.1);border-radius:999px;height:64px;width:116px;padding:0 11px;box-shadow:0 8px 32px rgba(0,0,0,0.3);opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s ease,width .45s cubic-bezier(.34,1.2,.64,1);}
+  .nav-pill{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-10px);z-index:9999;display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(10,18,45,0.9);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,0.1);border-radius:999px;height:64px;width:116px;padding:0 11px;box-shadow:0 8px 32px rgba(0,0,0,0.3);opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s ease,width .45s cubic-bezier(.34,1.2,.64,1);}
   .nav-pill.nav-visible{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;}
   .nav-pill:hover{width:min(760px,calc(100vw - 48px));}
   .nav-pill__icon{flex-shrink:0;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;z-index:2;}
@@ -496,14 +496,122 @@
 <!-- 04 FIELD RESEARCH -->
 <section class="section">
   <div class="col">
-    <div class="tag reveal"><span class="tag-dot"></span>04 — Field Research</div>
-    <h2 class="reveal">Watching students register<br>in real time.</h2>
-    <p class="reveal">All sessions used think-aloud protocol to capture real-time decision making. Contextual interviews with students and academic advisors followed each observation.</p>
+    <div class="tag reveal"><span class="tag-dot"></span>04 — Research Methods</div>
+    <h2 class="reveal">Three methods.<br>One broken system.</h2>
+    <p class="reveal">Research was conducted across three distinct approaches — capturing perspectives from institutional leadership, students in the field, and the university's own documentation.</p>
 
-    <div class="photo-grid reveal">
-      <div class="photo-cell">Field photo 01</div>
-      <div class="photo-cell">Field photo 02</div>
-      <div class="photo-cell">Field photo 03</div>
+    <div class="steps reveal" style="grid-template-columns: repeat(3,1fr); margin-top: 40px;">
+      <div class="step">
+        <div class="step-n">METHOD 01</div>
+        <div class="step-title">Stakeholder Interviews</div>
+        <div class="step-body">12 in-depth interviews conducted with program heads, student advisors, and members of the education committee — mapping the institutional view of registration friction.</div>
+      </div>
+      <div class="step">
+        <div class="step-n">METHOD 02</div>
+        <div class="step-title">Pretzel Over Thought Event</div>
+        <div class="step-body">Spoke with 50+ students on campus during a live campus event — gathering candid, unprompted views on the BannerWeb registration process in a natural setting.</div>
+      </div>
+      <div class="step">
+        <div class="step-n">METHOD 03</div>
+        <div class="step-title">Desk Research</div>
+        <div class="step-body">Studied the full university catalogue, advising documentation, and institutional materials — understanding the system as it was designed, not just how it was experienced.</div>
+      </div>
+    </div>
+
+    <div class="stats-row stats-row-2 reveal" style="margin-top: 40px;">
+      <div class="stat-cell">
+        <div class="stat-num"><span class="accent">12</span></div>
+        <div class="stat-desc">stakeholders interviewed — program heads, advisors, and education committee members</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num"><span class="accent">50</span>+</div>
+        <div class="stat-desc">students spoken to at the Pretzel Over Thought campus event</div>
+      </div>
+    </div>
+
+    <!-- Pretzel event photo -->
+    <div class="reveal" style="margin-top: 40px;">
+      <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--sub); margin-bottom:12px;">Pretzel For Your Thought — Field Event</div>
+      <img src="assets/6(Pretzel for your thought).png" alt="Pretzel For Your Thought campus event" style="width:100%; border-radius:12px; border:1px solid var(--line); display:block;">
+      <p style="margin-top:20px;">The Pretzel For Your Thought event gave us access to students in an unguarded, natural context — not a lab, not a scheduled session. By meeting people where they already were, we heard perspectives that a formal interview would never surface. Most students hadn't consciously labelled registration as a problem. They'd normalised it. The event made those invisible frustrations visible.</p>
+    </div>
+
+    <!-- Interview snippets -->
+    <div class="reveal" style="margin-top: 32px;">
+      <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--sub); margin-bottom:12px;">Stakeholder Interview Snippets</div>
+      <img src="assets/interview-snippets.png" alt="Interview snippets from stakeholder sessions" style="width:100%; border-radius:12px; border:1px solid var(--line); display:block;">
+      <p style="margin-top:20px;">Interviews with program heads, student advisors, and education committee members revealed a consistent tension: institutional stakeholders understood the system's limitations but felt constrained by legacy infrastructure and resource limitations. Advisors, in particular, described registration season as a period of damage control — fielding the same interface questions week after week, with no systemic fix in sight.</p>
+    </div>
+
+    <!-- Supporting evidence -->
+    <div class="reveal" style="margin-top: 32px;">
+      <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--sub); margin-bottom:12px;">Supporting Evidence — Desk Research</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <img class="theme-img" data-light="assets/supporting-evidence1.png" data-dark="assets/supporting-evidence1.png" src="assets/supporting-evidence1.png" alt="Supporting evidence 1" style="width:100%; border-radius:10px; border:1px solid var(--line); display:block;">
+        <img class="theme-img" data-light="assets/supporting-evidence1.1.png" data-dark="assets/supporting-evidence1.1.png" src="assets/supporting-evidence1.1.png" alt="Supporting evidence 1.1" style="width:100%; border-radius:10px; border:1px solid var(--line); display:block;">
+        <img class="theme-img" data-light="assets/supporting-evidence2.png" data-dark="assets/supporting-evidence2.png" src="assets/supporting-evidence2.png" alt="Supporting evidence 2" style="width:100%; border-radius:10px; border:1px solid var(--line); display:block;">
+        <img class="theme-img" data-light="assets/supporting-evidence2.1.png" data-dark="assets/supporting-evidence2.1.png" src="assets/supporting-evidence2.1.png" alt="Supporting evidence 2.1" style="width:100%; border-radius:10px; border:1px solid var(--line); display:block;">
+      </div>
+      <p style="margin-top:20px;">University catalogues and advising documentation painted a picture of a system designed with good intentions but built for administrative efficiency — not student comprehension. Course codes, prerequisite logic, and section numbering were all structured around backend processes rather than how a student thinks when choosing a class. The documentation assumed fluency students simply don't have on day one.</p>
+    </div>
+
+    <!-- Supporting evidence dark/light variants for the banner -->
+    <div class="reveal" style="margin-top: 32px;">
+      <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--sub); margin-bottom:12px;">Supporting Evidence — Context</div>
+      <img class="theme-img" data-light="assets/supporting-evidence-light.png" data-dark="assets/supporting-evidence-dark.png" src="assets/supporting-evidence-dark.png" alt="Supporting evidence contextual" style="width:100%; border-radius:12px; border:1px solid var(--line); display:block;">
+      <p style="margin-top:20px;">Cross-referencing field observations with institutional documentation confirmed a systemic mismatch — the gap between what the university describes and what students actually experience is not a communication problem. It's a design problem. The system was never built around the student's mental model, and no amount of orientation material closes that gap.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04B HOLISTIC SUPPORT -->
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>04b — Desk Research Finding</div>
+    <h2 class="reveal">The infrastructure gap between<br>undergrad and graduate.</h2>
+    <p class="reveal">Desk research into the university catalogue revealed a stark difference in advising support — undergraduate students benefit from structured, layered guidance, while graduate students are largely left to navigate registration alone.</p>
+
+    <div class="flow-grid reveal" style="margin-top: 40px;">
+      <div class="flow-card">
+        <div class="flow-head">
+          <span class="flow-head-label blue">Undergraduate</span>
+          <div class="flow-head-title">Advising Infrastructure</div>
+        </div>
+        <div class="flow-body">
+          <div class="flow-points">
+            <div class="flow-point"><div class="flow-dot blue"></div>Student orientation provided by Academic Success Center</div>
+            <div class="flow-point"><div class="flow-dot blue"></div>RAM Resource Fair held at the start of each semester</div>
+            <div class="flow-point"><div class="flow-dot blue"></div>Faculty Advisors supported by Academic Success Center</div>
+            <div class="flow-point"><div class="flow-dot blue"></div>Faculty Advisors actively guide students through course selection</div>
+          </div>
+          <div style="border-top: 1px solid var(--line); margin-top: 24px; padding-top: 20px;">
+            <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--sub); margin-bottom:8px;">Average rating of course registration experience</div>
+            <div style="font-family:'Instrument Serif',serif; font-size:52px; color:#6b9fff; line-height:1; letter-spacing:-1px;">8<span style="font-size:22px; color:var(--sub);">/10</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="flow-card">
+        <div class="flow-head">
+          <span class="flow-head-label red">Graduate</span>
+          <div class="flow-head-title">Advising Infrastructure</div>
+        </div>
+        <div class="flow-body">
+          <div class="flow-points">
+            <div class="flow-point"><div class="flow-dot red"></div>Course planning document provided in electronic form at program start</div>
+            <div class="flow-point"><div class="flow-dot red"></div>Largely a self-guided process — minimal structured support</div>
+            <div class="flow-point"><div class="flow-dot red"></div>Program directors expect students to act immediately when registration opens</div>
+            <div class="flow-point"><div class="flow-dot red"></div>Informal channels — conversations and direct messages — are the primary source of information</div>
+          </div>
+          <div style="border-top: 1px solid var(--line); margin-top: 24px; padding-top: 20px;">
+            <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--sub); margin-bottom:8px;">Average rating of course registration process</div>
+            <div style="font-family:'Instrument Serif',serif; font-size:52px; color:var(--warm); line-height:1; letter-spacing:-1px;">5<span style="font-size:22px; color:var(--sub);">/10</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout reveal" style="margin-top: 32px;">
+      <p><strong style="color:var(--white);">Key implication:</strong> Graduate students encounter registration with far less institutional scaffolding — making every piece of friction in BannerWeb hit harder. Building holistic support means closing this infrastructure gap first, then scaling it.</p>
     </div>
   </div>
 </section>
@@ -606,7 +714,8 @@
             <div class="flow-head-title">Fragmented + confusing</div>
           </div>
           <div class="flow-body">
-            <div class="flow-img">Current BannerWeb flow</div>
+            <img class="theme-img" data-light="assets/banner-current-light.png" data-dark="assets/banner-current-dark.png" src="assets/banner-current-dark.png" alt="Current BannerWeb registration flow" style="width:100%;border-radius:8px;display:block;">
+            <p style="font-size:13px; color:var(--sub); line-height:1.7; margin-top:14px; margin-bottom:16px;">The current flow forces students through a multi-step, code-heavy process with no planning layer, no conflict warnings, and no plain-language guidance. Every gap in the system pushes students toward external workarounds or advisor dependency.</p>
             <div class="flow-points">
               <div class="flow-point"><div class="flow-dot red"></div>Students plan externally, then manually re-enter everything into BannerWeb</div>
               <div class="flow-point"><div class="flow-dot red"></div>No conflict detection — students discover time clashes after the fact</div>
@@ -621,7 +730,8 @@
             <div class="flow-head-title">Integrated + supportive</div>
           </div>
           <div class="flow-body">
-            <div class="flow-img">Proposed system flow</div>
+            <img class="theme-img" data-light="assets/banner-current-optimizedlight.png" data-dark="assets/banner-current-optimized-dark.png" src="assets/banner-current-optimized-dark.png" alt="Proposed optimised registration flow" style="width:100%;border-radius:8px;display:block;">
+            <p style="font-size:13px; color:var(--sub); line-height:1.7; margin-top:14px; margin-bottom:16px;">The proposed flow collapses planning and registration into a single, guided experience. Students build their schedule visually, see conflicts in real time, and understand prerequisites without needing to consult an advisor for basic eligibility questions.</p>
             <div class="flow-points">
               <div class="flow-point"><div class="flow-dot blue"></div>Planning and registration happen in one place — no external spreadsheets needed</div>
               <div class="flow-point"><div class="flow-dot blue"></div>Real-time conflict detection surfaces schedule clashes before they happen</div>
@@ -723,6 +833,10 @@
       const icon = goLight ? '☀️' : '🌙';
       toggleTop.textContent  = icon;
       togglePill.textContent = icon;
+      // Swap all theme-aware images
+      document.querySelectorAll('img.theme-img').forEach(img => {
+        img.src = goLight ? img.dataset.light : img.dataset.dark;
+      });
     }
     function toggleTheme(){ applyTheme(!document.body.classList.contains('light')); }
     toggleTop.addEventListener('click', toggleTheme);
