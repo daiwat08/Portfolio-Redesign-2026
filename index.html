@@ -158,7 +158,6 @@
   }
 
   .section.is-active .section-inner { transform: translateY(0); opacity: 1; }
-  .section.is-leaving .section-inner { transform: translateY(-80px); opacity: 0; transition: transform 0.5s cubic-bezier(0.55,0,0.45,1), opacity 0.3s ease; }
 
   .section-inner .eyebrow { transform: translateY(40px); opacity: 0; transition: transform 0.9s cubic-bezier(0.16,1,0.3,1) 0.05s, opacity 0.7s ease 0.05s; }
   .section.is-active .section-inner .eyebrow { transform: translateY(0); opacity: 1; }
@@ -348,10 +347,10 @@
 
   /* ── PREVIEW PANEL ── */
   .case-preview {
-    position: absolute; right: 6vw; top: 50%;
+    position: absolute; right: 4vw; top: 50%;
     transform: translateY(-50%) translateX(80px) scale(0.95);
-    width: clamp(280px, 32vw, 460px);
-    height: clamp(380px, 60vh, 540px);
+    width: clamp(380px, 44vw, 640px);
+    height: clamp(480px, 75vh, 700px);
     border-radius: 28px; overflow: hidden;
     opacity: 0; pointer-events: none;
     transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s,
@@ -844,26 +843,16 @@
 
   /* ── Section observer ── */
   var prevIndex = 0;
-  sections.forEach(function(sec, index) {
+
+  // Once a section is active, keep it active — never hide content on scroll
+  sections.forEach(function(sec) {
     new IntersectionObserver(function(entries) {
       entries.forEach(function(e) {
-        if (e.intersectionRatio > 0.2) {
-          if (prevIndex !== index) {
-            sections[prevIndex].classList.remove('is-active');
-            sections[prevIndex].classList.add('is-leaving');
-            (function(pi) { setTimeout(function() { sections[pi].classList.remove('is-leaving'); }, 600); })(prevIndex);
-            prevIndex = index;
-          }
+        if (e.isIntersecting) {
           sec.classList.add('is-active');
-          sec.classList.remove('is-leaving');
-          currentIndex = index;
-
-          var pct = index / (total - 1);
-          rFill.style.strokeDashoffset = CIRC * (1 - pct);
-          rPct.textContent = Math.round(pct * 100) + '%';
         }
       });
-    }, { threshold: [0.2] }).observe(sec);
+    }, { threshold: 0.05 }).observe(sec);
   });
 
   sections[0].classList.add('is-active');
