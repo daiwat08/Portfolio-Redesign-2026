@@ -189,6 +189,10 @@
   .quote-text { font-family: 'Instrument Serif', serif; font-size: var(--t-lg); font-style: italic; color: var(--white); line-height: 1.5; }
   .quote-attr { font-size: var(--t-sm); color: var(--sub); margin-top: 12px; }
 
+  /* Quote inside persona cards */
+  .persona-card .quote-block { margin: 0; padding: 14px 18px; }
+  .persona-card .quote-text { font-size: 14px; line-height: 1.6; }
+
   /* ─── STEPS ─── */
   .steps {
     display: grid; grid-template-columns: repeat(4, 1fr);
@@ -225,27 +229,42 @@
   .insight-body { font-size: var(--t-sm); color: var(--sub); line-height: 1.7; }
 
   /* ─── PERSONA CARDS ─── */
-  .persona-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 1px; background: var(--line);
-    border: 1px solid var(--line); border-radius: 12px;
-    overflow: hidden; margin-top: 40px;
+  .persona-stack { display: flex; flex-direction: column; gap: 2px; margin-top: 40px; }
+  .persona-row {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 36px 40px;
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+    transition: border-color .2s;
   }
-  .persona-card { background: var(--bg); padding: 32px 28px; }
+  .persona-row:hover { border-color: rgba(107,159,255,0.3); }
+  .persona-identity { }
   .persona-avatar {
-    width: 44px; height: 44px; border-radius: 50%;
-    background: rgba(74,124,255,0.15);
-    border: 1px solid rgba(74,124,255,0.3);
+    width: 52px; height: 52px; border-radius: 50%;
+    background: rgba(107,159,255,0.12);
+    border: 1px solid rgba(107,159,255,0.3);
     display: flex; align-items: center; justify-content: center;
     font-family: 'Geist Mono', monospace; font-size: var(--t-xs);
     color: var(--accent); letter-spacing: 1px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
-  .persona-name { font-size: var(--t-md); font-weight: 500; color: var(--white); margin-bottom: 4px; }
-  .persona-type { font-family: 'Geist Mono', monospace; font-size: var(--t-xs); color: var(--sub); letter-spacing: 1px; margin-bottom: 20px; display: block; }
+  .persona-name { font-size: var(--t-md); font-weight: 500; color: var(--white); margin-bottom: 4px; line-height: 1.2; }
+  .persona-type { font-family: 'Geist Mono', monospace; font-size: var(--t-xs); color: var(--sub); letter-spacing: 1px; display: block; margin-bottom: 16px; }
+  .persona-n { font-family: 'Geist Mono', monospace; font-size: var(--t-xs); color: var(--accent); letter-spacing: 1px; margin-bottom: 16px; display: block; }
   .persona-divider { height: 1px; background: var(--line); margin-bottom: 20px; }
-  .persona-label { font-family: 'Geist Mono', monospace; font-size: var(--t-xs); color: var(--accent); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; display: block; }
-  .persona-text { font-size: var(--t-sm); color: var(--sub); line-height: 1.7; margin-bottom: 16px; }
+  .persona-label { font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; display: block; }
+  .persona-text { font-size: var(--t-sm); color: var(--sub); line-height: 1.7; margin-bottom: 20px; }
+  .persona-col-quote { display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
+  .persona-row .quote-block { margin: 0; background: rgba(107,159,255,0.05); }
+  .persona-row .quote-text { font-size: 15px; line-height: 1.6; }
+
+  @media (max-width: 700px) {
+    .persona-row { grid-template-columns: 1fr; gap: 24px; padding: 28px 24px; }
+  }
 
   /* ─── HMW BOX ─── */
   .hmw-box {
@@ -373,8 +392,8 @@
   <a href="../index.html" class="nav-top__logo">Daiwat Thavai</a>
   <nav class="nav-top__links" aria-label="Main navigation">
     <a href="../index.html" class="nav-top__link">Home</a>
-    <a href="../index.html" class="nav-top__link">Work</a>
-    <a href="#" class="nav-top__link">About</a>
+    <a href="../Work/index.html" class="nav-top__link">Work</a>
+    <a href="../AboutMe/index.html" class="nav-top__link">About</a>
     <a href="#" class="nav-top__link">Resume</a>
   </nav>
   <div class="nav-top__right">
@@ -392,8 +411,8 @@
   </div>
   <div class="nav-pill__links">
     <a href="../index.html" class="nav-pill__link">Home</a>
-    <a href="../index.html" class="nav-pill__link">Work</a>
-    <a href="#" class="nav-pill__link">About</a>
+    <a href="../Work/index.html" class="nav-pill__link">Work</a>
+    <a href="../AboutMe/index.html" class="nav-pill__link">About</a>
     <a href="#" class="nav-pill__link">Resume</a>
   </div>
   <div class="nav-pill__theme">
@@ -654,91 +673,128 @@
     <h2 class="reveal">Three students.<br>Three breaking points.</h2>
     <p class="reveal">These archetypes emerged directly from field research — real patterns from real sessions, not invented profiles.</p>
 
-    <div class="persona-grid reveal">
-      <div class="persona-card">
-        <div class="persona-avatar">MR</div>
-        <div class="persona-name">Maya R.</div>
-        <span class="persona-type">First-year · Age 18</span>
-        <div class="persona-divider"></div>
-        <span class="persona-label">Situation</span>
-        <div class="persona-text">First time registering. Has a list of courses from orientation but can't find them by name — only by code. Has no idea what half the fields mean.</div>
-        <span class="persona-label">Biggest struggle</span>
-        <div class="persona-text">Understanding prerequisite logic. Can't tell if she qualifies for a course without asking an advisor.</div>
-        <div class="quote-block" style="margin:0; padding: 14px 18px;">
-          <div class="quote-text" style="font-size:14px;">"I've been on this page for 20 minutes and I still don't know if I can take this class."</div>
+    <div class="persona-stack">
+
+      <!-- Persona 01 — Maya -->
+      <div class="persona-row reveal">
+        <div class="persona-identity">
+          <span class="persona-n">Persona 01</span>
+          <div class="persona-avatar">MR</div>
+          <div class="persona-name">Maya R.</div>
+          <span class="persona-type">First-year · Age 18</span>
+          <div class="persona-divider"></div>
+          <span class="persona-label">Role</span>
+          <div class="persona-text" style="margin-bottom:0;">Undergraduate student navigating registration for the first time.</div>
+        </div>
+        <div>
+          <span class="persona-label">Situation</span>
+          <div class="persona-text">Arrived with a handwritten list of course names from orientation — only to find BannerWeb requires CRN codes she's never heard of. Has no idea what half the fields mean or whether she qualifies for the courses she wants.</div>
+          <span class="persona-label">Biggest struggle</span>
+          <div class="persona-text" style="margin-bottom:0;">Understanding prerequisite logic. Can't tell if she's eligible for a course without emailing an advisor and waiting two days for a reply.</div>
+        </div>
+        <div class="persona-col-quote">
+          <div class="quote-block">
+            <div class="quote-text">"I've been on this page for 20 minutes and I still don't know if I can take this class."</div>
+          </div>
         </div>
       </div>
-      <div class="persona-card">
-        <div class="persona-avatar">JT</div>
-        <div class="persona-name">James T.</div>
-        <span class="persona-type">Third-year · Age 21</span>
-        <div class="persona-divider"></div>
-        <span class="persona-label">Situation</span>
-        <div class="persona-text">Experienced user, frustrated every semester. Has a system — spreadsheet + BannerWeb — but finds himself re-entering the same information repeatedly.</div>
-        <span class="persona-label">Biggest struggle</span>
-        <div class="persona-text">Time conflicts. Has to manually check for overlaps because BannerWeb doesn't surface them clearly.</div>
-        <div class="quote-block" style="margin:0; padding: 14px 18px;">
-          <div class="quote-text" style="font-size:14px;">"I've done this 5 times. It shouldn't still take me two hours."</div>
+
+      <!-- Persona 02 — James -->
+      <div class="persona-row reveal">
+        <div class="persona-identity">
+          <span class="persona-n">Persona 02</span>
+          <div class="persona-avatar">JT</div>
+          <div class="persona-name">James T.</div>
+          <span class="persona-type">Third-year · Age 21</span>
+          <div class="persona-divider"></div>
+          <span class="persona-label">Role</span>
+          <div class="persona-text" style="margin-bottom:0;">Experienced student who has developed his own workaround system.</div>
+        </div>
+        <div>
+          <span class="persona-label">Situation</span>
+          <div class="persona-text">Has done this five times. Built his own spreadsheet system to plan before touching BannerWeb — but still finds himself re-entering the same information from scratch every semester, with no memory or continuity in the system.</div>
+          <span class="persona-label">Biggest struggle</span>
+          <div class="persona-text" style="margin-bottom:0;">Schedule conflicts. Has to manually cross-check every course time because BannerWeb surfaces no warnings until after he tries to submit.</div>
+        </div>
+        <div class="persona-col-quote">
+          <div class="quote-block">
+            <div class="quote-text">"I've done this 5 times. It shouldn't still take me two hours."</div>
+          </div>
         </div>
       </div>
-      <div class="persona-card">
-        <div class="persona-avatar">DK</div>
-        <div class="persona-name">Dr. Karen D.</div>
-        <span class="persona-type">Academic Advisor · 8 yrs</span>
-        <div class="persona-divider"></div>
-        <span class="persona-label">Situation</span>
-        <div class="persona-text">Spends registration week fielding questions that should be answerable by the system itself. Most questions are about interface confusion, not academic decisions.</div>
-        <span class="persona-label">Biggest struggle</span>
-        <div class="persona-text">Scaling her time. Gets 40+ emails in the first week of registration — most about the same three interface issues.</div>
-        <div class="quote-block" style="margin:0; padding: 14px 18px;">
-          <div class="quote-text" style="font-size:14px;">"My job is to guide students academically. Instead I'm explaining what a CRN number is."</div>
+
+      <!-- Persona 03 — Dr. Karen -->
+      <div class="persona-row reveal">
+        <div class="persona-identity">
+          <span class="persona-n">Persona 03</span>
+          <div class="persona-avatar">DK</div>
+          <div class="persona-name">Dr. Karen D.</div>
+          <span class="persona-type">Academic Advisor · 8 yrs</span>
+          <div class="persona-divider"></div>
+          <span class="persona-label">Role</span>
+          <div class="persona-text" style="margin-bottom:0;">Staff member absorbing the friction the system should resolve itself.</div>
+        </div>
+        <div>
+          <span class="persona-label">Situation</span>
+          <div class="persona-text">Registration week means 40+ emails before Monday. Most aren't about academic decisions — they're about interface confusion. She spends the majority of her time explaining what a CRN number is instead of guiding students toward the right courses.</div>
+          <span class="persona-label">Biggest struggle</span>
+          <div class="persona-text" style="margin-bottom:0;">Scaling her time. Every interface question she answers is time taken away from the academic guidance students actually need her for.</div>
+        </div>
+        <div class="persona-col-quote">
+          <div class="quote-block">
+            <div class="quote-text">"My job is to guide students academically. Instead I'm explaining what a CRN number is."</div>
+          </div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
 
 <!-- 07 CURRENT vs FUTURE -->
 <section class="section">
-  <div class="col-wide">
-    <div class="col" style="padding: 0 24px; max-width: var(--max); margin: 0 auto;">
-      <div class="tag reveal"><span class="tag-dot"></span>07 — Current vs. Future State</div>
-      <h2 class="reveal">From fragmented flow<br>to holistic system.</h2>
-      <p class="reveal">After synthesising field findings, the gap between what exists and what's needed became impossible to ignore.</p>
-    </div>
-    <div style="padding: 0 24px; margin-top: 40px;">
-      <div class="flow-grid reveal">
-        <div class="flow-card">
-          <div class="flow-head">
-            <span class="flow-head-label red">Current state — What it is</span>
-            <div class="flow-head-title">Fragmented + confusing</div>
-          </div>
-          <div class="flow-body">
-            <img class="theme-img" data-light="assets/banner-current-light.png" data-dark="assets/banner-current-dark.png" src="assets/banner-current-dark.png" alt="Current BannerWeb registration flow" style="width:100%;border-radius:8px;display:block;">
-            <p style="font-size:13px; color:var(--sub); line-height:1.7; margin-top:14px; margin-bottom:16px;">The current flow forces students through a multi-step, code-heavy process with no planning layer, no conflict warnings, and no plain-language guidance. Every gap in the system pushes students toward external workarounds or advisor dependency.</p>
-            <div class="flow-points">
-              <div class="flow-point"><div class="flow-dot red"></div>Students plan externally, then manually re-enter everything into BannerWeb</div>
-              <div class="flow-point"><div class="flow-dot red"></div>No conflict detection — students discover time clashes after the fact</div>
-              <div class="flow-point"><div class="flow-dot red"></div>Prerequisites shown as codes, not plain language — requires advisor translation</div>
-              <div class="flow-point"><div class="flow-dot red"></div>Advisors flooded with interface questions instead of academic guidance</div>
-            </div>
-          </div>
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>07 — Current vs. Future State</div>
+    <h2 class="reveal">From fragmented flow<br>to holistic system.</h2>
+    <p class="reveal">After synthesising field findings, the gap between what exists and what's needed became impossible to ignore.</p>
+
+    <!-- Current State -->
+    <div class="reveal" style="margin-top: 48px;">
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+        <span style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--warm);">Current state — What it is</span>
+        <div style="flex:1; height:1px; background:var(--line);"></div>
+        <span style="font-size:13px; font-weight:500; color:var(--white);">Fragmented + confusing</span>
+      </div>
+      <img class="theme-img" data-light="assets/banner-current-light.png" data-dark="assets/banner-current-dark.png" src="assets/banner-current-dark.png" alt="Current BannerWeb registration flow" style="width:100%; border-radius:12px; border:1px solid var(--line); display:block;">
+      <div style="margin-top: 24px; display:grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items:start;">
+        <p style="margin:0;">The current flow forces students through a multi-step, code-heavy process with no planning layer, no conflict warnings, and no plain-language guidance. Every gap in the system pushes students toward external workarounds or advisor dependency.</p>
+        <div class="flow-points">
+          <div class="flow-point"><div class="flow-dot red"></div>Students plan externally, then manually re-enter everything into BannerWeb</div>
+          <div class="flow-point"><div class="flow-dot red"></div>No conflict detection — students discover time clashes after the fact</div>
+          <div class="flow-point"><div class="flow-dot red"></div>Prerequisites shown as codes, not plain language — requires advisor translation</div>
+          <div class="flow-point"><div class="flow-dot red"></div>Advisors flooded with interface questions instead of academic guidance</div>
         </div>
-        <div class="flow-card">
-          <div class="flow-head">
-            <span class="flow-head-label blue">Future state — What it could be</span>
-            <div class="flow-head-title">Integrated + supportive</div>
-          </div>
-          <div class="flow-body">
-            <img class="theme-img" data-light="assets/banner-current-optimizedlight.png" data-dark="assets/banner-current-optimized-dark.png" src="assets/banner-current-optimized-dark.png" alt="Proposed optimised registration flow" style="width:100%;border-radius:8px;display:block;">
-            <p style="font-size:13px; color:var(--sub); line-height:1.7; margin-top:14px; margin-bottom:16px;">The proposed flow collapses planning and registration into a single, guided experience. Students build their schedule visually, see conflicts in real time, and understand prerequisites without needing to consult an advisor for basic eligibility questions.</p>
-            <div class="flow-points">
-              <div class="flow-point"><div class="flow-dot blue"></div>Planning and registration happen in one place — no external spreadsheets needed</div>
-              <div class="flow-point"><div class="flow-dot blue"></div>Real-time conflict detection surfaces schedule clashes before they happen</div>
-              <div class="flow-point"><div class="flow-dot blue"></div>Prerequisites explained in plain language with direct eligibility confirmation</div>
-              <div class="flow-point"><div class="flow-dot blue"></div>Advisors integrated at the point of need — not after the system has already failed</div>
-            </div>
-          </div>
+      </div>
+    </div>
+
+    <!-- Divider arrow -->
+    <div class="reveal" style="text-align:center; padding: 40px 0; color:var(--accent); font-size:24px; letter-spacing:2px;">↓</div>
+
+    <!-- Future State -->
+    <div class="reveal">
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+        <span style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--accent);">Future state — What it could be</span>
+        <div style="flex:1; height:1px; background:var(--line);"></div>
+        <span style="font-size:13px; font-weight:500; color:var(--white);">Integrated + supportive</span>
+      </div>
+      <img class="theme-img" data-light="assets/banner-current-optimizedlight.png" data-dark="assets/banner-current-optimized-dark.png" src="assets/banner-current-optimized-dark.png" alt="Proposed optimised registration flow" style="width:100%; border-radius:12px; border:1px solid var(--line); display:block;">
+      <div style="margin-top: 24px; display:grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items:start;">
+        <p style="margin:0;">The proposed flow collapses planning and registration into a single, guided experience. Students build their schedule visually, see conflicts in real time, and understand prerequisites without needing to consult an advisor for basic eligibility questions.</p>
+        <div class="flow-points">
+          <div class="flow-point"><div class="flow-dot blue"></div>Planning and registration happen in one place — no external spreadsheets needed</div>
+          <div class="flow-point"><div class="flow-dot blue"></div>Real-time conflict detection surfaces schedule clashes before they happen</div>
+          <div class="flow-point"><div class="flow-dot blue"></div>Prerequisites explained in plain language with direct eligibility confirmation</div>
+          <div class="flow-point"><div class="flow-dot blue"></div>Advisors integrated at the point of need — not after the system has already failed</div>
         </div>
       </div>
     </div>
@@ -784,12 +840,12 @@
     <h2>The best research reveals what<br>users have accepted as normal.</h2>
     <p>Every student who opened a spreadsheet alongside BannerWeb had stopped seeing it as a problem. My job as a researcher was to see it for them, name it, and make the case that it didn't have to be that way.</p>
     <div>
-      <a href="../index.html" class="btn">← Back to Home</a>
+      <a href="../Work/index.html" class="btn">← Back to Work</a>
       <a href="#" class="btn btn-primary">See Prototype →</a>
     </div>
     <div class="next-case">
       <span>Next case study</span>
-      <a href="../global-bridge/">Global Bridge →</a>
+      <a href="../global-bridge/index.html">Global Bridge →</a>
     </div>
   </div>
 </section>
