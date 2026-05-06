@@ -363,10 +363,12 @@
 
   /* ── PREVIEW PANEL ── */
   .case-preview {
-    position: absolute; right: 8vw; top: 50%;
+  /* ── PREVIEW PANEL ── */
+  .case-preview {
+    position: absolute; right: 6vw; top: 50%;
     transform: translateY(-50%) translateX(60px) scale(0.94);
-    width: clamp(240px, 26vw, 360px);
-    height: clamp(380px, 60vh, 520px);
+    width: clamp(320px, 36vw, 500px);
+    height: clamp(420px, 65vh, 580px);
     border-radius: 28px; overflow: hidden;
     opacity: 0; pointer-events: none;
     transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s,
@@ -382,6 +384,9 @@
     opacity: 0 !important;
     transition: transform 0.45s cubic-bezier(0.55,0,0.45,1), opacity 0.25s ease !important;
   }
+
+  /* laptop-reveal hidden — case-preview--laptop handles hover reveal */
+  .laptop-reveal { display: none !important; }
   .preview-bg { position: absolute; inset: 0; z-index: 0; }
   .preview-tag { position: absolute; top: 22px; left: 22px; font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 1.5px; color: rgba(255,255,255,0.45); z-index: 4; text-transform: uppercase; }
   .phone-wrap { position: absolute; bottom: -28px; left: 50%; transform: translateX(-50%); width: 68%; z-index: 2; }
@@ -400,8 +405,8 @@
 
   /* ── LAPTOP MOCKUP ── */
   .case-preview--laptop {
-    width: clamp(360px, 40vw, 560px);
-    height: clamp(240px, 40vh, 400px);
+    width: clamp(360px, 42vw, 580px);
+    height: clamp(320px, 68vh, 560px);
     right: 4vw;
     border-radius: 0;
     background: transparent !important;
@@ -448,20 +453,6 @@
     transform: none !important;
     opacity: 1 !important;
   }
-
-  /* ── LAPTOP REVEAL ── */
-  .laptop-reveal {
-    position: absolute;
-    right: -20px; top: 50%;
-    transform: translateY(-50%) translateX(40px);
-    width: clamp(360px, 46vw, 620px);
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1), transform 0.5s cubic-bezier(0.16,1,0.3,1);
-    z-index: 10;
-    filter: drop-shadow(0 40px 60px rgba(0,0,0,0.7));
-  }
-  .laptop-reveal img { width: 100%; height: auto; display: block; mix-blend-mode: lighten; }
-  .laptop-reveal.is-visible { opacity: 1; transform: translateY(-50%) translateX(0); }
 
   /* WCAG: metric card contrast */
   .metric-card { color: rgba(255,255,255,0.85) !important; }
