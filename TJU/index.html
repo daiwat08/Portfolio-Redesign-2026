@@ -229,41 +229,66 @@
   .insight-body { font-size: var(--t-sm); color: var(--sub); line-height: 1.7; }
 
   /* ─── PERSONA CARDS ─── */
-  .persona-stack { display: flex; flex-direction: column; gap: 2px; margin-top: 40px; }
+  .persona-stack { display: flex; flex-direction: column; gap: 24px; margin-top: 40px; }
   .persona-row {
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 16px;
-    padding: 36px 40px;
-    display: grid;
-    grid-template-columns: 200px 1fr 1fr;
-    gap: 40px;
-    align-items: start;
+    overflow: hidden;
     transition: border-color .2s;
   }
-  .persona-row:hover { border-color: rgba(107,159,255,0.3); }
-  .persona-identity { }
-  .persona-avatar {
-    width: 52px; height: 52px; border-radius: 50%;
-    background: rgba(107,159,255,0.12);
-    border: 1px solid rgba(107,159,255,0.3);
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Geist Mono', monospace; font-size: var(--t-xs);
-    color: var(--accent); letter-spacing: 1px;
-    margin-bottom: 16px;
+  .persona-row:hover { border-color: rgba(107,159,255,0.25); }
+
+  /* Top bar — identity strip */
+  .persona-header {
+    display: flex; align-items: center; gap: 20px;
+    padding: 24px 32px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(107,159,255,0.04);
   }
-  .persona-name { font-size: var(--t-md); font-weight: 500; color: var(--white); margin-bottom: 4px; line-height: 1.2; }
-  .persona-type { font-family: 'Geist Mono', monospace; font-size: var(--t-xs); color: var(--sub); letter-spacing: 1px; display: block; margin-bottom: 16px; }
-  .persona-n { font-family: 'Geist Mono', monospace; font-size: var(--t-xs); color: var(--accent); letter-spacing: 1px; margin-bottom: 16px; display: block; }
-  .persona-divider { height: 1px; background: var(--line); margin-bottom: 20px; }
-  .persona-label { font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; display: block; }
-  .persona-text { font-size: var(--t-sm); color: var(--sub); line-height: 1.7; margin-bottom: 20px; }
-  .persona-col-quote { display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
-  .persona-row .quote-block { margin: 0; background: rgba(107,159,255,0.05); }
-  .persona-row .quote-text { font-size: 15px; line-height: 1.6; }
+  .persona-avatar {
+    width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0;
+    background: rgba(107,159,255,0.12);
+    border: 1px solid rgba(107,159,255,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Geist Mono', monospace; font-size: 11px;
+    color: var(--accent); letter-spacing: 1px;
+  }
+  .persona-header-meta { flex: 1; }
+  .persona-n { font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 3px; }
+  .persona-name { font-family: 'Instrument Serif', serif; font-size: 22px; font-weight: 400; color: var(--white); line-height: 1.2; margin-bottom: 2px; }
+  .persona-type { font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--sub); letter-spacing: 1px; display: block; }
+  .persona-badge {
+    font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 1.5px;
+    text-transform: uppercase; padding: 5px 12px; border-radius: 999px;
+    border: 1px solid rgba(107,159,255,0.2); color: var(--sub);
+    white-space: nowrap; flex-shrink: 0;
+  }
+
+  /* Body — 3 equal columns */
+  .persona-body {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+  }
+  .persona-col {
+    padding: 28px 32px;
+    border-right: 1px solid var(--line);
+  }
+  .persona-col:last-child { border-right: none; }
+  .persona-label { font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; display: block; }
+  .persona-text { font-size: 14px; color: var(--sub); line-height: 1.75; margin: 0; }
+
+  /* Quote col */
+  .persona-col-quote { background: rgba(107,159,255,0.03); }
+  .persona-col-quote .quote-block { margin: 0; background: transparent; border: none; padding: 0; }
+  .persona-col-quote .quote-block { border-left: 2px solid rgba(107,159,255,0.4); padding-left: 16px; }
+  .persona-col-quote .quote-text { font-size: 15px; line-height: 1.65; color: var(--white); }
 
   @media (max-width: 700px) {
-    .persona-row { grid-template-columns: 1fr; gap: 24px; padding: 28px 24px; }
+    .persona-body { grid-template-columns: 1fr; }
+    .persona-col { border-right: none; border-bottom: 1px solid var(--line); }
+    .persona-col:last-child { border-bottom: none; }
+    .persona-header { flex-wrap: wrap; }
   }
 
   /* ─── HMW BOX ─── */
@@ -564,21 +589,23 @@
 
     <!-- Supporting evidence -->
     <div class="reveal" style="margin-top: 32px;">
-      <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--sub); margin-bottom:12px;">Supporting Evidence — Desk Research</div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-        <img class="theme-img" data-light="assets/supporting-evidence1.png" data-dark="assets/supporting-evidence1.png" src="assets/supporting-evidence1.png" alt="Supporting evidence 1" style="width:100%; border-radius:10px; border:1px solid var(--line); display:block;">
-        <img class="theme-img" data-light="assets/supporting-evidence1.1.png" data-dark="assets/supporting-evidence1.1.png" src="assets/supporting-evidence1.1.png" alt="Supporting evidence 1.1" style="width:100%; border-radius:10px; border:1px solid var(--line); display:block;">
-        <img class="theme-img" data-light="assets/supporting-evidence2.png" data-dark="assets/supporting-evidence2.png" src="assets/supporting-evidence2.png" alt="Supporting evidence 2" style="width:100%; border-radius:10px; border:1px solid var(--line); display:block;">
-        <img class="theme-img" data-light="assets/supporting-evidence2.1.png" data-dark="assets/supporting-evidence2.1.png" src="assets/supporting-evidence2.1.png" alt="Supporting evidence 2.1" style="width:100%; border-radius:10px; border:1px solid var(--line); display:block;">
+      <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--sub); margin-bottom:16px;">Supporting Evidence — Desk Research</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+
+        <div>
+          <img class="theme-img" data-light="assets/supporting-evidence-light.png" data-dark="assets/supporting-evidence-dark.png" src="assets/supporting-evidence-dark.png" alt="Supporting evidence — page 1" style="width:100%; border-radius:10px; border:1px solid var(--line); display:block;">
+          <p style="margin-top:10px; font-size:12px; color:var(--sub); font-family:'Geist Mono',monospace; letter-spacing:.5px;">Course listing structure — prerequisite codes with no plain-language explanation</p>
+        </div>
+
+        <div>
+          <img class="theme-img" data-light="assets/supporting-evidence-light.png" data-dark="assets/supporting-evidence-dark.png" src="assets/supporting-evidence-dark.png" alt="Supporting evidence — page 2" style="width:100%; border-radius:10px; border:1px solid var(--line); display:block;">
+          <p style="margin-top:10px; font-size:12px; color:var(--sub); font-family:'Geist Mono',monospace; letter-spacing:.5px;">Advising documentation — written for administrators, not students</p>
+        </div>
+
       </div>
-      <p style="margin-top:20px;">University catalogues and advising documentation painted a picture of a system designed with good intentions but built for administrative efficiency — not student comprehension. Course codes, prerequisite logic, and section numbering were all structured around backend processes rather than how a student thinks when choosing a class. The documentation assumed fluency students simply don't have on day one.</p>
+      <p style="margin-top:24px;">University catalogues and advising documentation painted a picture of a system designed with good intentions but built for administrative efficiency — not student comprehension. Course codes, prerequisite logic, and section numbering were all structured around backend processes rather than how a student thinks when choosing a class.</p>
     </div>
 
-    <!-- Supporting evidence dark/light variants for the banner -->
-    <div class="reveal" style="margin-top: 32px;">
-      <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--sub); margin-bottom:12px;">Supporting Evidence — Context</div>
-      <img class="theme-img" data-light="assets/supporting-evidence-light.png" data-dark="assets/supporting-evidence-dark.png" src="assets/supporting-evidence-dark.png" alt="Supporting evidence contextual" style="width:100%; border-radius:12px; border:1px solid var(--line); display:block;">
-      <p style="margin-top:20px;">Cross-referencing field observations with institutional documentation confirmed a systemic mismatch — the gap between what the university describes and what students actually experience is not a communication problem. It's a design problem. The system was never built around the student's mental model, and no amount of orientation material closes that gap.</p>
     </div>
   </div>
 </section>
@@ -603,9 +630,9 @@
             <div class="flow-point"><div class="flow-dot blue"></div>Faculty Advisors supported by Academic Success Center</div>
             <div class="flow-point"><div class="flow-dot blue"></div>Faculty Advisors actively guide students through course selection</div>
           </div>
-          <div style="border-top: 1px solid var(--line); margin-top: 24px; padding-top: 20px;">
-            <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--sub); margin-bottom:8px;">Average rating of course registration experience</div>
-            <div style="font-family:'Instrument Serif',serif; font-size:52px; color:#6b9fff; line-height:1; letter-spacing:-1px;">8<span style="font-size:22px; color:var(--sub);">/10</span></div>
+          <div style="border-top: 1px solid var(--line); margin-top: 24px; padding-top: 20px; display:flex; align-items:baseline; justify-content:space-between; gap:16px;">
+            <div style="font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--sub); line-height:1.4; white-space:nowrap;">Avg. rating — course registration</div>
+            <div style="font-family:'Instrument Serif',serif; font-size:56px; color:#6b9fff; line-height:1; letter-spacing:-1px; flex-shrink:0;">8<span style="font-size:20px; color:var(--sub); letter-spacing:0;">/10</span></div>
           </div>
         </div>
       </div>
@@ -621,9 +648,9 @@
             <div class="flow-point"><div class="flow-dot red"></div>Program directors expect students to act immediately when registration opens</div>
             <div class="flow-point"><div class="flow-dot red"></div>Informal channels — conversations and direct messages — are the primary source of information</div>
           </div>
-          <div style="border-top: 1px solid var(--line); margin-top: 24px; padding-top: 20px;">
-            <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--sub); margin-bottom:8px;">Average rating of course registration process</div>
-            <div style="font-family:'Instrument Serif',serif; font-size:52px; color:var(--warm); line-height:1; letter-spacing:-1px;">5<span style="font-size:22px; color:var(--sub);">/10</span></div>
+          <div style="border-top: 1px solid var(--line); margin-top: 24px; padding-top: 20px; display:flex; align-items:baseline; justify-content:space-between; gap:16px;">
+            <div style="font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--sub); line-height:1.4; white-space:nowrap;">Avg. rating — course registration</div>
+            <div style="font-family:'Instrument Serif',serif; font-size:56px; color:var(--warm); line-height:1; letter-spacing:-1px; flex-shrink:0;">5<span style="font-size:20px; color:var(--sub); letter-spacing:0;">/10</span></div>
           </div>
         </div>
       </div>
@@ -677,72 +704,87 @@
 
       <!-- Persona 01 — Maya -->
       <div class="persona-row reveal">
-        <div class="persona-identity">
-          <span class="persona-n">Persona 01</span>
+        <div class="persona-header">
           <div class="persona-avatar">MR</div>
-          <div class="persona-name">Maya R.</div>
-          <span class="persona-type">First-year · Age 18</span>
-          <div class="persona-divider"></div>
-          <span class="persona-label">Role</span>
-          <div class="persona-text" style="margin-bottom:0;">Undergraduate student navigating registration for the first time.</div>
+          <div class="persona-header-meta">
+            <span class="persona-n">Persona 01</span>
+            <div class="persona-name">Maya R.</div>
+            <span class="persona-type">First-year · Age 18 · Undergraduate</span>
+          </div>
+          <span class="persona-badge">First-time registrant</span>
         </div>
-        <div>
-          <span class="persona-label">Situation</span>
-          <div class="persona-text">Arrived with a handwritten list of course names from orientation — only to find BannerWeb requires CRN codes she's never heard of. Has no idea what half the fields mean or whether she qualifies for the courses she wants.</div>
-          <span class="persona-label">Biggest struggle</span>
-          <div class="persona-text" style="margin-bottom:0;">Understanding prerequisite logic. Can't tell if she's eligible for a course without emailing an advisor and waiting two days for a reply.</div>
-        </div>
-        <div class="persona-col-quote">
-          <div class="quote-block">
-            <div class="quote-text">"I've been on this page for 20 minutes and I still don't know if I can take this class."</div>
+        <div class="persona-body">
+          <div class="persona-col">
+            <span class="persona-label">Situation</span>
+            <p class="persona-text">Arrived with a handwritten list of course names from orientation — only to find BannerWeb requires CRN codes she's never heard of. Has no idea what half the fields mean or whether she qualifies for the courses she wants.</p>
+          </div>
+          <div class="persona-col">
+            <span class="persona-label">Biggest Struggle</span>
+            <p class="persona-text">Understanding prerequisite logic. Can't tell if she's eligible for a course without emailing an advisor and waiting two days for a reply — by which point the section is already full.</p>
+          </div>
+          <div class="persona-col persona-col-quote">
+            <span class="persona-label">In her words</span>
+            <div class="quote-block">
+              <div class="quote-text">"I've been on this page for 20 minutes and I still don't know if I can take this class."</div>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Persona 02 — James -->
       <div class="persona-row reveal">
-        <div class="persona-identity">
-          <span class="persona-n">Persona 02</span>
+        <div class="persona-header">
           <div class="persona-avatar">JT</div>
-          <div class="persona-name">James T.</div>
-          <span class="persona-type">Third-year · Age 21</span>
-          <div class="persona-divider"></div>
-          <span class="persona-label">Role</span>
-          <div class="persona-text" style="margin-bottom:0;">Experienced student who has developed his own workaround system.</div>
+          <div class="persona-header-meta">
+            <span class="persona-n">Persona 02</span>
+            <div class="persona-name">James T.</div>
+            <span class="persona-type">Third-year · Age 21 · Undergraduate</span>
+          </div>
+          <span class="persona-badge">Experienced but frustrated</span>
         </div>
-        <div>
-          <span class="persona-label">Situation</span>
-          <div class="persona-text">Has done this five times. Built his own spreadsheet system to plan before touching BannerWeb — but still finds himself re-entering the same information from scratch every semester, with no memory or continuity in the system.</div>
-          <span class="persona-label">Biggest struggle</span>
-          <div class="persona-text" style="margin-bottom:0;">Schedule conflicts. Has to manually cross-check every course time because BannerWeb surfaces no warnings until after he tries to submit.</div>
-        </div>
-        <div class="persona-col-quote">
-          <div class="quote-block">
-            <div class="quote-text">"I've done this 5 times. It shouldn't still take me two hours."</div>
+        <div class="persona-body">
+          <div class="persona-col">
+            <span class="persona-label">Situation</span>
+            <p class="persona-text">Has registered five times. Built his own spreadsheet system to plan before touching BannerWeb — but still finds himself re-entering the same data from scratch each semester with no continuity.</p>
+          </div>
+          <div class="persona-col">
+            <span class="persona-label">Biggest Struggle</span>
+            <p class="persona-text">Schedule conflicts. Has to manually cross-check every course time because BannerWeb surfaces no warnings — he only finds out about clashes after he tries to submit.</p>
+          </div>
+          <div class="persona-col persona-col-quote">
+            <span class="persona-label">In his words</span>
+            <div class="quote-block">
+              <div class="quote-text">"I've done this 5 times. It shouldn't still take me two hours."</div>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Persona 03 — Dr. Karen -->
       <div class="persona-row reveal">
-        <div class="persona-identity">
-          <span class="persona-n">Persona 03</span>
+        <div class="persona-header">
           <div class="persona-avatar">DK</div>
-          <div class="persona-name">Dr. Karen D.</div>
-          <span class="persona-type">Academic Advisor · 8 yrs</span>
-          <div class="persona-divider"></div>
-          <span class="persona-label">Role</span>
-          <div class="persona-text" style="margin-bottom:0;">Staff member absorbing the friction the system should resolve itself.</div>
+          <div class="persona-header-meta">
+            <span class="persona-n">Persona 03</span>
+            <div class="persona-name">Dr. Karen D.</div>
+            <span class="persona-type">Academic Advisor · 8 years at TJU</span>
+          </div>
+          <span class="persona-badge">Staff absorbing system friction</span>
         </div>
-        <div>
-          <span class="persona-label">Situation</span>
-          <div class="persona-text">Registration week means 40+ emails before Monday. Most aren't about academic decisions — they're about interface confusion. She spends the majority of her time explaining what a CRN number is instead of guiding students toward the right courses.</div>
-          <span class="persona-label">Biggest struggle</span>
-          <div class="persona-text" style="margin-bottom:0;">Scaling her time. Every interface question she answers is time taken away from the academic guidance students actually need her for.</div>
-        </div>
-        <div class="persona-col-quote">
-          <div class="quote-block">
-            <div class="quote-text">"My job is to guide students academically. Instead I'm explaining what a CRN number is."</div>
+        <div class="persona-body">
+          <div class="persona-col">
+            <span class="persona-label">Situation</span>
+            <p class="persona-text">Registration week means 40+ emails before Monday morning — most aren't academic questions, they're interface questions. She spends the majority of her time explaining what a CRN number is.</p>
+          </div>
+          <div class="persona-col">
+            <span class="persona-label">Biggest Struggle</span>
+            <p class="persona-text">Scaling her time. Every interface question she fields is time taken away from the actual academic guidance students need — and the system gives her no tools to reduce the volume.</p>
+          </div>
+          <div class="persona-col persona-col-quote">
+            <span class="persona-label">In her words</span>
+            <div class="quote-block">
+              <div class="quote-text">"My job is to guide students academically. Instead I'm explaining what a CRN number is."</div>
+            </div>
           </div>
         </div>
       </div>
@@ -765,7 +807,7 @@
         <div style="flex:1; height:1px; background:var(--line);"></div>
         <span style="font-size:13px; font-weight:500; color:var(--white);">Fragmented + confusing</span>
       </div>
-      <img class="theme-img" data-light="assets/banner-current-light.png" data-dark="assets/banner-current-dark.png" src="assets/banner-current-dark.png" alt="Current BannerWeb registration flow" style="width:100%; border-radius:12px; border:1px solid var(--line); display:block;">
+      <img class="theme-img" data-light="assets/what-it-is-light.png" data-dark="assets/what-it-is-dark.png" src="assets/what-it-is-dark.png" alt="Current BannerWeb registration flow" style="width:100%; border-radius:12px; border:1px solid var(--line); display:block;">
       <div style="margin-top: 24px; display:grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items:start;">
         <p style="margin:0;">The current flow forces students through a multi-step, code-heavy process with no planning layer, no conflict warnings, and no plain-language guidance. Every gap in the system pushes students toward external workarounds or advisor dependency.</p>
         <div class="flow-points">
@@ -787,7 +829,7 @@
         <div style="flex:1; height:1px; background:var(--line);"></div>
         <span style="font-size:13px; font-weight:500; color:var(--white);">Integrated + supportive</span>
       </div>
-      <img class="theme-img" data-light="assets/banner-current-optimizedlight.png" data-dark="assets/banner-current-optimized-dark.png" src="assets/banner-current-optimized-dark.png" alt="Proposed optimised registration flow" style="width:100%; border-radius:12px; border:1px solid var(--line); display:block;">
+      <img class="theme-img" data-light="assets/what-could-be-light.png.png" data-dark="assets/what-could-be-dark.png" src="assets/what-could-be-dark.png" alt="Proposed optimised registration flow" style="width:100%; border-radius:12px; border:1px solid var(--line); display:block;">
       <div style="margin-top: 24px; display:grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items:start;">
         <p style="margin:0;">The proposed flow collapses planning and registration into a single, guided experience. Students build their schedule visually, see conflicts in real time, and understand prerequisites without needing to consult an advisor for basic eligibility questions.</p>
         <div class="flow-points">
