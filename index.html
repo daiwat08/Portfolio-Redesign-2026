@@ -291,21 +291,6 @@
   .btn-arrow { display: inline-block; opacity: 0; max-width: 0; overflow: hidden; transition: opacity 0.25s ease, max-width 0.3s ease, margin 0.3s ease; color: inherit; font-size: 16px; margin-right: 0; white-space: nowrap; }
   .btn-light:hover .btn-arrow { opacity: 1; max-width: 24px; margin-right: 6px; }
 
-  /* Force all content visible */
-  .section-inner,
-  .section-inner .eyebrow,
-  .section-inner h1,
-  .section-inner h2,
-  .section-inner p,
-  .section-inner .btn-outline,
-  .section-inner > div,
-  .metric-card,
-  .project-tags,
-  .metrics-label {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
   /* Hero light theme text */
   .s0 .eyebrow { color: #444 !important; }
   .s0 h1 { color: #111 !important; }
@@ -363,12 +348,10 @@
 
   /* ── PREVIEW PANEL ── */
   .case-preview {
-  /* ── PREVIEW PANEL ── */
-  .case-preview {
     position: absolute; right: 6vw; top: 50%;
-    transform: translateY(-50%) translateX(60px) scale(0.94);
-    width: clamp(320px, 36vw, 500px);
-    height: clamp(420px, 65vh, 580px);
+    transform: translateY(-50%) translateX(80px) scale(0.95);
+    width: clamp(280px, 32vw, 460px);
+    height: clamp(380px, 60vh, 540px);
     border-radius: 28px; overflow: hidden;
     opacity: 0; pointer-events: none;
     transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s,
@@ -380,7 +363,7 @@
     opacity: 1;
   }
   .section.is-leaving .case-preview {
-    transform: translateY(calc(-50% - 80px)) scale(0.95) translateX(0) !important;
+    transform: translateY(calc(-50% - 80px)) scale(0.95) !important;
     opacity: 0 !important;
     transition: transform 0.45s cubic-bezier(0.55,0,0.45,1), opacity 0.25s ease !important;
   }
@@ -405,9 +388,9 @@
 
   /* ── LAPTOP MOCKUP ── */
   .case-preview--laptop {
-    width: clamp(360px, 42vw, 580px);
-    height: clamp(320px, 68vh, 560px);
-    right: 4vw;
+    width: clamp(340px, 40vw, 560px);
+    height: clamp(240px, 42vh, 420px);
+    right: 3vw;
     border-radius: 0;
     background: transparent !important;
     overflow: visible;
