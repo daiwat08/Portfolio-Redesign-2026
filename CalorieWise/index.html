@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calorie Wise — Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#160c06; --surface:#1f1008;
+    --line:rgba(255,128,66,0.12);
+    --accent:#FF8042; --accent-text:#ffaa78;
+    --warm:#FF8042; --text:#ede8e3;
+    --sub:#9a8880; --white:#f5ede6;
+    --t-xs:12px; --t-sm:14px; --t-base:16px;
+    --t-md:18px; --t-lg:22px; --t-xl:28px; --t-2xl:48px;
+    --max:760px; --wide:1080px;
+  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:'Geist',sans-serif;font-weight:300;font-size:var(--t-base);line-height:1.75;-webkit-font-smoothing:antialiased;}
+
+  /* ── LIGHT THEME ── */
+  body.light{
+    --bg:#fffcfa;--surface:#fdf0e8;
+    --line:rgba(0,0,0,0.08);
+    --text:#1a0d06;--sub:#7a5c4a;--white:#1a0d06;
+    --accent:#c84f00;--accent-text:#a84010;
+    --warm:#a84010;
+  }
+  body.light .stat-cell,
+  body.light .step,
+  body.light .solution,
+  body.light .finding-card,
+  body.light .hmw-card,
+  body.light .persona-cell { background:var(--bg); }
+  body.light .section-alt { background:#fdf0e8; }
+  body.light .metric-block { background:#fdf0e8;border-color:rgba(0,0,0,0.08); }
+  body.light .nav-top { background:rgba(255,252,250,0.95); }
+  body.light .nav-top .nav-top__logo { color:#1a0d06; }
+  body.light .hero { background:var(--bg); }
+
+  /* ══════════════════════════════
+     TOP NAV
+  ══════════════════════════════ */
+  .nav-top{
+    position:fixed;top:16px;left:50%;
+    transform:translateX(-50%);z-index:9999;
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+    background:rgba(255,255,255,0.93);
+    backdrop-filter:blur(24px) saturate(180%);
+    border:1px solid rgba(0,0,0,0.08);
+    border-radius:999px;height:64px;
+    width:min(780px,calc(100vw - 48px));
+    padding:0 11px 0 22px;
+    box-shadow:0 2px 20px rgba(0,0,0,0.08);
+    transition:opacity .3s,transform .3s,background .4s,border-color .4s;
+  }
+  .nav-top.nav-hidden{opacity:0;transform:translateX(-50%) translateY(-10px);pointer-events:none;}
+  .nav-top.nav-dark{background:rgba(15,15,15,0.85);border-color:rgba(255,255,255,0.1);box-shadow:0 2px 24px rgba(0,0,0,0.4);}
+  .nav-top.nav-dark .nav-top__logo{color:#fff;}
+  .nav-top.nav-dark .nav-top__link{color:rgba(255,255,255,0.55);}
+  .nav-top.nav-dark .nav-top__link:hover{color:#fff;background:rgba(255,255,255,0.08);}
+  .nav-top.nav-dark .nav-top__cta{background:#fff;color:#111;}
+  .nav-top.nav-dark .theme-btn{border-color:rgba(255,255,255,0.2);}
+  .nav-top__logo{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:-.01em;color:#111;text-decoration:none;white-space:nowrap;flex-shrink:0;transition:color .4s;}
+  .nav-top__links{flex:1;display:flex;align-items:center;justify-content:center;}
+  .nav-top__link{font-size:14px;color:#555;text-decoration:none;padding:7px 16px;border-radius:999px;transition:background .2s,color .2s;}
+  .nav-top__link:hover{color:#111;background:rgba(0,0,0,0.05);}
+  .nav-top__right{display:flex;align-items:center;gap:8px;}
+  .nav-top__cta{font-size:13px;font-weight:600;color:#1a0d06;text-decoration:none;background:#FF8042;padding:8px 18px;border-radius:999px;flex-shrink:0;transition:background .2s,color .2s;}
+  .nav-top__cta:hover{background:#e8622a;color:#1a0d06;}
+  .nav-top.nav-dark .nav-top__cta{background:#FF8042;color:#1a0d06;}
+  .nav-top.nav-dark .nav-top__cta:hover{background:#e8622a;}
+  .theme-btn{width:34px;height:34px;border-radius:50%;border:1px solid rgba(0,0,0,0.12);background:transparent;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0;}
+  .theme-btn:hover{background:rgba(0,0,0,0.05);}
+
+  /* ══════════════════════════════
+     PILL NAV
+  ══════════════════════════════ */
+  .nav-pill{
+    position:fixed;top:16px;left:50%;
+    transform:translateX(-50%) translateY(-10px);
+    z-index:9999;
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    background:rgba(15,15,15,0.9);
+    backdrop-filter:blur(24px) saturate(180%);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:999px;height:64px;
+    width:116px;padding:0 11px;
+    box-shadow:0 8px 32px rgba(0,0,0,0.3);
+    opacity:0;pointer-events:none;
+    transition:opacity .3s ease,transform .3s ease,width .45s cubic-bezier(.34,1.2,.64,1);
+  }
+  .nav-pill.nav-visible{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;}
+  .nav-pill:hover{width:min(760px,calc(100vw - 48px));}
+  .nav-pill__icon{flex-shrink:0;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;z-index:2;}
+  .nav-pill__icon svg{width:16px;height:16px;color:rgba(255,255,255,.8);}
+  .nav-pill__links{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s ease;}
+  .nav-pill:hover .nav-pill__links{opacity:1;pointer-events:all;transition-delay:.1s;}
+  .nav-pill__link{font-size:14px;font-weight:500;color:rgba(255,255,255,.6);text-decoration:none;padding:8px 16px;border-radius:999px;transition:background .2s,color .2s;white-space:nowrap;}
+  .nav-pill__link:hover{color:white;background:rgba(255,255,255,.1);}
+  .nav-pill__theme{position:absolute;right:63px;opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:3;}
+  .nav-pill:hover .nav-pill__theme{opacity:1;pointer-events:all;transition-delay:.12s;}
+  .nav-pill__theme .theme-btn{border-color:rgba(255,255,255,0.25);font-size:14px;}
+  .nav-pill__theme .theme-btn:hover{background:rgba(255,255,255,0.1);}
+  .nav-pill__ring{flex-shrink:0;position:relative;width:42px;height:42px;z-index:2;}
+  .nav-pill__ring svg{display:block;width:42px;height:42px;transform:rotate(-90deg);}
+  .nav-pill__ring .r-track{fill:none;stroke:rgba(255,255,255,.2);stroke-width:1.8;}
+  .nav-pill__ring .r-fill{fill:none;stroke:rgba(255,255,255,.95);stroke-width:1.8;stroke-linecap:round;stroke-dasharray:106.81;stroke-dashoffset:106.81;transition:stroke-dashoffset .1s linear;}
+  .nav-pill__ring .r-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-family:'Geist Mono',monospace;color:rgba(255,255,255,.95);letter-spacing:-.02em;line-height:1;}
+  .nav-pill.nav-on-dark{background:rgba(255,255,255,.92);border-color:rgba(0,0,0,.1);}
+  .nav-pill.nav-on-dark .nav-pill__icon{background:rgba(0,0,0,.08);}
+  .nav-pill.nav-on-dark .nav-pill__icon svg{color:rgba(0,0,0,.6);}
+  .nav-pill.nav-on-dark .nav-pill__link{color:rgba(0,0,0,.5);}
+  .nav-pill.nav-on-dark .nav-pill__link:hover{background:rgba(0,0,0,.07);color:#111;}
+  .nav-pill.nav-on-dark .nav-pill__theme .theme-btn{border-color:rgba(0,0,0,0.15);}
+  .nav-pill.nav-on-dark .nav-pill__theme .theme-btn:hover{background:rgba(0,0,0,0.06);}
+  .nav-pill.nav-on-dark .r-track{stroke:rgba(0,0,0,.15);}
+  .nav-pill.nav-on-dark .r-fill{stroke:rgba(0,0,0,.8);}
+  .nav-pill.nav-on-dark .r-pct{color:rgba(0,0,0,.7);}
+
+  @media(max-width:640px){
+    .nav-top{width:calc(100vw - 32px);padding:0 8px 0 16px;}
+    .nav-top__links{display:none;}
+    .nav-pill:hover{width:calc(100vw - 32px);}
+    .nav-pill__link{padding:8px 10px;font-size:13px;}
+  }
+
+  /* ══════════════════════════════
+     PAGE STYLES
+  ══════════════════════════════ */
+  .col{max-width:var(--max);margin:0 auto;padding:0 24px;}
+  .col-wide{max-width:var(--wide);margin:0 auto;padding:0 24px;}
+  .section{padding:96px 0;}
+  .section+.section{border-top:1px solid var(--line);}
+  .section-alt{background:#1a0d08;padding:96px 0;}
+  .section-alt+.section,.section+.section-alt{border-top:1px solid var(--line);}
+
+  .tag{display:inline-flex;align-items:center;gap:8px;font-family:'Geist Mono',monospace;font-size:var(--t-xs);letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);margin-bottom:20px;}
+  .tag-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+  h1{font-family:'Instrument Serif',serif;font-size:var(--t-2xl);font-weight:400;line-height:.95;letter-spacing:-.03em;color:var(--white);}
+  h2{font-family:'Instrument Serif',serif;font-size:var(--t-xl);font-weight:400;line-height:1.3;letter-spacing:-.3px;color:var(--white);}
+  h3{font-size:var(--t-md);font-weight:500;color:var(--white);line-height:1.4;}
+  em{font-style:italic;color:var(--accent-text);}
+  p{color:var(--sub);margin-top:14px;}
+  p:first-child{margin-top:0;}
+
+  /* HERO */
+  .hero{padding:140px 0 96px;border-bottom:1px solid var(--line);}
+  .hero-meta{display:flex;gap:48px;margin-top:56px;padding-top:40px;border-top:1px solid var(--line);flex-wrap:wrap;}
+  .meta-item .meta-label{font-family:'Geist Mono',monospace;font-size:var(--t-xs);letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);display:block;margin-bottom:10px;}
+  .meta-item span{font-size:22px;color:var(--text);font-weight:400;font-family:'Instrument Serif',serif;}
+
+  /* STAT GRID */
+  .stats-row{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:48px;}
+  .stat-cell{background:#1f1008;padding:36px 32px;}
+  .stat-num{font-family:'Instrument Serif',serif;font-size:48px;color:var(--white);line-height:1;letter-spacing:-1px;}
+  .stat-num .accent{color:var(--accent-text);}
+  .stat-desc{font-size:var(--t-sm);color:var(--sub);margin-top:8px;max-width:220px;line-height:1.6;}
+
+  /* 3-col stats */
+  .stats-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:48px;}
+
+  /* QUOTE */
+  .quote-block{border-left:2px solid var(--accent);padding:20px 24px;margin:40px 0;background:rgba(255,128,66,0.06);border-radius:0 8px 8px 0;}
+  .quote-text{font-family:'Instrument Serif',serif;font-size:var(--t-lg);font-style:italic;color:var(--white);line-height:1.5;}
+  .quote-attr{font-size:var(--t-sm);color:var(--sub);margin-top:12px;}
+
+  /* PROCESS STEPS */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:40px;}
+  .step{background:#1f1008;padding:28px 24px;}
+  .step-n{font-family:'Geist Mono',monospace;font-size:var(--t-xs);color:var(--accent-text);letter-spacing:1px;margin-bottom:10px;}
+  .step-title{font-size:var(--t-sm);font-weight:500;color:var(--white);margin-bottom:6px;}
+  .step-body{font-size:var(--t-sm);color:var(--sub);line-height:1.6;}
+
+  /* FEATURE LIST */
+  .feature-list{margin-top:40px;}
+  .feature-row{display:grid;grid-template-columns:220px 1fr;gap:32px;padding:24px 0;border-bottom:1px solid var(--line);align-items:start;}
+  .feature-row:first-child{border-top:1px solid var(--line);}
+  .feature-row:last-child{border-bottom:none;}
+  .feature-name{font-size:var(--t-sm);font-weight:500;color:var(--white);}
+  .feature-desc{font-size:var(--t-sm);color:var(--sub);line-height:1.7;}
+
+  /* ITERATION LIST */
+  .iter-list{margin-top:40px;}
+  .iter-row{display:grid;grid-template-columns:80px 1fr auto;gap:24px;padding:24px 0;border-bottom:1px solid var(--line);align-items:start;}
+  .iter-row:first-child{border-top:1px solid var(--line);}
+  .iter-round{font-family:'Geist Mono',monospace;font-size:var(--t-xs);color:var(--sub);letter-spacing:1px;text-transform:uppercase;padding-top:2px;}
+  .iter-title{font-size:var(--t-sm);font-weight:500;color:var(--white);margin-bottom:6px;}
+  .iter-body{font-size:var(--t-sm);color:var(--sub);line-height:1.6;}
+  .badge{display:inline-flex;padding:3px 10px;border-radius:20px;font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.5px;white-space:nowrap;align-self:start;margin-top:2px;}
+  .badge-green{background:rgba(74,255,128,.08);color:#4ade80;border:1px solid rgba(74,255,128,.15);}
+  .badge-orange{background:rgba(255,107,53,.08);color:var(--warm);border:1px solid rgba(255,107,53,.15);}
+  .badge-blue{background:rgba(74,124,255,.08);color:#7da3ff;border:1px solid rgba(74,124,255,.15);}
+
+  /* SOLUTIONS */
+  .solutions{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:40px;}
+  .solution{background:#1f1008;padding:36px 32px;}
+  .solution-n{font-family:'Geist Mono',monospace;font-size:var(--t-xs);color:var(--accent-text);letter-spacing:1.5px;margin-bottom:14px;text-transform:uppercase;}
+
+  /* FINDINGS / RESEARCH CARDS */
+  .findings-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:40px;}
+  .finding-card{background:#1f1008;padding:32px;}
+  .finding-label{font-family:'Geist Mono',monospace;font-size:var(--t-xs);color:var(--accent-text);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;}
+  .finding-text{font-size:var(--t-sm);color:var(--sub);line-height:1.7;}
+
+  /* HMW */
+  .hmw-list{margin-top:40px;display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+  .hmw-card{background:#1f1008;padding:28px 32px;display:flex;align-items:start;gap:20px;}
+  .hmw-num{font-family:'Geist Mono',monospace;font-size:var(--t-xs);color:var(--accent-text);letter-spacing:1px;flex-shrink:0;padding-top:3px;}
+  .hmw-text{font-size:var(--t-sm);color:var(--text);line-height:1.6;}
+
+  /* METRICS LARGE */
+  .deploy-nums{display:flex;gap:48px;margin-top:40px;flex-wrap:wrap;}
+  .dn-num{font-family:'Instrument Serif',serif;font-size:44px;color:var(--white);line-height:1;letter-spacing:-1px;}
+  .dn-num em{color:var(--accent-text);font-style:normal;}
+  .dn-label{font-size:var(--t-sm);color:var(--sub);margin-top:4px;max-width:160px;line-height:1.5;}
+
+  /* METRIC ROW (launch metrics) */
+  .metric-block{background:#1f1008;border:1px solid var(--line);border-radius:12px;padding:36px 32px;margin-top:40px;}
+  .metric-row{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;}
+  .metric-item .m-num{font-family:'Instrument Serif',serif;font-size:36px;color:var(--white);letter-spacing:-1px;line-height:1;}
+  .metric-item .m-num .accent{color:var(--accent-text);}
+  .metric-item .m-label{font-size:var(--t-xs);color:var(--sub);margin-top:6px;font-family:'Geist Mono',monospace;letter-spacing:1px;text-transform:uppercase;}
+
+  /* JOURNEY TABLE */
+  .jtable{width:100%;border-collapse:collapse;font-size:var(--t-sm);}
+  .jtable th{font-family:'Geist Mono',monospace;font-size:var(--t-xs);letter-spacing:1.2px;text-transform:uppercase;color:var(--sub);text-align:left;padding:12px 16px;border-bottom:1px solid var(--line);font-weight:400;}
+  .jtable td{padding:14px 16px;border-bottom:1px solid var(--line);color:var(--sub);vertical-align:top;line-height:1.5;}
+  .jtable tr:last-child td,.jtable tr:last-child th{border-bottom:none;}
+  .jtable td:first-child,.jtable th[scope="row"]{font-family:'Geist Mono',monospace;font-size:var(--t-xs);letter-spacing:1px;text-transform:uppercase;color:var(--sub);width:120px;}
+  .jtable td.pain{color:var(--warm);}
+  .jtable td.ok{color:#4ade80;}
+  .dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:6px;vertical-align:middle;}
+  .dot-g{background:#4ade80;}.dot-y{background:#facc15;}.dot-r{background:#f87171;}
+
+  /* PERSONA */
+  .persona-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:40px;}
+  .persona-cell{background:#1f1008;padding:28px 32px;}
+  .persona-label{font-family:'Geist Mono',monospace;font-size:var(--t-xs);color:var(--sub);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;}
+  .persona-val{font-size:var(--t-sm);color:var(--text);line-height:1.6;}
+
+  /* FOOTER */
+  .final{padding:120px 0;text-align:center;border-top:1px solid var(--line);}
+  .final h2{margin-bottom:16px;}
+  .final p{max-width:460px;margin:0 auto 32px;}
+  .btn{display:inline-block;padding:11px 28px;border:1px solid rgba(255,255,255,.2);border-radius:100px;font-size:var(--t-sm);color:var(--text);text-decoration:none;transition:background .2s,border-color .2s;}
+  .btn:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.35);}
+  body.light .btn{border-color:rgba(0,0,0,.2);color:var(--text);}
+  body.light .btn:hover{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.35);}
+  .btn-accent{background:#FF8042;border-color:transparent;color:#1a0d06;margin-left:10px;font-weight:600;}
+  .btn-accent:hover{background:#e8622a;color:#1a0d06;opacity:1;}
+
+  /* IMAGE PLACEHOLDERS */
+  .img-placeholder{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:12px;border:1.5px dashed rgba(255,128,66,0.25);border-radius:12px;
+    background:rgba(255,128,66,0.03);padding:40px 24px;text-align:center;
+    aspect-ratio:16/9;
+  }
+  .img-placeholder--chart{aspect-ratio:4/3;padding:28px 16px;}
+  .img-placeholder--circle{
+    aspect-ratio:1/1;
+    border-radius:50%;
+    padding:16px;
+    width:100%;
+    margin:0;
+  }
+  .img-placeholder--logo{
+    aspect-ratio:1/1;
+    border-radius:50%;
+    width:260px;
+    height:260px;
+    max-width:260px;
+    padding:32px;
+    margin:0 auto;
+  }
+  .img-placeholder__icon{color:rgba(255,128,66,0.4);}
+  .img-placeholder__label{font-size:var(--t-sm);color:var(--sub);font-weight:500;}
+  .img-placeholder__sub{font-size:var(--t-xs);color:rgba(154,136,128,0.6);font-family:'Geist Mono',monospace;letter-spacing:.5px;max-width:280px;line-height:1.6;}
+  body.light .img-placeholder{border-color:rgba(200,79,0,0.2);background:rgba(200,79,0,0.02);}
+  body.light .img-placeholder__icon{color:rgba(200,79,0,0.35);}
+
+  /* INSIGHT CHARTS */
+  .insight-chart-wrap{display:flex;flex-direction:column;gap:10px;}
+  .insight-chart-name{text-align:center;font-size:var(--t-sm);color:var(--sub);font-family:'Geist Mono',monospace;letter-spacing:1px;}
+
+  /* INSIGHT LEGEND */
+  .insight-legend{
+    display:flex;gap:40px;flex-wrap:wrap;
+    border:1px solid var(--line);border-radius:8px;
+    padding:16px 20px;
+  }
+  .legend-group{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  .legend-title{font-family:'Geist Mono',monospace;font-size:var(--t-xs);color:var(--sub);letter-spacing:1px;text-transform:uppercase;margin-right:4px;}
+  .legend-item{display:flex;align-items:center;gap:6px;font-size:var(--t-xs);color:var(--sub);}
+  .legend-swatch{display:inline-block;width:12px;height:12px;border-radius:2px;flex-shrink:0;}
+  .legend-dot{display:inline-block;border-radius:50%;flex-shrink:0;}
+
+  /* PILOT STATS */
+  .pilot-row{display:flex;align-items:baseline;gap:12px;}
+  .pilot-num{font-family:'Instrument Serif',serif;font-size:40px;color:var(--accent-text);line-height:1;letter-spacing:-1px;}
+  .pilot-label{font-size:var(--t-sm);color:var(--sub);}
+
+  /* TASK BADGES */
+  .task-badge{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:26px;height:26px;border-radius:6px;
+    font-family:'Geist Mono',monospace;font-size:12px;font-weight:500;
+  }
+  .task-s{background:rgba(99,115,210,0.18);color:#a0adf0;}
+  .task-n{background:rgba(99,115,210,0.08);color:#7880b8;border:1px solid rgba(99,115,210,0.25);}
+  body.light .task-s{background:rgba(99,115,210,0.12);color:#3d4fa8;}
+  body.light .task-n{background:rgba(99,115,210,0.06);color:#5a65a0;border-color:rgba(99,115,210,0.2);}
+
+  /* USABILITY TABLE overrides */
+  .usability-table th{font-size:11px;padding:10px 8px;text-align:center;}
+  .usability-table th:first-child{text-align:left;padding-left:16px;}
+  .usability-table td{padding:12px 8px;text-align:center;font-size:var(--t-sm);}
+  .usability-table td:first-child{text-align:left;padding-left:16px;color:var(--text);}
+  .table-final td{font-family:'Geist Mono',monospace;font-size:var(--t-xs);letter-spacing:.5px;color:var(--sub);border-top:1px solid var(--line);border-bottom:none;}
+  .table-final td:first-child{color:var(--sub);}
+
+  /* HERO ANIMATION */
+  @keyframes up{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  .hero .col>*{opacity:0;animation:up .7s ease forwards;}
+  .hero .col>*:nth-child(1){animation-delay:.1s;}
+  .hero .col>*:nth-child(2){animation-delay:.22s;}
+  .hero .col>*:nth-child(3){animation-delay:.34s;}
+  .hero .col>*:nth-child(4){animation-delay:.46s;}
+
+  @media(max-width:768px){
+    /* Typography */
+    h1{font-size:32px;line-height:1.1;}
+    h2{font-size:22px;}
+
+    /* Sections */
+    .section,.section-alt{padding:64px 0;}
+    .hero{padding:100px 0 64px;}
+
+    /* Nav — hide links on mobile, keep logo + theme + CTA */
+    .nav-top{width:calc(100vw - 32px);padding:0 10px 0 16px;}
+    .nav-top__links{display:none;}
+    .nav-top__cta{font-size:12px;padding:7px 14px;}
+
+    /* All grids → single column */
+    .steps{grid-template-columns:1fr 1fr;}
+    .solutions{grid-template-columns:1fr;}
+    .findings-grid{grid-template-columns:1fr;}
+    .persona-grid{grid-template-columns:1fr;}
+    .stats-row{grid-template-columns:1fr 1fr;}
+    .stats-3{grid-template-columns:1fr;}
+    .metric-row{grid-template-columns:1fr 1fr;gap:20px;}
+    .hero-meta{gap:20px;}
+    .deploy-nums{flex-direction:column;gap:24px;}
+    .feature-row{grid-template-columns:1fr;gap:6px;}
+    .iter-row{grid-template-columns:auto 1fr;gap:16px;}
+
+    /* Insight 1: charts 1 col on small screens */
+    .col-wide [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr !important;}
+
+    /* Insight 2 & Usability Testing: stack vertically */
+    .col-wide [style*="grid-template-columns:1fr 1.6fr"],
+    .col-wide [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr !important;}
+
+    /* Pilot section grid inside col-wide */
+    .col-wide > div > div[style]{grid-template-columns:1fr !important;gap:40px !important;}
+
+    /* Usability table: make it scrollable */
+    .usability-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    .usability-table{min-width:480px;font-size:12px;}
+    .usability-table th,.usability-table td{padding:10px 6px;}
+    .usability-table th:first-child,.usability-table td:first-child{padding-left:12px;min-width:100px;}
+
+    /* Insight legend: stack */
+    .insight-legend{flex-direction:column;gap:14px;}
+    .legend-group{gap:10px;}
+
+    /* Image placeholders */
+    .img-placeholder--logo{width:160px;height:160px;max-width:160px;margin:0 auto;}
+    .pilot-photos{
+      padding-top:0 !important;
+      display:flex !important;
+      flex-direction:column !important;
+      gap:16px !important;
+      align-items:center !important;
+    }
+    .pilot-photos .img-placeholder--circle{
+      width:240px !important;
+      height:240px !important;
+      aspect-ratio:unset;
+      padding:12px;
+      flex:none;
+    }
+    .pilot-photos .img-placeholder__label{display:none;}
+
+    /* Pilot stats grid inside insight 2 */
+    .pilot-section-grid{grid-template-columns:1fr !important;gap:40px !important;padding-top:0 !important;}
+    .pilot-photos{padding-top:0 !important;}
+
+    /* Circular photos row */
+    .circle-photos-row{grid-template-columns:1fr 1fr !important;}
+
+    /* Quote blocks */
+    .quote-block{padding:16px 18px;}
+
+    /* Fake front door stats */
+    .ffd-stats{grid-template-columns:1fr 1fr !important;}
+  }
+
+  @media(max-width:480px){
+    h1{font-size:28px;}
+    h2{font-size:20px;}
+    .steps{grid-template-columns:1fr;}
+    .stats-row{grid-template-columns:1fr;}
+    .metric-row{grid-template-columns:1fr;}
+    .stat-cell{padding:24px 20px;}
+    .col{padding:0 16px;}
+    .col-wide{padding:0 16px;}
+    .hero-meta{flex-direction:column;gap:16px;}
+    .hmw-card{padding:20px;}
+    .solutions .solution{padding:24px 20px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<header class="nav-top nav-dark" id="navTop">
+  <a href="../index.html" class="nav-top__logo">Portfolio</a>
+  <nav class="nav-top__links">
+    <a href="../index.html" class="nav-top__link">Home</a>
+    <a href="../index.html" class="nav-top__link">Work</a>
+    <a href="#" class="nav-top__link">About</a>
+    <a href="#" class="nav-top__link">Resume</a>
+  </nav>
+  <div class="nav-top__right">
+    <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">🌙</button>
+    <a href="#" class="nav-top__cta">Dave AI ✦</a>
+  </div>
+</header>
+
+<!-- PILL NAV -->
+<nav class="nav-pill" id="navPill">
+  <div class="nav-pill__icon">
+    <svg viewBox="0 0 16 16" fill="none">
+      <circle cx="8" cy="8" r="3" fill="currentColor"/>
+      <path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div class="nav-pill__links">
+    <a href="../index.html" class="nav-pill__link">Home</a>
+    <a href="../index.html" class="nav-pill__link">Work</a>
+    <a href="#" class="nav-pill__link">About</a>
+    <a href="#" class="nav-pill__link">Resume</a>
+  </div>
+  <div class="nav-pill__theme">
+    <button class="theme-btn" id="themeTogglePill" aria-label="Toggle theme">🌙</button>
+  </div>
+  <div class="nav-pill__ring">
+    <svg viewBox="0 0 42 42">
+      <circle class="r-track" cx="21" cy="21" r="17"/>
+      <circle class="r-fill" id="navRingFill" cx="21" cy="21" r="17"/>
+    </svg>
+    <div class="r-pct" id="navRingPct">0%</div>
+  </div>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<div class="hero" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>UX Case Study · 2024</div>
+    <h1>Designing smarter<br>eating for <em>real life.</em></h1>
+    <p style="max-width:500px;margin-top:16px;">Calorie Wise is a nutrition tracking app that makes logging food intuitive, goal-driven, and backed by research — not guilt.</p>
+    <div class="hero-meta">
+      <div class="meta-item"><span class="meta-label">Role</span><span>UX / Product Designer</span></div>
+      <div class="meta-item"><span class="meta-label">Timeline</span><span>16 Weeks</span></div>
+      <div class="meta-item"><span class="meta-label">Platform</span><span>iOS · Android</span></div>
+      <div class="meta-item"><span class="meta-label">Focus</span><span>Health & Wellness</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 01 — OVERVIEW -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>01 — Overview</div>
+    <h2>Tracking calories shouldn't feel<br>like a second job.</h2>
+    <p>Most nutrition apps overwhelm users with data and underdeliver on guidance. Calorie Wise bridges the gap between awareness and action — giving people the tools to understand what they eat, why it matters, and how to improve without obsessing over numbers.</p>
+    <div class="stats-row" style="margin-top:48px;">
+      <div class="stat-cell">
+        <div class="stat-num"><span class="accent">72</span>%</div>
+        <div class="stat-desc">of users abandon nutrition apps within the first two weeks</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num"><span class="accent">3×</span></div>
+        <div class="stat-desc">more likely to reach health goals when using consistent tracking tools</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 — PROBLEM -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>02 — The Problem</div>
+    <h2>Overnight we need tracking calorie intake regularly, eating quality, and physical health — but getting there is the hard part.</h2>
+    <p>Users know what they <em>should</em> do. The barrier isn't knowledge — it's friction. Too many taps, too little context, too much shame built into the experience.</p>
+
+    <blockquote class="quote-block" style="margin-top:40px;">
+      <p class="quote-text">"I want to eat better but I don't have time to manually log everything after every meal. By the time I get around to it, I've forgotten half of what I ate."</p>
+      <footer class="quote-attr"><cite>— User interview participant, 28, working professional</cite></footer>
+    </blockquote>
+
+    <p>Three problems emerged consistently from research:</p>
+    <div class="findings-grid" style="margin-top:24px;">
+      <div class="finding-card">
+        <div class="finding-label">Pain Point 01</div>
+        <div class="finding-text">Manual food logging is time-consuming and tedious. Users abandon the habit when it interrupts their day.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Pain Point 02</div>
+        <div class="finding-text">Calorie numbers without context don't motivate change. Users feel judged, not guided.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Pain Point 03</div>
+        <div class="finding-text">Apps fail to adapt to different eating cultures, lifestyles, or flexible goals.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-label">Pain Point 04</div>
+        <div class="finding-text">No feedback loop. Users don't understand the relationship between their meals and how they feel.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 — RESEARCH -->
+<section class="section section-alt" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>03 — Research</div>
+    <h2>Listening before designing.</h2>
+    <p>Conducted 12 user interviews, a survey of 60 respondents, and a competitive audit across 6 leading nutrition apps. We synthesized findings into clear themes.</p>
+
+    <div class="steps" style="margin-top:40px;">
+      <div class="step">
+        <div class="step-n">01</div>
+        <div class="step-title">User Interviews</div>
+        <div class="step-body">12 in-depth interviews across age groups, dietary goals, and tech comfort levels</div>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div>
+        <div class="step-title">Survey</div>
+        <div class="step-body">60 respondents on current habits, frustrations, and unmet needs in nutrition tracking</div>
+      </div>
+      <div class="step">
+        <div class="step-n">03</div>
+        <div class="step-title">Competitive Audit</div>
+        <div class="step-body">Analyzed MyFitnessPal, Cronometer, Lose It!, Noom, and two emerging apps</div>
+      </div>
+      <div class="step">
+        <div class="step-n">04</div>
+        <div class="step-title">Affinity Mapping</div>
+        <div class="step-body">Synthesized 200+ data points into 6 core themes through collaborative clustering</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 — PERSONA -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>04 — Persona</div>
+    <h2>Designing for one person<br>means designing for many.</h2>
+    <p>Our primary persona consolidated the most consistent patterns from our research — a busy adult who wants to be healthier but has real constraints on time and attention.</p>
+
+    <div class="persona-grid" style="margin-top:40px;">
+      <div class="persona-cell" style="grid-column:1/-1;border-bottom:1px solid var(--line);">
+        <div class="persona-label">Primary Persona</div>
+        <h3 style="margin-top:4px;">Maya, 29 — Marketing Manager</h3>
+        <p style="margin-top:8px;max-width:480px;">Wants to lose 10 lbs before summer but can't commit to rigid meal plans. Cooks 3–4 times a week, eats out the rest. Tried MyFitnessPal twice, dropped it both times.</p>
+      </div>
+      <div class="persona-cell">
+        <div class="persona-label">Goals</div>
+        <div class="persona-val">Lose weight gradually · Understand what she eats · Build sustainable habits without obsessing</div>
+      </div>
+      <div class="persona-cell">
+        <div class="persona-label">Frustrations</div>
+        <div class="persona-val">Too many steps to log a meal · Feels judged by the numbers · App doesn't understand restaurant food</div>
+      </div>
+      <div class="persona-cell">
+        <div class="persona-label">Behaviors</div>
+        <div class="persona-val">Checks her phone 80+ times/day · Cooks on weekends · Often forgets to log until evening</div>
+      </div>
+      <div class="persona-cell">
+        <div class="persona-label">Needs</div>
+        <div class="persona-val">Quick logging · Gentle nudges · Progress that feels real · Flexibility for imperfect days</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 — HMW -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>05 — How Might We</div>
+    <h2>Turning pain points into<br>design opportunities.</h2>
+    <p>HMW framing helped reframe every frustration as a solvable design challenge — shifting the team from problem-mode to possibility-mode.</p>
+
+    <div class="hmw-list">
+      <div class="hmw-card">
+        <div class="hmw-num">HMW 01</div>
+        <div class="hmw-text">How might we make food logging fast enough that users don't skip it when they're busy or distracted?</div>
+      </div>
+      <div class="hmw-card">
+        <div class="hmw-num">HMW 02</div>
+        <div class="hmw-text">How might we present calorie data in a way that motivates rather than shames?</div>
+      </div>
+      <div class="hmw-card">
+        <div class="hmw-num">HMW 03</div>
+        <div class="hmw-text">How might we help users understand the relationship between what they eat and how they feel?</div>
+      </div>
+      <div class="hmw-card">
+        <div class="hmw-num">HMW 04</div>
+        <div class="hmw-text">How might we accommodate diverse eating habits, cuisines, and lifestyle constraints?</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 — JOURNEY MAP -->
+<section class="section section-alt" data-theme="dark">
+  <div class="col-wide">
+    <div class="col" style="padding:0 24px;max-width:var(--max);margin:0 auto;">
+      <div class="tag"><span class="tag-dot"></span>06 — Journey Map</div>
+      <h2>A day in the life of a user<br>trying to eat better.</h2>
+      <p>Mapping Maya's day revealed critical moments where the current experience breaks down — and where Calorie Wise has a chance to intervene.</p>
+    </div>
+    <div style="padding:0 24px;margin-top:40px;overflow-x:auto;">
+      <table class="jtable" style="min-width:700px;">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Morning Rush</th>
+            <th scope="col">Lunch Break</th>
+            <th scope="col">Afternoon Snack</th>
+            <th scope="col">Dinner Out</th>
+            <th scope="col">End of Day</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Action</th>
+            <td>Grabs coffee, skips breakfast</td>
+            <td>Orders at desk, eats quickly</td>
+            <td>Vending machine, doesn't log</td>
+            <td>Restaurant, unsure of portions</td>
+            <td>Tries to recall everything she ate</td>
+          </tr>
+          <tr>
+            <th scope="row">Feeling</th>
+            <td><span class="dot dot-y"></span>Rushed</td>
+            <td><span class="dot dot-y"></span>Uncertain</td>
+            <td><span class="dot dot-r"></span>Guilty</td>
+            <td><span class="dot dot-r"></span>Anxious</td>
+            <td><span class="dot dot-y"></span>Defeated</td>
+          </tr>
+          <tr>
+            <th scope="row">Gap</th>
+            <td class="pain">No quick log option</td>
+            <td class="pain">No restaurant lookup</td>
+            <td class="pain">No gentle reminder</td>
+            <td class="pain">No portion estimation</td>
+            <td class="ok">Opportunity: end-of-day recap</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 07 — SOLUTIONS -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>07 — Solutions</div>
+    <h2>Four problems.<br>Four focused answers.</h2>
+    <div class="solutions">
+      <div class="solution">
+        <div class="solution-n">Solution 01</div>
+        <h3>Quick-Log</h3>
+        <p style="margin-top:10px;">One-tap food entry with AI-powered suggestions based on time of day, past meals, and location context. Log a meal in under 10 seconds.</p>
+      </div>
+      <div class="solution">
+        <div class="solution-n">Solution 02</div>
+        <h3>Progress Framing</h3>
+        <p style="margin-top:10px;">Replace hard calorie limits with a flexible daily "budget" visualized as momentum — rewarding streaks and consistency, not perfection.</p>
+      </div>
+      <div class="solution">
+        <div class="solution-n">Solution 03</div>
+        <h3>Smart Nudges</h3>
+        <p style="margin-top:10px;">Contextual reminders that know when you've eaten but haven't logged. No shaming — just a gentle tap at the right moment.</p>
+      </div>
+      <div class="solution">
+        <div class="solution-n">Solution 04</div>
+        <h3>Meal Intelligence</h3>
+        <p style="margin-top:10px;">Restaurant menu scanning and portion estimation using computer vision. Works even when nutritional data isn't provided by the restaurant.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 — FEATURES -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>08 — Key Features</div>
+    <h2>Features that make<br>Calorie Wise different.</h2>
+    <div class="feature-list">
+      <div class="feature-row">
+        <div class="feature-name">Barcode + Photo Scan</div>
+        <div class="feature-desc">Instantly identify packaged foods or restaurant meals using the camera. No typing, no scrolling through a database of 8 million items.</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-name">Flexible Goals</div>
+        <div class="feature-desc">Set calorie goals by week, not just day. Ate more on Friday? Saturday balances it — without guilt or penalty.</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-name">Mood + Energy Log</div>
+        <div class="feature-desc">A 5-second check-in connects how users feel to what they ate — surfacing patterns most trackers miss entirely.</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-name">Weekly Review</div>
+        <div class="feature-desc">A Sunday summary that's honest but encouraging. Highlights wins, flags one area to improve, and sets the tone for the week ahead.</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-name">Recipe Builder</div>
+        <div class="feature-desc">Log a home-cooked meal once and save it forever. The app remembers proportions so re-logging takes one tap.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 — FAKE FRONT DOOR -->
+<section class="section section-alt" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>09 — Fake Front Door</div>
+    <h2>Validating demand before<br>writing a single line of code.</h2>
+    <p>Before building, we launched a fake landing page to measure real-world interest. The numbers confirmed there was genuine appetite for a better calorie tracking experience.</p>
+
+    <div class="stats-row" style="margin-top:40px;">
+      <div class="stat-cell">
+        <div class="stat-num"><span class="accent">1.1K</span></div>
+        <div class="stat-desc">Total impressions on the landing page</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num"><span class="accent">26</span></div>
+        <div class="stat-desc">Skin in the game — users who took action</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num"><span class="accent">220</span></div>
+        <div class="stat-desc">Unique visitors who reached the page</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num"><span class="accent">11.8<em style="font-size:22px;">%</em></span></div>
+        <div class="stat-desc">Total sign-up conversion rate</div>
+      </div>
+    </div>
+
+    <!-- IMAGE PLACEHOLDER: Fake front door landing page mockup (laptop + phone) -->
+    <div class="img-placeholder" style="margin-top:48px;">
+      <div class="img-placeholder__icon">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="2" y="6" width="28" height="20" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M10 26l2-4h8l2 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="16" cy="15" r="4" stroke="currentColor" stroke-width="1.5"/></svg>
+      </div>
+      <div class="img-placeholder__label">Fake Front Door — Landing Page Mockup</div>
+      <div class="img-placeholder__sub">Replace with: laptop + phone screenshot showing the Calorie Wise landing page</div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 — PRETOTYPING: INSIGHT 1 -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>10 — Pretotyping · Insight 1</div>
+    <h2>Mechanical Turk revealed<br>a drop in sustained interest.</h2>
+    <p>The pretotyping phase using Mechanical Turk provided key insights into user interest and engagement. Initially, users showed moderate interest, but this declined over time, along with their energy levels. While the concept initially engaged users, sustaining their interest proved challenging — their experience became less positive as time went on. These findings highlight the need for improvements to maintain consistent user engagement.</p>
+  </div>
+
+  <!-- Charts grid: 2 col layout -->
+  <div class="col-wide" style="margin-top:48px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 24px;">
+
+      <!-- Vaidehi -->
+      <div class="insight-chart-wrap">
+        <div class="img-placeholder img-placeholder--chart">
+          <div class="img-placeholder__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 17l4-6 4 3 4-7 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="img-placeholder__label">Vaidehi — Engagement Chart</div>
+        </div>
+        <div class="insight-chart-name">Vaidehi</div>
+      </div>
+
+      <!-- Michelle -->
+      <div class="insight-chart-wrap">
+        <div class="img-placeholder img-placeholder--chart">
+          <div class="img-placeholder__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 17l4-6 4 3 4-7 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="img-placeholder__label">Michelle — Engagement Chart</div>
+        </div>
+        <div class="insight-chart-name">Michelle</div>
+      </div>
+
+      <!-- Sanket -->
+      <div class="insight-chart-wrap">
+        <div class="img-placeholder img-placeholder--chart">
+          <div class="img-placeholder__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 17l4-6 4 3 4-7 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="img-placeholder__label">Sanket — Engagement Chart</div>
+        </div>
+        <div class="insight-chart-name">Sanket</div>
+      </div>
+
+      <!-- Ketki -->
+      <div class="insight-chart-wrap">
+        <div class="img-placeholder img-placeholder--chart">
+          <div class="img-placeholder__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 17l4-6 4 3 4-7 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="img-placeholder__label">Ketki — Engagement Chart</div>
+        </div>
+        <div class="insight-chart-name">Ketki</div>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="insight-legend" style="margin:16px 24px 0;">
+      <div class="legend-group">
+        <span class="legend-title">Experience</span>
+        <span class="legend-item"><span class="legend-swatch" style="background:#6b7fd4;"></span>Positive</span>
+        <span class="legend-item"><span class="legend-swatch" style="background:#a8b3e8;"></span>Neutral</span>
+        <span class="legend-item"><span class="legend-swatch" style="background:#d0d6f5;"></span>Negative</span>
+      </div>
+      <div class="legend-group">
+        <span class="legend-title">Meals logged</span>
+        <span class="legend-item"><span class="legend-dot" style="width:14px;height:14px;background:#1a2a6e;"></span>4 Meals</span>
+        <span class="legend-item"><span class="legend-dot" style="width:12px;height:12px;background:#3d56b5;"></span>3 Meals</span>
+        <span class="legend-item"><span class="legend-dot" style="width:10px;height:10px;background:#7089d4;"></span>2 Meals</span>
+        <span class="legend-item"><span class="legend-dot" style="width:9px;height:9px;background:#c5cef0;"></span>1 Meal</span>
+        <span class="legend-item"><span class="legend-dot" style="width:9px;height:9px;background:transparent;border:1.5px solid var(--sub);"></span>0 Meals</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 — PRETOTYPING: INSIGHT 2 -->
+<section class="section section-alt" data-theme="dark">
+  <div class="col-wide" style="padding:0 24px;">
+    <div class="pilot-section-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;max-width:var(--wide);margin:0 auto;">
+
+      <!-- Left: stats + quotes -->
+      <div>
+        <div class="tag"><span class="tag-dot"></span>11 — Pretotyping · Insight 2</div>
+        <h2>Pilot study with<br>6 real users.</h2>
+
+        <!-- Participant breakdown -->
+        <div style="margin-top:36px;display:flex;flex-direction:column;gap:20px;">
+          <div class="pilot-row">
+            <span class="pilot-num">6</span>
+            <span class="pilot-label">No. of Participants</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;">
+            <div class="pilot-row">
+              <span class="pilot-num">4</span>
+              <span class="pilot-label">Females</span>
+            </div>
+            <span style="color:var(--accent);font-weight:500;font-size:20px;">&gt;</span>
+            <div class="pilot-row">
+              <span class="pilot-num">2</span>
+              <span class="pilot-label">Males</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Finding stats grid -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:32px;">
+          <div class="stat-cell" style="padding:24px;">
+            <div class="stat-num" style="font-size:32px;"><span class="accent">3/6</span></div>
+            <div class="stat-desc">Users lost interest after the first day</div>
+          </div>
+          <div class="stat-cell" style="padding:24px;">
+            <div class="stat-num" style="font-size:32px;"><span class="accent">6/6</span></div>
+            <div class="stat-desc">Were interested on the first day</div>
+          </div>
+          <div class="stat-cell" style="padding:24px;">
+            <div class="stat-num" style="font-size:32px;"><span class="accent">1/6</span></div>
+            <div class="stat-desc">User found it boring</div>
+          </div>
+          <div class="stat-cell" style="padding:24px;">
+            <div class="stat-num" style="font-size:32px;"><span class="accent">1/6</span></div>
+            <div class="stat-desc">User wanted to pick their own recipe</div>
+          </div>
+        </div>
+
+        <!-- User quotes -->
+        <div style="margin-top:32px;display:flex;flex-direction:column;gap:16px;">
+          <blockquote class="quote-block" style="margin:0;">
+            <p class="quote-text" style="font-size:16px;">"Logging food everyday is tough, it's boring to do"</p>
+          </blockquote>
+          <blockquote class="quote-block" style="margin:0;">
+            <p class="quote-text" style="font-size:16px;">"If I could change the recipe that I have unlocked"</p>
+          </blockquote>
+        </div>
+
+        <div style="margin-top:24px;">
+          <a href="#" class="btn" style="font-size:13px;">Link of post pilot study →</a>
+        </div>
+      </div>
+
+      <!-- Right: 3 equal circular image placeholders -->
+      <div class="pilot-photos" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding-top:80px;align-items:start;">
+        <div class="img-placeholder img-placeholder--circle">
+          <div class="img-placeholder__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M5 20c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="img-placeholder__label" style="font-size:11px;">Photo 1</div>
+        </div>
+        <div class="img-placeholder img-placeholder--circle">
+          <div class="img-placeholder__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M5 20c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="img-placeholder__label" style="font-size:11px;">Photo 2</div>
+        </div>
+        <div class="img-placeholder img-placeholder--circle">
+          <div class="img-placeholder__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M5 20c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="img-placeholder__label" style="font-size:11px;">Photo 3</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 12 — USABILITY TESTING -->
+<section class="section" data-theme="dark">
+  <div class="col-wide" style="padding:0 24px;">
+    <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:64px;align-items:start;max-width:var(--wide);margin:0 auto;">
+
+      <!-- Left: intro + food photo -->
+      <div>
+        <div class="tag"><span class="tag-dot"></span>12 — Usability Testing</div>
+        <h2>Moderated tests<br>with five users.</h2>
+        <p>I conducted moderated usability tests with five users to identify interaction gaps and problem areas within the app. The process yielded valuable insights into certain features, leading to design iterations informed by user feedback.</p>
+
+        <!-- IMAGE PLACEHOLDER: food photo -->
+        <div class="img-placeholder" style="margin-top:32px;aspect-ratio:4/3;">
+          <div class="img-placeholder__icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="11" stroke="currentColor" stroke-width="1.5"/><path d="M8 16s1.5 4 6 4 6-4 6-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="12" r="1.5" fill="currentColor"/><circle cx="18" cy="12" r="1.5" fill="currentColor"/></svg>
+          </div>
+          <div class="img-placeholder__label">Usability Session Photo</div>
+          <div class="img-placeholder__sub">Replace with: food/session photo from usability testing</div>
+        </div>
+      </div>
+
+      <!-- Right: task completion table -->
+      <div>
+        <div class="tag" style="margin-bottom:20px;"><span class="tag-dot"></span>Usability Testing Insights</div>
+        <div class="usability-table-wrap">
+          <table class="jtable usability-table" style="min-width:520px;">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">T1</th><th scope="col">T2</th><th scope="col">T3</th>
+                <th scope="col">T4</th><th scope="col">T5</th><th scope="col">T6</th>
+                <th scope="col">T7</th><th scope="col">T8</th>
+                <th scope="col">Avg</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Basil Joseph</td>
+                <td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-s">S</span></td>
+                <td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-s">S</span></td>
+                <td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-s">S</span></td>
+                <td><strong style="color:var(--white);">100%</strong></td>
+              </tr>
+              <tr>
+                <td>Pratiksha Naik</td>
+                <td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-s">S</span></td>
+                <td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-s">S</span></td>
+                <td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-s">S</span></td>
+                <td><strong style="color:var(--white);">100%</strong></td>
+              </tr>
+              <tr>
+                <td>Pranavi</td>
+                <td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-s">S</span></td>
+                <td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-s">S</span></td>
+                <td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-s">S</span></td>
+                <td><strong style="color:var(--white);">100%</strong></td>
+              </tr>
+              <tr>
+                <td>Pranathi</td>
+                <td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-n">N</span></td>
+                <td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-s">S</span></td>
+                <td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-s">S</span></td>
+                <td><strong style="color:var(--white);">90%</strong></td>
+              </tr>
+              <tr>
+                <td>Rutuja Kulkarni</td>
+                <td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-n">N</span></td>
+                <td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-s">S</span></td>
+                <td><span class="task-badge task-s">S</span></td><td><span class="task-badge task-s">S</span></td>
+                <td><strong style="color:var(--white);">90%</strong></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr class="table-final">
+                <td>Final Score</td>
+                <td>100%</td><td>100%</td><td>80%</td>
+                <td>100%</td><td>100%</td><td>100%</td>
+                <td>100%</td><td>100%</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <!-- Legend -->
+        <div style="margin-top:16px;display:flex;gap:24px;">
+          <span style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--sub);font-family:'Geist Mono',monospace;letter-spacing:.5px;">
+            <span class="task-badge task-s" style="font-size:11px;">S</span> Success
+          </span>
+          <span style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--sub);font-family:'Geist Mono',monospace;letter-spacing:.5px;">
+            <span class="task-badge task-n" style="font-size:11px;">N</span> Neutral
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 13 — TAKEAWAYS -->
+<section class="section section-alt" data-theme="dark">
+  <div class="col-wide" style="padding:0 24px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;max-width:var(--wide);margin:0 auto;">
+
+      <!-- Left: takeaway list -->
+      <div>
+        <div class="tag"><span class="tag-dot"></span>13 — Takeaways</div>
+        <h2>What this project<br>taught me.</h2>
+        <div class="iter-list" style="margin-top:32px;">
+          <div class="iter-row" style="grid-template-columns:auto 1fr;gap:20px;">
+            <div class="iter-round">01</div>
+            <div class="iter-body">Employing a structured approach, such as the Double Diamond Method and the 5 Elements of UX Design, facilitates the development of a well-rounded, user-centric product.</div>
+          </div>
+          <div class="iter-row" style="grid-template-columns:auto 1fr;gap:20px;">
+            <div class="iter-round">02</div>
+            <div class="iter-body">Prioritizing features using methods such as the KANO model and the MoSCoW methodology ensures the development of a streamlined and effective product that addresses users' most critical needs.</div>
+          </div>
+          <div class="iter-row" style="grid-template-columns:auto 1fr;gap:20px;">
+            <div class="iter-round">03</div>
+            <div class="iter-body">Conducting comprehensive usability testing and pretotyping during the design process is crucial for refining the prototype and ensuring its functionality and user-friendliness.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: brand logo placeholder -->
+      <div style="display:flex;justify-content:center;align-items:center;">
+        <div class="img-placeholder img-placeholder--logo">
+          <div class="img-placeholder__icon" style="color:var(--accent);">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="2"/><path d="M14 24c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M30 28l-6-4-4 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="img-placeholder__label">Calorie Wise Brand Logo</div>
+          <div class="img-placeholder__sub">Replace with: orange circle fork icon</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 14 — REFLECTION -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>14 — Reflection</div>
+    <h2>What this project<br>taught me.</h2>
+    <p>Calorie Wise pushed me to think carefully about the emotional weight of health products. Every design decision either added to someone's anxiety or reduced it. There's no neutral choice when the subject is someone's body.</p>
+    <p>The biggest shift: moving from "how do we track more?" to "how do we make users feel capable?" That reframe changed everything — the visual language, the copy tone, the onboarding, the feedback loops.</p>
+    <p>The next step is integrating with HealthKit and Google Fit, and running a longer retention study over 90 days. The design is ready. The question is whether the habit sticks.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="final" data-theme="dark">
+  <div class="col">
+    <div class="tag" style="justify-content:center;"><span class="tag-dot"></span>Reflection</div>
+    <h2>Healthier eating starts with<br>a kinder interface.</h2>
+    <p>Calorie Wise is proof that when design reduces friction and removes shame, people actually show up — for themselves.</p>
+    <div>
+      <a href="../index.html" class="btn">← Back to Work</a>
+      <a href="#" class="btn btn-accent">View Prototype →</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const navTop     = document.getElementById('navTop');
+  const navPill    = document.getElementById('navPill');
+  const rFill      = document.getElementById('navRingFill');
+  const rPct       = document.getElementById('navRingPct');
+  const toggleTop  = document.getElementById('themeToggle');
+  const togglePill = document.getElementById('themeTogglePill');
+  const CIRC = 2 * Math.PI * 17;
+
+  function onScroll(){
+    const h = document.documentElement;
+    const scrollY = h.scrollTop;
+    const total = h.scrollHeight - h.clientHeight;
+    const pct = total > 0 ? Math.min(scrollY / total, 1) : 0;
+    navTop.classList.toggle('nav-hidden', scrollY > 60);
+    navPill.classList.toggle('nav-visible', scrollY > 60);
+    rFill.style.strokeDashoffset = CIRC * (1 - pct);
+    rPct.textContent = Math.round(pct * 100) + '%';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  function applyTheme(goLight){
+    document.body.classList.toggle('light', goLight);
+    const icon = goLight ? '☀️' : '🌙';
+    toggleTop.textContent  = icon;
+    togglePill.textContent = icon;
+    navTop.classList.toggle('nav-dark', !goLight);
+  }
+  function toggleTheme(){ applyTheme(!document.body.classList.contains('light')); }
+  toggleTop.addEventListener('click', toggleTheme);
+  togglePill.addEventListener('click', toggleTheme);
+
+  document.querySelectorAll('[data-theme]').forEach(function(sec){
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.intersectionRatio > 0.45)
+          navPill.classList.toggle('nav-on-dark',
+            e.target.getAttribute('data-theme') !== 'dark');
+      });
+    },{threshold:[0.45,0.55]}).observe(sec);
+  });
+})();
+</script>
+</body>
+</html>
