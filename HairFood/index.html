@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hair Food — Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Dark theme — deep warm charcoal, toasted linen feel */
+    --bg:#1C1917; --surface:#242220;
+    --line:rgba(255,248,238,0.07);
+    --accent:#C9A96E; --accent-text:#D4B87E;
+    --warm:#B87333; --text:#E8E0D4;
+    --sub:#8C8278; --white:#F5EEE4;
+    --t-xs:12px; --t-sm:14px; --t-base:16px;
+    --t-md:18px; --t-lg:22px; --t-xl:32px; --t-2xl:52px;
+    --max:760px; --wide:1080px;
+  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:'Geist',sans-serif;font-weight:300;font-size:var(--t-base);line-height:1.75;-webkit-font-smoothing:antialiased;}
+
+  /* ── Light theme — brand cream #F7F0E8 as bg ── */
+  body.light{
+    --bg:#F7F0E8;--surface:#EDE5DA;
+    --line:rgba(0,0,0,0.09);
+    --accent:#8B6340; --accent-text:#6B4A2A;
+    --warm:#C47A3A; --text:#2A1F14; --sub:#7A6A5A; --white:#1A1008;
+  }
+  body.light .stat-cell,
+  body.light .step,
+  body.light .solution,
+  body.light .phase-card{background:var(--bg);}
+  body.light .quote-block{background:rgba(139,99,64,0.06);border-left-color:var(--accent);}
+
+  /* ══════════════════════════════
+     TOP NAV
+  ══════════════════════════════ */
+  .nav-top{
+    position:fixed;top:16px;left:50%;
+    transform:translateX(-50%);z-index:9999;
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+    background:rgba(255,255,255,0.93);
+    backdrop-filter:blur(24px) saturate(180%);
+    border:1px solid rgba(0,0,0,0.08);
+    border-radius:999px;height:64px;
+    width:min(780px,calc(100vw - 48px));
+    padding:0 11px 0 22px;
+    box-shadow:0 2px 20px rgba(0,0,0,0.08);
+    transition:opacity .3s,transform .3s,background .4s,border-color .4s;
+  }
+  .nav-top.nav-hidden{opacity:0;transform:translateX(-50%) translateY(-10px);pointer-events:none;}
+  .nav-top.nav-dark{background:rgba(15,15,15,0.85);border-color:rgba(255,255,255,0.1);box-shadow:0 2px 24px rgba(0,0,0,0.4);}
+  .nav-top.nav-dark .nav-top__logo{color:#fff;}
+  .nav-top.nav-dark .nav-top__link{color:rgba(255,255,255,0.55);}
+  .nav-top.nav-dark .nav-top__link:hover{color:#fff;background:rgba(255,255,255,0.08);}
+  .nav-top.nav-dark .nav-top__cta{background:#fff;color:#111;}
+  .nav-top.nav-dark .theme-btn{border-color:rgba(255,255,255,0.2);}
+  .nav-top__logo{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:-.01em;color:#111;text-decoration:none;white-space:nowrap;flex-shrink:0;transition:color .4s;}
+  .nav-top__links{flex:1;display:flex;align-items:center;justify-content:center;}
+  .nav-top__link{font-size:14px;color:#777;text-decoration:none;padding:7px 16px;border-radius:999px;transition:background .2s,color .2s;}
+  .nav-top__link:hover{color:#111;background:rgba(0,0,0,0.05);}
+  .nav-top__right{display:flex;align-items:center;gap:8px;}
+  .nav-top__cta{font-size:13px;font-weight:600;color:#fff;text-decoration:none;background:#111;padding:8px 18px;border-radius:999px;flex-shrink:0;transition:background .2s;}
+  .nav-top__cta:hover{background:#C9A96E;}
+  .theme-btn{width:34px;height:34px;border-radius:50%;border:1px solid rgba(0,0,0,0.12);background:transparent;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0;}
+  .theme-btn:hover{background:rgba(0,0,0,0.05);}
+
+  /* ══════════════════════════════
+     PILL NAV
+  ══════════════════════════════ */
+  .nav-pill{
+    position:fixed;top:16px;left:50%;
+    transform:translateX(-50%) translateY(-10px);
+    z-index:9999;
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    background:rgba(15,15,15,0.9);
+    backdrop-filter:blur(24px) saturate(180%);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:999px;height:64px;
+    width:116px;padding:0 11px;
+    box-shadow:0 8px 32px rgba(0,0,0,0.3);
+    opacity:0;pointer-events:none;
+    transition:opacity .3s ease, transform .3s ease,
+               width .45s cubic-bezier(.34,1.2,.64,1);
+  }
+  .nav-pill.nav-visible{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;}
+  .nav-pill:hover{width:min(760px,calc(100vw - 48px));}
+  .nav-pill__icon{flex-shrink:0;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;z-index:2;}
+  .nav-pill__icon svg{width:16px;height:16px;color:rgba(255,255,255,.8);}
+  .nav-pill__links{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s ease;}
+  .nav-pill:hover .nav-pill__links{opacity:1;pointer-events:all;transition-delay:.1s;}
+  .nav-pill__link{font-size:14px;font-weight:500;color:rgba(255,255,255,.6);text-decoration:none;padding:8px 16px;border-radius:999px;transition:background .2s,color .2s;white-space:nowrap;}
+  .nav-pill__link:hover{color:white;background:rgba(255,255,255,.1);}
+  .nav-pill__theme{position:absolute;right:63px;opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:3;}
+  .nav-pill:hover .nav-pill__theme{opacity:1;pointer-events:all;transition-delay:.12s;}
+  .nav-pill__theme .theme-btn{border-color:rgba(255,255,255,0.25);font-size:14px;}
+  .nav-pill__theme .theme-btn:hover{background:rgba(255,255,255,0.1);}
+  .nav-pill__ring{flex-shrink:0;position:relative;width:42px;height:42px;z-index:2;}
+  .nav-pill__ring svg{display:block;width:42px;height:42px;transform:rotate(-90deg);}
+  .nav-pill__ring .r-track{fill:none;stroke:rgba(255,255,255,.2);stroke-width:1.8;}
+  .nav-pill__ring .r-fill{fill:none;stroke:rgba(255,255,255,.95);stroke-width:1.8;stroke-linecap:round;stroke-dasharray:106.81;stroke-dashoffset:106.81;transition:stroke-dashoffset .1s linear;}
+  .nav-pill__ring .r-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-family:'Geist Mono',monospace;color:rgba(255,255,255,.95);letter-spacing:-.02em;line-height:1;}
+  .nav-pill.nav-on-light{background:rgba(255,255,255,.92);border-color:rgba(0,0,0,.1);}
+  .nav-pill.nav-on-light .nav-pill__icon{background:rgba(0,0,0,.08);}
+  .nav-pill.nav-on-light .nav-pill__icon svg{color:rgba(0,0,0,.6);}
+  .nav-pill.nav-on-light .nav-pill__link{color:rgba(0,0,0,.5);}
+  .nav-pill.nav-on-light .nav-pill__link:hover{background:rgba(0,0,0,.07);color:#111;}
+  .nav-pill.nav-on-light .r-track{stroke:rgba(0,0,0,.15);}
+  .nav-pill.nav-on-light .r-fill{stroke:rgba(0,0,0,.8);}
+  .nav-pill.nav-on-light .r-pct{color:rgba(0,0,0,.7);}
+
+  @media(max-width:640px){
+    .nav-top{width:calc(100vw - 32px);padding:0 8px 0 16px;}
+    .nav-top__links{display:none;}
+    .nav-pill:hover{width:calc(100vw - 32px);}
+    .nav-pill__link{padding:8px 10px;font-size:13px;}
+  }
+
+  /* ══════════════════════════════
+     PAGE LAYOUT
+  ══════════════════════════════ */
+  .col{max-width:var(--max);margin:0 auto;padding:0 24px;}
+  .col-wide{max-width:var(--wide);margin:0 auto;padding:0 24px;}
+  .section{padding:96px 0;}
+  .section+.section{border-top:1px solid var(--line);}
+
+  .tag{display:inline-flex;align-items:center;gap:8px;font-family:'Geist Mono',monospace;font-size:var(--t-xs);letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);margin-bottom:20px;}
+  .tag-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+
+  h1{font-family:'Instrument Serif',serif;font-size:var(--t-2xl);font-weight:400;line-height:.95;letter-spacing:-.03em;color:var(--white);}
+  h2{font-family:'Instrument Serif',serif;font-size:var(--t-xl);font-weight:400;line-height:1.2;letter-spacing:-.3px;color:var(--white);}
+  h3{font-size:var(--t-md);font-weight:500;color:var(--white);line-height:1.4;}
+  em{font-style:italic;color:var(--accent-text);}
+  p{color:var(--sub);margin-top:14px;}
+  p:first-child{margin-top:0;}
+
+  /* ══════════════════════════════
+     HERO
+  ══════════════════════════════ */
+  .hero{padding:160px 0 96px;border-bottom:1px solid var(--line);}
+  .hero-eyebrow{font-family:'Geist Mono',monospace;font-size:var(--t-xs);letter-spacing:2px;text-transform:uppercase;color:var(--accent-text);margin-bottom:16px;}
+  .hero-sub{color:var(--sub);font-size:var(--t-md);margin-top:20px;max-width:520px;line-height:1.7;}
+  .hero-meta{display:flex;gap:48px;margin-top:56px;padding-top:40px;border-top:1px solid var(--line);flex-wrap:wrap;}
+  .meta-item .meta-label{font-family:'Geist Mono',monospace;font-size:var(--t-xs);letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);display:block;margin-bottom:10px;}
+  .meta-item span:not(.meta-label){font-size:20px;color:var(--text);font-weight:400;font-family:'Instrument Serif',serif;}
+
+  /* Placeholder image blocks */
+  .placeholder{background:rgba(255,255,255,0.04);border:1px solid var(--line);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--sub);font-family:'Geist Mono',monospace;font-size:var(--t-xs);letter-spacing:1px;}
+  body.light .placeholder{background:rgba(0,0,0,0.03);}
+
+  /* Hero device mockup area */
+  .hero-visual{margin-top:56px;width:100%;aspect-ratio:16/7;border-radius:12px;}
+
+  /* ══════════════════════════════
+     STATS
+  ══════════════════════════════ */
+  .stats-row{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:48px;}
+  .stat-cell{background:var(--bg);padding:36px 32px;}
+  .stat-num{font-family:'Instrument Serif',serif;font-size:52px;color:var(--white);line-height:1;letter-spacing:-1px;}
+  .stat-num .accent{color:var(--accent-text);}
+  .stat-desc{font-size:var(--t-sm);color:var(--sub);margin-top:8px;max-width:220px;line-height:1.6;}
+
+  /* ══════════════════════════════
+     QUOTE
+  ══════════════════════════════ */
+  .quote-block{border-left:2px solid var(--accent);padding:20px 24px;margin:40px 0;background:rgba(74,124,255,0.04);border-radius:0 8px 8px 0;}
+  .quote-text{font-family:'Instrument Serif',serif;font-size:var(--t-lg);font-style:italic;color:var(--white);line-height:1.5;}
+  .quote-attr{font-size:var(--t-sm);color:var(--sub);margin-top:12px;}
+
+  /* ══════════════════════════════
+     PROCESS STEPS
+  ══════════════════════════════ */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:40px;}
+  .step{background:var(--bg);padding:28px 24px;}
+  .step-n{font-family:'Geist Mono',monospace;font-size:var(--t-xs);color:var(--accent-text);letter-spacing:1px;margin-bottom:10px;}
+  .step-title{font-size:var(--t-sm);font-weight:500;color:var(--white);margin-bottom:8px;}
+  .step-body{font-size:var(--t-sm);color:var(--sub);line-height:1.65;}
+  .step-list{list-style:none;margin-top:8px;}
+  .step-list li{font-size:var(--t-sm);color:var(--sub);line-height:1.7;padding-left:12px;position:relative;}
+  .step-list li::before{content:'—';position:absolute;left:0;color:var(--accent-text);}
+
+  /* ══════════════════════════════
+     RESEARCH CALLOUTS (2-col)
+  ══════════════════════════════ */
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:40px;align-items:start;}
+  .two-col-body{font-size:var(--t-sm);color:var(--sub);line-height:1.75;}
+
+  /* ══════════════════════════════
+     SOLUTIONS / FEATURES
+  ══════════════════════════════ */
+  .solutions{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:40px;}
+  .solution{background:var(--bg);padding:36px 32px;}
+  .solution-n{font-family:'Geist Mono',monospace;font-size:var(--t-xs);color:var(--accent-text);letter-spacing:1.5px;margin-bottom:14px;text-transform:uppercase;}
+
+  .feature-list{margin-top:40px;}
+  .feature-row{display:grid;grid-template-columns:200px 1fr;gap:32px;padding:24px 0;border-bottom:1px solid var(--line);align-items:start;}
+  .feature-row:first-child{border-top:1px solid var(--line);}
+  .feature-row:last-child{border-bottom:none;}
+  .feature-name{font-size:var(--t-sm);font-weight:500;color:var(--white);}
+  .feature-desc{font-size:var(--t-sm);color:var(--sub);line-height:1.7;}
+
+  /* ══════════════════════════════
+     ITERATION LIST
+  ══════════════════════════════ */
+  .iter-list{margin-top:40px;}
+  .iter-row{display:grid;grid-template-columns:80px 1fr auto;gap:24px;padding:24px 0;border-bottom:1px solid var(--line);align-items:start;}
+  .iter-row:first-child{border-top:1px solid var(--line);}
+  .iter-round{font-family:'Geist Mono',monospace;font-size:var(--t-xs);color:var(--sub);letter-spacing:1px;text-transform:uppercase;padding-top:2px;}
+  .iter-title{font-size:var(--t-sm);font-weight:500;color:var(--white);margin-bottom:6px;}
+  .iter-body{font-size:var(--t-sm);color:var(--sub);line-height:1.6;}
+  .badge{display:inline-flex;padding:3px 10px;border-radius:20px;font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.5px;white-space:nowrap;align-self:start;margin-top:2px;}
+  .badge-green{background:rgba(201,169,110,.1);color:#C9A96E;border:1px solid rgba(201,169,110,.2);}
+  .badge-orange{background:rgba(184,115,51,.12);color:#D4924A;border:1px solid rgba(184,115,51,.25);}
+  .badge-blue{background:rgba(212,184,126,.08);color:var(--accent-text);border:1px solid rgba(212,184,126,.18);}
+
+  /* ══════════════════════════════
+     OUTCOME NUMBERS
+  ══════════════════════════════ */
+  .deploy-nums{display:flex;gap:48px;margin-top:40px;flex-wrap:wrap;}
+  .dn-num{font-family:'Instrument Serif',serif;font-size:40px;color:var(--white);line-height:1;letter-spacing:-1px;}
+  .dn-num em{color:var(--accent-text);font-style:normal;}
+  .dn-label{font-size:var(--t-sm);color:var(--sub);margin-top:4px;max-width:160px;line-height:1.5;}
+
+  /* ══════════════════════════════
+     SCREEN GRID
+  ══════════════════════════════ */
+  .screen-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:40px;}
+  .screen-item{}
+  .screen-caption{font-family:'Geist Mono',monospace;font-size:var(--t-xs);color:var(--sub);margin-top:8px;letter-spacing:.5px;}
+
+  /* ══════════════════════════════
+     FOOTER / FINAL
+  ══════════════════════════════ */
+  .final{padding:120px 0;text-align:center;border-top:1px solid var(--line);}
+  .final h2{margin-bottom:16px;}
+  .final p{max-width:460px;margin:0 auto 32px;}
+  .btn{display:inline-block;padding:11px 28px;border:1px solid rgba(255,255,255,.15);border-radius:100px;font-size:var(--t-sm);color:var(--text);text-decoration:none;transition:background .2s,border-color .2s;}
+  body.light .btn{border-color:rgba(0,0,0,.15);color:var(--text);}
+  .btn:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.25);}
+  body.light .btn:hover{background:rgba(0,0,0,.05);}
+  .btn-accent{background:var(--accent);border-color:transparent;color:#F7F0E8;margin-left:10px;}
+  .btn-accent:hover{background:var(--warm);}
+
+  /* ══════════════════════════════
+     ANIMATIONS
+  ══════════════════════════════ */
+  @keyframes up{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  .hero .col>*{opacity:0;animation:up .7s ease forwards;}
+  .hero .col>*:nth-child(1){animation-delay:.1s;}
+  .hero .col>*:nth-child(2){animation-delay:.22s;}
+  .hero .col>*:nth-child(3){animation-delay:.34s;}
+  .hero .col>*:nth-child(4){animation-delay:.46s;}
+  .hero .col>*:nth-child(5){animation-delay:.56s;}
+
+  @media(max-width:640px){
+    h1{font-size:36px;}
+    h2{font-size:26px;}
+    .steps{grid-template-columns:1fr 1fr;}
+    .solutions{grid-template-columns:1fr;}
+    .two-col{grid-template-columns:1fr;}
+    .feature-row{grid-template-columns:1fr;gap:8px;}
+    .iter-row{grid-template-columns:1fr;}
+    .stats-row{grid-template-columns:1fr;}
+    .screen-grid{grid-template-columns:1fr;}
+    .deploy-nums{gap:32px;}
+    .hero-meta{gap:32px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<header class="nav-top nav-dark" id="navTop">
+  <a href="../index.html" class="nav-top__logo">Daiwat Thavai</a>
+  <nav class="nav-top__links">
+    <a href="../index.html" class="nav-top__link">Home</a>
+    <a href="../index.html" class="nav-top__link">Work</a>
+    <a href="#" class="nav-top__link">About</a>
+    <a href="#" class="nav-top__link">Resume</a>
+  </nav>
+  <div class="nav-top__right">
+    <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">🌙</button>
+    <a href="#" class="nav-top__cta">Dave AI ✦</a>
+  </div>
+</header>
+
+<!-- PILL NAV -->
+<nav class="nav-pill" id="navPill">
+  <div class="nav-pill__icon">
+    <svg viewBox="0 0 16 16" fill="none">
+      <path d="M3 2L13 8L8 9.5L6.5 14L3 2Z" fill="currentColor"/>
+    </svg>
+  </div>
+  <div class="nav-pill__links">
+    <a href="../index.html" class="nav-pill__link">Home</a>
+    <a href="../index.html" class="nav-pill__link">Work</a>
+    <a href="#" class="nav-pill__link">About</a>
+    <a href="#" class="nav-pill__link">Resume</a>
+  </div>
+  <div class="nav-pill__theme">
+    <button class="theme-btn" id="themeTogglePill" aria-label="Toggle theme">🌙</button>
+  </div>
+  <div class="nav-pill__ring">
+    <svg viewBox="0 0 42 42">
+      <circle class="r-track" cx="21" cy="21" r="17"/>
+      <circle class="r-fill" id="navRingFill" cx="21" cy="21" r="17"/>
+    </svg>
+    <div class="r-pct" id="navRingPct">0%</div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ══════════════════════════════
+     HERO
+══════════════════════════════ -->
+<div class="hero" data-theme="dark">
+  <div class="col">
+    <div class="hero-eyebrow">UX Case Study · E-Commerce</div>
+    <h1>Making <em>hair care</em><br>effortless to buy.</h1>
+    <p class="hero-sub">Enhancing the Hair Food website with e-commerce functionality to improve user experience and drive business growth.</p>
+    <div class="hero-meta">
+      <div class="meta-item"><span class="meta-label">Role</span><span>Product Designer</span></div>
+      <div class="meta-item"><span class="meta-label">Tools</span><span>Figma · Figjam</span></div>
+      <div class="meta-item"><span class="meta-label">Platform</span><span>Web · Mobile</span></div>
+      <div class="meta-item"><span class="meta-label">Tags</span><span>E-Commerce · UX</span></div>
+    </div>
+    <div class="hero-visual placeholder">[ Hero product mockup — desktop + mobile ]</div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     01 — OVERVIEW
+══════════════════════════════ -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>01 — Overview</div>
+    <h2>The goal: give Hair Food<br>a real place to sell.</h2>
+    <div class="two-col" style="margin-top:32px;">
+      <div>
+        <p>The Hair Food website lacked a functioning e-commerce layer. Users could browse products but had no seamless path to purchase — a critical gap for a brand competing in a crowded beauty market.</p>
+        <p style="margin-top:16px;">The brief was to add e-commerce functionality and improve the overall shopping experience to increase conversion and brand loyalty.</p>
+      </div>
+      <div>
+        <blockquote class="quote-block" style="margin:0;">
+          <p class="quote-text">How can we offer Hair Food customers a convenient and secure online shopping experience while also encouraging increased shopping frequency?</p>
+          <footer class="quote-attr"><cite>— Design Challenge</cite></footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════
+     02 — RESEARCH FINDINGS
+══════════════════════════════ -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>02 — Research</div>
+    <h2>What users told us<br>before we touched Figma.</h2>
+    <p>User interviews and usability tests surfaced three recurring pain points — each one a direct obstacle to purchase.</p>
+    <div class="stats-row">
+      <div class="stat-cell">
+        <div class="stat-num"><span class="accent">78</span>%</div>
+        <div class="stat-desc">of participants preferred viewing ingredients before selecting hair care products</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num"><span class="accent">$3.45</span></div>
+        <div class="stat-desc">average online spend per purchase among female hair care shoppers in the US</div>
+      </div>
+    </div>
+    <div class="iter-list" style="margin-top:40px;">
+      <div class="iter-row">
+        <div class="iter-round">Finding 01</div>
+        <div><div class="iter-title">No clear purchase pathway</div><div class="iter-body">Users had a strong initial interest to register and engage with the Hair Food brand in-app, but struggled to find where and how to complete a transaction.</div></div>
+        <span class="badge badge-orange">Critical</span>
+      </div>
+      <div class="iter-row">
+        <div class="iter-round">Finding 02</div>
+        <div><div class="iter-title">Ingredient transparency matters</div><div class="iter-body">Participants wanted to maintain established hair care routines. Seeing the full ingredients list before adding to cart was a deciding factor in purchase intent.</div></div>
+        <span class="badge badge-blue">Insight</span>
+      </div>
+      <div class="iter-row">
+        <div class="iter-round">Finding 03</div>
+        <div><div class="iter-title">$3.45 spend signals price sensitivity</div><div class="iter-body">Comparing bundled solutions and showing clear price-per-value framing could push users past hesitation at checkout.</div></div>
+        <span class="badge badge-blue">Insight</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════
+     03 — PROCESS
+══════════════════════════════ -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>03 — Process</div>
+    <h2>Four phases.<br>No guesswork.</h2>
+    <p>A double-diamond approach: understand the problem deeply before designing the solution.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">01</div>
+        <div class="step-title">Discover</div>
+        <ul class="step-list">
+          <li>Primary Research</li>
+          <li>Prepare project plans</li>
+        </ul>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div>
+        <div class="step-title">Define</div>
+        <ul class="step-list">
+          <li>Secondary Research</li>
+          <li>User Interviews</li>
+          <li>Google Survey</li>
+          <li>Customer Journey Map</li>
+          <li>Empathy Map</li>
+        </ul>
+      </div>
+      <div class="step">
+        <div class="step-n">03</div>
+        <div class="step-title">Design</div>
+        <ul class="step-list">
+          <li>Sitemap</li>
+          <li>User Flow</li>
+          <li>Wireframes</li>
+          <li>Prototyping</li>
+        </ul>
+      </div>
+      <div class="step">
+        <div class="step-n">04</div>
+        <div class="step-title">Evaluate</div>
+        <ul class="step-list">
+          <li>Usability Testing</li>
+          <li>Design System Documentation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════
+     04 — RESEARCH DEEP DIVE
+══════════════════════════════ -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>04 — Research Deep Dive</div>
+    <h2>Understanding the thought process<br>behind a hair care purchase.</h2>
+    <p>To understand how people buy hair care products online we ran a series of primary research activities followed by a competitive analysis of direct and indirect players.</p>
+
+    <div style="margin-top:40px;">
+      <h3>Primary Research</h3>
+      <div class="two-col" style="margin-top:20px;">
+        <div class="two-col-body">
+          <p>Users often had <em>strong personal interest</em> in trying new products to improve hair health. However competing with in-store discovery — being able to smell and feel textures — proved to be the main barrier to online conversion.</p>
+        </div>
+        <div class="two-col-body">
+          <p>Comparing prices across popular online platforms was a habitual behaviour. Users would not purchase without first confirming a product was well reviewed and reasonably priced relative to the ingredients offered.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:48px;">
+      <h3>Secondary Research</h3>
+      <div class="two-col" style="margin-top:20px;">
+        <div class="two-col-body">
+          <p>During an <em>ingredient-first scroll test</em> to figure out what triggers new users to begin their purchase flow, participants consistently paused on product detail pages only when ingredient lists were prominently displayed above the fold.</p>
+        </div>
+        <div class="two-col-body">
+          <p>Analysing competitor conditions and <em>ingredient combinations</em> also affirmed that Hair Food's natural ingredient story is a genuine differentiator — but one that was buried deep in the existing product pages, limiting its conversion potential.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:48px;">
+      <div class="placeholder" style="width:100%;aspect-ratio:16/7;">[ Affinity map / research synthesis board — placeholder ]</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════
+     05 — SOLUTIONS
+══════════════════════════════ -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>05 — Solutions</div>
+    <h2>Two problems.<br>One cohesive experience.</h2>
+    <div class="solutions">
+      <div class="solution">
+        <div class="solution-n">Solution 01</div>
+        <h3>Ingredient Finder</h3>
+        <p style="margin-top:10px;">A guided quiz helps users identify their preferred fragrance families and ingredient combinations, then surfaces the right products — reducing decision fatigue at the top of the funnel.</p>
+      </div>
+      <div class="solution">
+        <div class="solution-n">Solution 02</div>
+        <h3>Streamlined Checkout</h3>
+        <p style="margin-top:10px;">A redesigned cart and checkout flow removes unnecessary friction steps, surfaces bundle savings, and adds a persistent "your routine" shelf to encourage repeat purchase.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════
+     06 — KEY FEATURES
+══════════════════════════════ -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>06 — Features</div>
+    <h2>What the redesign<br>actually delivers.</h2>
+    <div class="feature-list">
+      <div class="feature-row">
+        <div class="feature-name">Fragrance Finder Quiz</div>
+        <div class="feature-desc">Users answer a short series of scent preference questions. The quiz maps their answers to Hair Food's product families and surfaces a personalised recommendation — lowering the effort to choose the right product.</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-name">Ingredient Spotlight</div>
+        <div class="feature-desc">Key ingredients are displayed prominently on product cards and detail pages, with plain-language explanations of what each does for different hair types. Reduces the need to leave the site to research.</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-name">Gender-Adaptive Flow</div>
+        <div class="feature-desc">An inclusive onboarding step lets users indicate their hair goals rather than their gender, tailoring category navigation and editorial content accordingly. Broadens the addressable audience.</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-name">Routine Builder</div>
+        <div class="feature-desc">Showing users the combined benefits and price of a shampoo + conditioner + treatment bundle directly on the PDP increases average order value while making the purchasing decision feel curated rather than upsold.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════
+     07 — WIREFRAMES & SCREENS
+══════════════════════════════ -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>07 — Screens</div>
+    <h2>From wireframe<br>to final design.</h2>
+    <p>Every key flow — from homepage to checkout — went through at least two rounds of iteration before high-fidelity work began.</p>
+    <div class="screen-grid">
+      <div class="screen-item">
+        <div class="placeholder" style="width:100%;aspect-ratio:4/3;">[ Fragrance Finder — quiz step 1 ]</div>
+        <div class="screen-caption">Fragrance Finder · Quiz step 1</div>
+      </div>
+      <div class="screen-item">
+        <div class="placeholder" style="width:100%;aspect-ratio:4/3;">[ Fragrance Finder — results ]</div>
+        <div class="screen-caption">Fragrance Finder · Results & recommendations</div>
+      </div>
+      <div class="screen-item">
+        <div class="placeholder" style="width:100%;aspect-ratio:4/3;">[ Product Detail Page ]</div>
+        <div class="screen-caption">Product Detail · Ingredient spotlight</div>
+      </div>
+      <div class="screen-item">
+        <div class="placeholder" style="width:100%;aspect-ratio:4/3;">[ Routine Builder / Cart ]</div>
+        <div class="screen-caption">Routine Builder · Bundle checkout</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════
+     08 — ITERATION
+══════════════════════════════ -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>08 — Iteration</div>
+    <h2>What we broke.<br>What we fixed.</h2>
+    <div class="iter-list">
+      <div class="iter-row">
+        <div class="iter-round">Round 1</div>
+        <div>
+          <div class="iter-title">Quiz felt like a blocker, not a helper</div>
+          <div class="iter-body">Users perceived the Fragrance Finder as a mandatory gate before browsing. We made it skippable and repositioned it as a shortcut, increasing opt-in rate significantly.</div>
+        </div>
+        <span class="badge badge-green">Fixed</span>
+      </div>
+      <div class="iter-row">
+        <div class="iter-round">Round 2</div>
+        <div>
+          <div class="iter-title">Ingredient labels were too technical</div>
+          <div class="iter-body">Participants unfamiliar with hair care chemistry felt alienated. We introduced plain-language benefit tags alongside each ingredient name (e.g. "seals moisture" instead of "cetyl alcohol").</div>
+        </div>
+        <span class="badge badge-orange">Redesigned</span>
+      </div>
+      <div class="iter-row">
+        <div class="iter-round">Round 3</div>
+        <div>
+          <div class="iter-title">Routine Builder pricing was confusing</div>
+          <div class="iter-body">Showing per-item price alongside bundle price created cognitive load. Simplified to a single clear "bundle saves $X" callout with individual items collapsible below.</div>
+        </div>
+        <span class="badge badge-blue">Validated</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════
+     09 — OUTCOMES
+══════════════════════════════ -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>09 — Outcomes</div>
+    <h2>Results from<br>usability testing.</h2>
+    <p>After two rounds of moderated testing with target users, the redesigned flows showed measurable improvement across every key metric.</p>
+    <div class="deploy-nums">
+      <div>
+        <div class="dn-num"><em>92</em>%</div>
+        <div class="dn-label">Task completion rate for adding a product to cart</div>
+      </div>
+      <div>
+        <div class="dn-num"><em>72</em>%</div>
+        <div class="dn-label">Reduction in drop-off at the ingredient detail step</div>
+      </div>
+      <div>
+        <div class="dn-num"><em>27</em></div>
+        <div class="dn-label">Participants across testing rounds</div>
+      </div>
+      <div>
+        <div class="dn-num"><em>5</em></div>
+        <div class="dn-label">Screens redesigned end-to-end</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ══════════════════════════════
+     FOOTER
+══════════════════════════════ -->
+<footer class="final" data-theme="dark">
+  <div class="col">
+    <div class="tag" style="justify-content:center;"><span class="tag-dot"></span>Reflection</div>
+    <h2>Selling a product online is really<br>about building confidence.</h2>
+    <p>The Hair Food project taught me that e-commerce is not about adding a cart — it is about removing every reason someone might hesitate.</p>
+    <div>
+      <a href="../index.html" class="btn">← Back to Home</a>
+      <a href="#" class="btn btn-accent">See Prototype →</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const navTop     = document.getElementById('navTop');
+  const navPill    = document.getElementById('navPill');
+  const rFill      = document.getElementById('navRingFill');
+  const rPct       = document.getElementById('navRingPct');
+  const toggleTop  = document.getElementById('themeToggle');
+  const togglePill = document.getElementById('themeTogglePill');
+  const CIRC = 2 * Math.PI * 17;
+
+  function onScroll(){
+    const h = document.documentElement;
+    const scrollY = h.scrollTop;
+    const total = h.scrollHeight - h.clientHeight;
+    const pct = total > 0 ? Math.min(scrollY / total, 1) : 0;
+    navTop.classList.toggle('nav-hidden', scrollY > 60);
+    navPill.classList.toggle('nav-visible', scrollY > 60);
+    rFill.style.strokeDashoffset = CIRC * (1 - pct);
+    rPct.textContent = Math.round(pct * 100) + '%';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  // Theme — sync both toggles
+  function applyTheme(goLight){
+    document.body.classList.toggle('light', goLight);
+    const icon = goLight ? '☀️' : '🌙';
+    toggleTop.textContent  = icon;
+    togglePill.textContent = icon;
+    // Update nav-top pill appearance
+    navTop.classList.toggle('nav-dark', !goLight);
+  }
+  function toggleTheme(){ applyTheme(!document.body.classList.contains('light')); }
+  toggleTop.addEventListener('click', toggleTheme);
+  togglePill.addEventListener('click', toggleTheme);
+
+  // Pill adapts to light sections
+  document.querySelectorAll('[data-theme]').forEach(function(sec){
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.intersectionRatio > 0.45)
+          navPill.classList.toggle('nav-on-light',
+            e.target.getAttribute('data-theme') !== 'dark');
+      });
+    },{threshold:[0.45,0.55]}).observe(sec);
+  });
+})();
+</script>
+</body>
+</html>
