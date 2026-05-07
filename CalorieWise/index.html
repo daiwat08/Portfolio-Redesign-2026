@@ -969,12 +969,9 @@
     </div>
   </div>
 
-  <!-- Final UI screens: light + dark side by side -->
+  <!-- Final UI screen: swaps with theme -->
   <div class="col" style="margin-top:48px;">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-      <img src="assets/mobile-screen-light.png" alt="Calorie Wise — Light theme UI screens" style="width:100%;border-radius:12px;display:block;">
-      <img src="assets/mobile-screen-dark.png" alt="Calorie Wise — Dark theme UI screens" style="width:100%;border-radius:12px;display:block;">
-    </div>
+    <img id="uiScreenImg" src="assets/mobile-screen-dark.png" alt="Calorie Wise UI screens" style="width:100%;border-radius:12px;display:block;">
   </div>
 </section>
 
@@ -1032,6 +1029,8 @@
     toggleTop.textContent  = icon;
     togglePill.textContent = icon;
     navTop.classList.toggle('nav-dark', !goLight);
+    const uiImg = document.getElementById('uiScreenImg');
+    if(uiImg) uiImg.src = goLight ? 'assets/mobile-screen-light.png' : 'assets/mobile-screen-dark.png';
   }
   function toggleTheme(){ applyTheme(!document.body.classList.contains('light')); }
   toggleTop.addEventListener('click', toggleTheme);
