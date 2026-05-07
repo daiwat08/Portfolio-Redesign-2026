@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dave AI — Daiwat Thavai</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --page-bg:         #111111;
+    --shell-bg:        #1a1a1a;
+    --surface:         #212121;
+    --surface-hover:   #2a2a2a;
+    --border:          rgba(255,255,255,0.07);
+    --border-hover:    rgba(255,255,255,0.14);
+    --text-primary:    #f0f0f0;
+    --text-muted:      #888888;
+    --text-faint:      #666666;
+    --text-back:       #909090;
+    --accent:          #4A7CFF;
+    --accent-hover:    #3a6ce8;
+    --bubble-bot-text: #d0d0d4;
+  }
+
+  .light {
+    --page-bg:         #f0f0ee;
+    --shell-bg:        #ffffff;
+    --surface:         #f5f5f3;
+    --surface-hover:   #ebebea;
+    --border:          rgba(0,0,0,0.08);
+    --border-hover:    rgba(0,0,0,0.16);
+    --text-primary:    #111111;
+    --text-muted:      #666666;
+    --text-faint:      #999999;
+    --text-back:       #555555;
+    --bubble-bot-text: #2a2a2a;
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--page-bg);
+    font-family: 'Geist', system-ui, sans-serif;
+    transition: background .3s;
+    overflow: hidden;
+  }
+
+  /* ── Top-left back link ── */
+  .back-link {
+    position: fixed;
+    top: 24px; left: 28px;
+    display: flex; align-items: center; gap: 6px;
+    color: var(--text-back);
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: -.01em;
+    transition: color .15s;
+    z-index: 10;
+  }
+  .back-link:hover { color: var(--text-primary); }
+  .back-link svg { width: 13px; height: 13px; }
+
+  /* ── Page layout — anchored 40px from bottom ── */
+  .page-center {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0 24px 40px;
+    z-index: 1;
+  }
+
+  /* ── Chat shell ── */
+  .shell {
+    background: var(--shell-bg);
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    height: 600px;
+    width: 100%; max-width: 520px;
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    transition: background .3s, border-color .3s;
+  }
+
+  /* ── Header ── */
+  .head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; height: 60px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    transition: border-color .3s;
+  }
+  .head-name {
+    font-size: 16px; font-weight: 500;
+    color: var(--text-primary); letter-spacing: -.02em;
+    transition: color .3s;
+  }
+  .head-right { display: flex; align-items: center; gap: 8px; }
+
+  .status-pill {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px; padding: 6px 13px;
+    font-size: 14px; color: var(--text-muted); letter-spacing: .01em;
+    transition: background .3s, border-color .3s, color .3s;
+  }
+  .s-dot { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; flex-shrink: 0; }
+
+  .theme-btn {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s, border-color .3s;
+    flex-shrink: 0;
+  }
+  .theme-btn:hover { background: var(--surface-hover); }
+  .theme-btn svg { width: 15px; height: 15px; color: var(--text-muted); }
+
+  /* ── Message body ── */
+  .body {
+    flex: 1; overflow-y: auto;
+    padding: 28px 24px 8px;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .body::-webkit-scrollbar { width: 3px; }
+  .body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .msg { display: flex; gap: 10px; animation: rise .35s ease forwards; }
+  .msg.u { justify-content: flex-end; }
+
+  .av {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--surface); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+    font-size: 11px; font-weight: 500; color: var(--accent);
+    transition: background .3s, border-color .3s;
+  }
+
+  .bub { max-width: 78%; padding: 12px 16px; font-size: 15px; line-height: 1.65; letter-spacing: -.01em; }
+  .bub.b {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--bubble-bot-text);
+    border-radius: 3px 14px 14px 14px;
+    transition: background .3s, border-color .3s, color .3s;
+  }
+  .bub.b em { font-family: 'Instrument Serif', serif; font-style: italic; color: var(--accent); }
+  .bub.u {
+    background: var(--accent); color: #fff;
+    border-radius: 14px 14px 3px 14px;
+    font-weight: 400;
+  }
+
+  /* ── Typing indicator ── */
+  .typing-row { display: flex; gap: 10px; animation: rise .3s ease forwards; }
+  .typing-bub {
+    display: flex; gap: 5px; align-items: center;
+    padding: 13px 16px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 3px 14px 14px 14px;
+    transition: background .3s, border-color .3s;
+  }
+  .td { width: 4px; height: 4px; border-radius: 50%; background: var(--text-muted); animation: bounce 1.2s ease infinite; }
+  .td:nth-child(2) { animation-delay: .18s; }
+  .td:nth-child(3) { animation-delay: .36s; }
+  @keyframes bounce {
+    0%, 60%, 100% { opacity: .3; transform: translateY(0); }
+    30%            { opacity: 1;  transform: translateY(-4px); }
+  }
+
+  /* ── Chips ── */
+  .chips-area {
+    padding: 16px 24px 14px;
+    display: flex; gap: 8px;
+  }
+  .chip {
+    flex: 1;
+    font-size: 14px;
+    font-family: 'Geist', sans-serif;
+    color: var(--text-muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 8px 12px;
+    cursor: pointer;
+    letter-spacing: -.01em;
+    text-align: center;
+    white-space: nowrap;
+    transition: background .18s, color .18s, border-color .18s;
+  }
+  .chip:hover { background: var(--surface-hover); color: var(--text-primary); border-color: var(--border-hover); }
+
+  /* ── Footer ── */
+  .foot {
+    border-top: 1px solid var(--border);
+    padding: 14px 20px 18px;
+    flex-shrink: 0;
+    transition: border-color .3s;
+  }
+  .irow {
+    display: flex; align-items: flex-end; gap: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 10px 10px 10px 18px;
+    transition: border-color .2s, background .3s;
+  }
+  .irow:focus-within { border-color: rgba(74,124,255,.45); }
+  textarea {
+    flex: 1; background: transparent; border: none; outline: none;
+    color: var(--text-primary);
+    font-family: 'Geist', sans-serif;
+    font-size: 15px; font-weight: 300; line-height: 1.6;
+    resize: none; max-height: 100px; caret-color: var(--accent);
+    letter-spacing: -.01em;
+    transition: color .3s;
+  }
+  textarea::placeholder { color: var(--text-muted); }
+  .snd {
+    width: 36px; height: 36px; border-radius: 10px; border: none;
+    background: var(--accent); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: background .15s, transform .1s;
+  }
+  .snd:hover { background: var(--accent-hover); }
+  .snd:active { transform: scale(.92); }
+  .snd svg { width: 14px; height: 14px; }
+  .foot-hint {
+    text-align: center; margin-top: 10px;
+    font-size: 13px; color: var(--text-faint); letter-spacing: .01em;
+    transition: color .3s;
+  }
+</style>
+</head>
+<body>
+<!-- Top-left back link -->
+<a class="back-link" href="https://www.daiwatthavai.com/">
+  <svg viewBox="0 0 12 12" fill="none">
+    <path d="M7.5 2L3.5 6L7.5 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  Back to Portfolio
+</a>
+
+<!-- Chat shell — anchored 40px from bottom -->
+<div class="page-center">
+  <div class="shell" id="shell">
+
+    <div class="head">
+      <div class="head-name">Dave AI</div>
+      <div class="head-right">
+        <div class="status-pill">
+          <div class="s-dot"></div>
+          online
+        </div>
+        <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle theme">
+          <svg id="themeIcon" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="8" r="3" fill="currentColor"/>
+            <path d="M8 1.5V3M8 13v1.5M1.5 8H3M13 8h1.5M3.6 3.6l1 1M11.4 11.4l1 1M11.4 4.6l-1 1M4.6 11.4l-1 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="body" id="body">
+      <div class="msg">
+        <div class="av">DT</div>
+        <div class="bub b">
+          Hi — I'm <em>Dave AI</em>. Ask me about Daiwat's work, process, or availability.
+        </div>
+      </div>
+    </div>
+
+    <div class="chips-area" id="chips">
+      <button class="chip" onclick="chip('Design Experience')">Design Experience</button>
+      <button class="chip" onclick="chip('Case Studies')">Case Studies</button>
+      <button class="chip" onclick="chip('Visa Status')">Visa Status</button>
+    </div>
+
+    <div class="foot">
+      <div class="irow">
+        <textarea id="inp" placeholder="Ask me anything…" rows="1" onkeydown="kd(event)"></textarea>
+        <button class="snd" onclick="send()" aria-label="Send">
+          <svg viewBox="0 0 14 14" fill="none">
+            <path d="M12 2L1.5 6.5L6 7.5L7 12L12 2Z" fill="white"/>
+          </svg>
+        </button>
+      </div>
+      <div class="foot-hint">Powered by Daiwat's brain</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const shell   = document.getElementById('shell');
+  const body    = document.getElementById('body');
+  const inp     = document.getElementById('inp');
+  const chipsEl = document.getElementById('chips');
+  let isLight   = false;
+
+  function toggleTheme() {
+    isLight = !isLight;
+    document.body.classList.toggle('light', isLight);
+    shell.classList.toggle('light', isLight);
+    const icon = document.getElementById('themeIcon');
+    icon.innerHTML = isLight
+      ? `<path d="M13 8.5A5 5 0 0 1 5.5 3a5.5 5.5 0 1 0 7.5 5.5z" fill="currentColor"/>`
+      : `<circle cx="8" cy="8" r="3" fill="currentColor"/><path d="M8 1.5V3M8 13v1.5M1.5 8H3M13 8h1.5M3.6 3.6l1 1M11.4 11.4l1 1M11.4 4.6l-1 1M4.6 11.4l-1 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>`;
+  }
+
+  const replies = {
+    'design experience': 'I\'ve led UX across mobile and web — always safety-first. <em>Empathy</em> is the starting point, never an afterthought.',
+    'case studies':      'Global Bridge is the flagship — a safety app now deployed at Thomas Jefferson University, backed by unanimous executive approval.',
+    'visa status':       'Daiwat is on a student visa and actively seeking OPT or sponsorship opportunities. Open to conversation.',
+  };
+  const fallback = [
+    'What else can I help with?',
+    'Happy to go deeper — what are you curious about?',
+    'Ask me anything about Daiwat\'s work.',
+  ];
+
+  function av() { return `<div class="av">DT</div>`; }
+
+  function addMsg(role, html) {
+    const d = document.createElement('div');
+    d.className = `msg ${role === 'bot' ? '' : 'u'}`;
+    d.innerHTML = role === 'bot'
+      ? `${av()}<div class="bub b">${html}</div>`
+      : `<div class="bub u">${html}</div>`;
+    body.appendChild(d);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function showTyping() {
+    const d = document.createElement('div');
+    d.className = 'typing-row'; d.id = 'typ';
+    d.innerHTML = `${av()}<div class="typing-bub"><div class="td"></div><div class="td"></div><div class="td"></div></div>`;
+    body.appendChild(d);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function removeTyping() {
+    const t = document.getElementById('typ');
+    if (t) t.remove();
+  }
+
+  function respond(text) {
+    showTyping();
+    const key = text.toLowerCase().replace(/[^a-z& ]/g, '').trim();
+    const r = replies[key] || fallback[Math.floor(Math.random() * fallback.length)];
+    setTimeout(() => { removeTyping(); addMsg('bot', r); }, 750 + Math.random() * 350);
+  }
+
+  function send() {
+    const v = inp.value.trim();
+    if (!v) return;
+    inp.value = ''; inp.style.height = 'auto';
+    chipsEl.style.display = 'none';
+    addMsg('user', v);
+    respond(v);
+  }
+
+  function chip(t) {
+    chipsEl.style.display = 'none';
+    addMsg('user', t);
+    respond(t);
+  }
+
+  function kd(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+  }
+
+  inp.addEventListener('input', function () {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+  });
+</script>
+
+</body>
+</html>
