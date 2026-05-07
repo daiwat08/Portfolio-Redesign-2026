@@ -237,14 +237,11 @@ p:first-child{margin-top:0;}
 
 /* ══ MOODBOARD ══ */
 .mood-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:32px;margin-bottom:48px;}
-.mood-cell{background:var(--surface);border:1px solid var(--line);border-radius:10px;aspect-ratio:4/3;display:flex;align-items:flex-end;padding:14px;position:relative;overflow:hidden;transition:border-color .25s;}
-.mood-cell:hover{border-color:rgba(255,77,58,0.5);}
-.mood-label{font-family:'Geist Mono',monospace;font-size:10px;font-weight:400;letter-spacing:.08em;text-transform:uppercase;background:rgba(30,3,0,.8);color:var(--sub);padding:4px 10px;border-radius:999px;backdrop-filter:blur(4px);}
-/* placeholder gradient fills */
-.mood-cell:nth-child(1){background:linear-gradient(135deg,#5a0c00 0%,#2e0500 100%);}
-.mood-cell:nth-child(2){background:linear-gradient(135deg,#4a0900 0%,#280300 100%);}
-.mood-cell:nth-child(3){background:linear-gradient(135deg,#520a00 0%,#300400 100%);}
-.mood-cell:nth-child(4){background:linear-gradient(135deg,#480800 0%,#240200 100%);}
+.mood-cell{background:var(--surface);border:1px solid var(--line);border-radius:10px;display:flex;flex-direction:column;overflow:hidden;transition:border-color .25s;}
+.mood-cell:hover{border-color:rgba(255,136,120,0.45);}
+.mood-cell__img{width:100%;display:block;object-fit:contain;background:var(--surface);}
+.mood-cell__foot{display:flex;align-items:center;padding:10px 14px;border-top:1px solid var(--line);}
+.mood-label{font-family:'Geist Mono',monospace;font-size:10px;font-weight:400;letter-spacing:.08em;text-transform:uppercase;color:var(--sub);}
 
 /* ══ DIRECTION CARDS ══ */
 .direction-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:32px;}
@@ -303,6 +300,11 @@ p:first-child{margin-top:0;}
 .ps-sol-body{font-size:var(--t-sm);color:var(--sub);line-height:1.75;}
 .ps-because{font-size:13px;font-style:italic;color:rgba(196,144,138,.45);margin-top:10px;line-height:1.6;font-family:'Instrument Serif',serif;}
 
+/* ══ NDA INLINE NOTICE ══ */
+.nda-inline{display:inline-flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 20px;width:100%;margin-bottom:0;}
+.nda-inline__icon{font-size:14px;flex-shrink:0;}
+.nda-inline__text{font-family:'Geist Mono',monospace;font-size:var(--t-xs);letter-spacing:1px;text-transform:uppercase;color:var(--sub);}
+
 /* ══ NDA BANNER ══ */
 .nda-box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 22px;display:flex;gap:14px;align-items:flex-start;margin-bottom:48px;}
 .nda-icon{font-size:16px;flex-shrink:0;padding-top:2px;}
@@ -333,7 +335,64 @@ p:first-child{margin-top:0;}
 .btn-accent{background:#c0392b;border-color:transparent;color:white;margin-left:10px;}
 .btn-accent:hover{background:#96241e;}
 
-/* ══ ANIMATIONS ══ */
+/* ══ LIGHTBOX ══ */
+.mood-cell__img{cursor:zoom-in;}
+.lightbox{
+  position:fixed;inset:0;z-index:99999;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(10,2,0,0);
+  backdrop-filter:blur(0px);
+  opacity:0;pointer-events:none;
+  transition:opacity .35s ease, background .35s ease, backdrop-filter .35s ease;
+}
+.lightbox.open{
+  opacity:1;pointer-events:all;
+  background:rgba(10,2,0,0.92);
+  backdrop-filter:blur(20px) saturate(140%);
+}
+.lightbox__img{
+  max-width:min(90vw,1200px);
+  max-height:88vh;
+  object-fit:contain;
+  border-radius:12px;
+  border:1px solid rgba(255,200,180,0.12);
+  box-shadow:0 32px 80px rgba(0,0,0,0.6);
+  transform:scale(0.92);
+  transition:transform .35s cubic-bezier(.34,1.26,.64,1);
+  display:block;
+}
+.lightbox.open .lightbox__img{transform:scale(1);}
+.lightbox__close{
+  position:fixed;top:20px;right:24px;
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(255,200,180,0.1);
+  border:1px solid rgba(255,200,180,0.2);
+  color:#fff0ee;font-size:18px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:background .2s;
+  font-family:'Geist',sans-serif;
+}
+.lightbox__close:hover{background:rgba(192,57,43,0.5);}
+.lightbox__caption{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%);
+  font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:1.5px;
+  text-transform:uppercase;color:rgba(196,144,138,0.7);
+  background:rgba(10,2,0,0.6);padding:6px 16px;border-radius:999px;
+  backdrop-filter:blur(8px);white-space:nowrap;
+}
+.lightbox__prev,.lightbox__next{
+  position:fixed;top:50%;transform:translateY(-50%);
+  width:48px;height:48px;border-radius:50%;
+  background:rgba(255,200,180,0.08);
+  border:1px solid rgba(255,200,180,0.15);
+  color:#fff0ee;font-size:20px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:background .2s;
+}
+.lightbox__prev{left:20px;}
+.lightbox__next{right:20px;}
+.lightbox__prev:hover,.lightbox__next:hover{background:rgba(192,57,43,0.4);}
+
 @keyframes up{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
 .hero .col>*{opacity:0;animation:up .7s ease forwards;}
 .hero .col>*:nth-child(1){animation-delay:.1s;}
@@ -366,7 +425,7 @@ p:first-child{margin-top:0;}
   </nav>
   <div class="nav-top__right">
     <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">🌙</button>
-    <a href="#" class="nav-top__cta">Fleet Edge ✦</a>
+    <a href="#" class="nav-top__cta">Dave AI ✦</a>
   </div>
 </header>
 
@@ -501,10 +560,22 @@ p:first-child{margin-top:0;}
       <div class="tag" style="margin-bottom:12px;"><span class="tag-dot" style="background:var(--sub)"></span>Moodboard references</div>
     </div>
     <div class="mood-grid">
-      <div class="mood-cell"><span class="mood-label">Dashboard layout</span></div>
-      <div class="mood-cell"><span class="mood-label">Map interface</span></div>
-      <div class="mood-cell"><span class="mood-label">Data tables</span></div>
-      <div class="mood-cell"><span class="mood-label">Mobile patterns</span></div>
+      <div class="mood-cell">
+        <img class="mood-cell__img" src="assets/dataset.png" alt="Dashboard layout reference" loading="lazy">
+        <div class="mood-cell__foot"><span class="mood-label">Dashboard layout</span></div>
+      </div>
+      <div class="mood-cell">
+        <img class="mood-cell__img" src="assets/map.png" alt="Map interface reference" loading="lazy">
+        <div class="mood-cell__foot"><span class="mood-label">Map interface</span></div>
+      </div>
+      <div class="mood-cell">
+        <img class="mood-cell__img" src="assets/minimal.png" alt="Data tables reference" loading="lazy">
+        <div class="mood-cell__foot"><span class="mood-label">Data tables</span></div>
+      </div>
+      <div class="mood-cell">
+        <img class="mood-cell__img" src="assets/specific-car.png" alt="Mobile patterns reference" loading="lazy">
+        <div class="mood-cell__foot"><span class="mood-label">Mobile patterns</span></div>
+      </div>
     </div>
 
     <div class="tag" style="margin-bottom:16px;"><span class="tag-dot" style="background:var(--sub)"></span>Three directions explored</div>
@@ -577,7 +648,10 @@ p:first-child{margin-top:0;}
     <div class="ba-grid">
       <div>
         <span class="ba-lbl">Before</span>
-        <div class="ba-screen">Wireframe / early concept</div>
+        <div class="nda-inline" style="margin-bottom:16px;">
+          <span class="nda-inline__icon">🔒</span>
+          <span class="nda-inline__text">No UI screens — covered under NDA</span>
+        </div>
         <div class="ann-list">
           <div class="ann"><div class="ann-n old">1</div><div class="ann-t">All severity levels shown equally — no visual hierarchy</div></div>
           <div class="ann"><div class="ann-n old">2</div><div class="ann-t">Map clusters unreadable above 50 vehicles</div></div>
@@ -586,7 +660,10 @@ p:first-child{margin-top:0;}
       </div>
       <div>
         <span class="ba-lbl after">After</span>
-        <div class="ba-screen after-screen">Final UI — modified for NDA</div>
+        <div class="nda-inline" style="margin-bottom:16px;">
+          <span class="nda-inline__icon">🔒</span>
+          <span class="nda-inline__text">No UI screens — covered under NDA</span>
+        </div>
         <div class="ann-list">
           <div class="ann"><div class="ann-n new">1</div><div class="ann-t">Critical alerts surface to top automatically, routine data deprioritised</div></div>
           <div class="ann"><div class="ann-n new">2</div><div class="ann-t">Vehicle clustering system — groups at low zoom, expands on zoom-in</div></div>
@@ -750,6 +827,71 @@ p:first-child{margin-top:0;}
             e.target.getAttribute('data-theme') !== 'dark');
       });
     },{threshold:[0.45,0.55]}).observe(sec);
+  });
+})();
+
+/* ══ LIGHTBOX ══ */
+(function(){
+  // Build DOM
+  const lb      = document.createElement('div'); lb.className = 'lightbox'; lb.id = 'lightbox';
+  const img     = document.createElement('img'); img.className = 'lightbox__img'; img.id = 'lbImg';
+  const close   = document.createElement('button'); close.className = 'lightbox__close'; close.innerHTML = '✕'; close.setAttribute('aria-label','Close');
+  const caption = document.createElement('div'); caption.className = 'lightbox__caption'; caption.id = 'lbCaption';
+  const prev    = document.createElement('button'); prev.className = 'lightbox__prev'; prev.innerHTML = '‹'; prev.setAttribute('aria-label','Previous');
+  const next    = document.createElement('button'); next.className = 'lightbox__next'; next.innerHTML = '›'; next.setAttribute('aria-label','Next');
+  lb.append(img, close, caption, prev, next);
+  document.body.appendChild(lb);
+
+  // Collect all mood images
+  let items = [];
+  let current = 0;
+
+  function gather(){
+    items = Array.from(document.querySelectorAll('.mood-cell__img'));
+  }
+
+  function show(index){
+    gather();
+    current = (index + items.length) % items.length;
+    const el = items[current];
+    img.src = el.src;
+    img.alt = el.alt;
+    // caption from sibling .mood-label
+    const foot = el.closest('.mood-cell').querySelector('.mood-label');
+    caption.textContent = foot ? foot.textContent : '';
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    // hide arrows if only 1 image
+    prev.style.display = items.length > 1 ? '' : 'none';
+    next.style.display = items.length > 1 ? '' : 'none';
+  }
+
+  function hide(){
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(function(){ img.src = ''; }, 350);
+  }
+
+  // Click on any mood image
+  document.addEventListener('click', function(e){
+    const target = e.target.closest('.mood-cell__img');
+    if(target){
+      gather();
+      show(items.indexOf(target));
+    }
+  });
+
+  close.addEventListener('click', hide);
+  lb.addEventListener('click', function(e){ if(e.target === lb) hide(); });
+  prev.addEventListener('click', function(){ show(current - 1); });
+  next.addEventListener('click', function(){ show(current + 1); });
+
+  // Keyboard
+  document.addEventListener('keydown', function(e){
+    if(!lb.classList.contains('open')) return;
+    if(e.key === 'Escape') hide();
+    if(e.key === 'ArrowLeft')  show(current - 1);
+    if(e.key === 'ArrowRight') show(current + 1);
   });
 })();
 </script>
