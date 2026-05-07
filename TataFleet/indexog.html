@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TATA Fleet Edge — Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+/* ── WCAG AUDIT NOTES ──────────────────────────────
+   --text  / --bg      : 12.79  AAA ✅
+   --white / --bg      : 15.66  AAA ✅
+   --sub   / --bg      :  6.36  AA  ✅
+   --sub   / --surface :  5.67  AA  ✅
+   --accent-text / --bg:  7.47  AAA ✅  (text labels)
+   --accent-text / surf:  6.66  AA  ✅
+   white / --accent    :  4.91  AA  ✅  (CTA buttons)
+   --warm / --bg       :  8.36  AAA ✅
+   Tag dots / decorative borders: UI chrome → AA-Large (3:1) applies
+──────────────────────────────────────────────────── */
+:root {
+  --bg:#3a0700;        /* dark red bg — from screenshot */
+  --surface:#4d0a00;   /* slightly lighter card surface */
+  --line:rgba(255,200,180,0.1);
+  --accent:#c0392b;    /* button accent — white on this = 4.91 AA ✅ */
+  --accent-text:#ff8878; /* text/label accent — 7.47 AAA on bg ✅ */
+  --warm:#F4A24B;      /* warm amber — 8.36 AAA ✅ */
+  --text:#f0d8d4;      /* warm off-white — 12.79 AAA ✅ */
+  --sub:#c4908a;       /* muted rose — 6.36 AA ✅ */
+  --white:#fff0ee;     /* headings — 15.66 AAA ✅ */
+  --t-xs:12px; --t-sm:14px; --t-base:16px;
+  --t-md:18px; --t-lg:22px; --t-xl:28px; --t-2xl:48px;
+  --max:760px; --wide:1080px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Geist',sans-serif;font-weight:300;font-size:var(--t-base);line-height:1.75;-webkit-font-smoothing:antialiased;}
+
+/* ── LIGHT MODE (body.dark pattern from reference) ─── */
+body.light{
+  --bg:#f5ece9;--surface:#ede0dc;
+  --text:#1a0400;--sub:#6b2c1e;--white:#0d0200;
+  --line:rgba(100,20,0,0.1);
+  --accent:#a32520;--accent-text:#8b1a14;
+  --warm:#b5620a;
+}
+body.light .stat-cell,body.light .step,body.light .ps-card-inner{background:#ede0dc;}
+body.light .ba-screen{background:#ddd0cc;}
+
+/* ══ TOP NAV ══ */
+.nav-top{
+  position:fixed;top:16px;left:50%;
+  transform:translateX(-50%);z-index:9999;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  background:rgba(255,255,255,0.93);
+  backdrop-filter:blur(24px) saturate(180%);
+  border:1px solid rgba(0,0,0,0.08);
+  border-radius:999px;height:64px;
+  width:min(780px,calc(100vw - 48px));
+  padding:0 11px 0 22px;
+  box-shadow:0 2px 20px rgba(0,0,0,0.08);
+  transition:opacity .3s,transform .3s,background .4s,border-color .4s;
+}
+.nav-top.nav-hidden{opacity:0;transform:translateX(-50%) translateY(-10px);pointer-events:none;}
+.nav-top.nav-dark{background:rgba(30,3,0,0.92);border-color:rgba(255,160,130,0.15);box-shadow:0 2px 24px rgba(0,0,0,0.5);}
+.nav-top.nav-dark .nav-top__logo{color:#fff0ee;}
+.nav-top.nav-dark .nav-top__link{color:rgba(240,200,190,0.55);}
+.nav-top.nav-dark .nav-top__link:hover{color:#fff0ee;background:rgba(255,160,130,0.1);}
+.nav-top.nav-dark .nav-top__cta{background:#c0392b;color:#fff;}
+.nav-top.nav-dark .theme-btn{border-color:rgba(255,160,130,0.25);}
+.nav-top__logo{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:-.01em;color:#111;text-decoration:none;white-space:nowrap;flex-shrink:0;transition:color .4s;}
+.nav-top__links{flex:1;display:flex;align-items:center;justify-content:center;}
+.nav-top__link{font-size:14px;color:#777;text-decoration:none;padding:7px 16px;border-radius:999px;transition:background .2s,color .2s;}
+.nav-top__link:hover{color:#111;background:rgba(0,0,0,0.05);}
+.nav-top__right{display:flex;align-items:center;gap:8px;}
+.nav-top__cta{font-size:13px;font-weight:600;color:#fff;text-decoration:none;background:#c0392b;padding:8px 18px;border-radius:999px;flex-shrink:0;transition:background .2s;}
+.nav-top__cta:hover{background:#96241e;}
+.theme-btn{width:34px;height:34px;border-radius:50%;border:1px solid rgba(0,0,0,0.12);background:transparent;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0;}
+.theme-btn:hover{background:rgba(0,0,0,0.05);}
+
+/* ══ PILL NAV — exact structure from Global Bridge index.html ══ */
+.nav-pill{
+  position:fixed;
+  top:16px;left:50%;
+  transform:translateX(-50%) translateY(-10px);
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  background:rgba(15,15,15,0.9);
+  backdrop-filter:blur(24px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:999px;
+  height:64px;
+  /* collapsed: icon(42) + gap(10) + ring(42) + padding(11+11) = 116px */
+  width:116px;
+  padding:0 11px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.3);
+  opacity:0;pointer-events:none;
+  transition:opacity .3s ease, transform .3s ease,
+             width .45s cubic-bezier(.34,1.2,.64,1);
+}
+.nav-pill.nav-visible{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;}
+.nav-pill:hover{width:min(760px,calc(100vw - 48px));}
+
+/* Icon — always visible LEFT (z-index:2 keeps it above absolute links) */
+.nav-pill__icon{
+  flex-shrink:0;
+  width:42px;height:42px;border-radius:50%;
+  background:rgba(255,255,255,0.1);
+  display:flex;align-items:center;justify-content:center;
+  z-index:2;
+}
+.nav-pill__icon svg{width:16px;height:16px;color:rgba(255,255,255,.8);}
+
+/* Links — ABSOLUTE so they don't affect layout of icon/ring */
+.nav-pill__links{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  white-space:nowrap;
+  opacity:0;pointer-events:none;
+  transition:opacity .2s ease;
+}
+.nav-pill:hover .nav-pill__links{opacity:1;pointer-events:all;transition-delay:.1s;}
+.nav-pill__link{
+  font-size:14px;font-weight:500;color:rgba(255,255,255,.6);
+  text-decoration:none;padding:8px 16px;border-radius:999px;
+  transition:background .2s,color .2s;white-space:nowrap;
+}
+.nav-pill__link:hover{color:white;background:rgba(255,255,255,.1);}
+
+/* Theme toggle — sits between links and ring, absolute, appears on hover */
+.nav-pill__theme{
+  position:absolute;
+  right:63px;
+  opacity:0;pointer-events:none;
+  transition:opacity .2s ease;
+  z-index:3;
+}
+.nav-pill:hover .nav-pill__theme{opacity:1;pointer-events:all;transition-delay:.12s;}
+.nav-pill__theme .theme-btn{
+  border-color:rgba(255,255,255,0.25);
+  font-size:14px;
+}
+.nav-pill__theme .theme-btn:hover{background:rgba(255,255,255,0.1);}
+
+/* Ring — always visible RIGHT (z-index:2 keeps it above absolute links) */
+.nav-pill__ring{
+  flex-shrink:0;position:relative;
+  width:42px;height:42px;z-index:2;
+}
+.nav-pill__ring svg{display:block;width:42px;height:42px;transform:rotate(-90deg);}
+.nav-pill__ring .r-track{fill:none;stroke:rgba(255,255,255,.2);stroke-width:1.8;}
+.nav-pill__ring .r-fill{
+  fill:none;stroke:rgba(255,255,255,.95);stroke-width:1.8;
+  stroke-linecap:round;
+  /* r=17, circumference = 2*π*17 = 106.81 */
+  stroke-dasharray:106.81;stroke-dashoffset:106.81;
+  transition:stroke-dashoffset .1s linear;
+}
+.nav-pill__ring .r-pct{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;
+  font-family:'Geist Mono',monospace;
+  color:rgba(255,255,255,.95);letter-spacing:-.02em;line-height:1;
+}
+
+/* Pill on light bg sections */
+.nav-pill.nav-on-dark{background:rgba(255,255,255,.92);border-color:rgba(0,0,0,.1);}
+.nav-pill.nav-on-dark .nav-pill__icon{background:rgba(0,0,0,.08);}
+.nav-pill.nav-on-dark .nav-pill__icon svg{color:rgba(0,0,0,.6);}
+.nav-pill.nav-on-dark .nav-pill__link{color:rgba(0,0,0,.5);}
+.nav-pill.nav-on-dark .nav-pill__link:hover{background:rgba(0,0,0,.07);color:#111;}
+.nav-pill.nav-on-dark .nav-pill__theme .theme-btn{border-color:rgba(0,0,0,0.15);}
+.nav-pill.nav-on-dark .nav-pill__theme .theme-btn:hover{background:rgba(0,0,0,0.06);}
+.nav-pill.nav-on-dark .r-track{stroke:rgba(0,0,0,.15);}
+.nav-pill.nav-on-dark .r-fill{stroke:rgba(0,0,0,.8);}
+.nav-pill.nav-on-dark .r-pct{color:rgba(0,0,0,.7);}
+
+@media(max-width:640px){
+  .nav-top{width:calc(100vw - 32px);padding:0 8px 0 16px;}
+  .nav-top__links{display:none;}
+  .nav-pill:hover{width:calc(100vw - 32px);}
+  .nav-pill__link{padding:8px 10px;font-size:13px;}
+}
+
+/* ══ PAGE LAYOUT ══ */
+.col{max-width:var(--max);margin:0 auto;padding:0 24px;}
+.col-wide{max-width:var(--wide);margin:0 auto;padding:0 24px;}
+.section{padding:96px 0;}
+.section+.section{border-top:1px solid var(--line);}
+.tag{display:inline-flex;align-items:center;gap:8px;font-family:'Geist Mono',monospace;font-size:var(--t-xs);letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);margin-bottom:20px;}
+.tag-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+h1{font-family:'Instrument Serif',serif;font-size:var(--t-2xl);font-weight:400;line-height:.95;letter-spacing:-.03em;color:var(--white);}
+h2{font-family:'Instrument Serif',serif;font-size:var(--t-xl);font-weight:400;line-height:1.3;letter-spacing:-.3px;color:var(--white);}
+h3{font-size:var(--t-md);font-weight:500;color:var(--white);line-height:1.4;}
+em{font-style:italic;color:var(--accent-text);}
+p{color:var(--sub);margin-top:14px;}
+p:first-child{margin-top:0;}
+
+/* ══ HERO ══ */
+.hero{padding:140px 0 96px;border-bottom:1px solid var(--line);}
+.hero-meta{display:flex;gap:64px;margin-top:56px;padding-top:40px;border-top:1px solid var(--line);flex-wrap:wrap;}
+.meta-item .meta-label{font-family:'Geist Mono',monospace;font-size:var(--t-xs);letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);display:block;margin-bottom:10px;}
+.meta-item span{font-size:24px;color:var(--text);font-weight:400;font-family:'Instrument Serif',serif;}
+
+/* ══ STATS ══ */
+.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:48px;}
+.stat-cell{background:var(--bg);padding:36px 32px;}
+.stat-num{font-family:'Instrument Serif',serif;font-size:48px;color:var(--white);line-height:1;letter-spacing:-1px;}
+.stat-num .accent{color:var(--accent-text);}
+.stat-desc{font-size:var(--t-sm);color:var(--sub);margin-top:8px;max-width:200px;line-height:1.6;}
+
+/* ══ QUOTE ══ */
+.quote-block{border-left:2px solid var(--accent);padding:20px 24px;margin:40px 0;background:rgba(255,77,58,0.07);border-radius:0 8px 8px 0;}
+.quote-text{font-family:'Instrument Serif',serif;font-size:var(--t-lg);font-style:italic;color:var(--white);line-height:1.5;}
+.quote-attr{font-size:var(--t-sm);color:var(--sub);margin-top:12px;}
+
+/* ══ PROCESS STEPS ══ */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:40px;}
+.step{background:var(--bg);padding:28px 24px;}
+.step-n{font-family:'Geist Mono',monospace;font-size:var(--t-xs);color:var(--accent-text);letter-spacing:1px;margin-bottom:10px;}
+.step-title{font-size:var(--t-sm);font-weight:500;color:var(--white);margin-bottom:6px;}
+.step-body{font-size:var(--t-sm);color:var(--sub);line-height:1.6;}
+
+/* ══ CALLOUT BOX ══ */
+.callout-box{border-left:2px solid var(--warm);padding:20px 24px;margin:32px 0;background:rgba(244,162,75,0.07);border-radius:0 8px 8px 0;}
+.callout-box strong{display:block;color:var(--white);font-weight:500;font-size:var(--t-sm);margin-bottom:6px;}
+.callout-box p{margin-top:0;font-size:var(--t-sm);}
+
+/* ══ OBJECTIVES LIST ══ */
+.obj-list{margin-top:32px;display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+.obj-item{background:var(--bg);padding:18px 24px;display:flex;gap:16px;align-items:flex-start;font-size:var(--t-sm);color:var(--sub);line-height:1.6;transition:background .2s;}
+.obj-item:hover{background:var(--surface);}
+.obj-n{font-family:'Geist Mono',monospace;font-size:var(--t-xs);color:var(--accent-text);letter-spacing:1px;padding-top:2px;flex-shrink:0;}
+
+/* ══ MOODBOARD ══ */
+.mood-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:32px;margin-bottom:48px;}
+.mood-cell{background:var(--surface);border:1px solid var(--line);border-radius:10px;aspect-ratio:4/3;display:flex;align-items:flex-end;padding:14px;position:relative;overflow:hidden;transition:border-color .25s;}
+.mood-cell:hover{border-color:rgba(255,77,58,0.5);}
+.mood-label{font-family:'Geist Mono',monospace;font-size:10px;font-weight:400;letter-spacing:.08em;text-transform:uppercase;background:rgba(30,3,0,.8);color:var(--sub);padding:4px 10px;border-radius:999px;backdrop-filter:blur(4px);}
+/* placeholder gradient fills */
+.mood-cell:nth-child(1){background:linear-gradient(135deg,#5a0c00 0%,#2e0500 100%);}
+.mood-cell:nth-child(2){background:linear-gradient(135deg,#4a0900 0%,#280300 100%);}
+.mood-cell:nth-child(3){background:linear-gradient(135deg,#520a00 0%,#300400 100%);}
+.mood-cell:nth-child(4){background:linear-gradient(135deg,#480800 0%,#240200 100%);}
+
+/* ══ DIRECTION CARDS ══ */
+.direction-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:32px;}
+.dir-card{background:var(--bg);display:flex;flex-direction:column;}
+.dir-card.winner{outline:2px solid var(--accent);outline-offset:-1px;border-radius:12px;}
+.dir-head{padding:20px 24px;border-bottom:1px solid var(--line);}
+.dir-tag{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;display:block;}
+.dir-tag.killed{color:#ff8070;}
+.dir-tag.warned{color:var(--warm);}
+.dir-tag.chosen{color:var(--accent-text);}
+.dir-name{font-size:var(--t-sm);font-weight:500;color:var(--white);}
+.dir-body{padding:20px 24px;flex:1;}
+.dir-desc{font-size:var(--t-sm);color:var(--sub);line-height:1.7;}
+.dir-verdict{font-size:12px;font-weight:500;margin-top:16px;padding-top:16px;border-top:1px solid var(--line);line-height:1.5;}
+.dir-verdict.bad{color:#ff8070;}
+.dir-verdict.good{color:#6ee7a0;}
+
+/* ══ DESIGN STRIP ══ */
+.design-strip{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px 32px;display:flex;align-items:center;gap:32px;margin-bottom:56px;flex-wrap:wrap;}
+.swatches{display:flex;gap:8px;}
+.sw{width:34px;height:34px;border-radius:50%;flex-shrink:0;transition:transform .2s;}
+.sw:hover{transform:scale(1.15);}
+.vdivider{width:1px;height:40px;background:var(--line);flex-shrink:0;}
+.type-demo{display:flex;align-items:baseline;gap:10px;}
+.type-big{font-family:'Instrument Serif',serif;font-size:36px;font-weight:400;line-height:1;color:var(--white);}
+.type-note{font-size:12px;color:var(--sub);}
+.comp-samples{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.c-btn{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Geist',sans-serif;}
+.c-btn.fill{background:#c0392b;color:white;border:none;}
+.c-btn.out{background:transparent;color:var(--text);border:1px solid var(--line);}
+.c-badge{padding:4px 12px;border-radius:999px;font-size:11px;font-weight:500;font-family:'Geist Mono',monospace;}
+.c-badge.warn{background:rgba(244,162,75,.1);color:var(--warm);border:1px solid rgba(244,162,75,.2);}
+.c-badge.ok{background:rgba(110,231,160,.1);color:#6ee7a0;border:1px solid rgba(110,231,160,.2);}
+
+/* ══ BEFORE / AFTER ══ */
+.ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:40px;}
+.ba-lbl{font-family:'Geist Mono',monospace;font-size:var(--t-xs);letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);margin-bottom:12px;display:block;}
+.ba-lbl.after{color:var(--accent-text);}
+.ba-screen{background:var(--surface);border:1px solid var(--line);border-radius:12px;aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;color:var(--sub);font-size:13px;margin-bottom:16px;font-family:'Geist Mono',monospace;letter-spacing:.5px;}
+.ba-screen.after-screen{border-color:rgba(255,77,58,.4);}
+.ann-list{display:flex;flex-direction:column;gap:10px;}
+.ann{display:flex;gap:10px;align-items:flex-start;}
+.ann-n{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:2px;font-family:'Geist Mono',monospace;}
+.ann-n.old{background:rgba(255,200,180,.08);color:var(--sub);}
+.ann-n.new{background:var(--accent);color:white;}
+.ann-t{font-size:var(--t-sm);color:var(--sub);line-height:1.55;}
+
+/* ══ KEY DECISIONS ══ */
+.ps-list{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:40px;}
+.ps-card-inner{background:var(--bg);padding:36px 32px;transition:background .2s;}
+.ps-card-inner:hover{background:var(--surface);}
+.ps-dec{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px;display:block;}
+.ps-problem{font-family:'Instrument Serif',serif;font-size:var(--t-lg);color:var(--white);line-height:1.35;margin-bottom:20px;}
+.ps-divider{height:1px;background:var(--line);margin-bottom:16px;}
+.ps-sol-lbl{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);margin-bottom:8px;display:block;}
+.ps-sol-body{font-size:var(--t-sm);color:var(--sub);line-height:1.75;}
+.ps-because{font-size:13px;font-style:italic;color:rgba(196,144,138,.45);margin-top:10px;line-height:1.6;font-family:'Instrument Serif',serif;}
+
+/* ══ NDA BANNER ══ */
+.nda-box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 22px;display:flex;gap:14px;align-items:flex-start;margin-bottom:48px;}
+.nda-icon{font-size:16px;flex-shrink:0;padding-top:2px;}
+.nda-title{font-size:var(--t-sm);font-weight:500;color:var(--text);margin-bottom:4px;}
+.nda-desc{font-size:12px;color:var(--sub);line-height:1.65;}
+
+/* ══ IMPACT STATS ══ */
+.deploy-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:40px;}
+.dn-cell{background:var(--bg);padding:36px 28px;}
+.dn-num{font-family:'Instrument Serif',serif;font-size:56px;color:var(--white);line-height:1;letter-spacing:-1px;}
+.dn-num em{font-style:italic;color:var(--accent-text);}
+.dn-label{font-size:var(--t-sm);color:var(--sub);margin-top:8px;line-height:1.5;}
+
+/* ══ LEARNINGS ══ */
+.learning-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:40px;}
+.learning-card{background:var(--bg);padding:32px 28px;transition:background .2s;}
+.learning-card:hover{background:var(--surface);}
+.learning-num{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-text);margin-bottom:14px;display:block;}
+.learning-title{font-size:var(--t-sm);font-weight:500;color:var(--white);margin-bottom:8px;line-height:1.4;}
+.learning-body{font-size:var(--t-sm);color:var(--sub);line-height:1.7;}
+
+/* ══ FOOTER ══ */
+.final{padding:120px 0;text-align:center;border-top:1px solid var(--line);}
+.final h2{margin-bottom:16px;}
+.final p{max-width:440px;margin:0 auto 32px;}
+.btn{display:inline-block;padding:11px 28px;border:1px solid rgba(255,160,140,.2);border-radius:100px;font-size:var(--t-sm);color:var(--text);text-decoration:none;transition:background .2s,border-color .2s;}
+.btn:hover{background:rgba(255,100,70,.08);border-color:rgba(255,160,140,.35);}
+.btn-accent{background:#c0392b;border-color:transparent;color:white;margin-left:10px;}
+.btn-accent:hover{background:#96241e;}
+
+/* ══ ANIMATIONS ══ */
+@keyframes up{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.hero .col>*{opacity:0;animation:up .7s ease forwards;}
+.hero .col>*:nth-child(1){animation-delay:.1s;}
+.hero .col>*:nth-child(2){animation-delay:.22s;}
+.hero .col>*:nth-child(3){animation-delay:.34s;}
+.hero .col>*:nth-child(4){animation-delay:.46s;}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:640px){
+  .steps{grid-template-columns:1fr 1fr;}
+  .direction-grid{grid-template-columns:1fr;}
+  .ba-grid{grid-template-columns:1fr;}
+  .mood-grid{grid-template-columns:1fr;}
+  .deploy-nums{grid-template-columns:1fr;}
+  .learning-grid{grid-template-columns:1fr;}
+  .design-strip{gap:20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<header class="nav-top nav-dark" id="navTop">
+  <a href="#" class="nav-top__logo">Daiwat Thavai</a>
+  <nav class="nav-top__links">
+    <a href="#" class="nav-top__link">Home</a>
+    <a href="#" class="nav-top__link">Work</a>
+    <a href="#" class="nav-top__link">About</a>
+    <a href="#" class="nav-top__link">Resume</a>
+  </nav>
+  <div class="nav-top__right">
+    <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">🌙</button>
+    <a href="#" class="nav-top__cta">Fleet Edge ✦</a>
+  </div>
+</header>
+
+<!-- PILL NAV — exact structure from Global Bridge index.html -->
+<nav class="nav-pill" id="navPill">
+
+  <!-- Icon LEFT — always visible, z-index:2 -->
+  <div class="nav-pill__icon">
+    <svg viewBox="0 0 16 16" fill="none">
+      <path d="M3 2L13 8L8 9.5L6.5 14L3 2Z" fill="currentColor"/>
+    </svg>
+  </div>
+
+  <!-- Links — absolute center, fade in on hover -->
+  <div class="nav-pill__links">
+    <a href="#" class="nav-pill__link">Home</a>
+    <a href="#" class="nav-pill__link">Work</a>
+    <a href="#" class="nav-pill__link">About</a>
+    <a href="#" class="nav-pill__link">Resume</a>
+  </div>
+
+  <!-- Theme toggle — absolute, appears on hover just left of ring -->
+  <div class="nav-pill__theme">
+    <button class="theme-btn" id="themeTogglePill" aria-label="Toggle theme">🌙</button>
+  </div>
+
+  <!-- Ring RIGHT — always visible, z-index:2 -->
+  <div class="nav-pill__ring">
+    <svg viewBox="0 0 42 42">
+      <circle class="r-track" cx="21" cy="21" r="17"/>
+      <circle class="r-fill" id="navRingFill" cx="21" cy="21" r="17"/>
+    </svg>
+    <div class="r-pct" id="navRingPct">0%</div>
+  </div>
+
+</nav>
+
+<main>
+
+<!-- HERO -->
+<div class="hero" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>UI/UX Case Study · B2B SaaS · ZenFishive Labs</div>
+    <h1>The brief said:<br>tame a <em>fleet</em>.</h1>
+    <p style="max-width:480px;margin-top:16px;">Designing an enterprise fleet management platform that turns dense operational data into fast, clear decisions — across mobile and web.</p>
+    <div class="hero-meta">
+      <div class="meta-item"><span class="meta-label">Role</span><span>UI/UX Designer · Solo</span></div>
+      <div class="meta-item"><span class="meta-label">Duration</span><span>6 Months</span></div>
+      <div class="meta-item"><span class="meta-label">Scope</span><span>Mobile + Web</span></div>
+      <div class="meta-item"><span class="meta-label">Client</span><span>TATA Brand</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 01 CONTEXT -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>01 — Context</div>
+    <h2>A fleet management platform<br>built for scale.</h2>
+    <p>TATA Fleet Edge is an enterprise platform enabling businesses to monitor vehicles in real time, track health and violations, schedule maintenance, and surface driver behaviour insights across large fleets.</p>
+    <p style="margin-top:12px;">Working exclusively on the TATA brand at ZenFishive Labs, I spanned multiple modules across mobile and web — designing interfaces that transform dense operational data into clear, fast decisions.</p>
+    <div class="stats-row" style="margin-top:40px;">
+      <div class="stat-cell">
+        <div class="stat-num"><span class="accent">100</span>+</div>
+        <div class="stat-desc">vehicles a fleet manager must scan and act on — instantly</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num"><span class="accent">4</span></div>
+        <div class="stat-desc">core platform modules designed end-to-end across web and mobile</div>
+      </div>
+    </div>
+    <div class="callout-box" style="margin-top:32px;">
+      <strong>The core design challenge</strong>
+      <p>Fleet managers need to scan the status of 100+ vehicles instantly and act on critical alerts in seconds — without being overwhelmed by the data they don't immediately need.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 OBJECTIVES -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>02 — Objectives</div>
+    <h2>Five goals that shaped<br>every decision.</h2>
+    <p>Before any wireframe, I defined what success looked like.</p>
+    <div class="obj-list">
+      <div class="obj-item"><span class="obj-n">01</span>Design a real-time tracking map that stays readable at any fleet size — from 5 vehicles to 500.</div>
+      <div class="obj-item"><span class="obj-n">02</span>Surface critical vehicle health alerts and violations without burying routine data.</div>
+      <div class="obj-item"><span class="obj-n">03</span>Build a maintenance scheduling module that reduces missed services through proactive alerts.</div>
+      <div class="obj-item"><span class="obj-n">04</span>Create a design system that scales across the full platform — consistent on both web and mobile.</div>
+      <div class="obj-item"><span class="obj-n">05</span>Meet TATA brand standards while preserving functional clarity for daily enterprise use.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 PROCESS -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>03 — Process</div>
+    <h2>Thinking on paper before<br>touching Figma.</h2>
+    <p>Four phases. No skipping steps.</p>
+    <div class="steps">
+      <div class="step"><div class="step-n">01</div><div class="step-title">Discover</div><div class="step-body">Competitive audit of fleet platforms, stakeholder interviews, existing workflow mapping</div></div>
+      <div class="step"><div class="step-n">02</div><div class="step-title">Define</div><div class="step-body">Information architecture, alert hierarchy, HMW framing around fleet manager workflows</div></div>
+      <div class="step"><div class="step-n">03</div><div class="step-title">Ideate</div><div class="step-body">Three directions explored — data-dense, consumer minimal, and progressive disclosure</div></div>
+      <div class="step"><div class="step-n">04</div><div class="step-title">Build</div><div class="step-body">Design system first, then modules — map, alerts, maintenance, driver insights</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 CATALYST -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>04 — The Insight</div>
+    <h2>The insight that changed<br>everything.</h2>
+    <p>One stakeholder session reframed the entire design direction.</p>
+    <blockquote class="quote-block" style="margin-top:32px;">
+      <p class="quote-text">"When everything is urgent, nothing is urgent. I stop reading the alerts after the first ten minutes of my shift."</p>
+      <footer class="quote-attr"><cite>— Fleet Manager, TATA logistics partner</cite></footer>
+    </blockquote>
+    <p>Every design decision after that moment was filtered through one question: <em>does this make the important thing faster to find?</em></p>
+  </div>
+</section>
+
+<!-- 05 IDEATION -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>05 — Ideation</div>
+    <h2>Exploring directions before<br>touching Figma.</h2>
+    <p>I explored reference interfaces and competitive fleet platforms to understand B2B dashboard conventions — then deliberately challenged the patterns that didn't serve real fleet manager workflows.</p>
+
+    <div style="margin-top:32px;margin-bottom:8px;">
+      <div class="tag" style="margin-bottom:12px;"><span class="tag-dot" style="background:var(--sub)"></span>Moodboard references</div>
+    </div>
+    <div class="mood-grid">
+      <div class="mood-cell"><span class="mood-label">Dashboard layout</span></div>
+      <div class="mood-cell"><span class="mood-label">Map interface</span></div>
+      <div class="mood-cell"><span class="mood-label">Data tables</span></div>
+      <div class="mood-cell"><span class="mood-label">Mobile patterns</span></div>
+    </div>
+
+    <div class="tag" style="margin-bottom:16px;"><span class="tag-dot" style="background:var(--sub)"></span>Three directions explored</div>
+    <div class="direction-grid">
+      <div class="dir-card">
+        <div class="dir-head">
+          <span class="dir-tag killed">Explored + Discarded</span>
+          <div class="dir-name">Data-dense Dashboard</div>
+        </div>
+        <div class="dir-body">
+          <div class="dir-desc">Packed every metric onto one screen. Concept testing showed fleet managers couldn't locate critical alerts — everything competed equally for attention.</div>
+          <div class="dir-verdict bad">✕ Cognitive overload. No clear hierarchy of urgency.</div>
+        </div>
+      </div>
+      <div class="dir-card">
+        <div class="dir-head">
+          <span class="dir-tag warned">Explored + Discarded</span>
+          <div class="dir-name">Consumer-style Minimal</div>
+        </div>
+        <div class="dir-body">
+          <div class="dir-desc">Clean and simple but hid too much critical data beneath taps. Enterprise fleet managers need density and control — not a consumer app experience.</div>
+          <div class="dir-verdict bad">✕ Insufficient data visibility for daily enterprise use.</div>
+        </div>
+      </div>
+      <div class="dir-card winner">
+        <div class="dir-head">
+          <span class="dir-tag chosen">Chosen Direction</span>
+          <div class="dir-name">Progressive Disclosure</div>
+        </div>
+        <div class="dir-body">
+          <div class="dir-desc">High-level summary at a glance, full detail one tap away. Matches how fleet managers actually work: scan first, investigate second.</div>
+          <div class="dir-verdict good">✓ Balances density with scanability. Maps to real workflows.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 DESIGN CRAFT -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>06 — Design Craft</div>
+    <h2>Building the<br>system first.</h2>
+    <p>Before designing screens, I built the component library. Every new module took days instead of weeks.</p>
+    
+    <div class="design-strip" style="margin-top:40px;">
+      <div class="swatches">
+        <div class="sw" style="background:#6B0C00" title="Dark Red — brand bg"></div>
+        <div class="sw" style="background:#1A1A2E" title="Dark Navy"></div>
+        <div class="sw" style="background:#2563EB" title="Action Blue — interactive"></div>
+        <div class="sw" style="background:#F59E0B" title="Alert Amber — warnings"></div>
+        <div class="sw" style="background:#22C55E" title="Active Green — moving"></div>
+        <div class="sw" style="background:#27272a;border:1px solid rgba(255,255,255,.1)" title="Surface"></div>
+      </div>
+      <div class="vdivider"></div>
+      <div class="type-demo">
+        <span class="type-big">Aa</span>
+        <span class="type-note">Inter / SF Pro</span>
+      </div>
+      <div class="vdivider"></div>
+      <div class="comp-samples">
+        <button class="c-btn fill">Track vehicle</button>
+        <button class="c-btn out">View report</button>
+        <span class="c-badge warn">⚠ Alert</span>
+        <span class="c-badge ok">● Moving</span>
+      </div>
+    </div>
+
+    <div class="tag" style="margin-bottom:20px;margin-top:8px;"><span class="tag-dot" style="background:var(--sub)"></span>Key interaction redesign — Alert & Map modules</div>
+    <div class="ba-grid">
+      <div>
+        <span class="ba-lbl">Before</span>
+        <div class="ba-screen">Wireframe / early concept</div>
+        <div class="ann-list">
+          <div class="ann"><div class="ann-n old">1</div><div class="ann-t">All severity levels shown equally — no visual hierarchy</div></div>
+          <div class="ann"><div class="ann-n old">2</div><div class="ann-t">Map clusters unreadable above 50 vehicles</div></div>
+          <div class="ann"><div class="ann-n old">3</div><div class="ann-t">TATA red used for both brand and warning states — ambiguous</div></div>
+        </div>
+      </div>
+      <div>
+        <span class="ba-lbl after">After</span>
+        <div class="ba-screen after-screen">Final UI — modified for NDA</div>
+        <div class="ann-list">
+          <div class="ann"><div class="ann-n new">1</div><div class="ann-t">Critical alerts surface to top automatically, routine data deprioritised</div></div>
+          <div class="ann"><div class="ann-n new">2</div><div class="ann-t">Vehicle clustering system — groups at low zoom, expands on zoom-in</div></div>
+          <div class="ann"><div class="ann-n new">3</div><div class="ann-t">Red reserved for brand only — amber for warnings, blue for actions</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 KEY DECISIONS -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>07 — Key Decisions</div>
+    <h2>Three decisions that<br>shaped the product.</h2>
+    <p>Not everything is worth explaining. These three defined the platform.</p>
+    <div class="ps-list">
+      <div class="ps-card-inner">
+        <span class="ps-dec">Decision 01</span>
+        <div class="ps-problem">Fleet managers were drowning in undifferentiated data.</div>
+        <div class="ps-divider"></div>
+        <span class="ps-sol-lbl">Solution</span>
+        <div class="ps-sol-body">Introduced a severity-tiered alert system. Critical vehicle issues surface to the top of every module automatically. Routine data sits one level deeper — accessible but not competing.</div>
+        <div class="ps-because">"When everything is urgent, nothing is urgent — and a missed alert in fleet management means a vehicle off the road."</div>
+      </div>
+      <div class="ps-card-inner">
+        <span class="ps-dec">Decision 02</span>
+        <div class="ps-problem">The map became unreadable with 100+ vehicles on screen.</div>
+        <div class="ps-divider"></div>
+        <span class="ps-sol-lbl">Solution</span>
+        <div class="ps-sol-body">Designed an intelligent clustering system that groups nearby vehicles at lower zoom levels and expands on zoom-in. Status colours follow a strict 3-tier system: green (moving), amber (idle), red (alert).</div>
+        <div class="ps-because">"A map that only works when the fleet is small isn't a product — it's a prototype."</div>
+      </div>
+      <div class="ps-card-inner">
+        <span class="ps-dec">Decision 03</span>
+        <div class="ps-problem">TATA brand red conflicted with functional warning states.</div>
+        <div class="ps-divider"></div>
+        <span class="ps-sol-lbl">Solution</span>
+        <div class="ps-sol-body">Reserved TATA red exclusively for brand moments — header, logo, primary CTAs. Amber for warnings. Blue for interactive actions. Each colour earns a single meaning across the entire platform.</div>
+        <div class="ps-because">"Colour ambiguity in a safety-critical enterprise context is a UX failure, not just an aesthetic one."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 IMPACT -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>08 — Impact</div>
+    <h2>What the work<br>achieved.</h2>
+    <p>Six months of solo design work across mobile and web. Four core platform modules designed end-to-end.</p>
+    <div class="nda-box">
+      <div class="nda-icon">🔒</div>
+      <div>
+        <div class="nda-title">NDA Disclosure</div>
+        <div class="nda-desc">Due to NDA restrictions, original designs have been modified. Brand names have been changed and screen content has been altered. These outcomes and metrics reflect real results from the engagement.</div>
+      </div>
+    </div>
+    <div class="deploy-nums">
+      <div class="dn-cell">
+        <div class="dn-num"><em>15</em>%</div>
+        <div class="dn-label">improvement in vehicle monitoring efficiency post-deployment</div>
+      </div>
+      <div class="dn-cell">
+        <div class="dn-num"><em>4</em>+</div>
+        <div class="dn-label">core platform modules designed end-to-end across web and mobile</div>
+      </div>
+      <div class="dn-cell">
+        <div class="dn-num"><em>6</em></div>
+        <div class="dn-label">months of solo design work spanning mobile and web platforms</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 LEARNINGS -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>09 — Learnings</div>
+    <h2>What broke.<br>What I learned.</h2>
+    <p>The lessons that will follow me into every enterprise project.</p>
+    <div class="learning-grid">
+      <div class="learning-card">
+        <span class="learning-num">01</span>
+        <div class="learning-title">Enterprise UX is about reducing friction, not adding delight</div>
+        <div class="learning-body">Fleet managers don't want beautiful — they want fast. Every decision was measured against a single question: does this make the task faster or slower?</div>
+      </div>
+      <div class="learning-card">
+        <span class="learning-num">02</span>
+        <div class="learning-title">Brand compliance and functional clarity can coexist</div>
+        <div class="learning-body">Navigating TATA's brand guidelines while maintaining UX quality taught me how to find creative constraints within rigid systems — and turn them into design decisions.</div>
+      </div>
+      <div class="learning-card">
+        <span class="learning-num">03</span>
+        <div class="learning-title">Design systems pay off immediately on large platforms</div>
+        <div class="learning-body">Building the component library first meant every new module took days instead of weeks. I saw the compounding value of systems thinking firsthand on this project.</div>
+      </div>
+      <div class="learning-card">
+        <span class="learning-num">04</span>
+        <div class="learning-title">Colour must earn its meaning in safety-critical UI</div>
+        <div class="learning-body">Using TATA red for both brand and warning states created ambiguity. The discipline of assigning each colour a single function across the platform was one of the defining decisions.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER / REFLECTION -->
+<footer class="final" data-theme="dark">
+  <div class="col">
+    <div class="tag" style="justify-content:center;"><span class="tag-dot"></span>Reflection</div>
+    <h2>Good enterprise design disappears — users notice the outcome, not the interface.</h2>
+    <p>This project shaped how I think about B2B product design. Enterprise users are experts in their domain. My job was to respect that expertise and remove every unnecessary decision from their path.</p>
+    <div>
+      <a href="#" class="btn">← All Work</a>
+      <a href="#" class="btn btn-accent">Next Case Study →</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const navTop     = document.getElementById('navTop');
+  const navPill    = document.getElementById('navPill');
+  const rFill      = document.getElementById('navRingFill');
+  const rPct       = document.getElementById('navRingPct');
+  const toggleTop  = document.getElementById('themeToggle');
+  const togglePill = document.getElementById('themeTogglePill');
+  const CIRC = 2 * Math.PI * 17; /* r=17, circumference ≈ 106.81 */
+
+  function onScroll(){
+    const h = document.documentElement;
+    const scrollY = h.scrollTop;
+    const total = h.scrollHeight - h.clientHeight;
+    const pct = total > 0 ? Math.min(scrollY / total, 1) : 0;
+    navTop.classList.toggle('nav-hidden', scrollY > 60);
+    navPill.classList.toggle('nav-visible', scrollY > 60);
+    rFill.style.strokeDashoffset = CIRC * (1 - pct);
+    rPct.textContent = Math.round(pct * 100) + '%';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  function applyTheme(goLight){
+    document.body.classList.toggle('light', goLight);
+    const icon = goLight ? '☀️' : '🌙';
+    toggleTop.textContent  = icon;
+    togglePill.textContent = icon;
+  }
+  function toggleTheme(){ applyTheme(!document.body.classList.contains('light')); }
+  toggleTop.addEventListener('click', toggleTheme);
+  togglePill.addEventListener('click', toggleTheme);
+
+  /* Pill adapts to section bg */
+  document.querySelectorAll('[data-theme]').forEach(function(sec){
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.intersectionRatio > 0.45)
+          navPill.classList.toggle('nav-on-dark',
+            e.target.getAttribute('data-theme') !== 'dark');
+      });
+    },{threshold:[0.45,0.55]}).observe(sec);
+  });
+})();
+</script>
+</body>
+</html>
