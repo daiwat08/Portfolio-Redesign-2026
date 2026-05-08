@@ -413,6 +413,31 @@
     filter: drop-shadow(0 30px 60px rgba(0,0,0,0.4));
   }
 
+  /* ── PHONE MOCKUP (for multi-phone fanned layouts) ── */
+  .case-preview--phone {
+    width: clamp(420px, 50vw, 700px);
+    height: 95vh;
+    right: 0;
+    border-radius: 0;
+    background: transparent !important;
+    overflow: visible;
+    box-shadow: none !important;
+  }
+  .case-preview--phone .preview-bg { display: none; }
+  .phone-mockup-wrap {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .phone-mockup-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 40px 80px rgba(0,0,0,0.5));
+  }
+
   /* ── DARK MODE ── */
   body.dark .s0 { background: #1a1a1a; } body.dark .s0 .eyebrow { color: #444; } body.dark .s0 h1 { color: #e8e8e8; } body.dark .s0 p { color: #666; }
   body.dark .s0 .btn-secondary { border-color: #444; color: #aaa; } body.dark .s0 .btn-secondary:hover { background: #333; color: #fff; border-color: #333; }
@@ -481,6 +506,13 @@
     }
     .case-preview--laptop {
       height: clamp(180px, 50vw, 300px) !important;
+      background: transparent !important;
+      overflow: visible !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+    }
+    .case-preview--phone {
+      height: clamp(260px, 60vw, 380px) !important;
       background: transparent !important;
       overflow: visible !important;
       box-shadow: none !important;
@@ -631,10 +663,10 @@
 <section class="section s2 project-section" data-theme="dark">
   <div class="section-gradient"></div>
   <div class="section-marquee"><div class="marquee-track"><span>Global Bridge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Global Bridge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Global Bridge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Global Bridge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Global Bridge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Global Bridge&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
-  <div class="case-preview case-preview--laptop">
+  <div class="case-preview case-preview--phone">
     <div class="preview-bg" style="background: transparent;"></div>
-    <div class="laptop-wrap">
-      <img class="laptop-img" src="global-bridge-uxr.png" alt="Global Bridge app mockup" />
+    <div class="phone-mockup-wrap">
+      <img class="phone-mockup-img" src="global-bridge-uxr.png" alt="Global Bridge app mockup" />
     </div>
   </div>
   <div class="section-inner">
@@ -661,10 +693,10 @@
 <section class="section s3 project-section" data-theme="dark">
   <div class="section-gradient"></div>
   <div class="section-marquee"><div class="marquee-track"><span>Richie AI&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Richie AI&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Richie AI&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Richie AI&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Richie AI&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Richie AI&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
-  <div class="case-preview case-preview--laptop">
+  <div class="case-preview case-preview--phone">
     <div class="preview-bg" style="background: transparent;"></div>
-    <div class="laptop-wrap">
-      <img class="laptop-img" src="richieai-mockup.png" alt="Richie AI app mockup" />
+    <div class="phone-mockup-wrap">
+      <img class="phone-mockup-img" src="richieai-mockup.png" alt="Richie AI app mockup" />
     </div>
   </div>
   <div class="section-inner">
@@ -691,10 +723,10 @@
 <section class="section s4 project-section" data-theme="dark">
   <div class="section-gradient"></div>
   <div class="section-marquee"><div class="marquee-track"><span>Global Bridge II&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Global Bridge II&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Global Bridge II&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Global Bridge II&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Global Bridge II&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Global Bridge II&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
-  <div class="case-preview case-preview--laptop">
+  <div class="case-preview case-preview--phone">
     <div class="preview-bg" style="background: transparent;"></div>
-    <div class="laptop-wrap">
-      <img class="laptop-img" src="global-bridge-uxr.png" alt="Global Bridge Research mockup" />
+    <div class="phone-mockup-wrap">
+      <img class="phone-mockup-img" src="global-bridge-uxr.png" alt="Global Bridge Research mockup" />
     </div>
   </div>
   <div class="section-inner">
