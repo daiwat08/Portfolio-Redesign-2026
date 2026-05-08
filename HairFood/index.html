@@ -344,6 +344,22 @@
 
   .hairoma-img-caption{font-family:'Geist Mono',monospace;font-size:11px;color:var(--sub);letter-spacing:.5px;text-transform:uppercase;line-height:1.5;padding:10px 4px 0;border-top:1px solid var(--line);margin-top:12px;}
   .hairoma-screen-divider{border:none;border-top:1px solid var(--line);margin:40px 0;opacity:.4;}
+
+  /* ══════════════════════════════
+     LIGHTBOX
+  ══════════════════════════════ */
+  .lb-overlay{position:fixed;inset:0;z-index:9999;background:rgba(10,9,8,.92);backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;gap:16px;opacity:0;transition:opacity .25s ease;}
+  .lb-overlay.lb-active{display:flex;opacity:1;}
+  .lb-content{position:relative;max-width:min(90vw,1100px);max-height:90vh;display:flex;flex-direction:column;align-items:center;gap:16px;}
+  #lb-img{max-width:100%;max-height:80vh;border-radius:12px;object-fit:contain;box-shadow:0 32px 80px rgba(0,0,0,.6);transition:opacity .2s ease;}
+  .lb-caption{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,248,238,.45);text-align:center;}
+  .lb-close{position:fixed;top:24px;right:28px;background:none;border:none;color:rgba(255,248,238,.6);font-size:28px;cursor:pointer;line-height:1;padding:8px;transition:color .15s;}
+  .lb-close:hover{color:#fff;}
+  .lb-nav{background:none;border:1px solid rgba(255,248,238,.12);color:rgba(255,248,238,.6);font-size:20px;cursor:pointer;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;}
+  .lb-nav:hover{border-color:rgba(255,248,238,.4);color:#fff;}
+  .lb-nav:disabled{opacity:.2;cursor:default;}
+  .lb-zoomable{cursor:zoom-in;}
+  .lb-zoomable:hover{opacity:.92;}
 </style>
 </head>
 <body>
@@ -405,7 +421,7 @@
       <div class="meta-item"><span class="meta-label">Tags</span><span>E-Commerce · UX</span></div>
     </div>
     <div class="hero-visual">
-      <img id="mockup-img" src="assets/mock-up-dark.png" alt="Hair Food desktop and mobile mockup" style="width:100%;display:block;border-radius:12px;">
+      <img id="mockup-img" class="lb-zoomable" data-caption="Hair Food — Desktop & Mobile Mockup" src="assets/mock-up-dark.png" alt="Hair Food desktop and mobile mockup" style="width:100%;display:block;border-radius:12px;">
     </div>
   </div>
 </div>
@@ -780,10 +796,10 @@
   <div class="hairoma-screens-wrap">
     <div class="hairoma-screen-block hairoma-screen-full" style="margin-bottom:32px;">
       <div class="col">
-        <img id="hairoma-overview-img" src="assets/hairoma-dark.png" alt="Hairoma feature overview" style="width:100%;border-radius:12px;display:block;">
+        <img id="hairoma-overview-img" class="lb-zoomable" data-caption="Hairoma — Full Feature Overview" src="assets/hairoma-dark.png" alt="Hairoma feature overview" style="width:100%;border-radius:12px;display:block;">
         <div class="hairoma-img-caption">Hairoma — the full feature experience across all pages</div>
         <div class="hairoma-screen-divider"></div>
-        <img id="hairoma-hero-img" src="assets/hero-dark.png" alt="Hairoma homepage" style="width:100%;border-radius:12px;display:block;">
+        <img id="hairoma-hero-img" class="lb-zoomable" data-caption="Entry Point — Hairoma in Main Nav" src="assets/hero-dark.png" alt="Hairoma homepage" style="width:100%;border-radius:12px;display:block;">
         <div class="hairoma-img-caption">The entry point — Hairoma lives in the main nav, making it impossible to miss</div>
       </div>
     </div>
@@ -791,22 +807,22 @@
     <div class="col">
       <div class="hairoma-screen-pair">
         <div class="hairoma-screen-block">
-          <img id="hairoma-step1-img" src="assets/step1-dark.png" alt="Choose fragrance step 1" style="width:100%;border-radius:12px;display:block;">
+          <img id="hairoma-step1-img" class="lb-zoomable" data-caption="Step 1 — Choose Your First Fragrance" src="assets/step1-dark.png" alt="Choose fragrance step 1" style="width:100%;border-radius:12px;display:block;">
           <div class="hairoma-img-caption">Step 1 — Pick your first fragrance from 12 curated scents</div>
         </div>
         <div class="hairoma-screen-block">
-          <img id="hairoma-step2-img" src="assets/step2-dark.png" alt="Choose fragrance step 2" style="width:100%;border-radius:12px;display:block;">
+          <img id="hairoma-step2-img" class="lb-zoomable" data-caption="Step 2 — Add a Second Fragrance" src="assets/step2-dark.png" alt="Choose fragrance step 2" style="width:100%;border-radius:12px;display:block;">
           <div class="hairoma-img-caption">Step 2 — Add a second fragrance to create your unique blend</div>
         </div>
       </div>
 
       <div class="hairoma-screen-pair" style="margin-top:32px;">
         <div class="hairoma-screen-block">
-          <img id="hairoma-step3-img" src="assets/step3-dark.png" alt="Fragrance ratio slider" style="width:100%;border-radius:12px;display:block;">
+          <img id="hairoma-step3-img" class="lb-zoomable" data-caption="Step 3 — Set Your Fragrance Ratio" src="assets/step3-dark.png" alt="Fragrance ratio slider" style="width:100%;border-radius:12px;display:block;">
           <div class="hairoma-img-caption">Step 3 — Dial in your fragrance ratio with a live slider</div>
         </div>
         <div class="hairoma-screen-block">
-          <img id="hairoma-step4-img" src="assets/step4-dark.png" alt="Product view page" style="width:100%;border-radius:12px;display:block;">
+          <img id="hairoma-step4-img" class="lb-zoomable" data-caption="Final — Your Product Is Ready" src="assets/step4-dark.png" alt="Product view page" style="width:100%;border-radius:12px;display:block;">
           <div class="hairoma-img-caption">Your product is ready — full summary with size, ratio, and order total</div>
         </div>
       </div>
@@ -881,6 +897,19 @@
   </div>
 </section>
 
+
+<!-- ══════════════════════════════
+     LIGHTBOX
+══════════════════════════════ -->
+<div id="lightbox" class="lb-overlay" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button class="lb-close" id="lb-close" aria-label="Close">&times;</button>
+  <button class="lb-nav lb-prev" id="lb-prev" aria-label="Previous">&#8592;</button>
+  <div class="lb-content">
+    <img id="lb-img" src="" alt="">
+    <div id="lb-caption" class="lb-caption"></div>
+  </div>
+  <button class="lb-nav lb-next" id="lb-next" aria-label="Next">&#8594;</button>
+</div>
 </main>
 
 <!-- ══════════════════════════════
@@ -961,6 +990,64 @@
     },{threshold:[0.45,0.55]}).observe(sec);
   });
 })();
+
+  // ── Lightbox ──────────────────────────────
+  (function(){
+    const overlay  = document.getElementById('lightbox');
+    const lbImg    = document.getElementById('lb-img');
+    const lbCap    = document.getElementById('lb-caption');
+    const btnClose = document.getElementById('lb-close');
+    const btnPrev  = document.getElementById('lb-prev');
+    const btnNext  = document.getElementById('lb-next');
+
+    const imgOrder = [
+      'mockup-img','hairoma-overview-img','hairoma-hero-img',
+      'hairoma-step1-img','hairoma-step2-img','hairoma-step3-img','hairoma-step4-img'
+    ];
+    let current = 0;
+
+    function open(idx){
+      current = idx;
+      const el = document.getElementById(imgOrder[idx]);
+      if(!el) return;
+      lbImg.src = el.src;
+      lbImg.alt = el.alt;
+      lbCap.textContent = el.dataset.caption || '';
+      overlay.style.display = 'flex';
+      requestAnimationFrame(() => overlay.classList.add('lb-active'));
+      btnPrev.disabled = idx === 0;
+      btnNext.disabled = idx === imgOrder.length - 1;
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close(){
+      overlay.classList.remove('lb-active');
+      setTimeout(() => { overlay.style.display = 'none'; }, 250);
+      document.body.style.overflow = '';
+    }
+
+    function navigate(dir){
+      const next = current + dir;
+      if(next >= 0 && next < imgOrder.length) open(next);
+    }
+
+    // Attach click to each zoomable image
+    imgOrder.forEach((id, idx) => {
+      const el = document.getElementById(id);
+      if(el) el.addEventListener('click', () => open(idx));
+    });
+
+    btnClose.addEventListener('click', close);
+    btnPrev.addEventListener('click', () => navigate(-1));
+    btnNext.addEventListener('click', () => navigate(1));
+    overlay.addEventListener('click', (e) => { if(e.target === overlay) close(); });
+    document.addEventListener('keydown', (e) => {
+      if(!overlay.classList.contains('lb-active')) return;
+      if(e.key === 'Escape') close();
+      if(e.key === 'ArrowLeft') navigate(-1);
+      if(e.key === 'ArrowRight') navigate(1);
+    });
+  })();
 </script>
 </body>
 </html>
