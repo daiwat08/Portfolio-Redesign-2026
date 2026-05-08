@@ -240,7 +240,7 @@
   body.light .btn{border-color:rgba(0,0,0,.15);color:var(--text);}
   .btn:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.25);}
   body.light .btn:hover{background:rgba(0,0,0,.05);}
-  .btn-accent{background:var(--accent);border-color:transparent;color:#F7F0E8;margin-left:10px;}
+  .btn-accent{background:var(--accent);border-color:transparent;color:#1C1917;margin-left:10px;}
   .btn-accent:hover{background:var(--warm);}
 
   /* ══════════════════════════════
@@ -288,6 +288,59 @@
   @media(max-width:640px){.rg-block-headers,.rg-block-cells{grid-template-columns:1fr 1fr;}}
 
   .hero-visual img{width:100%;display:block;border-radius:12px;}
+
+  /* ══════════════════════════════
+     HAIROMA SECTION
+  ══════════════════════════════ */
+  .hairoma-section{padding-bottom:0;}
+  .hairoma-eyebrow{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+  .hairoma-title{font-size:var(--t-2xl);line-height:.95;margin:0 0 24px;letter-spacing:-.03em;}
+  .hairoma-sub{font-size:18px;line-height:1.6;max-width:600px;margin-bottom:48px;color:var(--text);}
+
+  /* Insight stats */
+  .hairoma-insight-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:16px;}
+  .hairoma-insight-card{background:var(--bg);padding:28px 24px;}
+  .hairoma-insight-num{font-family:'Instrument Serif',serif;font-size:40px;color:var(--accent);line-height:1;margin-bottom:8px;}
+  .hairoma-insight-label{font-size:13px;color:var(--sub);line-height:1.5;}
+
+  /* Steps */
+  .hairoma-steps-label{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--sub);margin-bottom:24px;}
+  .hairoma-steps{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:start;gap:0;margin-bottom:64px;border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+  .hairoma-step{padding:28px 24px;background:var(--surface);}
+  .hairoma-step-divider{display:flex;align-items:center;justify-content:center;padding:28px 16px;background:var(--bg);color:var(--accent);font-size:18px;align-self:stretch;}
+  .hairoma-step-num{font-family:'Geist Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:2px;margin-bottom:12px;}
+  .hairoma-step-title{font-size:15px;font-weight:500;color:var(--text);margin-bottom:8px;line-height:1.3;}
+  .hairoma-step-body{font-size:13px;color:var(--sub);line-height:1.6;}
+
+  /* Screens */
+  .hairoma-screens-wrap{margin-top:64px;}
+  .hairoma-screen-pair{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  .hairoma-screen-block{display:flex;flex-direction:column;gap:12px;}
+  .hairoma-screen-caption{font-family:'Geist Mono',monospace;font-size:11px;color:var(--sub);letter-spacing:.5px;text-transform:uppercase;line-height:1.5;padding:0 4px;}
+  .hairoma-placeholder{background:var(--surface);border:1px solid var(--line);border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Geist Mono',monospace;font-size:12px;color:var(--sub);text-align:center;padding:24px;}
+  .hairoma-ph-wide{aspect-ratio:16/7;width:100%;}
+  .hairoma-ph-tall{aspect-ratio:9/14;width:100%;}
+
+  /* Quotes */
+  .hairoma-quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:64px 0;}
+  .hairoma-quote{background:var(--surface);border-radius:12px;padding:28px 24px;position:relative;}
+  .hairoma-quote-mark{font-family:'Instrument Serif',serif;font-size:48px;color:var(--accent);line-height:.8;margin-bottom:12px;}
+  .hairoma-quote p{font-size:14px;color:var(--text);line-height:1.7;margin:0 0 16px;font-style:italic;}
+  .hairoma-quote-author{font-family:'Geist Mono',monospace;font-size:11px;color:var(--sub);letter-spacing:.5px;}
+
+  /* Impact */
+  .hairoma-impact{border-top:1px solid var(--line);padding:48px 0 80px;}
+  .hairoma-impact-title{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--sub);margin-bottom:32px;}
+  .hairoma-impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;}
+  .hairoma-impact-item{display:flex;flex-direction:column;gap:10px;}
+  .hairoma-impact-heading{font-size:15px;font-weight:500;color:var(--text);}
+  .hairoma-impact-body{font-size:13px;color:var(--sub);line-height:1.7;}
+
+  @media(max-width:640px){
+    .hairoma-insight-row,.hairoma-steps,.hairoma-screen-pair,.hairoma-quotes,.hairoma-impact-grid{grid-template-columns:1fr;}
+    .hairoma-step-divider{display:none;}
+    .hairoma-steps{gap:1px;}
+  }
 </style>
 </head>
 <body>
@@ -674,7 +727,127 @@
 
 
 <!-- ══════════════════════════════
-     09 — OUTCOMES
+     09 — HAIROMA FEATURE
+══════════════════════════════ -->
+<section class="section hairoma-section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>09 — Innovation</div>
+    <div class="hairoma-eyebrow">Introducing</div>
+    <h2 class="hairoma-title">Hairoma.</h2>
+    <p class="hairoma-sub">A new feature designed to grow Hair Food's user base by giving customers something no competitor offers — a fully personalised fragrance, built by them.</p>
+
+    <div class="hairoma-insight-row">
+      <div class="hairoma-insight-card">
+        <div class="hairoma-insight-num">22/27</div>
+        <div class="hairoma-insight-label">users wanted natural ingredients</div>
+      </div>
+      <div class="hairoma-insight-card">
+        <div class="hairoma-insight-num">20/27</div>
+        <div class="hairoma-insight-label">chose brands by product effectiveness</div>
+      </div>
+      <div class="hairoma-insight-card">
+        <div class="hairoma-insight-num">13/27</div>
+        <div class="hairoma-insight-label">had never heard of Hair Food</div>
+      </div>
+    </div>
+    <p style="margin-top:0;margin-bottom:56px;font-size:14px;color:var(--sub);">Research revealed a clear gap — users craved customisation and ingredient transparency the existing product couldn't offer. Hairoma is the answer.</p>
+
+    <div class="hairoma-steps-label">How it works</div>
+    <div class="hairoma-steps">
+      <div class="hairoma-step">
+        <div class="hairoma-step-num">01</div>
+        <div class="hairoma-step-title">Pick your base product</div>
+        <div class="hairoma-step-body">Choose from Shampoo, Conditioner, Hair Mask, or Hair Oil — all made with natural ingredients.</div>
+      </div>
+      <div class="hairoma-step-divider">→</div>
+      <div class="hairoma-step">
+        <div class="hairoma-step-num">02</div>
+        <div class="hairoma-step-title">Select your fragrances</div>
+        <div class="hairoma-step-body">Choose two scents from 12 options — Avocado, Orange, Pineapple, Tea Tree, Lavender, Mango, Kiwi, Rose, Strawberry, Jasmine, Raspberry, or Coconut.</div>
+      </div>
+      <div class="hairoma-step-divider">→</div>
+      <div class="hairoma-step">
+        <div class="hairoma-step-num">03</div>
+        <div class="hairoma-step-title">Set your ratio</div>
+        <div class="hairoma-step-body">Use a slider to balance your two fragrances — 40/60, 50/50, whatever feels right. Your product is then built to order.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hairoma-screens-wrap">
+    <div class="hairoma-screen-block hairoma-screen-full" style="margin-bottom:32px;">
+      <div class="col">
+        <div class="hairoma-screen-caption" style="margin-bottom:12px;">Hairoma — the full feature overview</div>
+        <img id="hairoma-overview-img" src="assets/hairoma-dark.png" alt="Hairoma feature overview" style="width:100%;border-radius:12px;display:block;margin-bottom:48px;">
+        <div class="hairoma-screen-caption">The entry point — Hairoma lives in the main nav, making it impossible to miss.</div>
+        <img id="hairoma-hero-img" src="assets/hero-dark.png" alt="Hairoma homepage" style="width:100%;border-radius:12px;display:block;">
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="hairoma-screen-pair">
+        <div class="hairoma-screen-block">
+          <div class="hairoma-screen-caption">Step 1 — Pick your first fragrance from 12 curated scents.</div>
+          <img id="hairoma-step1-img" src="assets/step1-dark.png" alt="Choose fragrance step 1" style="width:100%;border-radius:12px;display:block;">
+        </div>
+        <div class="hairoma-screen-block">
+          <div class="hairoma-screen-caption">Step 2 — Add a second fragrance to create your unique blend.</div>
+          <img id="hairoma-step2-img" src="assets/step2-dark.png" alt="Choose fragrance step 2" style="width:100%;border-radius:12px;display:block;">
+        </div>
+      </div>
+
+      <div class="hairoma-screen-pair" style="margin-top:32px;">
+        <div class="hairoma-screen-block">
+          <div class="hairoma-screen-caption">Step 3 — Dial in your fragrance ratio with a live slider.</div>
+          <img id="hairoma-step3-img" src="assets/step3-dark.png" alt="Fragrance ratio slider" style="width:100%;border-radius:12px;display:block;">
+        </div>
+        <div class="hairoma-screen-block">
+          <div class="hairoma-screen-caption">Your product is ready — full summary with size, ratio, and order total.</div>
+          <img id="hairoma-step4-img" src="assets/step4-dark.png" alt="Product view page" style="width:100%;border-radius:12px;display:block;">
+        </div>
+      </div>
+
+      <div class="hairoma-quotes">
+        <div class="hairoma-quote">
+          <div class="hairoma-quote-mark">"</div>
+          <p>It has a very unique combination of ingredients — like coconut milk and chai spice — which I'd love to try.</p>
+          <div class="hairoma-quote-author">— Research participant</div>
+        </div>
+        <div class="hairoma-quote">
+          <div class="hairoma-quote-mark">"</div>
+          <p>It looks natural and chemical free to me. Maybe reviews could be better to help me make a decision.</p>
+          <div class="hairoma-quote-author">— Research participant</div>
+        </div>
+        <div class="hairoma-quote">
+          <div class="hairoma-quote-mark">"</div>
+          <p>If someone I know and trust would recommend it, I'd definitely try it out.</p>
+          <div class="hairoma-quote-author">— Research participant</div>
+        </div>
+      </div>
+
+      <div class="hairoma-impact">
+        <div class="hairoma-impact-title">Why Hairoma matters for Hair Food</div>
+        <div class="hairoma-impact-grid">
+          <div class="hairoma-impact-item">
+            <div class="hairoma-impact-heading">Differentiation</div>
+            <div class="hairoma-impact-body">No direct competitor offers custom fragrance blending. Hairoma becomes a reason to choose Hair Food over any other brand.</div>
+          </div>
+          <div class="hairoma-impact-item">
+            <div class="hairoma-impact-heading">Loyalty</div>
+            <div class="hairoma-impact-body">A product built by the user creates ownership and emotional attachment — dramatically increasing the likelihood of repeat purchase.</div>
+          </div>
+          <div class="hairoma-impact-item">
+            <div class="hairoma-impact-heading">Trust</div>
+            <div class="hairoma-impact-body">Ingredient transparency at every step of the customisation flow directly addresses the #1 concern surfaced in user research.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════
+     10 — OUTCOMES
 ══════════════════════════════ -->
 <section class="section" data-theme="dark">
   <div class="col">
@@ -749,8 +922,23 @@
     toggleTop.textContent  = icon;
     togglePill.textContent = icon;
     navTop.classList.toggle('nav-dark', !goLight);
-    const img = document.getElementById('mockup-img');
-    if(img) img.src = goLight ? 'assets/mock-up-light.png' : 'assets/mock-up-dark.png';
+    const t = goLight ? 'light' : 'dark';
+    // mockup hero
+    const mi = document.getElementById('mockup-img');
+    if(mi) mi.src = `assets/mock-up-${t}.png`;
+    // hairoma images
+    const swaps = {
+      'hairoma-overview-img': `assets/hairoma-${t}.png`,
+      'hairoma-hero-img':     `assets/hero-${t}.png`,
+      'hairoma-step1-img':    `assets/step1-${t}.png`,
+      'hairoma-step2-img':    `assets/step2-${t}.png`,
+      'hairoma-step3-img':    `assets/step3-${t}.png`,
+      'hairoma-step4-img':    `assets/step4-${t}.png`,
+    };
+    Object.entries(swaps).forEach(([id, src]) => {
+      const el = document.getElementById(id);
+      if(el) el.src = src;
+    });
   }
   function toggleTheme(){ applyTheme(!document.body.classList.contains('light')); }
   toggleTop.addEventListener('click', toggleTheme);
