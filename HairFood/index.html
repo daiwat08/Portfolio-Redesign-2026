@@ -267,6 +267,25 @@
     .deploy-nums{gap:32px;}
     .hero-meta{gap:32px;}
   }
+
+  /* ══════════════════════════════
+     RESEARCH GRID
+  ══════════════════════════════ */
+  .rg-table{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+  .rg-block+.rg-block{border-top:1px solid var(--line);}
+  .rg-block-headers{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);}
+  .rg-th{background:var(--surface);color:#A09890;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;padding:14px 18px;line-height:1.4;}
+  body.light .rg-th{color:#65574A;}
+  .rg-block-cells{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);}
+  .rg-cell{background:var(--bg);padding:24px 18px;display:flex;flex-direction:column;gap:12px;}
+  .rg-row{display:flex;flex-direction:column;gap:3px;}
+  .rg-label{font-family:'Geist Mono',monospace;font-size:11px;color:var(--sub);letter-spacing:.5px;text-transform:uppercase;}
+  .rg-val{font-size:15px;color:var(--text);}
+  .rg-val em{color:var(--accent-text);font-style:normal;}
+  .rg-list{gap:8px;}
+  .rg-list span{font-size:13px;color:var(--sub);padding-left:14px;position:relative;line-height:1.6;}
+  .rg-list span::before{content:'—';position:absolute;left:0;color:var(--accent);}
+  @media(max-width:640px){.rg-block-headers,.rg-block-cells{grid-template-columns:1fr 1fr;}}
 </style>
 </head>
 <body>
@@ -481,8 +500,81 @@
     <div style="margin-top:48px;">
       <img src="assets/user-journey.png" alt="Affinity map / research synthesis board" style="width:100%;border-radius:12px;display:block;">
     </div>
+
+    </div>
+  </div>
+  <div class="col-wide" style="margin-top:64px;">
+    <h3 style="margin-bottom:4px;">Survey findings</h3>
+    <p style="margin-top:8px;margin-bottom:32px;">27 participants across two rounds of structured survey research.</p>
+
+      <div class="rg-table">
+        <div class="rg-block">
+          <div class="rg-block-headers">
+            <div class="rg-th">User Behaviour</div>
+            <div class="rg-th">Satisfaction &amp; Need</div>
+            <div class="rg-th">Common Hair Products in use</div>
+            <div class="rg-th">Criteria to choose a brand</div>
+          </div>
+          <div class="rg-block-cells">
+            <div class="rg-cell">
+              <div class="rg-row"><span class="rg-label">Common gender</span><span class="rg-val">22/27 — <em>Female</em></span></div>
+              <div class="rg-row"><span class="rg-label">Common age group</span><span class="rg-val">24–28 <em>(12/27)</em></span></div>
+              <div class="rg-row"><span class="rg-label">Have a hair care routine</span><span class="rg-val">26/27</span></div>
+              <div class="rg-row"><span class="rg-label">Structured routine</span><span class="rg-val">17/27</span></div>
+            </div>
+            <div class="rg-cell">
+              <div class="rg-row"><span class="rg-label">Dissatisfied with hair health</span><span class="rg-val">18/27</span></div>
+              <div class="rg-row"><span class="rg-label">Dryness &amp; lack of volume</span><span class="rg-val">21/27</span></div>
+            </div>
+            <div class="rg-cell">
+              <div class="rg-row"><span class="rg-label">Shampoo — most used</span><span class="rg-val">25/27</span></div>
+              <div class="rg-row"><span class="rg-label">Hair oil — most used</span><span class="rg-val">22/27</span></div>
+            </div>
+            <div class="rg-cell">
+              <div class="rg-row"><span class="rg-label">Quality driven choice</span><span class="rg-val">21/27</span></div>
+              <div class="rg-row"><span class="rg-label">Product effectiveness</span><span class="rg-val">20/27</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="rg-block">
+          <div class="rg-block-headers">
+            <div class="rg-th">Long-term Brand Usage</div>
+            <div class="rg-th">Motivation to buy from brand site</div>
+            <div class="rg-th">Who would buy Hair Food</div>
+            <div class="rg-th">How to improve desire</div>
+          </div>
+          <div class="rg-block-cells">
+            <div class="rg-cell">
+              <div class="rg-row"><span class="rg-label">Loyal to one brand 1+ year</span><span class="rg-val">13/27</span></div>
+            </div>
+            <div class="rg-cell rg-list">
+              <span>Discounts</span>
+              <span>Free shipping</span>
+              <span>Membership benefits</span>
+              <span>Genuine product reviews</span>
+              <span>Exclusive special offers</span>
+              <span>Price matching</span>
+            </div>
+            <div class="rg-cell rg-list">
+              <span>Natural &amp; chemical-free options</span>
+              <span>Unique ingredients</span>
+              <span>Visually appealing products</span>
+              <span>Interest despite lack of reviews</span>
+            </div>
+            <div class="rg-cell rg-list">
+              <span>Live testimonials</span>
+              <span>Ingredient benefits</span>
+              <span>Product effectiveness</span>
+              <span>Product quality</span>
+              <span>Usage time for optimal results</span>
+            </div>
+          </div>
+        </div>
+      </div>
   </div>
 </section>
+
+
 
 
 <!-- ══════════════════════════════
