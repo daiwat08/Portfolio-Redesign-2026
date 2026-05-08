@@ -218,9 +218,9 @@
   /* ══════════════════════════════
      OUTCOME NUMBERS
   ══════════════════════════════ */
-  .deploy-nums{display:flex;gap:48px;margin-top:40px;flex-wrap:wrap;}
-  .dn-num{font-family:'Instrument Serif',serif;font-size:40px;color:var(--white);line-height:1;letter-spacing:-1px;}
-  .dn-num em{color:var(--accent-text);font-style:normal;}
+  .deploy-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:48px 0;margin-top:40px;row-gap:48px;}
+  .dn-num{font-family:'Instrument Serif',serif;font-size:52px;color:var(--white);line-height:1;letter-spacing:-2px;}
+  .dn-num em{color:var(--accent-text);font-style:normal;font-size:inherit;}
   .dn-label{font-size:var(--t-sm);color:var(--sub);margin-top:4px;max-width:160px;line-height:1.5;}
 
   /* ══════════════════════════════
@@ -305,7 +305,7 @@
 
   /* Steps */
   .hairoma-steps-label{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--sub);margin-bottom:24px;}
-  .hairoma-steps{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:start;gap:0;margin-bottom:64px;border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+  .hairoma-steps{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:stretch;gap:0;margin-bottom:64px;border:1px solid var(--line);border-radius:12px;overflow:hidden;}
   .hairoma-step{padding:28px 24px;background:var(--surface);}
   .hairoma-step-divider{display:flex;align-items:center;justify-content:center;padding:28px 16px;background:var(--bg);color:var(--accent);font-size:18px;align-self:stretch;}
   .hairoma-step-num{font-family:'Geist Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:2px;margin-bottom:12px;}
@@ -341,6 +341,9 @@
     .hairoma-step-divider{display:none;}
     .hairoma-steps{gap:1px;}
   }
+
+  .hairoma-img-caption{font-family:'Geist Mono',monospace;font-size:11px;color:var(--sub);letter-spacing:.5px;text-transform:uppercase;line-height:1.5;padding:10px 4px 0;border-top:1px solid var(--line);margin-top:12px;}
+  .hairoma-screen-divider{border:none;border-top:1px solid var(--line);margin:40px 0;opacity:.4;}
 </style>
 </head>
 <body>
@@ -777,33 +780,34 @@
   <div class="hairoma-screens-wrap">
     <div class="hairoma-screen-block hairoma-screen-full" style="margin-bottom:32px;">
       <div class="col">
-        <div class="hairoma-screen-caption" style="margin-bottom:12px;">Hairoma — the full feature overview</div>
-        <img id="hairoma-overview-img" src="assets/hairoma-dark.png" alt="Hairoma feature overview" style="width:100%;border-radius:12px;display:block;margin-bottom:48px;">
-        <div class="hairoma-screen-caption">The entry point — Hairoma lives in the main nav, making it impossible to miss.</div>
+        <img id="hairoma-overview-img" src="assets/hairoma-dark.png" alt="Hairoma feature overview" style="width:100%;border-radius:12px;display:block;">
+        <div class="hairoma-img-caption">Hairoma — the full feature experience across all pages</div>
+        <div class="hairoma-screen-divider"></div>
         <img id="hairoma-hero-img" src="assets/hero-dark.png" alt="Hairoma homepage" style="width:100%;border-radius:12px;display:block;">
+        <div class="hairoma-img-caption">The entry point — Hairoma lives in the main nav, making it impossible to miss</div>
       </div>
     </div>
 
     <div class="col">
       <div class="hairoma-screen-pair">
         <div class="hairoma-screen-block">
-          <div class="hairoma-screen-caption">Step 1 — Pick your first fragrance from 12 curated scents.</div>
           <img id="hairoma-step1-img" src="assets/step1-dark.png" alt="Choose fragrance step 1" style="width:100%;border-radius:12px;display:block;">
+          <div class="hairoma-img-caption">Step 1 — Pick your first fragrance from 12 curated scents</div>
         </div>
         <div class="hairoma-screen-block">
-          <div class="hairoma-screen-caption">Step 2 — Add a second fragrance to create your unique blend.</div>
           <img id="hairoma-step2-img" src="assets/step2-dark.png" alt="Choose fragrance step 2" style="width:100%;border-radius:12px;display:block;">
+          <div class="hairoma-img-caption">Step 2 — Add a second fragrance to create your unique blend</div>
         </div>
       </div>
 
       <div class="hairoma-screen-pair" style="margin-top:32px;">
         <div class="hairoma-screen-block">
-          <div class="hairoma-screen-caption">Step 3 — Dial in your fragrance ratio with a live slider.</div>
           <img id="hairoma-step3-img" src="assets/step3-dark.png" alt="Fragrance ratio slider" style="width:100%;border-radius:12px;display:block;">
+          <div class="hairoma-img-caption">Step 3 — Dial in your fragrance ratio with a live slider</div>
         </div>
         <div class="hairoma-screen-block">
-          <div class="hairoma-screen-caption">Your product is ready — full summary with size, ratio, and order total.</div>
           <img id="hairoma-step4-img" src="assets/step4-dark.png" alt="Product view page" style="width:100%;border-radius:12px;display:block;">
+          <div class="hairoma-img-caption">Your product is ready — full summary with size, ratio, and order total</div>
         </div>
       </div>
 
@@ -871,6 +875,8 @@
         <div class="dn-num"><em>5</em></div>
         <div class="dn-label">Screens redesigned end-to-end</div>
       </div>
+      <div></div>
+      <div></div>
     </div>
   </div>
 </section>
