@@ -286,6 +286,12 @@
   .rg-list span{font-size:13px;color:var(--sub);padding-left:14px;position:relative;line-height:1.6;}
   .rg-list span::before{content:'—';position:absolute;left:0;color:var(--accent);}
   @media(max-width:640px){.rg-block-headers,.rg-block-cells{grid-template-columns:1fr 1fr;}}
+
+  /* ── mockup theme swap ── */
+  .hero-visual img{width:100%;display:block;border-radius:12px;}
+  .mockup-light{display:none;}
+  body.light .mockup-dark{display:none;}
+  body.light .mockup-light{display:block;}
 </style>
 </head>
 <body>
@@ -346,7 +352,10 @@
       <div class="meta-item"><span class="meta-label">Platform</span><span>Web · Mobile</span></div>
       <div class="meta-item"><span class="meta-label">Tags</span><span>E-Commerce · UX</span></div>
     </div>
-    <div class="hero-visual placeholder">[ Hero product mockup — desktop + mobile ]</div>
+    <div class="hero-visual">
+      <img class="mockup-dark"  src="assets/mock-up-dark.png"  alt="Hair Food desktop and mobile mockup">
+      <img class="mockup-light" src="assets/mock-up-light.png" alt="Hair Food desktop and mobile mockup">
+    </div>
   </div>
 </div>
 
