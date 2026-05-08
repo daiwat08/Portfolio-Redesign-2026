@@ -287,11 +287,7 @@
   .rg-list span::before{content:'—';position:absolute;left:0;color:var(--accent);}
   @media(max-width:640px){.rg-block-headers,.rg-block-cells{grid-template-columns:1fr 1fr;}}
 
-  /* ── mockup theme swap ── */
   .hero-visual img{width:100%;display:block;border-radius:12px;}
-  .mockup-light{display:none;}
-  body.light .mockup-dark{display:none;}
-  body.light .mockup-light{display:block;}
 </style>
 </head>
 <body>
@@ -353,8 +349,7 @@
       <div class="meta-item"><span class="meta-label">Tags</span><span>E-Commerce · UX</span></div>
     </div>
     <div class="hero-visual">
-      <img class="mockup-dark"  src="assets/mock-up-dark.png"  alt="Hair Food desktop and mobile mockup">
-      <img class="mockup-light" src="assets/mock-up-light.png" alt="Hair Food desktop and mobile mockup">
+      <img id="mockup-img" src="assets/mock-up-dark.png" alt="Hair Food desktop and mobile mockup" style="width:100%;display:block;border-radius:12px;">
     </div>
   </div>
 </div>
@@ -753,8 +748,9 @@
     const icon = goLight ? '☀️' : '🌙';
     toggleTop.textContent  = icon;
     togglePill.textContent = icon;
-    // Update nav-top pill appearance
     navTop.classList.toggle('nav-dark', !goLight);
+    const img = document.getElementById('mockup-img');
+    if(img) img.src = goLight ? 'assets/mock-up-light.png' : 'assets/mock-up-dark.png';
   }
   function toggleTheme(){ applyTheme(!document.body.classList.contains('light')); }
   toggleTop.addEventListener('click', toggleTheme);
