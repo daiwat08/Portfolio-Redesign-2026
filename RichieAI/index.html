@@ -223,16 +223,12 @@
   .nav-top__cta{font-size:13px;font-weight:600;color:#fff;text-decoration:none;background:#111;padding:8px 18px;border-radius:999px;flex-shrink:0;transition:background .2s;}
   .nav-top__cta:hover{background:#4A7CFF;}
   .theme-btn{width:40px;height:40px;border-radius:50%;border:1px solid rgba(0,0,0,0.12);background:transparent;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0;}
-  /* On mobile, show theme btn inside pill right side */
-  @media(max-width:640px){
-    .theme-btn#themeToggle{
-      width:28px;height:28px;
-      font-size:13px;
-    }
+  /* ── MOBILE NAV (Global Bridge style) ── */
+  @media(min-width:641px){
+    .mob-pill{display:none !important;}
+    .mob-drawer{display:none !important;}
+    .mob-drawer-overlay{display:none !important;}
   }
-  .theme-btn:hover{background:rgba(0,0,0,0.05);}
-
-  /* ══ PILL NAV ══ */
   .nav-pill{
     position:fixed;top:16px;left:50%;
     transform:translateX(-50%) translateY(-10px);
@@ -273,215 +269,6 @@
   .nav-pill.nav-on-dark .r-track{stroke:rgba(0,0,0,.15);}
   .nav-pill.nav-on-dark .r-fill{stroke:rgba(0,0,0,.8);}
   .nav-pill.nav-on-dark .r-pct{color:rgba(0,0,0,.7);}
-  /* ── MOBILE NAV PILL ── */
-  .nav-mobile {
-    display: none;
-    position: fixed; top: 16px; left: 50%;
-    transform: translateX(-50%);
-    z-index: 9999;
-    width: 148px;
-    height: 56px;
-    background: rgba(15,15,15,0.88);
-    backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 999px;
-    padding: 0 8px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.35);
-    align-items: center;
-    justify-content: space-between;
-    gap: 4px;
-  }
-  .nav-mobile__theme {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.12);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 15px; cursor: pointer;
-    flex-shrink: 0;
-    transition: background 0.2s;
-  }
-  .nav-mobile__theme:hover { background: rgba(255,255,255,0.14); }
-  .nav-mobile__ring {
-    flex-shrink: 0;
-    position: relative;
-    width: 40px; height: 40px;
-  }
-  .nav-mobile__ring svg {
-    display: block; width: 40px; height: 40px;
-    transform: rotate(-90deg);
-  }
-  .nav-mobile__ring .mr-track {
-    fill: none; stroke: rgba(255,255,255,0.2); stroke-width: 2;
-  }
-  .nav-mobile__ring .mr-fill {
-    fill: none; stroke: rgba(255,255,255,0.95); stroke-width: 2;
-    stroke-linecap: round;
-    stroke-dasharray: 94.25;
-    stroke-dashoffset: 94.25;
-    transition: stroke-dashoffset 0.1s linear;
-  }
-  .nav-mobile__ring .mr-pct {
-    position: absolute; inset: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 9px; font-weight: 700;
-    font-family: 'Geist Mono', monospace;
-    color: rgba(255,255,255,0.95);
-    letter-spacing: -0.02em; line-height: 1;
-  }
-  body.light .nav-mobile {
-    background: rgba(255,255,255,0.92);
-    border-color: rgba(0,0,0,0.08);
-    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
-  }
-  body.light .nav-mobile__theme {
-    background: rgba(0,0,0,0.05);
-    border-color: rgba(0,0,0,0.1);
-  }
-  body.light .nav-mobile__ring .mr-track { stroke: rgba(0,0,0,0.12); }
-  body.light .nav-mobile__ring .mr-fill  { stroke: rgba(0,0,0,0.75); }
-  body.light .nav-mobile__ring .mr-pct   { color: rgba(0,0,0,0.7); }
-  body.light .nav-hamburger { background: rgba(0,0,0,0.08); border-color: rgba(0,0,0,0.12); }
-  body.light .nav-hamburger span { background: #111; }
-
-  /* ── HAMBURGER ── */
-  .nav-hamburger{
-    display:none;
-    flex-direction:column;justify-content:center;align-items:center;
-    gap:3.5px;width:40px;height:40px;
-    background:rgba(0,0,0,0.85);
-    border:none;
-    border-radius:50%;cursor:pointer;flex-shrink:0;
-    transition:background .3s;
-  }
-  .nav-hamburger:hover{background:rgba(0,0,0,0.7);}
-  .nav-hamburger span{
-    display:block;width:10px;height:1.3px;
-    background:white;border-radius:2px;
-    transition:transform .35s cubic-bezier(.34,1.2,.64,1),opacity .25s;
-  }
-  body.light .nav-hamburger{ background:#111; }
-  body.light .nav-hamburger span{ background:white; }
-  .nav-hamburger.open{ background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.15); }
-  .nav-hamburger.open span{ background:white; }
-  .nav-hamburger.open span:nth-child(1){transform:translateY(4.8px) rotate(45deg);}
-  .nav-hamburger.open span:nth-child(2){opacity:0;}
-  .nav-hamburger.open span:nth-child(3){transform:translateY(-4.8px) rotate(-45deg);}
-
-  /* ── MOBILE FULLSCREEN OVERLAY ── */
-  .nav-mobile-menu{
-    position:fixed;
-    top:0;left:0;right:0;bottom:0;
-    z-index:9998;
-    background:rgba(8,22,12,0);
-    pointer-events:none;
-    opacity:0;
-    visibility:hidden;
-    display:flex;
-    flex-direction:column;
-    align-items:flex-start;
-    justify-content:center;
-    padding:80px 36px 56px;
-    transition:background 0.4s ease, opacity 0.4s ease, visibility 0s linear 0.4s;
-  }
-  .nav-mobile-menu.open{
-    background:rgba(8,22,12,0.97);
-    pointer-events:all;
-    opacity:1;
-    visibility:visible;
-    transition:background 0.4s ease, opacity 0.4s ease, visibility 0s linear 0s;
-  }
-  /* ── Light theme overlay ── */
-  body.light .nav-mobile-menu.open{
-    background:rgba(247,247,245,0.98) !important;
-  }
-  body.light .nav-mobile-menu__item{
-    color:rgba(0,0,0,0) !important;
-  }
-  body.light .nav-mobile-menu.open .nav-mobile-menu__item{
-    color:rgba(0,0,0,0.22) !important;
-  }
-  body.light .nav-mobile-menu.open .nav-mobile-menu__item.active{
-    color:rgba(0,0,0,0.8) !important;
-    font-style:normal;
-  }
-  body.light .nav-mobile-menu.open .nav-mobile-menu__item:hover{
-    color:rgba(0,0,0,0.5) !important;
-  }
-  body.light .nav-mobile-menu__item.active::before{
-    background:#166534 !important;
-  }
-  body.light .nav-mobile-menu.open .nav-mobile-menu__divider{
-    background:rgba(0,0,0,0.08) !important;
-  }
-  body.light .nav-mobile-menu__cta{
-    background:#166534 !important;
-    color:white !important;
-  }
-  /* Instrument Serif italic links */
-  .nav-mobile-menu__item{
-    display:block;
-    font-family:'Instrument Serif',serif;
-    font-style:italic;
-    font-size:36px;
-    font-weight:400;
-    color:rgba(255,255,255,0);
-    padding:10px 0;
-    text-decoration:none;
-    letter-spacing:-0.3px;
-    line-height:1.2;
-    transition:color 0.3s ease, transform 0.45s cubic-bezier(.16,1,.3,1);
-    transform:translateY(20px);
-    width:100%;
-  }
-  .nav-mobile-menu.open .nav-mobile-menu__item{
-    color:rgba(255,255,255,0.28);
-    transform:translateY(0);
-  }
-  .nav-mobile-menu.open .nav-mobile-menu__item:nth-child(1){transition-delay:0.04s;}
-  .nav-mobile-menu.open .nav-mobile-menu__item:nth-child(2){transition-delay:0.09s;}
-  .nav-mobile-menu.open .nav-mobile-menu__item:nth-child(3){transition-delay:0.14s;}
-  .nav-mobile-menu.open .nav-mobile-menu__item:nth-child(5){transition-delay:0.19s;}
-  .nav-mobile-menu__item:hover{color:rgba(255,255,255,0.65) !important;}
-  .nav-mobile-menu__item.active{
-    font-style:normal;
-    color:rgba(255,255,255,0.85) !important;
-  }
-  .nav-mobile-menu__item.active::before{
-    content:'';
-    display:inline-block;
-    width:5px;height:5px;border-radius:50%;
-    background:#4ade80;
-    margin-right:10px;
-    vertical-align:middle;
-    margin-bottom:3px;
-  }
-  .nav-mobile-menu__divider{
-    width:24px;height:1px;
-    background:rgba(255,255,255,0);
-    margin:8px 0;
-    transition:background 0.3s ease 0.18s;
-  }
-  .nav-mobile-menu.open .nav-mobile-menu__divider{background:rgba(255,255,255,0.1);}
-  .nav-mobile-menu__bottom{display:none;}
-  .nav-mobile-menu__cta{
-    display:inline-block;
-    margin-top:24px;
-    font-family:'Geist',sans-serif;
-    font-size:12px;font-weight:600;
-    color:#0a1a0f;background:#4ade80;
-    padding:10px 22px;border-radius:999px;
-    text-decoration:none;
-    opacity:0;transform:translateY(8px);
-    transition:opacity 0.3s ease 0.28s, transform 0.3s ease 0.28s;
-  }
-  .nav-mobile-menu.open .nav-mobile-menu__cta{opacity:1;transform:translateY(0);}
-
-  /* Fullscreen overlay */
-  .nav-mobile-menu{
-    display:flex;
-  }
-
   /* ─── LAYOUT HELPERS ─── */
   .col {
     max-width: var(--max);
@@ -1018,7 +805,50 @@
     /* Nav — hide desktop navs entirely, show mobile pill only */
     .nav-top  { display: none !important; }
     .nav-pill { display: none !important; visibility: hidden !important; pointer-events: none !important; }
-    .nav-mobile { display: flex; }
+    .mob-pill{
+      display:flex;position:fixed;top:16px;left:50%;
+      transform:translateX(-50%) translateY(-6px);z-index:9999;
+      align-items:center;justify-content:space-between;
+      background:rgba(15,15,15,0.92);border:1px solid rgba(255,255,255,0.1);
+      border-radius:999px;height:64px;width:calc(100vw - 32px);
+      padding:0 5px 0 18px;box-shadow:0 8px 32px rgba(0,0,0,0.3);
+      opacity:0;pointer-events:none;
+      transition:opacity .4s ease,transform .4s ease,width .4s cubic-bezier(.34,1.2,.64,1),padding .4s ease;
+    }
+    .mob-pill.mob-visible{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;}
+    .mob-pill.mob-scrolling{width:128px;padding:0 10px;justify-content:space-between;}
+    .mob-pill__name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#fff;letter-spacing:-.01em;white-space:nowrap;transition:opacity .25s ease,transform .25s ease;opacity:1;transform:translateX(0);flex:1;}
+    .mob-pill.mob-scrolling .mob-pill__name{opacity:0;transform:translateX(6px);pointer-events:none;width:0;flex:0;overflow:hidden;}
+    .mob-pill__icon{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .25s ease;opacity:0;pointer-events:none;}
+    .mob-pill__icon svg{width:20px;height:20px;color:rgba(255,255,255,.85);}
+    .mob-pill.mob-scrolling .mob-pill__icon{opacity:1;pointer-events:all;}
+    .mob-pill__right{display:flex;align-items:center;position:relative;width:54px;height:54px;flex-shrink:0;}
+    .mob-pill__ring{position:absolute;inset:0;flex-shrink:0;width:54px;height:54px;opacity:0;pointer-events:none;transition:opacity .3s ease;}
+    .mob-pill__ring svg{display:block;width:54px;height:54px;transform:rotate(-90deg);}
+    .mob-pill__ring .r-track{fill:none;stroke:rgba(255,255,255,.15);stroke-width:2.2;}
+    .mob-pill__ring .r-fill{fill:none;stroke:rgba(255,255,255,.9);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:131.95;stroke-dashoffset:131.95;transition:stroke-dashoffset .1s linear;}
+    .mob-pill__ring .r-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-family:'Geist Mono',monospace;color:rgba(255,255,255,.9);letter-spacing:-.02em;}
+    .mob-pill.mob-scrolling .mob-pill__ring{opacity:1;pointer-events:all;}
+    .mob-pill__burger{position:absolute;inset:0;width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;flex-shrink:0;transition:opacity .3s ease,background .2s,transform .15s;opacity:1;}
+    .mob-pill__burger span{display:block;width:14px;height:1.5px;background:rgba(255,255,255,.85);border-radius:2px;transition:transform .25s ease,opacity .2s ease;}
+    .mob-pill__burger:active{transform:scale(0.92);background:rgba(255,255,255,0.14);}
+    .mob-pill.mob-scrolling .mob-pill__burger{opacity:0;pointer-events:none;}
+    .mob-pill__burger.is-open span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
+    .mob-pill__burger.is-open span:nth-child(2){opacity:0;transform:scaleX(0);}
+    .mob-pill__burger.is-open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
+    .mob-drawer-overlay{display:none !important;}
+    .mob-drawer{position:fixed;inset:0;z-index:9995;background:var(--bg);display:flex;flex-direction:column;justify-content:center;padding:0 0 max(40px,env(safe-area-inset-bottom)) 0;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,1,.42,1);}
+    .mob-drawer.is-open{transform:translateY(0);}
+    .mob-drawer__handle{display:none;}
+    .mob-drawer__link{display:flex;align-items:center;padding:20px 40px;font-size:36px;font-family:'Instrument Serif',serif;font-weight:400;color:var(--white);text-decoration:none;letter-spacing:-.03em;min-height:72px;transition:opacity .18s,transform .12s;}
+    .mob-drawer__link:active{opacity:0.6;transform:scale(0.98);}
+    body.light .mob-drawer__link:active{opacity:0.5;}
+    .mob-drawer__divider{height:1px;background:var(--line);margin:20px 40px;}
+    .mob-drawer__theme{display:flex;align-items:center;justify-content:flex-start;padding:20px 40px;min-height:64px;}
+    .mob-theme-toggle{display:flex;align-items:center;background:rgba(255,255,255,0.06);border:1px solid var(--line);border-radius:999px;padding:4px;gap:4px;cursor:pointer;}
+    body.light .mob-theme-toggle{background:rgba(0,0,0,0.05);}
+    .mob-theme-toggle__opt{padding:8px 20px;border-radius:999px;font-size:13px;font-weight:500;color:var(--sub);transition:background .2s,color .2s;min-height:36px;display:flex;align-items:center;}
+    .mob-theme-toggle__opt.active{background:var(--accent);color:#000;}
 
     /* Layout */
     .hero { padding: 100px 0 56px; }
@@ -1105,34 +935,10 @@
   </nav>
   <div class="nav-top__right">
     <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">🌙</button>
-    <a href="../DaveAI/index.html" class="nav-top__cta">Dave AI ✦</a>
+    <a href="#" class="nav-top__cta">Dave AI ✦</a>
   </div>
 </header>
 
-<!-- MOBILE NAV PILL — hamburger · theme · progress ring -->
-<header class="nav-mobile" id="navMobile">
-  <button class="nav-hamburger" id="navHamburger" aria-label="Open menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-  <button class="nav-mobile__theme" id="themeToggleMobile" aria-label="Toggle theme">🌙</button>
-  <div class="nav-mobile__ring">
-    <svg viewBox="0 0 38 38">
-      <circle class="mr-track" cx="19" cy="19" r="15"/>
-      <circle class="mr-fill" id="mobileRingFill" cx="19" cy="19" r="15"/>
-    </svg>
-    <div class="mr-pct" id="mobileRingPct">0%</div>
-  </div>
-</header>
-
-<!-- MOBILE FULLSCREEN OVERLAY -->
-<div class="nav-mobile-menu" id="navMobileMenu" role="dialog" aria-label="Mobile navigation">
-  <a href="../index.html" class="nav-mobile-menu__item">Home</a>
-  <a href="../Work/index.html" class="nav-mobile-menu__item">Work</a>
-  <a href="../AboutMe/index.html" class="nav-mobile-menu__item">About</a>
-  <div class="nav-mobile-menu__divider"></div>
-  <a href="#" class="nav-mobile-menu__item">Resume</a>
-  <a href="../DaveAI/index.html" class="nav-mobile-menu__cta">Dave AI ✦</a>
-</div>
 
 <!-- PILL NAV -->
 <nav class="nav-pill" id="navPill">
@@ -1552,7 +1358,7 @@
     <p style="margin-top:12px;">That question is the one I'll carry into every product I work on next.</p>
     <div style="margin-top:32px;">
       <a href="../index.html" class="btn">← Back to Home</a>
-      <a href="#" class="btn btn-primary">View Next Case Study →</a>
+      <a href="#" class="btn btn-primary">See Prototype →</a>
     </div>
   </div>
 </footer>
@@ -1568,66 +1374,9 @@ document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
 
 // Mobile nav — hamburger + theme toggle
 (function(){
-  const hamburger  = document.getElementById('navHamburger');
-  const mobileMenu = document.getElementById('navMobileMenu');
-  const themeMobile = document.getElementById('themeToggleMobile');
+  /* DESKTOP NAV */
+  if(window.matchMedia('(max-width:640px)').matches) return;
 
-  function closeMenu(){
-    mobileMenu.classList.remove('open');
-    hamburger.classList.remove('open');
-    hamburger.setAttribute('aria-expanded', false);
-  }
-
-  // Open / close on hamburger tap
-  if(hamburger && mobileMenu){
-    hamburger.addEventListener('click', function(e){
-      e.stopPropagation();
-      const isOpen = mobileMenu.classList.toggle('open');
-      hamburger.classList.toggle('open', isOpen);
-      hamburger.setAttribute('aria-expanded', isOpen);
-    });
-  }
-
-  // Close when a menu link is tapped
-  if(mobileMenu){
-    mobileMenu.querySelectorAll('a').forEach(function(link){
-      link.addEventListener('click', closeMenu);
-    });
-
-    // Close on tap outside menu items
-    document.addEventListener('click', function(e){
-      if(!mobileMenu.classList.contains('open')) return;
-      const isOnHamburger = hamburger && hamburger.contains(e.target);
-      const isOnItem = mobileMenu.contains(e.target);
-      if(!isOnHamburger && !isOnItem) closeMenu();
-    });
-
-    // Close on swipe up
-    let touchStartY = 0;
-    mobileMenu.addEventListener('touchstart', function(e){
-      touchStartY = e.touches[0].clientY;
-    }, {passive:true});
-    mobileMenu.addEventListener('touchend', function(e){
-      if(touchStartY - e.changedTouches[0].clientY > 60) closeMenu();
-    }, {passive:true});
-  }
-
-  // Mobile theme toggle
-  if(themeMobile){
-    themeMobile.addEventListener('click', function(){
-      const goLight = !document.body.classList.contains('light');
-      document.body.classList.toggle('light', goLight);
-      const icon = goLight ? '☀️' : '🌙';
-      ['themeToggle','themeTogglePill','themeToggleMobile'].forEach(function(id){
-        const el = document.getElementById(id);
-        if(el) el.textContent = icon;
-      });
-    });
-  }
-})();
-
-// Navbar
-(function(){
   const navTop     = document.getElementById('navTop');
   const navPill    = document.getElementById('navPill');
   const rFill      = document.getElementById('navRingFill');
@@ -1636,30 +1385,15 @@ document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
   const togglePill = document.getElementById('themeTogglePill');
   const CIRC = 2 * Math.PI * 17;
 
-
-  const mobileRingFill = document.getElementById('mobileRingFill');
-  const mobileRingPct  = document.getElementById('mobileRingPct');
-  const MOBILE_CIRC = 2 * Math.PI * 15;
-
   function onScroll(){
     const h = document.documentElement;
     const scrollY = h.scrollTop;
     const total = h.scrollHeight - h.clientHeight;
     const pct = total > 0 ? Math.min(scrollY / total, 1) : 0;
-    const isMobile = window.innerWidth <= 640;
-    if(!isMobile){
-      navTop.classList.toggle('nav-hidden', scrollY > 80);
-      navPill.classList.toggle('nav-visible', scrollY > 80);
-    } else {
-      navTop.classList.remove('nav-hidden');
-      navPill.classList.remove('nav-visible');
-    }
-    // Desktop ring
+    navTop.classList.toggle('nav-hidden', scrollY > 80);
+    navPill.classList.toggle('nav-visible', scrollY > 80);
     rFill.style.strokeDashoffset = CIRC * (1 - pct);
     rPct.textContent = Math.round(pct * 100) + '%';
-    // Mobile ring
-    if(mobileRingFill) mobileRingFill.style.strokeDashoffset = MOBILE_CIRC * (1 - pct);
-    if(mobileRingPct)  mobileRingPct.textContent = Math.round(pct * 100) + '%';
   }
   window.addEventListener('scroll', onScroll, {passive:true});
   onScroll();
@@ -1667,14 +1401,12 @@ document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
   function applyTheme(goLight){
     document.body.classList.toggle('light', goLight);
     const icon = goLight ? '☀️' : '🌙';
-    toggleTop.textContent  = icon;
-    togglePill.textContent = icon;
-    const mob = document.getElementById('themeToggleMobile');
-    if(mob) mob.textContent = icon;
+    if(toggleTop)  toggleTop.textContent  = icon;
+    if(togglePill) togglePill.textContent = icon;
   }
   function toggleTheme(){ applyTheme(!document.body.classList.contains('light')); }
-  toggleTop.addEventListener('click', toggleTheme);
-  togglePill.addEventListener('click', toggleTheme);
+  if(toggleTop)  toggleTop.addEventListener('click', toggleTheme);
+  if(togglePill) togglePill.addEventListener('click', toggleTheme);
 
   document.querySelectorAll('[data-theme]').forEach(function(sec){
     new IntersectionObserver(function(entries){
@@ -1686,6 +1418,99 @@ document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
     },{threshold:[0.45,0.55]}).observe(sec);
   });
 })();
+
+/* MOBILE NAV */
+document.addEventListener('DOMContentLoaded', function(){
+(function(){
+  var isMobile = function(){ return window.matchMedia('(max-width:640px)').matches; };
+
+  var mobPill    = document.getElementById('mobPill');
+  var mobBurger  = document.getElementById('mobBurger');
+  var mobDrawer  = document.getElementById('mobDrawer');
+  var mobOverlay = document.getElementById('mobDrawerOverlay');
+  var mobRingFill= document.getElementById('mobRingFill');
+  var mobRingPct = document.getElementById('mobRingPct');
+  var mobOptDark = document.getElementById('mobOptDark');
+  var mobOptLight= document.getElementById('mobOptLight');
+
+  if(!window.matchMedia('(max-width:640px)').matches) return;
+  if(!mobPill || !mobBurger || !mobDrawer || !mobOverlay || !mobRingFill || !mobRingPct) return;
+
+  var MOB_CIRC = 2 * Math.PI * 21;
+  var scrollTimer = null;
+  var drawerOpen  = false;
+  var pillShown   = false;
+
+  setTimeout(function(){
+    mobPill.classList.add('mob-visible');
+    pillShown = true;
+  }, 500);
+
+  function onMobScroll(){
+    if(!isMobile()) return;
+    var h = document.documentElement;
+    var scrollY = h.scrollTop;
+    var total = h.scrollHeight - h.clientHeight;
+    var pct = total > 0 ? Math.min(scrollY / total, 1) : 0;
+    mobRingFill.style.strokeDashoffset = MOB_CIRC * (1 - pct);
+    mobRingPct.textContent = Math.round(pct * 100) + '%';
+    if(scrollY > 40){
+      if(!pillShown){ mobPill.classList.add('mob-visible'); pillShown = true; }
+      mobPill.classList.add('mob-scrolling');
+    } else {
+      mobPill.classList.remove('mob-scrolling');
+    }
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(function(){
+      mobPill.classList.remove('mob-scrolling');
+    }, 500);
+  }
+  window.addEventListener('scroll', onMobScroll, {passive:true});
+
+  function openDrawer(){
+    drawerOpen = true;
+    mobDrawer.classList.add('is-open');
+    mobBurger.classList.add('is-open');
+    mobBurger.setAttribute('aria-expanded','true');
+    document.body.style.overflow = 'hidden';
+    var firstLink = mobDrawer.querySelector('a');
+    if(firstLink) setTimeout(function(){ firstLink.focus(); }, 50);
+  }
+  function closeDrawer(){
+    drawerOpen = false;
+    mobDrawer.classList.remove('is-open');
+    mobBurger.classList.remove('is-open');
+    mobBurger.setAttribute('aria-expanded','false');
+    document.body.style.overflow = '';
+    mobBurger.focus();
+  }
+
+  mobBurger.addEventListener('click', function(){
+    drawerOpen ? closeDrawer() : openDrawer();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && drawerOpen) closeDrawer();
+  });
+  mobDrawer.querySelectorAll('a').forEach(function(link){
+    link.addEventListener('click', closeDrawer);
+  });
+
+  function applyMobTheme(goLight){
+    document.body.classList.toggle('light', goLight);
+    mobOptDark.classList.toggle('active', !goLight);
+    mobOptLight.classList.toggle('active', goLight);
+    var deskToggle = document.getElementById('themeToggle');
+    var pillToggle = document.getElementById('themeTogglePill');
+    if(deskToggle) deskToggle.textContent = goLight ? '☀️' : '🌙';
+    if(pillToggle) pillToggle.textContent = goLight ? '☀️' : '🌙';
+  }
+  applyMobTheme(false);
+
+  document.getElementById('mobThemeToggle').addEventListener('click', function(){
+    applyMobTheme(!document.body.classList.contains('light'));
+  });
+})();
+}); // DOMContentLoaded
 </script>
 
 <!-- LIGHTBOX -->
@@ -1756,5 +1581,42 @@ document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
   });
 })();
 </script>
+<!-- MOBILE PILL NAV -->
+<nav class="mob-pill" id="mobPill" role="navigation" aria-label="Mobile navigation">
+  <div class="mob-pill__name" aria-hidden="true">Daiwat Thavai</div>
+  <div class="mob-pill__icon" aria-hidden="true">
+    <svg viewBox="0 0 16 16" fill="none"><path d="M3 2L13 8L8 9.5L6.5 14L3 2Z" fill="currentColor"/></svg>
+  </div>
+  <div class="mob-pill__right">
+    <div class="mob-pill__ring" aria-hidden="true">
+      <svg viewBox="0 0 54 54">
+        <circle class="r-track" cx="27" cy="27" r="21"/>
+        <circle class="r-fill" id="mobRingFill" cx="27" cy="27" r="21"/>
+      </svg>
+      <div class="r-pct" id="mobRingPct">0%</div>
+    </div>
+    <button class="mob-pill__burger" id="mobBurger" aria-label="Open menu" aria-expanded="false" aria-controls="mobDrawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mob-drawer-overlay" id="mobDrawerOverlay" aria-hidden="true"></div>
+
+<div class="mob-drawer" id="mobDrawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <div class="mob-drawer__handle" aria-hidden="true"></div>
+  <a href="../Work/index.html" class="mob-drawer__link">Work</a>
+  <a href="../AboutMe/index.html" class="mob-drawer__link">About</a>
+  <a href="#" class="mob-drawer__link">Resume</a>
+  <a href="../DaveAI/index.html" class="mob-drawer__link">Dave AI ✦</a>
+  <div class="mob-drawer__divider" aria-hidden="true"></div>
+  <div class="mob-drawer__theme">
+    <div class="mob-theme-toggle" id="mobThemeToggle" role="group" aria-label="Theme toggle">
+      <div class="mob-theme-toggle__opt active" id="mobOptDark" aria-pressed="true">Dark</div>
+      <div class="mob-theme-toggle__opt" id="mobOptLight" aria-pressed="false">Light</div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
