@@ -172,12 +172,16 @@
   .nav-pill.nav-on-dark .r-fill{stroke:rgba(0,0,0,.8);}
   .nav-pill.nav-on-dark .r-pct{color:rgba(0,0,0,.7);}
 
+  /* Hide mobile nav on desktop */
+  @media(min-width:641px){
+    .mob-pill{display:none !important;}
+    .mob-drawer{display:none !important;}
+    .mob-drawer-overlay{display:none !important;}
+  }
   @media(max-width:640px){
     /* Hide desktop navs on mobile */
     .nav-top{display:none;}
     .nav-pill{display:none;}
-    #mobileNavRoot{display:block;}
-
     /* ══════════════════════════════
        MOBILE PILL NAV
     ══════════════════════════════ */
@@ -869,7 +873,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
 <!-- MOBILE PILL NAV — only renders on mobile -->
 <!-- MOBILE PILL NAV -->
-<div id="mobileNavRoot" style="display:none;">
 <nav class="mob-pill" id="mobPill" role="navigation" aria-label="Mobile navigation">
   <!-- Left: name (resting) / compass icon (scrolling) -->
   <div class="mob-pill__name" aria-hidden="true">Daiwat Thavai</div>
@@ -909,7 +912,6 @@ document.addEventListener('DOMContentLoaded', function(){
     </div>
   </div>
 </div>
-</div><!-- /mobileNavRoot -->
 
 <!-- LIGHTBOX -->
 <div class="lb-overlay" id="lbOverlay" role="dialog" aria-modal="true">
