@@ -368,12 +368,21 @@
   let loading   = false;
   let history   = [];
 
-  // ── Mobile keyboard: scroll input into view when keyboard opens ──
+  // ── iOS Safari keyboard fix using Visual Viewport API ──
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', function() {
+      var vv = window.visualViewport;
+      var keyboardHeight = window.innerHeight - vv.height - vv.offsetTop;
+      document.querySelector('.foot').style.paddingBottom = Math.max(keyboardHeight, 18) + 'px';
+      body.scrollTop = body.scrollHeight;
+    });
+  }
+
   inp.addEventListener('focus', () => {
     setTimeout(() => {
       inp.scrollIntoView({ behavior: 'smooth', block: 'end' });
       body.scrollTop = body.scrollHeight;
-    }, 350);
+    }, 400);
   });
 
   function toggleTheme() {
