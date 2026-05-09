@@ -118,6 +118,72 @@
     .nav-pill__link{padding:8px 10px;font-size:13px;}
   }
 
+  /* ── MOBILE NAV (Global Bridge style) ── */
+  @media(min-width:641px){
+    .mob-pill{display:none !important;}
+    .mob-drawer{display:none !important;}
+    .mob-drawer-overlay{display:none !important;}
+  }
+  @media(max-width:640px){
+    .nav-top{display:none;}
+    .nav-pill{display:none;}
+    .mob-pill{
+      display:flex;position:fixed;top:16px;left:50%;
+      transform:translateX(-50%) translateY(-6px);z-index:9999;
+      align-items:center;justify-content:space-between;
+      background:rgba(15,15,15,0.92);border:1px solid rgba(255,255,255,0.1);
+      border-radius:999px;height:64px;width:calc(100vw - 32px);
+      padding:0 5px 0 18px;box-shadow:0 8px 32px rgba(0,0,0,0.3);
+      opacity:0;pointer-events:none;
+      transition:opacity .4s ease,transform .4s ease,width .4s cubic-bezier(.34,1.2,.64,1),padding .4s ease;
+    }
+    .mob-pill.mob-visible{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;}
+    .mob-pill.mob-scrolling{width:128px;padding:0 10px;justify-content:space-between;}
+    .mob-pill__name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#fff;letter-spacing:-.01em;white-space:nowrap;transition:opacity .25s ease,transform .25s ease;opacity:1;transform:translateX(0);flex:1;}
+    .mob-pill.mob-scrolling .mob-pill__name{opacity:0;transform:translateX(6px);pointer-events:none;width:0;flex:0;overflow:hidden;}
+    .mob-pill__icon{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .25s ease;opacity:0;pointer-events:none;}
+    .mob-pill__icon svg{width:20px;height:20px;color:rgba(255,255,255,.85);}
+    .mob-pill.mob-scrolling .mob-pill__icon{opacity:1;pointer-events:all;}
+    .mob-pill__right{display:flex;align-items:center;position:relative;width:54px;height:54px;flex-shrink:0;}
+    .mob-pill__ring{position:absolute;inset:0;flex-shrink:0;width:54px;height:54px;opacity:0;pointer-events:none;transition:opacity .3s ease;}
+    .mob-pill__ring svg{display:block;width:54px;height:54px;transform:rotate(-90deg);}
+    .mob-pill__ring .r-track{fill:none;stroke:rgba(255,255,255,.15);stroke-width:2.2;}
+    .mob-pill__ring .r-fill{fill:none;stroke:rgba(255,255,255,.9);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:131.95;stroke-dashoffset:131.95;transition:stroke-dashoffset .1s linear;}
+    .mob-pill__ring .r-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-family:'Geist Mono',monospace;color:rgba(255,255,255,.9);letter-spacing:-.02em;}
+    .mob-pill.mob-scrolling .mob-pill__ring{opacity:1;pointer-events:all;}
+    .mob-pill__burger{position:absolute;inset:0;width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;flex-shrink:0;transition:opacity .3s ease,background .2s,transform .15s;opacity:1;}
+    .mob-pill__burger span{display:block;width:14px;height:1.5px;background:rgba(255,255,255,.85);border-radius:2px;transition:transform .25s ease,opacity .2s ease;}
+    .mob-pill__burger:active{transform:scale(0.92);background:rgba(255,255,255,0.14);}
+    .mob-pill.mob-scrolling .mob-pill__burger{opacity:0;pointer-events:none;}
+    .mob-pill__burger.is-open span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
+    .mob-pill__burger.is-open span:nth-child(2){opacity:0;transform:scaleX(0);}
+    .mob-pill__burger.is-open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
+    .mob-drawer-overlay{display:none !important;}
+    .mob-drawer{position:fixed;inset:0;z-index:9995;background:var(--bg);display:flex;flex-direction:column;justify-content:center;padding:0 0 max(40px,env(safe-area-inset-bottom)) 0;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,1,.42,1);}
+    .mob-drawer.is-open{transform:translateY(0);}
+    .mob-drawer__handle{display:none;}
+    .mob-drawer__link{display:flex;align-items:center;padding:20px 40px;font-size:36px;font-family:'Instrument Serif',serif;font-weight:400;color:var(--white);text-decoration:none;letter-spacing:-.03em;min-height:72px;transition:opacity .18s,transform .12s;}
+    .mob-drawer__link:active{opacity:0.6;transform:scale(0.98);}
+    body.light .mob-drawer__link:active{opacity:0.5;}
+    .mob-drawer__divider{height:1px;background:var(--line);margin:20px 40px;}
+    .mob-drawer__theme{display:flex;align-items:center;justify-content:flex-start;padding:20px 40px;min-height:64px;}
+    .mob-theme-toggle{display:flex;align-items:center;background:rgba(255,255,255,0.06);border:1px solid var(--line);border-radius:999px;padding:4px;gap:4px;cursor:pointer;}
+    body.light .mob-theme-toggle{background:rgba(0,0,0,0.05);}
+    .mob-theme-toggle__opt{padding:8px 20px;border-radius:999px;font-size:13px;font-weight:500;color:var(--sub);transition:background .2s,color .2s;min-height:36px;display:flex;align-items:center;}
+    .mob-theme-toggle__opt.active{background:var(--accent);color:#000;}
+    h1{font-size:36px;}
+    h2{font-size:26px;}
+    .steps{grid-template-columns:1fr 1fr;}
+    .solutions{grid-template-columns:1fr;}
+    .two-col{grid-template-columns:1fr;}
+    .feature-row{grid-template-columns:1fr;gap:8px;}
+    .iter-row{grid-template-columns:1fr;}
+    .stats-row{grid-template-columns:1fr;}
+    .screen-grid{grid-template-columns:1fr;}
+    .deploy-nums{gap:32px;}
+    .hero-meta{gap:32px;}
+  }
+
   /* ══════════════════════════════
      PAGE LAYOUT
   ══════════════════════════════ */
@@ -218,9 +284,9 @@
   /* ══════════════════════════════
      OUTCOME NUMBERS
   ══════════════════════════════ */
-  .deploy-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:48px 0;margin-top:40px;row-gap:48px;}
-  .dn-num{font-family:'Instrument Serif',serif;font-size:52px;color:var(--white);line-height:1;letter-spacing:-2px;}
-  .dn-num em{color:var(--accent-text);font-style:normal;font-size:inherit;}
+  .deploy-nums{display:flex;gap:48px;margin-top:40px;flex-wrap:wrap;}
+  .dn-num{font-family:'Instrument Serif',serif;font-size:40px;color:var(--white);line-height:1;letter-spacing:-1px;}
+  .dn-num em{color:var(--accent-text);font-style:normal;}
   .dn-label{font-size:var(--t-sm);color:var(--sub);margin-top:4px;max-width:160px;line-height:1.5;}
 
   /* ══════════════════════════════
@@ -240,7 +306,7 @@
   body.light .btn{border-color:rgba(0,0,0,.15);color:var(--text);}
   .btn:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.25);}
   body.light .btn:hover{background:rgba(0,0,0,.05);}
-  .btn-accent{background:var(--accent);border-color:transparent;color:#1C1917;margin-left:10px;}
+  .btn-accent{background:var(--accent);border-color:transparent;color:#000000;margin-left:10px;}
   .btn-accent:hover{background:var(--warm);}
 
   /* ══════════════════════════════
@@ -254,112 +320,7 @@
   .hero .col>*:nth-child(4){animation-delay:.46s;}
   .hero .col>*:nth-child(5){animation-delay:.56s;}
 
-  @media(max-width:640px){
-    h1{font-size:36px;}
-    h2{font-size:26px;}
-    .steps{grid-template-columns:1fr 1fr;}
-    .solutions{grid-template-columns:1fr;}
-    .two-col{grid-template-columns:1fr;}
-    .feature-row{grid-template-columns:1fr;gap:8px;}
-    .iter-row{grid-template-columns:1fr;}
-    .stats-row{grid-template-columns:1fr;}
-    .screen-grid{grid-template-columns:1fr;}
-    .deploy-nums{gap:32px;}
-    .hero-meta{gap:32px;}
-  }
 
-  /* ══════════════════════════════
-     RESEARCH GRID
-  ══════════════════════════════ */
-  .rg-table{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:12px;overflow:hidden;}
-  .rg-block+.rg-block{border-top:1px solid var(--line);}
-  .rg-block-headers{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);}
-  .rg-th{background:var(--surface);color:#A09890;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;padding:14px 18px;line-height:1.4;}
-  body.light .rg-th{color:#65574A;}
-  .rg-block-cells{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);}
-  .rg-cell{background:var(--bg);padding:24px 18px;display:flex;flex-direction:column;gap:12px;}
-  .rg-row{display:flex;flex-direction:column;gap:3px;}
-  .rg-label{font-family:'Geist Mono',monospace;font-size:11px;color:var(--sub);letter-spacing:.5px;text-transform:uppercase;}
-  .rg-val{font-size:15px;color:var(--text);}
-  .rg-val em{color:var(--accent-text);font-style:normal;}
-  .rg-list{gap:8px;}
-  .rg-list span{font-size:13px;color:var(--sub);padding-left:14px;position:relative;line-height:1.6;}
-  .rg-list span::before{content:'—';position:absolute;left:0;color:var(--accent);}
-  @media(max-width:640px){.rg-block-headers,.rg-block-cells{grid-template-columns:1fr 1fr;}}
-
-  .hero-visual img{width:100%;display:block;border-radius:12px;}
-
-  /* ══════════════════════════════
-     HAIROMA SECTION
-  ══════════════════════════════ */
-  .hairoma-section{padding-bottom:0;}
-  .hairoma-eyebrow{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
-  .hairoma-title{font-size:var(--t-2xl);line-height:.95;margin:0 0 24px;letter-spacing:-.03em;}
-  .hairoma-sub{font-size:18px;line-height:1.6;max-width:600px;margin-bottom:48px;color:var(--text);}
-
-  /* Insight stats */
-  .hairoma-insight-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:16px;}
-  .hairoma-insight-card{background:var(--bg);padding:28px 24px;}
-  .hairoma-insight-num{font-family:'Instrument Serif',serif;font-size:40px;color:var(--accent);line-height:1;margin-bottom:8px;}
-  .hairoma-insight-label{font-size:13px;color:var(--sub);line-height:1.5;}
-
-  /* Steps */
-  .hairoma-steps-label{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--sub);margin-bottom:24px;}
-  .hairoma-steps{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:stretch;gap:0;margin-bottom:64px;border:1px solid var(--line);border-radius:12px;overflow:hidden;}
-  .hairoma-step{padding:28px 24px;background:var(--surface);}
-  .hairoma-step-divider{display:flex;align-items:center;justify-content:center;padding:28px 16px;background:var(--bg);color:var(--accent);font-size:18px;align-self:stretch;}
-  .hairoma-step-num{font-family:'Geist Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:2px;margin-bottom:12px;}
-  .hairoma-step-title{font-size:15px;font-weight:500;color:var(--text);margin-bottom:8px;line-height:1.3;}
-  .hairoma-step-body{font-size:13px;color:var(--sub);line-height:1.6;}
-
-  /* Screens */
-  .hairoma-screens-wrap{margin-top:64px;}
-  .hairoma-screen-pair{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
-  .hairoma-screen-block{display:flex;flex-direction:column;gap:12px;}
-  .hairoma-screen-caption{font-family:'Geist Mono',monospace;font-size:11px;color:var(--sub);letter-spacing:.5px;text-transform:uppercase;line-height:1.5;padding:0 4px;}
-  .hairoma-placeholder{background:var(--surface);border:1px solid var(--line);border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Geist Mono',monospace;font-size:12px;color:var(--sub);text-align:center;padding:24px;}
-  .hairoma-ph-wide{aspect-ratio:16/7;width:100%;}
-  .hairoma-ph-tall{aspect-ratio:9/14;width:100%;}
-
-  /* Quotes */
-  .hairoma-quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:64px 0;}
-  .hairoma-quote{background:var(--surface);border-radius:12px;padding:28px 24px;position:relative;}
-  .hairoma-quote-mark{font-family:'Instrument Serif',serif;font-size:48px;color:var(--accent);line-height:.8;margin-bottom:12px;}
-  .hairoma-quote p{font-size:14px;color:var(--text);line-height:1.7;margin:0 0 16px;font-style:italic;}
-  .hairoma-quote-author{font-family:'Geist Mono',monospace;font-size:11px;color:var(--sub);letter-spacing:.5px;}
-
-  /* Impact */
-  .hairoma-impact{border-top:1px solid var(--line);padding:48px 0 80px;}
-  .hairoma-impact-title{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--sub);margin-bottom:32px;}
-  .hairoma-impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;}
-  .hairoma-impact-item{display:flex;flex-direction:column;gap:10px;}
-  .hairoma-impact-heading{font-size:15px;font-weight:500;color:var(--text);}
-  .hairoma-impact-body{font-size:13px;color:var(--sub);line-height:1.7;}
-
-  @media(max-width:640px){
-    .hairoma-insight-row,.hairoma-steps,.hairoma-screen-pair,.hairoma-quotes,.hairoma-impact-grid{grid-template-columns:1fr;}
-    .hairoma-step-divider{display:none;}
-    .hairoma-steps{gap:1px;}
-  }
-
-  .hairoma-img-caption{font-family:'Geist Mono',monospace;font-size:11px;color:var(--sub);letter-spacing:.5px;text-transform:uppercase;line-height:1.5;padding:10px 4px 0;border-top:1px solid var(--line);margin-top:12px;}
-  .hairoma-screen-divider{border:none;border-top:1px solid var(--line);margin:40px 0;opacity:.4;}
-
-  /* ══════════════════════════════
-     LIGHTBOX
-  ══════════════════════════════ */
-  .lb-overlay{position:fixed;inset:0;z-index:9999;background:rgba(10,9,8,.92);backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;gap:16px;opacity:0;transition:opacity .25s ease;}
-  .lb-overlay.lb-active{display:flex;opacity:1;}
-  .lb-content{position:relative;max-width:min(90vw,1100px);max-height:90vh;display:flex;flex-direction:column;align-items:center;gap:16px;}
-  #lb-img{max-width:100%;max-height:80vh;border-radius:12px;object-fit:contain;box-shadow:0 32px 80px rgba(0,0,0,.6);transition:opacity .2s ease;}
-  .lb-caption{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,248,238,.45);text-align:center;}
-  .lb-close{position:fixed;top:24px;right:28px;background:none;border:none;color:rgba(255,248,238,.6);font-size:28px;cursor:pointer;line-height:1;padding:8px;transition:color .15s;}
-  .lb-close:hover{color:#fff;}
-  .lb-nav{background:none;border:1px solid rgba(255,248,238,.12);color:rgba(255,248,238,.6);font-size:20px;cursor:pointer;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;}
-  .lb-nav:hover{border-color:rgba(255,248,238,.4);color:#fff;}
-  .lb-nav:disabled{opacity:.2;cursor:default;}
-  .lb-zoomable{cursor:zoom-in;}
-  .lb-zoomable:hover{opacity:.92;}
 </style>
 </head>
 <body>
@@ -375,7 +336,7 @@
   </nav>
   <div class="nav-top__right">
     <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">🌙</button>
-    <a href="../DaveAI/index.html" class="nav-top__cta">Dave AI ✦</a>
+    <a href="#" class="nav-top__cta">Dave AI ✦</a>
   </div>
 </header>
 
@@ -420,9 +381,7 @@
       <div class="meta-item"><span class="meta-label">Platform</span><span>Web · Mobile</span></div>
       <div class="meta-item"><span class="meta-label">Tags</span><span>E-Commerce · UX</span></div>
     </div>
-    <div class="hero-visual">
-      <img id="mockup-img" class="lb-zoomable" data-caption="Hair Food — Desktop & Mobile Mockup" src="assets/mock-up-dark.png" alt="Hair Food desktop and mobile mockup" style="width:100%;display:block;border-radius:12px;">
-    </div>
+    <div class="hero-visual placeholder">[ Hero product mockup — desktop + mobile ]</div>
   </div>
 </div>
 
@@ -574,83 +533,10 @@
     </div>
 
     <div style="margin-top:48px;">
-      <img src="assets/user-journey.png" alt="Affinity map / research synthesis board" style="width:100%;border-radius:12px;display:block;">
+      <div class="placeholder" style="width:100%;aspect-ratio:16/7;">[ Affinity map / research synthesis board — placeholder ]</div>
     </div>
-
-    </div>
-  </div>
-  <div class="col-wide" style="margin-top:64px;">
-    <h3 style="margin-bottom:4px;">Survey findings</h3>
-    <p style="margin-top:8px;margin-bottom:32px;">27 participants across two rounds of structured survey research.</p>
-
-      <div class="rg-table">
-        <div class="rg-block">
-          <div class="rg-block-headers">
-            <div class="rg-th">User Behaviour</div>
-            <div class="rg-th">Satisfaction &amp; Need</div>
-            <div class="rg-th">Common Hair Products in use</div>
-            <div class="rg-th">Criteria to choose a brand</div>
-          </div>
-          <div class="rg-block-cells">
-            <div class="rg-cell">
-              <div class="rg-row"><span class="rg-label">Common gender</span><span class="rg-val">22/27 — <em>Female</em></span></div>
-              <div class="rg-row"><span class="rg-label">Common age group</span><span class="rg-val">24–28 <em>(12/27)</em></span></div>
-              <div class="rg-row"><span class="rg-label">Have a hair care routine</span><span class="rg-val">26/27</span></div>
-              <div class="rg-row"><span class="rg-label">Structured routine</span><span class="rg-val">17/27</span></div>
-            </div>
-            <div class="rg-cell">
-              <div class="rg-row"><span class="rg-label">Dissatisfied with hair health</span><span class="rg-val">18/27</span></div>
-              <div class="rg-row"><span class="rg-label">Dryness &amp; lack of volume</span><span class="rg-val">21/27</span></div>
-            </div>
-            <div class="rg-cell">
-              <div class="rg-row"><span class="rg-label">Shampoo — most used</span><span class="rg-val">25/27</span></div>
-              <div class="rg-row"><span class="rg-label">Hair oil — most used</span><span class="rg-val">22/27</span></div>
-            </div>
-            <div class="rg-cell">
-              <div class="rg-row"><span class="rg-label">Quality driven choice</span><span class="rg-val">21/27</span></div>
-              <div class="rg-row"><span class="rg-label">Product effectiveness</span><span class="rg-val">20/27</span></div>
-            </div>
-          </div>
-        </div>
-        <div class="rg-block">
-          <div class="rg-block-headers">
-            <div class="rg-th">Long-term Brand Usage</div>
-            <div class="rg-th">Motivation to buy from brand site</div>
-            <div class="rg-th">Who would buy Hair Food</div>
-            <div class="rg-th">How to improve desire</div>
-          </div>
-          <div class="rg-block-cells">
-            <div class="rg-cell">
-              <div class="rg-row"><span class="rg-label">Loyal to one brand 1+ year</span><span class="rg-val">13/27</span></div>
-            </div>
-            <div class="rg-cell rg-list">
-              <span>Discounts</span>
-              <span>Free shipping</span>
-              <span>Membership benefits</span>
-              <span>Genuine product reviews</span>
-              <span>Exclusive special offers</span>
-              <span>Price matching</span>
-            </div>
-            <div class="rg-cell rg-list">
-              <span>Natural &amp; chemical-free options</span>
-              <span>Unique ingredients</span>
-              <span>Visually appealing products</span>
-              <span>Interest despite lack of reviews</span>
-            </div>
-            <div class="rg-cell rg-list">
-              <span>Live testimonials</span>
-              <span>Ingredient benefits</span>
-              <span>Product effectiveness</span>
-              <span>Product quality</span>
-              <span>Usage time for optimal results</span>
-            </div>
-          </div>
-        </div>
-      </div>
   </div>
 </section>
-
-
 
 
 <!-- ══════════════════════════════
@@ -705,7 +591,34 @@
 </section>
 
 
-
+<!-- ══════════════════════════════
+     07 — WIREFRAMES & SCREENS
+══════════════════════════════ -->
+<section class="section" data-theme="dark">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>07 — Screens</div>
+    <h2>From wireframe<br>to final design.</h2>
+    <p>Every key flow — from homepage to checkout — went through at least two rounds of iteration before high-fidelity work began.</p>
+    <div class="screen-grid">
+      <div class="screen-item">
+        <div class="placeholder" style="width:100%;aspect-ratio:4/3;">[ Fragrance Finder — quiz step 1 ]</div>
+        <div class="screen-caption">Fragrance Finder · Quiz step 1</div>
+      </div>
+      <div class="screen-item">
+        <div class="placeholder" style="width:100%;aspect-ratio:4/3;">[ Fragrance Finder — results ]</div>
+        <div class="screen-caption">Fragrance Finder · Results & recommendations</div>
+      </div>
+      <div class="screen-item">
+        <div class="placeholder" style="width:100%;aspect-ratio:4/3;">[ Product Detail Page ]</div>
+        <div class="screen-caption">Product Detail · Ingredient spotlight</div>
+      </div>
+      <div class="screen-item">
+        <div class="placeholder" style="width:100%;aspect-ratio:4/3;">[ Routine Builder / Cart ]</div>
+        <div class="screen-caption">Routine Builder · Bundle checkout</div>
+      </div>
+    </div>
+  </div>
+</section>
 
 
 <!-- ══════════════════════════════
@@ -746,128 +659,7 @@
 
 
 <!-- ══════════════════════════════
-     09 — HAIROMA FEATURE
-══════════════════════════════ -->
-<section class="section hairoma-section" data-theme="dark">
-  <div class="col">
-    <div class="tag"><span class="tag-dot"></span>09 — Innovation</div>
-    <div class="hairoma-eyebrow">Introducing</div>
-    <h2 class="hairoma-title">Hairoma.</h2>
-    <p class="hairoma-sub">A new feature designed to grow Hair Food's user base by giving customers something no competitor offers — a fully personalised fragrance, built by them.</p>
-
-    <div class="hairoma-insight-row">
-      <div class="hairoma-insight-card">
-        <div class="hairoma-insight-num">22/27</div>
-        <div class="hairoma-insight-label">users wanted natural ingredients</div>
-      </div>
-      <div class="hairoma-insight-card">
-        <div class="hairoma-insight-num">20/27</div>
-        <div class="hairoma-insight-label">chose brands by product effectiveness</div>
-      </div>
-      <div class="hairoma-insight-card">
-        <div class="hairoma-insight-num">13/27</div>
-        <div class="hairoma-insight-label">had never heard of Hair Food</div>
-      </div>
-    </div>
-    <p style="margin-top:0;margin-bottom:56px;font-size:14px;color:var(--sub);">Research revealed a clear gap — users craved customisation and ingredient transparency the existing product couldn't offer. Hairoma is the answer.</p>
-
-    <div class="hairoma-steps-label">How it works</div>
-    <div class="hairoma-steps">
-      <div class="hairoma-step">
-        <div class="hairoma-step-num">01</div>
-        <div class="hairoma-step-title">Pick your base product</div>
-        <div class="hairoma-step-body">Choose from Shampoo, Conditioner, Hair Mask, or Hair Oil — all made with natural ingredients.</div>
-      </div>
-      <div class="hairoma-step-divider">→</div>
-      <div class="hairoma-step">
-        <div class="hairoma-step-num">02</div>
-        <div class="hairoma-step-title">Select your fragrances</div>
-        <div class="hairoma-step-body">Choose two scents from 12 options — Avocado, Orange, Pineapple, Tea Tree, Lavender, Mango, Kiwi, Rose, Strawberry, Jasmine, Raspberry, or Coconut.</div>
-      </div>
-      <div class="hairoma-step-divider">→</div>
-      <div class="hairoma-step">
-        <div class="hairoma-step-num">03</div>
-        <div class="hairoma-step-title">Set your ratio</div>
-        <div class="hairoma-step-body">Use a slider to balance your two fragrances — 40/60, 50/50, whatever feels right. Your product is then built to order.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="hairoma-screens-wrap">
-    <div class="hairoma-screen-block hairoma-screen-full" style="margin-bottom:32px;">
-      <div class="col">
-        <img id="hairoma-overview-img" class="lb-zoomable" data-caption="Hairoma — Full Feature Overview" src="assets/hairoma-dark.png" alt="Hairoma feature overview" style="width:100%;border-radius:12px;display:block;">
-        <div class="hairoma-img-caption">Hairoma — the full feature experience across all pages</div>
-        <div class="hairoma-screen-divider"></div>
-        <img id="hairoma-hero-img" class="lb-zoomable" data-caption="Entry Point — Hairoma in Main Nav" src="assets/hero-dark.png" alt="Hairoma homepage" style="width:100%;border-radius:12px;display:block;">
-        <div class="hairoma-img-caption">The entry point — Hairoma lives in the main nav, making it impossible to miss</div>
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="hairoma-screen-pair">
-        <div class="hairoma-screen-block">
-          <img id="hairoma-step1-img" class="lb-zoomable" data-caption="Step 1 — Choose Your First Fragrance" src="assets/step1-dark.png" alt="Choose fragrance step 1" style="width:100%;border-radius:12px;display:block;">
-          <div class="hairoma-img-caption">Step 1 — Pick your first fragrance from 12 curated scents</div>
-        </div>
-        <div class="hairoma-screen-block">
-          <img id="hairoma-step2-img" class="lb-zoomable" data-caption="Step 2 — Add a Second Fragrance" src="assets/step2-dark.png" alt="Choose fragrance step 2" style="width:100%;border-radius:12px;display:block;">
-          <div class="hairoma-img-caption">Step 2 — Add a second fragrance to create your unique blend</div>
-        </div>
-      </div>
-
-      <div class="hairoma-screen-pair" style="margin-top:32px;">
-        <div class="hairoma-screen-block">
-          <img id="hairoma-step3-img" class="lb-zoomable" data-caption="Step 3 — Set Your Fragrance Ratio" src="assets/step3-dark.png" alt="Fragrance ratio slider" style="width:100%;border-radius:12px;display:block;">
-          <div class="hairoma-img-caption">Step 3 — Dial in your fragrance ratio with a live slider</div>
-        </div>
-        <div class="hairoma-screen-block">
-          <img id="hairoma-step4-img" class="lb-zoomable" data-caption="Final — Your Product Is Ready" src="assets/step4-dark.png" alt="Product view page" style="width:100%;border-radius:12px;display:block;">
-          <div class="hairoma-img-caption">Your product is ready — full summary with size, ratio, and order total</div>
-        </div>
-      </div>
-
-      <div class="hairoma-quotes">
-        <div class="hairoma-quote">
-          <div class="hairoma-quote-mark">"</div>
-          <p>It has a very unique combination of ingredients — like coconut milk and chai spice — which I'd love to try.</p>
-          <div class="hairoma-quote-author">— Research participant</div>
-        </div>
-        <div class="hairoma-quote">
-          <div class="hairoma-quote-mark">"</div>
-          <p>It looks natural and chemical free to me. Maybe reviews could be better to help me make a decision.</p>
-          <div class="hairoma-quote-author">— Research participant</div>
-        </div>
-        <div class="hairoma-quote">
-          <div class="hairoma-quote-mark">"</div>
-          <p>If someone I know and trust would recommend it, I'd definitely try it out.</p>
-          <div class="hairoma-quote-author">— Research participant</div>
-        </div>
-      </div>
-
-      <div class="hairoma-impact">
-        <div class="hairoma-impact-title">Why Hairoma matters for Hair Food</div>
-        <div class="hairoma-impact-grid">
-          <div class="hairoma-impact-item">
-            <div class="hairoma-impact-heading">Differentiation</div>
-            <div class="hairoma-impact-body">No direct competitor offers custom fragrance blending. Hairoma becomes a reason to choose Hair Food over any other brand.</div>
-          </div>
-          <div class="hairoma-impact-item">
-            <div class="hairoma-impact-heading">Loyalty</div>
-            <div class="hairoma-impact-body">A product built by the user creates ownership and emotional attachment — dramatically increasing the likelihood of repeat purchase.</div>
-          </div>
-          <div class="hairoma-impact-item">
-            <div class="hairoma-impact-heading">Trust</div>
-            <div class="hairoma-impact-body">Ingredient transparency at every step of the customisation flow directly addresses the #1 concern surfaced in user research.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════
-     10 — OUTCOMES
+     09 — OUTCOMES
 ══════════════════════════════ -->
 <section class="section" data-theme="dark">
   <div class="col">
@@ -891,25 +683,10 @@
         <div class="dn-num"><em>5</em></div>
         <div class="dn-label">Screens redesigned end-to-end</div>
       </div>
-      <div></div>
-      <div></div>
     </div>
   </div>
 </section>
 
-
-<!-- ══════════════════════════════
-     LIGHTBOX
-══════════════════════════════ -->
-<div id="lightbox" class="lb-overlay" role="dialog" aria-modal="true" aria-label="Image viewer">
-  <button class="lb-close" id="lb-close" aria-label="Close">&times;</button>
-  <button class="lb-nav lb-prev" id="lb-prev" aria-label="Previous">&#8592;</button>
-  <div class="lb-content">
-    <img id="lb-img" src="" alt="">
-    <div id="lb-caption" class="lb-caption"></div>
-  </div>
-  <button class="lb-nav lb-next" id="lb-next" aria-label="Next">&#8594;</button>
-</div>
 </main>
 
 <!-- ══════════════════════════════
@@ -929,6 +706,9 @@
 
 <script>
 (function(){
+  /* DESKTOP NAV */
+  if(window.matchMedia('(max-width:640px)').matches) return;
+
   const navTop     = document.getElementById('navTop');
   const navPill    = document.getElementById('navPill');
   const rFill      = document.getElementById('navRingFill');
@@ -950,36 +730,17 @@
   window.addEventListener('scroll', onScroll, {passive:true});
   onScroll();
 
-  // Theme — sync both toggles
   function applyTheme(goLight){
     document.body.classList.toggle('light', goLight);
     const icon = goLight ? '☀️' : '🌙';
     toggleTop.textContent  = icon;
     togglePill.textContent = icon;
     navTop.classList.toggle('nav-dark', !goLight);
-    const t = goLight ? 'light' : 'dark';
-    // mockup hero
-    const mi = document.getElementById('mockup-img');
-    if(mi) mi.src = `assets/mock-up-${t}.png`;
-    // hairoma images
-    const swaps = {
-      'hairoma-overview-img': `assets/hairoma-${t}.png`,
-      'hairoma-hero-img':     `assets/hero-${t}.png`,
-      'hairoma-step1-img':    `assets/step1-${t}.png`,
-      'hairoma-step2-img':    `assets/step2-${t}.png`,
-      'hairoma-step3-img':    `assets/step3-${t}.png`,
-      'hairoma-step4-img':    `assets/step4-${t}.png`,
-    };
-    Object.entries(swaps).forEach(([id, src]) => {
-      const el = document.getElementById(id);
-      if(el) el.src = src;
-    });
   }
   function toggleTheme(){ applyTheme(!document.body.classList.contains('light')); }
   toggleTop.addEventListener('click', toggleTheme);
   togglePill.addEventListener('click', toggleTheme);
 
-  // Pill adapts to light sections
   document.querySelectorAll('[data-theme]').forEach(function(sec){
     new IntersectionObserver(function(entries){
       entries.forEach(function(e){
@@ -991,63 +752,137 @@
   });
 })();
 
-  // ── Lightbox ──────────────────────────────
-  (function(){
-    const overlay  = document.getElementById('lightbox');
-    const lbImg    = document.getElementById('lb-img');
-    const lbCap    = document.getElementById('lb-caption');
-    const btnClose = document.getElementById('lb-close');
-    const btnPrev  = document.getElementById('lb-prev');
-    const btnNext  = document.getElementById('lb-next');
+/* MOBILE NAV */
+document.addEventListener('DOMContentLoaded', function(){
+(function(){
+  var isMobile = function(){ return window.matchMedia('(max-width:640px)').matches; };
 
-    const imgOrder = [
-      'mockup-img','hairoma-overview-img','hairoma-hero-img',
-      'hairoma-step1-img','hairoma-step2-img','hairoma-step3-img','hairoma-step4-img'
-    ];
-    let current = 0;
+  var mobPill    = document.getElementById('mobPill');
+  var mobBurger  = document.getElementById('mobBurger');
+  var mobDrawer  = document.getElementById('mobDrawer');
+  var mobOverlay = document.getElementById('mobDrawerOverlay');
+  var mobRingFill= document.getElementById('mobRingFill');
+  var mobRingPct = document.getElementById('mobRingPct');
+  var mobOptDark = document.getElementById('mobOptDark');
+  var mobOptLight= document.getElementById('mobOptLight');
 
-    function open(idx){
-      current = idx;
-      const el = document.getElementById(imgOrder[idx]);
-      if(!el) return;
-      lbImg.src = el.src;
-      lbImg.alt = el.alt;
-      lbCap.textContent = el.dataset.caption || '';
-      overlay.style.display = 'flex';
-      requestAnimationFrame(() => overlay.classList.add('lb-active'));
-      btnPrev.disabled = idx === 0;
-      btnNext.disabled = idx === imgOrder.length - 1;
-      document.body.style.overflow = 'hidden';
+  if(!window.matchMedia('(max-width:640px)').matches) return;
+  if(!mobPill || !mobBurger || !mobDrawer || !mobOverlay || !mobRingFill || !mobRingPct) return;
+
+  var MOB_CIRC = 2 * Math.PI * 21;
+  var scrollTimer = null;
+  var drawerOpen  = false;
+  var pillShown   = false;
+
+  setTimeout(function(){
+    mobPill.classList.add('mob-visible');
+    pillShown = true;
+  }, 500);
+
+  function onMobScroll(){
+    if(!isMobile()) return;
+    var h = document.documentElement;
+    var scrollY = h.scrollTop;
+    var total = h.scrollHeight - h.clientHeight;
+    var pct = total > 0 ? Math.min(scrollY / total, 1) : 0;
+    mobRingFill.style.strokeDashoffset = MOB_CIRC * (1 - pct);
+    mobRingPct.textContent = Math.round(pct * 100) + '%';
+    if(scrollY > 40){
+      if(!pillShown){ mobPill.classList.add('mob-visible'); pillShown = true; }
+      mobPill.classList.add('mob-scrolling');
+    } else {
+      mobPill.classList.remove('mob-scrolling');
     }
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(function(){
+      mobPill.classList.remove('mob-scrolling');
+    }, 500);
+  }
+  window.addEventListener('scroll', onMobScroll, {passive:true});
 
-    function close(){
-      overlay.classList.remove('lb-active');
-      setTimeout(() => { overlay.style.display = 'none'; }, 250);
-      document.body.style.overflow = '';
-    }
+  function openDrawer(){
+    drawerOpen = true;
+    mobDrawer.classList.add('is-open');
+    mobBurger.classList.add('is-open');
+    mobBurger.setAttribute('aria-expanded','true');
+    document.body.style.overflow = 'hidden';
+    var firstLink = mobDrawer.querySelector('a');
+    if(firstLink) setTimeout(function(){ firstLink.focus(); }, 50);
+  }
+  function closeDrawer(){
+    drawerOpen = false;
+    mobDrawer.classList.remove('is-open');
+    mobBurger.classList.remove('is-open');
+    mobBurger.setAttribute('aria-expanded','false');
+    document.body.style.overflow = '';
+    mobBurger.focus();
+  }
 
-    function navigate(dir){
-      const next = current + dir;
-      if(next >= 0 && next < imgOrder.length) open(next);
-    }
+  mobBurger.addEventListener('click', function(){
+    drawerOpen ? closeDrawer() : openDrawer();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && drawerOpen) closeDrawer();
+  });
+  mobDrawer.querySelectorAll('a').forEach(function(link){
+    link.addEventListener('click', closeDrawer);
+  });
 
-    // Attach click to each zoomable image
-    imgOrder.forEach((id, idx) => {
-      const el = document.getElementById(id);
-      if(el) el.addEventListener('click', () => open(idx));
-    });
+  function applyMobTheme(goLight){
+    document.body.classList.toggle('light', goLight);
+    mobOptDark.classList.toggle('active', !goLight);
+    mobOptLight.classList.toggle('active', goLight);
+    var deskToggle = document.getElementById('themeToggle');
+    var pillToggle = document.getElementById('themeTogglePill');
+    if(deskToggle) deskToggle.textContent = goLight ? '☀️' : '🌙';
+    if(pillToggle) pillToggle.textContent = goLight ? '☀️' : '🌙';
+  }
+  applyMobTheme(false);
 
-    btnClose.addEventListener('click', close);
-    btnPrev.addEventListener('click', () => navigate(-1));
-    btnNext.addEventListener('click', () => navigate(1));
-    overlay.addEventListener('click', (e) => { if(e.target === overlay) close(); });
-    document.addEventListener('keydown', (e) => {
-      if(!overlay.classList.contains('lb-active')) return;
-      if(e.key === 'Escape') close();
-      if(e.key === 'ArrowLeft') navigate(-1);
-      if(e.key === 'ArrowRight') navigate(1);
-    });
-  })();
+  document.getElementById('mobThemeToggle').addEventListener('click', function(){
+    applyMobTheme(!document.body.classList.contains('light'));
+  });
+})();
+}); // DOMContentLoaded
 </script>
+<!-- MOBILE PILL NAV -->
+<nav class="mob-pill" id="mobPill" role="navigation" aria-label="Mobile navigation">
+  <div class="mob-pill__name" aria-hidden="true">Daiwat Thavai</div>
+  <div class="mob-pill__icon" aria-hidden="true">
+    <svg viewBox="0 0 16 16" fill="none"><path d="M3 2L13 8L8 9.5L6.5 14L3 2Z" fill="currentColor"/></svg>
+  </div>
+  <div class="mob-pill__right">
+    <div class="mob-pill__ring" aria-hidden="true">
+      <svg viewBox="0 0 54 54">
+        <circle class="r-track" cx="27" cy="27" r="21"/>
+        <circle class="r-fill" id="mobRingFill" cx="27" cy="27" r="21"/>
+      </svg>
+      <div class="r-pct" id="mobRingPct">0%</div>
+    </div>
+    <button class="mob-pill__burger" id="mobBurger" aria-label="Open menu" aria-expanded="false" aria-controls="mobDrawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- DRAWER OVERLAY -->
+<div class="mob-drawer-overlay" id="mobDrawerOverlay" aria-hidden="true"></div>
+
+<!-- FULL SCREEN DRAWER -->
+<div class="mob-drawer" id="mobDrawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <div class="mob-drawer__handle" aria-hidden="true"></div>
+  <a href="../Work/index.html" class="mob-drawer__link">Work</a>
+  <a href="../AboutMe/index.html" class="mob-drawer__link">About</a>
+  <a href="#" class="mob-drawer__link">Resume</a>
+  <a href="../DaveAI/index.html" class="mob-drawer__link">Dave AI ✦</a>
+  <div class="mob-drawer__divider" aria-hidden="true"></div>
+  <div class="mob-drawer__theme">
+    <div class="mob-theme-toggle" id="mobThemeToggle" role="group" aria-label="Theme toggle">
+      <div class="mob-theme-toggle__opt active" id="mobOptDark" aria-pressed="true">Dark</div>
+      <div class="mob-theme-toggle__opt" id="mobOptLight" aria-pressed="false">Light</div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
