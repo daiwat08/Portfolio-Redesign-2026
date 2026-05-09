@@ -32,7 +32,7 @@
     background:rgba(255,255,255,0.93);
     backdrop-filter:blur(24px) saturate(180%);
     border:1px solid rgba(0,0,0,0.08);
-    border-radius:999px;height:64px;
+    border-radius:999px;height:72px;
     width:min(780px,calc(100vw - 48px));
     padding:0 11px 0 22px;
     box-shadow:0 2px 20px rgba(0,0,0,0.08);
@@ -43,18 +43,21 @@
   .nav-top.nav-dark .nav-top__logo{color:#fff;}
   .nav-top.nav-dark .nav-top__link{color:rgba(255,255,255,0.55);}
   .nav-top.nav-dark .nav-top__link:hover{color:#fff;background:rgba(255,255,255,0.08);}
-  .nav-top.nav-dark .nav-top__cta{background:#fff;color:#111;}
+  .nav-top.nav-dark .nav-top__cta{background:var(--accent);color:#fff;}
   .nav-top.nav-dark .theme-btn{border-color:rgba(255,255,255,0.2);}
   .nav-top__logo{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:-.01em;color:#111;text-decoration:none;white-space:nowrap;flex-shrink:0;transition:color .4s;}
   .nav-top__links{flex:1;display:flex;align-items:center;justify-content:center;}
-  .nav-top__link{font-size:14px;color:#777;text-decoration:none;padding:7px 16px;border-radius:999px;transition:background .2s,color .2s;}
+  .nav-top__link{font-size:14px;color:#777;text-decoration:none;padding:7px 16px;border-radius:999px;transition:background .2s,color .2s,transform .1s;}
   .nav-top__link:hover{color:#111;background:rgba(0,0,0,0.05);}
+  .nav-top__link:active{background:rgba(0,0,0,0.1);transform:scale(0.96);}
   .nav-top__right{display:flex;align-items:center;gap:8px;}
-  .nav-top__cta{font-size:13px;font-weight:600;color:#fff;text-decoration:none;background:#111;padding:8px 18px;border-radius:999px;flex-shrink:0;transition:background .2s;}
-  .nav-top__cta:hover{background:#4A7CFF;}
-  .theme-btn{width:34px;height:34px;border-radius:50%;border:1px solid rgba(0,0,0,0.12);background:transparent;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0;}
+  /* Dave AI button — uses brand accent color (--accent) for consistency across themes */
+  .nav-top__cta{font-size:13px;font-weight:500;color:#fff;text-decoration:none;background:var(--accent);padding:8px 18px;border-radius:999px;flex-shrink:0;transition:background .2s,box-shadow .2s,transform .1s;}
+  .nav-top__cta:hover{background:#3a6ce8;box-shadow:0 4px 16px rgba(74,124,255,0.4);}
+  .nav-top__cta:active{background:#2f5bd4;box-shadow:0 2px 8px rgba(74,124,255,0.3);transform:scale(0.97);}
+  .theme-btn{width:38px;height:38px;border-radius:50%;border:1px solid rgba(0,0,0,0.12);background:transparent;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .1s;flex-shrink:0;}
   .theme-btn:hover{background:rgba(0,0,0,0.05);}
-
+  .theme-btn:active{background:rgba(0,0,0,0.1);transform:scale(0.92);}
   /* ══════════════════════════════
      PILL NAV — exact same structure
      as NavbarEmbed.html that works.
@@ -70,15 +73,15 @@
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:10px;
+    gap:20px;
     background:rgba(15,15,15,0.9);
     backdrop-filter:blur(24px) saturate(180%);
     border:1px solid rgba(255,255,255,0.1);
     border-radius:999px;
-    height:64px;
-    /* collapsed: icon(42) + gap(10) + ring(42) + padding(11+11) = 116px */
-    width:116px;
-    padding:0 11px;
+    height:72px;
+    /* collapsed: icon(54) + gap(20) + ring(54) + padding(16+16) = 160px */
+    width:160px;
+    padding:0 16px;
     box-shadow:0 8px 32px rgba(0,0,0,0.3);
     opacity:0;pointer-events:none;
     transition:opacity .3s ease, transform .3s ease,
@@ -90,8 +93,9 @@
   /* Icon — always visible LEFT (z-index:2 keeps it above absolute links) */
   .nav-pill__icon{
     flex-shrink:0;
-    width:42px;height:42px;border-radius:50%;
-    background:rgba(255,255,255,0.1);
+    width:54px;height:54px;border-radius:50%;
+    background:rgba(255,255,255,0.06);
+    border:1.5px solid rgba(255,255,255,0.12);
     display:flex;align-items:center;justify-content:center;
     z-index:2;
   }
@@ -107,46 +111,51 @@
   }
   .nav-pill:hover .nav-pill__links{opacity:1;pointer-events:all;transition-delay:.1s;}
   .nav-pill__link{
-    font-size:14px;font-weight:500;color:rgba(255,255,255,.6);
+    font-size:14px;font-weight:400;color:rgba(255,255,255,.6);
     text-decoration:none;padding:8px 16px;border-radius:999px;
-    transition:background .2s,color .2s;white-space:nowrap;
+    transition:background .2s,color .2s,font-weight .15s,transform .1s;white-space:nowrap;
   }
-  .nav-pill__link:hover{color:white;background:rgba(255,255,255,.1);}
+  .nav-pill__link:hover{color:white;background:rgba(255,255,255,.1);font-weight:500;}
+  .nav-pill__link:active{background:rgba(255,255,255,.18);transform:scale(0.96);}
 
   /* Theme toggle — sits between links and ring, absolute, appears on hover */
   .nav-pill__theme{
     position:absolute;
-    /* position it just to the left of the ring */
-    right:63px;
+    /* ring(54) + padding(16) + gap(12) = right:82px */
+    right:82px;
     opacity:0;pointer-events:none;
     transition:opacity .2s ease;
     z-index:3;
   }
   .nav-pill:hover .nav-pill__theme{opacity:1;pointer-events:all;transition-delay:.12s;}
   .nav-pill__theme .theme-btn{
-    border-color:rgba(255,255,255,0.25);
-    font-size:14px;
+    border-color:rgba(255,255,255,0.2);
+    font-size:20px;
+    width:54px;height:54px;
+    background:transparent;
   }
   .nav-pill__theme .theme-btn:hover{background:rgba(255,255,255,0.1);}
 
   /* Ring — always visible RIGHT (z-index:2 keeps it above absolute links) */
   .nav-pill__ring{
     flex-shrink:0;position:relative;
-    width:42px;height:42px;z-index:2;
+    width:54px;height:54px;z-index:2;
+    background:rgba(255,255,255,0.06);
+    border-radius:50%;
   }
-  .nav-pill__ring svg{display:block;width:42px;height:42px;transform:rotate(-90deg);}
-  .nav-pill__ring .r-track{fill:none;stroke:rgba(255,255,255,.2);stroke-width:1.8;}
+  .nav-pill__ring svg{display:block;width:54px;height:54px;transform:rotate(-90deg);}
+  .nav-pill__ring .r-track{fill:none;stroke:rgba(255,255,255,.15);stroke-width:3.5;}
   .nav-pill__ring .r-fill{
-    fill:none;stroke:rgba(255,255,255,.95);stroke-width:1.8;
+    fill:none;stroke:rgba(255,255,255,.95);stroke-width:3.5;
     stroke-linecap:round;
-    /* r=17, circumference = 2*π*17 = 106.81 */
-    stroke-dasharray:106.81;stroke-dashoffset:106.81;
+    /* r=21, circumference = 2*π*21 = 131.95 */
+    stroke-dasharray:131.95;stroke-dashoffset:131.95;
     transition:stroke-dashoffset .1s linear;
   }
   .nav-pill__ring .r-pct{
     position:absolute;inset:0;
     display:flex;align-items:center;justify-content:center;
-    font-size:10px;font-weight:700;
+    font-size:12px;font-weight:700;
     font-family:'Geist Mono',monospace;
     color:rgba(255,255,255,.95);letter-spacing:-.02em;line-height:1;
   }
@@ -164,10 +173,162 @@
   .nav-pill.nav-on-dark .r-pct{color:rgba(0,0,0,.7);}
 
   @media(max-width:640px){
-    .nav-top{width:calc(100vw - 32px);padding:0 8px 0 16px;}
-    .nav-top__links{display:none;}
-    .nav-pill:hover{width:calc(100vw - 32px);}
-    .nav-pill__link{padding:8px 10px;font-size:13px;}
+    /* Hide desktop navs on mobile */
+    .nav-top{display:none;}
+    .nav-pill{display:none;}
+
+    /* ══════════════════════════════
+       MOBILE PILL NAV
+    ══════════════════════════════ */
+    /* ── Resting pill: full width, name + burger ── */
+    .mob-pill{
+      display:flex;
+      position:fixed;
+      top:16px;left:50%;
+      transform:translateX(-50%) translateY(-6px);
+      z-index:9999;
+      align-items:center;
+      justify-content:space-between;
+      background:rgba(15,15,15,0.92);
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:999px;
+      height:72px;
+      width:calc(100vw - 32px);
+      padding:0 9px 0 20px;
+      box-shadow:0 8px 32px rgba(0,0,0,0.3);
+      opacity:0;pointer-events:none;
+      transition:opacity .4s ease, transform .4s ease, width .4s cubic-bezier(.34,1.2,.64,1), padding .4s ease;
+    }
+    .mob-pill.mob-visible{
+      opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;
+    }
+    /* ── Scroll state: shrink to icon + ring only ── */
+    .mob-pill.mob-scrolling{
+      width:128px;
+      padding:0 10px;
+      justify-content:space-between;
+    }
+    .mob-pill__name{
+      font-family:'Syne',sans-serif;font-size:13px;font-weight:700;
+      color:#fff;letter-spacing:-.01em;white-space:nowrap;
+      transition:opacity .25s ease, transform .25s ease;
+      opacity:1;transform:translateX(0);
+      flex:1;
+    }
+    .mob-pill.mob-scrolling .mob-pill__name{opacity:0;transform:translateX(6px);pointer-events:none;width:0;flex:0;overflow:hidden;}
+    .mob-pill__icon{
+      width:54px;height:54px;border-radius:50%;
+      background:rgba(255,255,255,0.06);
+      border:1.5px solid rgba(255,255,255,0.12);
+      display:flex;align-items:center;justify-content:center;
+      flex-shrink:0;
+      transition:opacity .25s ease;
+      opacity:0;pointer-events:none;
+    }
+    .mob-pill__icon svg{width:16px;height:16px;color:rgba(255,255,255,.85);}
+    .mob-pill.mob-scrolling .mob-pill__icon{opacity:1;pointer-events:all;}
+    .mob-pill__right{
+      display:flex;align-items:center;
+      position:relative;width:54px;height:54px;flex-shrink:0;
+    }
+    .mob-pill__ring{position:absolute;inset:0;}
+    .mob-pill__burger{position:absolute;inset:0;width:54px;height:54px;}
+    .mob-pill__ring{
+      flex-shrink:0;position:relative;
+      width:54px;height:54px;
+      opacity:0;pointer-events:none;
+      transition:opacity .3s ease;
+      background:rgba(255,255,255,0.06);
+      border-radius:50%;
+    }
+    .mob-pill__ring svg{display:block;width:54px;height:54px;transform:rotate(-90deg);}
+    .mob-pill__ring .r-track{fill:none;stroke:rgba(255,255,255,.15);stroke-width:3.5;}
+    .mob-pill__ring .r-fill{
+      fill:none;stroke:rgba(255,255,255,.9);stroke-width:3.5;
+      stroke-linecap:round;
+      /* r=21, circumference=2*π*21=131.95 */
+      stroke-dasharray:131.95;stroke-dashoffset:131.95;
+      transition:stroke-dashoffset .1s linear;
+    }
+    .mob-pill__ring .r-pct{
+      position:absolute;inset:0;
+      display:flex;align-items:center;justify-content:center;
+      font-size:12px;font-weight:700;
+      font-family:'Geist Mono',monospace;
+      color:rgba(255,255,255,.9);letter-spacing:-.02em;
+    }
+    .mob-pill.mob-scrolling .mob-pill__ring{opacity:1;pointer-events:all;}
+    .mob-pill__burger{
+      width:54px;height:54px;border-radius:50%;
+      background:rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.12);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+      cursor:pointer;flex-shrink:0;
+      transition:opacity .3s ease, background .2s, transform .15s;
+      opacity:1;
+    }
+    .mob-pill__burger span{
+      display:block;width:14px;height:1.5px;
+      background:rgba(255,255,255,.85);border-radius:2px;
+      transition:transform .25s ease, opacity .2s ease;
+    }
+    .mob-pill__burger:active{transform:scale(0.92);background:rgba(255,255,255,0.14);}
+    .mob-pill.mob-scrolling .mob-pill__burger{opacity:0;pointer-events:none;}
+    .mob-pill__burger.is-open span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
+    .mob-pill__burger.is-open span:nth-child(2){opacity:0;transform:scaleX(0);}
+    .mob-pill__burger.is-open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
+
+    /* ══════════════════════════════
+       BOTTOM SHEET DRAWER
+    ══════════════════════════════ */
+    /* overlay not needed — drawer is full screen */
+    .mob-drawer-overlay{display:none !important;}
+    .mob-drawer{
+      display:flex;
+      position:fixed;inset:0;z-index:9995;
+      background:var(--bg);
+      display:flex;flex-direction:column;justify-content:center;
+      padding:0 0 max(40px, env(safe-area-inset-bottom)) 0;
+      transform:translateY(100%);
+      transition:transform .4s cubic-bezier(.32,1,.42,1);
+    }
+    .mob-drawer.is-open{transform:translateY(0);}
+    /* hide handle — full screen doesn't need it */
+    .mob-drawer__handle{display:none;}
+    .mob-drawer__link{
+      display:flex;align-items:center;
+      padding:20px 40px;
+      font-size:36px;
+      font-family:'Instrument Serif',serif;
+      font-weight:400;color:var(--white);
+      text-decoration:none;letter-spacing:-.03em;
+      min-height:72px;
+      transition:opacity .18s,transform .12s;
+    }
+    .mob-drawer__link:active{opacity:0.6;transform:scale(0.98);}
+    body.light .mob-drawer__link:active{opacity:0.5;}
+
+    .mob-drawer__divider{height:1px;background:var(--line);margin:20px 40px;}
+    .mob-drawer__theme{
+      display:flex;align-items:center;justify-content:flex-start;
+      padding:20px 40px;min-height:64px;
+    }
+    .mob-drawer__theme-label{font-size:14px;color:var(--sub);letter-spacing:.5px;text-transform:uppercase;font-family:'Geist Mono',monospace;font-size:11px;}
+    .mob-theme-toggle{
+      display:flex;align-items:center;
+      background:rgba(255,255,255,0.06);
+      border:1px solid var(--line);border-radius:999px;
+      padding:4px;gap:4px;cursor:pointer;
+    }
+    body.light .mob-theme-toggle{background:rgba(0,0,0,0.05);}
+    .mob-theme-toggle__opt{
+      padding:8px 20px;border-radius:999px;
+      font-size:13px;font-weight:500;color:var(--sub);
+      transition:background .2s,color .2s;
+      min-height:36px;display:flex;align-items:center;
+    }
+    .mob-theme-toggle__opt.active{background:var(--accent);color:#fff;}
+
   }
 
   /* ══════════════════════════════
@@ -345,9 +506,9 @@
 
   <!-- Ring RIGHT — always visible, z-index:2 -->
   <div class="nav-pill__ring">
-    <svg viewBox="0 0 42 42">
-      <circle class="r-track" cx="21" cy="21" r="17"/>
-      <circle class="r-fill" id="navRingFill" cx="21" cy="21" r="17"/>
+    <svg viewBox="0 0 54 54">
+      <circle class="r-track" cx="27" cy="27" r="21"/>
+      <circle class="r-fill" id="navRingFill" cx="27" cy="27" r="21"/>
     </svg>
     <div class="r-pct" id="navRingPct">0%</div>
   </div>
@@ -510,44 +671,45 @@
 </footer>
 
 <script>
+document.addEventListener('DOMContentLoaded', function(){
+/* ══════════════════════════════
+   DESKTOP NAV
+══════════════════════════════ */
 (function(){
-  const navTop     = document.getElementById('navTop');
-  const navPill    = document.getElementById('navPill');
-  const rFill      = document.getElementById('navRingFill');
-  const rPct       = document.getElementById('navRingPct');
-  const toggleTop  = document.getElementById('themeToggle');
-  const togglePill = document.getElementById('themeTogglePill');
-  /* r=17, circumference = 2*π*17 = 106.81 */
-  const CIRC = 2 * Math.PI * 17;
+  var navTop     = document.getElementById('navTop');
+  var navPill    = document.getElementById('navPill');
+  var rFill      = document.getElementById('navRingFill');
+  var rPct       = document.getElementById('navRingPct');
+  var toggleTop  = document.getElementById('themeToggle');
+  var togglePill = document.getElementById('themeTogglePill');
+  var CIRC = 2 * Math.PI * 21;
 
-  /* ── Scroll ── */
+  /* Guard: skip desktop nav on mobile — use matchMedia for reliability */
+  if(window.matchMedia('(max-width:640px)').matches) return;
+
   function onScroll(){
-    const h = document.documentElement;
-    const scrollY = h.scrollTop;
-    const total = h.scrollHeight - h.clientHeight;
-    const pct = total > 0 ? Math.min(scrollY / total, 1) : 0;
-
+    var h = document.documentElement;
+    var scrollY = h.scrollTop;
+    var total = h.scrollHeight - h.clientHeight;
+    var pct = total > 0 ? Math.min(scrollY / total, 1) : 0;
     navTop.classList.toggle('nav-hidden', scrollY > 60);
     navPill.classList.toggle('nav-visible', scrollY > 60);
-
     rFill.style.strokeDashoffset = CIRC * (1 - pct);
     rPct.textContent = Math.round(pct * 100) + '%';
   }
   window.addEventListener('scroll', onScroll, {passive:true});
   onScroll();
 
-  /* ── Theme — both toggles in sync ── */
   function applyTheme(goLight){
     document.body.classList.toggle('light', goLight);
-    const icon = goLight ? '☀️' : '🌙';
-    toggleTop.textContent  = icon;
-    togglePill.textContent = icon;
+    var icon = goLight ? '☀️' : '🌙';
+    if(toggleTop)  toggleTop.textContent  = icon;
+    if(togglePill) togglePill.textContent = icon;
   }
   function toggleTheme(){ applyTheme(!document.body.classList.contains('light')); }
-  toggleTop.addEventListener('click', toggleTheme);
-  togglePill.addEventListener('click', toggleTheme);
+  if(toggleTop)  toggleTop.addEventListener('click', toggleTheme);
+  if(togglePill) togglePill.addEventListener('click', toggleTheme);
 
-  /* ── Pill adapts to section bg ── */
   document.querySelectorAll('[data-theme]').forEach(function(sec){
     new IntersectionObserver(function(entries){
       entries.forEach(function(e){
@@ -559,42 +721,198 @@
   });
 })();
 
-  /* ── Lightbox ── */
-  (function(){
-    const overlay = document.getElementById('lbOverlay');
-    const lbImg   = document.getElementById('lbImg');
-    const lbCap   = document.getElementById('lbCaption');
-    const lbClose = document.getElementById('lbClose');
+/* ══════════════════════════════
+   MOBILE NAV
+══════════════════════════════ */
+(function(){
+  var isMobile = function(){ return window.matchMedia('(max-width:640px)').matches; };
 
-    function openLb(src, alt){
-      lbImg.src = src;
-      lbImg.alt = alt;
-      lbCap.textContent = alt;
-      overlay.classList.add('lb-open');
-      document.body.style.overflow = 'hidden';
+  var mobPill    = document.getElementById('mobPill');
+  var mobBurger  = document.getElementById('mobBurger');
+  var mobDrawer  = document.getElementById('mobDrawer');
+  var mobOverlay = document.getElementById('mobDrawerOverlay');
+  var mobRingFill= document.getElementById('mobRingFill');
+  var mobRingPct = document.getElementById('mobRingPct');
+  var mobOptDark = document.getElementById('mobOptDark');
+  var mobOptLight= document.getElementById('mobOptLight');
+
+  /* Guard: skip mobile nav on desktop — use matchMedia for reliability */
+  if(!window.matchMedia('(max-width:640px)').matches) return;
+  if(!mobPill || !mobBurger || !mobDrawer || !mobOverlay || !mobRingFill || !mobRingPct) return;
+  /* r=14, circumference=2*π*14=87.96 */
+  var MOB_CIRC = 2 * Math.PI * 21;
+
+  var scrollTimer = null;
+  var drawerOpen  = false;
+  var pillShown   = false;
+
+  /* ── Delayed entrance ── */
+  /* Show pill after 0.5s — already confirmed mobile via matchMedia above */
+  setTimeout(function(){
+    mobPill.classList.add('mob-visible');
+    pillShown = true;
+  }, 500);
+
+  /* ── Scroll handling ── */
+  function onMobScroll(){
+    if(!isMobile()) return;
+    var h = document.documentElement;
+    var scrollY = h.scrollTop;
+    var total = h.scrollHeight - h.clientHeight;
+    var pct = total > 0 ? Math.min(scrollY / total, 1) : 0;
+
+    /* Update ring */
+    mobRingFill.style.strokeDashoffset = MOB_CIRC * (1 - pct);
+    mobRingPct.textContent = Math.round(pct * 100) + '%';
+
+    /* Show/hide pill based on scroll position */
+    if(scrollY > 40){
+      if(!pillShown){ mobPill.classList.add('mob-visible'); pillShown = true; }
+      /* Enter scroll state */
+      mobPill.classList.add('mob-scrolling');
+    } else {
+      /* Back at top — resting state, pill could hide if we want */
+      mobPill.classList.remove('mob-scrolling');
     }
-    function closeLb(){
-      overlay.classList.remove('lb-open');
-      document.body.style.overflow = '';
-      lbImg.src = '';
-    }
 
-    document.querySelectorAll('img.lb-trigger').forEach(function(img){
-      img.addEventListener('click', function(){
-        openLb(img.src, img.alt);
-      });
-    });
+    /* Debounce — return to resting after 800ms of no scroll */
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(function(){
+      mobPill.classList.remove('mob-scrolling');
+    }, 800);
+  }
+  window.addEventListener('scroll', onMobScroll, {passive:true});
 
-    lbClose.addEventListener('click', closeLb);
-    overlay.addEventListener('click', function(e){
-      if(e.target === overlay) closeLb();
-    });
-    document.addEventListener('keydown', function(e){
-      if(e.key === 'Escape') closeLb();
-    });
-  })();
+  /* ── Drawer open/close ── */
+  function openDrawer(){
+    drawerOpen = true;
+    mobDrawer.classList.add('is-open');
+    mobOverlay.classList.add('is-open');
+    mobOverlay.removeAttribute('aria-hidden');
+    mobBurger.classList.add('is-open');
+    mobBurger.setAttribute('aria-expanded','true');
+    document.body.style.overflow = 'hidden';
+    /* focus first link for a11y */
+    var firstLink = mobDrawer.querySelector('a');
+    if(firstLink) setTimeout(function(){ firstLink.focus(); }, 50);
+  }
+  function closeDrawer(){
+    drawerOpen = false;
+    mobDrawer.classList.remove('is-open');
+    mobOverlay.classList.remove('is-open');
+    mobOverlay.setAttribute('aria-hidden','true');
+    mobBurger.classList.remove('is-open');
+    mobBurger.setAttribute('aria-expanded','false');
+    document.body.style.overflow = '';
+    mobBurger.focus();
+  }
 
+  mobBurger.addEventListener('click', function(){
+    drawerOpen ? closeDrawer() : openDrawer();
+  });
+  mobOverlay.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && drawerOpen) closeDrawer();
+  });
+
+  /* ── Mobile theme toggle ── */
+  function applyMobTheme(goLight){
+    document.body.classList.toggle('light', goLight);
+    mobOptDark.classList.toggle('active', !goLight);
+    mobOptLight.classList.toggle('active', goLight);
+    /* keep desktop toggles in sync */
+    var deskToggle = document.getElementById('themeToggle');
+    var pillToggle = document.getElementById('themeTogglePill');
+    if(deskToggle)  deskToggle.textContent  = goLight ? '☀️' : '🌙';
+    if(pillToggle)  pillToggle.textContent  = goLight ? '☀️' : '🌙';
+  }
+  /* init state */
+  applyMobTheme(false);
+
+  document.getElementById('mobThemeToggle').addEventListener('click', function(){
+    applyMobTheme(!document.body.classList.contains('light'));
+  });
+
+})();
+
+/* ══════════════════════════════
+   LIGHTBOX
+══════════════════════════════ */
+(function(){
+  var overlay = document.getElementById('lbOverlay');
+  var lbImg   = document.getElementById('lbImg');
+  var lbCap   = document.getElementById('lbCaption');
+  var lbClose = document.getElementById('lbClose');
+
+  function openLb(src, alt){
+    lbImg.src = src; lbImg.alt = alt;
+    lbCap.textContent = alt;
+    overlay.classList.add('lb-open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLb(){
+    overlay.classList.remove('lb-open');
+    document.body.style.overflow = '';
+    lbImg.src = '';
+  }
+  document.querySelectorAll('img.lb-trigger').forEach(function(img){
+    img.addEventListener('click', function(){ openLb(img.src, img.alt); });
+  });
+  lbClose.addEventListener('click', closeLb);
+  overlay.addEventListener('click', function(e){ if(e.target===overlay) closeLb(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLb(); });
+})();
+}); // DOMContentLoaded
 </script>
+
+
+<!-- MOBILE PILL NAV — only renders on mobile -->
+<style>
+  /* Force hide all mobile nav elements on desktop */
+  @media(min-width:641px){
+    #mobPill, #mobDrawer, #mobDrawerOverlay { display:none !important; visibility:hidden !important; }
+  }
+</style>
+<!-- MOBILE PILL NAV -->
+<nav class="mob-pill" id="mobPill" role="navigation" aria-label="Mobile navigation">
+  <!-- Left: name (resting) / compass icon (scrolling) -->
+  <div class="mob-pill__name" aria-hidden="true">Daiwat Thavai</div>
+  <div class="mob-pill__icon" aria-hidden="true">
+    <svg viewBox="0 0 16 16" fill="none"><path d="M3 2L13 8L8 9.5L6.5 14L3 2Z" fill="currentColor"/></svg>
+  </div>
+  <!-- Right: ring + burger -->
+  <div class="mob-pill__right">
+    <div class="mob-pill__ring" aria-hidden="true">
+      <svg viewBox="0 0 54 54">
+        <circle class="r-track" cx="27" cy="27" r="21"/>
+        <circle class="r-fill" id="mobRingFill" cx="27" cy="27" r="21"/>
+      </svg>
+      <div class="r-pct" id="mobRingPct">0%</div>
+    </div>
+    <button class="mob-pill__burger" id="mobBurger" aria-label="Open menu" aria-expanded="false" aria-controls="mobDrawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- BOTTOM SHEET OVERLAY -->
+<div class="mob-drawer-overlay" id="mobDrawerOverlay" aria-hidden="true"></div>
+
+<!-- BOTTOM SHEET DRAWER -->
+<div class="mob-drawer" id="mobDrawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <div class="mob-drawer__handle" aria-hidden="true"></div>
+  <a href="../Work/index.html" class="mob-drawer__link">Work</a>
+  <a href="../AboutMe/index.html" class="mob-drawer__link">About</a>
+  <a href="#" class="mob-drawer__link">Resume</a>
+  <a href="../DaveAI/index.html" class="mob-drawer__link">Dave AI ✦</a>
+  <div class="mob-drawer__divider" aria-hidden="true"></div>
+  <div class="mob-drawer__theme">
+    <div class="mob-theme-toggle" id="mobThemeToggle" role="group" aria-label="Theme toggle">
+      <div class="mob-theme-toggle__opt" id="mobOptDark" aria-pressed="true">Dark</div>
+      <div class="mob-theme-toggle__opt active" id="mobOptLight" aria-pressed="false">Light</div>
+    </div>
+  </div>
+</div>
 
 <!-- LIGHTBOX -->
 <div class="lb-overlay" id="lbOverlay" role="dialog" aria-modal="true">
