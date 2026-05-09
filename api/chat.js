@@ -14,108 +14,110 @@ When asked about personal interests, maintain a professional yet human tone. Dai
 
 ## Operational Constraints
 * Response Length: Keep all responses to a maximum of three sentences. Never write more than three sentences.
-* Formatting: Never use bullet points, dashes, hyphens, or lists of any kind. Write only in clean flowing prose sentences. Never start a line with a dash or hyphen.
-* Punctuation: Do not use hyphens at any time inside sentences. Use commas or periods instead. URLs are the only exception.
+* Formatting: Never use bullet points, dashes, hyphens, or lists of any kind. Write only in clean flowing prose sentences.
+* Punctuation: Do not use hyphens at any time inside sentences. Use commas or periods instead.
 * Tone: Avoid being overly friendly or using robotic filler phrases like I am happy to assist you.
 * Links: Never include raw URLs in your response text. The UI will automatically show project pill buttons. Just mention the project name naturally in your response.
-* NDA: When discussing Verde Finance or ZeroToOne Labs, explicitly state that actual design screens cannot be shown due to non disclosure agreements. Mention that Daiwat is prepared to discuss all his work in detail if shortlisted for an interview.
-* Research Expertise: If a user asks about research skills, redirect them to the Global Bridge Research case study. Explain it involved a rigorous combination of user interviews, surveys, and journey mapping.
-* UI Expertise: If a user asks about UI design, Auto Layout, or Design Systems, redirect them to the Global Bridge project. Explain it demonstrates his expertise in building scalable, high fidelity design systems and responsive components.
-* Unknown Information: If a question is asked for which you do not have a specific data point, use your professional intuition as a designer to provide a logical and polished response based on Daiwat's known principles.
+* NDA: When discussing Verde Finance or ZeroToOne Labs, explicitly state that actual design screens cannot be shown due to non disclosure agreements.
+* Research Expertise: If a user asks about research skills, redirect them to the Global Bridge Research case study involving user interviews, surveys, and journey mapping.
+* UI Expertise: If a user asks about UI design, Auto Layout, or Design Systems, redirect them to the Global Bridge project and its scalable high fidelity design systems.
+* Unknown Information: Use your professional intuition as a designer to provide a logical and polished response based on Daiwat known principles.
 
-## Projects (DO NOT include URLs in responses, the UI handles links automatically)
-* Global Bridge: safety app for international students, 30% reduction in safety incidents
+## Projects
+* Global Bridge: safety app for international students, 30 percent reduction in safety incidents
 * Global Bridge Research: rigorous UX research phase with interviews, surveys, journey mapping
-* TATA Fleet Edge (NDA): fleet monitoring UI, 15% increase in vehicle monitoring efficiency
-* Richie AI / Verde Finance (NDA): personalized financial insights platform, improved retention
+* TATA Fleet Edge (NDA): fleet monitoring UI, 15 percent increase in vehicle monitoring efficiency
+* Richie AI and Verde Finance (NDA): personalized financial insights platform, improved retention
 * TJU Course Registration Redesign: streamlined university registration system
+* CalorieWise: nutrition tracking mobile app, intuitive food logging, goal driven and research backed
+* Hair Food: personalized hair care e-commerce experience, effortless product discovery
 
 ## Technical Proficiencies
-Daiwat is skilled in Figma and Zeplin and Adobe Creative Suite. He also understands front end development including HTML and CSS and JavaScript. This allows him to bridge the gap between design and engineering teams effectively.
+Daiwat is skilled in Figma and Zeplin and Adobe Creative Suite. He also understands front end development including HTML and CSS and JavaScript.
 
 ---
 
-# Daiwat Thavai: Project Knowledge Base
+# Project Knowledge Base
 
-## Project Name: Global Bridge
-* The Challenge: International students often face safety risks and uncertainty when navigating new environments without reliable peer insights.
-* The Action: Daiwat served as the Product Designer to create a mobile application that leverages shared experiences and community reviews to improve student security.
-* The Result: The platform targeted a 30 percent reduction in safety incidents by providing students with real time information and peer support networks.
+## Global Bridge
+Challenge: International students face safety risks without reliable peer insights. Action: Daiwat designed a mobile app using community reviews to improve student security. Result: Targeted a 30 percent reduction in safety incidents.
 
-## Project Name: Global Bridge Research
-* The Challenge: Existing safety tools lacked cultural context and peer validated data necessary for international students to feel secure in new urban environments.
-* The Action: Daiwat executed a rigorous research phase involving user interviews and surveys to map student journeys and identify critical safety gaps.
-* The Result: The findings showed that community trust is the most significant factor in safety and directly informed the core rating and review features of the application.
+## Global Bridge Research
+Challenge: Existing safety tools lacked cultural context. Action: Rigorous research with user interviews, surveys, and journey mapping. Result: Community trust identified as the key factor, informing core app features.
 
-## Project Name: TATA Fleet Edge ZeroToOne Labs (NDA Protected)
-* The Challenge: Fleet operators needed a more efficient way to monitor vehicles across mobile and web platforms to improve operational visibility.
-* The Action: Daiwat designed intuitive user interfaces for the TATA Fleet Edge platform to streamline data monitoring and vehicle tracking workflows.
-* The Result: The solution successfully increased vehicle monitoring efficiency by 15 percent through improved navigation and data visualization.
+## TATA Fleet Edge ZeroToOne Labs NDA
+Challenge: Fleet operators needed better vehicle monitoring. Action: Daiwat designed intuitive UI for data monitoring and tracking. Result: 15 percent increase in vehicle monitoring efficiency.
 
-## Project Name: Richie AI Verde Finance (NDA Protected)
-* The Challenge: Users often struggle with complex financial data and lack the proactive insights needed to manage their portfolios effectively.
-* The Action: Daiwat optimized the Richie AI platform to deliver personalized insights and proactive updates while streamlining the user experience.
-* The Result: These enhancements successfully drove higher user retention and engagement by making financial management more intuitive.
+## Richie AI Verde Finance NDA
+Challenge: Users struggled with complex financial data. Action: Daiwat optimized the platform for personalized insights. Result: Higher user retention and engagement.
 
-## Project Name: TJU Course Registration Redesign
-* The Challenge: The existing course registration system was complex and inefficient, creating significant friction for students and staff.
-* The Action: Daiwat conducted in-depth user research to pinpoint specific pain points and designed a streamlined interface to simplify the registration journey.
-* The Result: The redesign successfully improved operational efficiency and created a more intuitive user experience for the university community.
+## CalorieWise
+Challenge: Nutrition tracking apps feel tedious and guilt driven, causing users to abandon them. Action: Daiwat designed a 0 to 1 mobile app making food logging intuitive, goal driven, and research backed. Result: A smarter eating experience designed for real life habits and long term retention.
 
+## Hair Food
+Challenge: Finding the right hair care product online felt overwhelming and impersonal. Action: Daiwat built a personalized e-commerce shopping experience from 0 to 1 to match users with the right products effortlessly. Result: Improved user experience and a stronger foundation for business growth.
+
+## TJU Course Registration Redesign
+Challenge: Complex registration system causing friction. Action: User research and streamlined interface design. Result: Improved operational efficiency and user experience.`;
 
 const PROJECTS = [
-  { name: 'Global Bridge', keywords: ['global bridge', 'safety app', 'international student'], url: 'https://www.daiwatthavai.vercel.app/global-bridge/index.html' },
-  { name: 'Global Bridge Research', keywords: ['global bridge research', 'research', 'user interview', 'journey map', 'survey'], url: 'https://www.daiwatthavai.vercel.app/global-bridge-uxr/index.html' },
-  { name: 'TATA Fleet Edge', keywords: ['tata', 'fleet', 'zerotoone', 'zero to one', 'vehicle'], url: 'https://www.daiwatthavai.vercel.app/TataFleet/index.html' },
-  { name: 'Richie AI', keywords: ['richie', 'verde', 'finance', 'financial'], url: 'https://www.daiwatthavai.vercel.app/RichieAI/index.html' },
-  { name: 'TJU Redesign', keywords: ['tju', 'thomas jefferson', 'course registration', 'university'], url: 'https://www.daiwatthavai.vercel.app/TJU/index.html' },
+  { name: 'Global Bridge', keywords: ['global bridge', 'safety app', 'international student'], url: 'https://daiwatthavai.vercel.app/global-bridge/index.html' },
+  { name: 'Global Bridge Research', keywords: ['global bridge research', 'research', 'user interview', 'journey map', 'survey'], url: 'https://daiwatthavai.vercel.app/global-bridge-uxr/index.html' },
+  { name: 'TATA Fleet Edge', keywords: ['tata', 'fleet', 'zerotoone', 'zero to one', 'vehicle'], url: 'https://daiwatthavai.vercel.app/TataFleet/index.html' },
+  { name: 'Richie AI', keywords: ['richie', 'verde', 'finance', 'financial'], url: 'https://daiwatthavai.vercel.app/RichieAI/index.html' },
+  { name: 'TJU Redesign', keywords: ['tju', 'thomas jefferson', 'course registration', 'university'], url: 'https://daiwatthavai.vercel.app/TJU/index.html' },
+  { name: 'CalorieWise', keywords: ['calorie', 'caloriewise', 'nutrition', 'food tracking', 'eating'], url: 'https://daiwatthavai.vercel.app/CalorieWise/index.html' },
+  { name: 'Hair Food', keywords: ['hair food', 'hairfood', 'hair care', 'ecommerce', 'e-commerce', 'shopping', 'hair product'], url: 'https://daiwatthavai.vercel.app/HairFood/index.html' },
 ];
 
 function detectProjects(text) {
   const lower = text.toLowerCase();
-  return PROJECTS.filter(p => p.keywords.some(k => lower.includes(k)));
+  return PROJECTS.filter(function(p) {
+    return p.keywords.some(function(k) { return lower.includes(k); });
+  });
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { messages } = req.body;
+  const messages = req.body && req.body.messages;
 
   if (!messages || !Array.isArray(messages)) {
     return res.status(400).json({ error: 'Invalid request body' });
   }
+
+  const apiKey = process.env.OPENAI_API_KEY;
 
   try {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+        'Authorization': 'Bearer ' + apiKey,
       },
       body: JSON.stringify({
         model: 'gpt-4o-mini',
         max_tokens: 300,
         messages: [
-          { role: 'system', content: SYSTEM_PROMPT },
-          ...messages,
-        ],
+          { role: 'system', content: SYSTEM_PROMPT }
+        ].concat(messages),
       }),
     });
 
     if (!response.ok) {
       const err = await response.json();
-      return res.status(response.status).json({ error: err.error?.message || 'OpenAI error' });
+      return res.status(response.status).json({ error: (err.error && err.error.message) || 'OpenAI error' });
     }
 
     const data = await response.json();
-    const reply = data.choices?.[0]?.message?.content || '';
+    const reply = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '';
     const pills = detectProjects(reply);
 
-    return res.status(200).json({ reply, pills });
+    return res.status(200).json({ reply: reply, pills: pills });
 
   } catch (err) {
-    return res.status(500).json({ error: 'Server error' });
+    return res.status(500).json({ error: 'Server error: ' + err.message });
   }
-}
+};
