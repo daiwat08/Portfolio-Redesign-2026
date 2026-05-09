@@ -111,6 +111,66 @@
     .nav-pill__link{padding:8px 10px;font-size:13px;}
   }
 
+  /* ── MOBILE NAV (Global Bridge style) ── */
+  @media(min-width:641px){
+    .mob-pill{display:none !important;}
+    .mob-drawer{display:none !important;}
+    .mob-drawer-overlay{display:none !important;}
+  }
+  @media(max-width:640px){
+    .nav-top{display:none;}
+    .nav-pill{display:none;}
+    .mob-pill{
+      display:flex;position:fixed;top:16px;left:50%;
+      transform:translateX(-50%) translateY(-6px);z-index:9999;
+      align-items:center;justify-content:space-between;
+      background:rgba(15,15,15,0.92);border:1px solid rgba(255,255,255,0.1);
+      border-radius:999px;height:64px;width:calc(100vw - 32px);
+      padding:0 5px 0 18px;box-shadow:0 8px 32px rgba(0,0,0,0.3);
+      opacity:0;pointer-events:none;
+      transition:opacity .4s ease,transform .4s ease,width .4s cubic-bezier(.34,1.2,.64,1),padding .4s ease;
+    }
+    .mob-pill.mob-visible{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;}
+    .mob-pill.mob-scrolling{width:128px;padding:0 10px;justify-content:space-between;}
+    .mob-pill__name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#fff;letter-spacing:-.01em;white-space:nowrap;transition:opacity .25s ease,transform .25s ease;opacity:1;transform:translateX(0);flex:1;}
+    .mob-pill.mob-scrolling .mob-pill__name{opacity:0;transform:translateX(6px);pointer-events:none;width:0;flex:0;overflow:hidden;}
+    .mob-pill__icon{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .25s ease;opacity:0;pointer-events:none;}
+    .mob-pill__icon svg{width:20px;height:20px;color:rgba(255,255,255,.85);}
+    .mob-pill.mob-scrolling .mob-pill__icon{opacity:1;pointer-events:all;}
+    .mob-pill__right{display:flex;align-items:center;position:relative;width:54px;height:54px;flex-shrink:0;}
+    .mob-pill__ring{position:absolute;inset:0;flex-shrink:0;width:54px;height:54px;opacity:0;pointer-events:none;transition:opacity .3s ease;}
+    .mob-pill__ring svg{display:block;width:54px;height:54px;transform:rotate(-90deg);}
+    .mob-pill__ring .r-track{fill:none;stroke:rgba(255,255,255,.15);stroke-width:2.2;}
+    .mob-pill__ring .r-fill{fill:none;stroke:rgba(255,255,255,.9);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:131.95;stroke-dashoffset:131.95;transition:stroke-dashoffset .1s linear;}
+    .mob-pill__ring .r-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-family:'Geist Mono',monospace;color:rgba(255,255,255,.9);letter-spacing:-.02em;}
+    .mob-pill.mob-scrolling .mob-pill__ring{opacity:1;pointer-events:all;}
+    .mob-pill__burger{position:absolute;inset:0;width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;flex-shrink:0;transition:opacity .3s ease,background .2s,transform .15s;opacity:1;}
+    .mob-pill__burger span{display:block;width:14px;height:1.5px;background:rgba(255,255,255,.85);border-radius:2px;transition:transform .25s ease,opacity .2s ease;}
+    .mob-pill__burger:active{transform:scale(0.92);background:rgba(255,255,255,0.14);}
+    .mob-pill.mob-scrolling .mob-pill__burger{opacity:0;pointer-events:none;}
+    .mob-pill__burger.is-open span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
+    .mob-pill__burger.is-open span:nth-child(2){opacity:0;transform:scaleX(0);}
+    .mob-pill__burger.is-open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
+    .mob-drawer-overlay{display:none !important;}
+    .mob-drawer{position:fixed;inset:0;z-index:9995;background:var(--bg);display:flex;flex-direction:column;justify-content:center;padding:0 0 max(40px,env(safe-area-inset-bottom)) 0;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,1,.42,1);}
+    .mob-drawer.is-open{transform:translateY(0);}
+    .mob-drawer__handle{display:none;}
+    .mob-drawer__link{display:flex;align-items:center;padding:20px 40px;font-size:36px;font-family:'Instrument Serif',serif;font-weight:400;color:var(--white);text-decoration:none;letter-spacing:-.03em;min-height:72px;transition:opacity .18s,transform .12s;}
+    .mob-drawer__link:active{opacity:0.6;transform:scale(0.98);}
+    body.light .mob-drawer__link:active{opacity:0.5;}
+    .mob-drawer__divider{height:1px;background:var(--line);margin:20px 40px;}
+    .mob-drawer__theme{display:flex;align-items:center;justify-content:flex-start;padding:20px 40px;min-height:64px;}
+    .mob-theme-toggle{display:flex;align-items:center;background:rgba(255,255,255,0.06);border:1px solid var(--line);border-radius:999px;padding:4px;gap:4px;cursor:pointer;}
+    body.light .mob-theme-toggle{background:rgba(0,0,0,0.05);}
+    .mob-theme-toggle__opt{padding:8px 20px;border-radius:999px;font-size:13px;font-weight:500;color:var(--sub);transition:background .2s,color .2s;min-height:36px;display:flex;align-items:center;}
+    .mob-theme-toggle__opt.active{background:var(--accent);color:#fff;}
+    h1{font-size:36px;}
+    .stats-row{grid-template-columns:1fr;}
+    .method-grid{grid-template-columns:1fr;}
+    .finding-card{grid-template-columns:1fr;gap:8px;}
+    .feature-row{grid-template-columns:1fr;gap:8px;}
+  }
+
   /* PAGE */
   .col{max-width:var(--max);margin:0 auto;padding:0 24px;}
   .col-wide{max-width:var(--wide);margin:0 auto;padding:0 24px;}
@@ -208,13 +268,7 @@
   .btn-accent{background:var(--accent);border-color:transparent;color:white;margin-left:10px;}
   .btn-accent:hover{background:#3a6ce8;}
 
-  @media(max-width:640px){
-    h1{font-size:36px;}
-    .stats-row{grid-template-columns:1fr;}
-    .method-grid{grid-template-columns:1fr;}
-    .finding-card{grid-template-columns:1fr;gap:8px;}
-    .feature-row{grid-template-columns:1fr;gap:8px;}
-  }
+
 </style>
 </head>
 <body>
@@ -223,13 +277,14 @@
 <header class="nav-top nav-dark" id="navTop">
   <a href="../index.html" class="nav-top__logo">Daiwat Thavai</a>
   <nav class="nav-top__links">
-    <a href="../Work/index.html" class="nav-top__link">Work</a>
-    <a href="../AboutMe/index.html" class="nav-top__link">About</a>
+    <a href="../index.html" class="nav-top__link">Home</a>
+    <a href="../index.html" class="nav-top__link">Work</a>
+    <a href="#" class="nav-top__link">About</a>
     <a href="#" class="nav-top__link">Resume</a>
   </nav>
   <div class="nav-top__right">
     <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">🌙</button>
-    <a href="../DaveAI/index.html" class="nav-top__cta">Dave AI ✦</a>
+    <a href="#" class="nav-top__cta">Dave AI ✦</a>
   </div>
 </header>
 
@@ -242,8 +297,8 @@
   </div>
   <div class="nav-pill__links">
     <a href="../index.html" class="nav-pill__link">Home</a>
-    <a href="../Work/index.html" class="nav-pill__link">Work</a>
-    <a href="../AboutMe/index.html" class="nav-pill__link">About</a>
+    <a href="../index.html" class="nav-pill__link">Work</a>
+    <a href="#" class="nav-pill__link">About</a>
     <a href="#" class="nav-pill__link">Resume</a>
   </div>
   <div class="nav-pill__theme">
@@ -300,7 +355,7 @@
     <!-- IMAGE: Secondary research -->
     <div style="margin-top:32px;">
       <div class="img-wrap" style="margin-top:0;">
-        <img src="assets/secondary-research.png" alt="Secondary research data — campus safety statistics from Data.gov and Clery Act">
+        <img src="secondary-research.png" alt="Secondary research data — campus safety statistics from Data.gov and Clery Act">
       </div>
       <div class="img-caption">Secondary research — Data.gov campus safety data</div>
     </div>
@@ -353,8 +408,8 @@
     <!-- IMAGE: Interview guide -->
     <div style="margin-top:32px;">
       <div class="img-wrap" style="margin-top:0;">
-        <img class="img-dark"  src="assets/interview-guide- dark.png"  alt="Interview guide — discussion guide used for student interviews">
-        <img class="img-light" style="display:none" src="assets/interview-guide - light.png" alt="Interview guide — discussion guide used for student interviews">
+        <img class="img-dark"  src="Interview Guide - Dark.png"  alt="Interview guide — discussion guide used for student interviews">
+        <img class="img-light" style="display:none" src="Interview Guide - Light.png" alt="Interview guide — discussion guide used for student interviews">
       </div>
       <div class="img-caption">Interview guide — used across student and stakeholder sessions</div>
     </div>
@@ -386,7 +441,7 @@
     <!-- IMAGE: Affinity map -->
     <div style="margin-top:32px;">
       <div class="img-wrap" style="margin-top:0;">
-        <img src="assets/synthesis.png" alt="Affinity mapping synthesis board — grouping interview themes into patterns">
+        <img src="Synthesis.png" alt="Affinity mapping synthesis board — grouping interview themes into patterns">
       </div>
       <div class="img-caption">Affinity mapping — 200+ interview moments grouped into root causes</div>
     </div>
@@ -430,7 +485,12 @@
       </div>
     </div>
 
-
+    <!-- IMAGE: Rainbow chart — add when ready -->
+    <div class="placeholder" style="aspect-ratio:16/7;margin-top:32px;">
+      <div class="placeholder-icon">🌈</div>
+      <div class="placeholder-label">Rainbow chart / findings summary table</div>
+      <div class="placeholder-hint">Figma export: 760 × 333 px · Your structured findings matrix</div>
+    </div>
   </div>
 </section>
 
@@ -451,58 +511,45 @@
         <div class="hmw-text">How might we connect students with peers who have already navigated the same routes and situations they're facing?</div>
       </div>
     </div>
-    <!-- THE PLAN -->
-    <div style="margin-top:48px;">
-      <div style="font-family:'Geist Mono',monospace;font-size:var(--t-xs);letter-spacing:1.2px;text-transform:uppercase;color:var(--sub);margin-bottom:16px;">The pretotyping plan</div>
-      <p style="margin-top:0;">Before writing a single line of code or opening Figma, I needed to answer one question: <em>will students actually use this?</em> I mapped three risky assumptions — that students would be motivated to engage, that they'd want to connect with peers, and that they'd value safety reviews from fellow students. Each assumption got an XYZ statement and a concrete experiment designed to falsify it cheaply.</p>
-      <div class="img-wrap" style="margin-top:24px;">
-        <img class="img-dark"  src="assets/Pretotyping Plan - Dark.png"  alt="Pretotyping plan — risky assumptions and XYZ statements">
-        <img class="img-light" style="display:none" src="assets/Pretotyping Plan - Light.png" alt="Pretotyping plan — risky assumptions and XYZ statements">
-      </div>
-      <div class="img-caption">Pretotyping plan — three risky assumptions, three experiments</div>
-    </div>
+    <p style="margin-top:32px;">Both Mechanical Turk experiments — one testing peer reviews, one testing location sharing — confirmed willingness to engage when framed as mutual support rather than surveillance.</p>
 
-    <!-- THE EXPERIMENTS -->
-    <div style="margin-top:48px;">
-      <div style="font-family:'Geist Mono',monospace;font-size:var(--t-xs);letter-spacing:1.2px;text-transform:uppercase;color:var(--sub);margin-bottom:16px;">The experiments</div>
-      <p style="margin-top:0;">Two Mechanical Turk experiments ran simultaneously. The first placed students in a WhatsApp group to share and receive peer safety reviews for local places. The second gave participants physical Peer Profile Cards to find a connect and plan an outing together. Both were deliberately low-fidelity — the goal was behaviour, not polish.</p>
-      <div style="display:flex;flex-direction:column;gap:24px;margin-top:24px;">
+    <!-- PRETOTYPING EVIDENCE -->
+    <div style="margin-top:32px;">
+      <div style="font-family:'Geist Mono',monospace;font-size:var(--t-xs);letter-spacing:1.2px;text-transform:uppercase;color:var(--sub);margin-bottom:16px;">Pretotyping evidence</div>
+      <div style="display:flex;flex-direction:column;gap:24px;">
+
         <div>
           <div class="img-wrap" style="margin-top:0;">
-            <img class="img-dark"  src="assets/mechanical-turk-dark.png"  alt="Mechanical Turk experiment 1 — peer review WhatsApp group chat">
-            <img class="img-light" style="display:none" src="assets/mechanical-turk -light.png" alt="Mechanical Turk experiment 1 — peer review WhatsApp group chat">
+            <img class="img-dark"  src="Mechanical Turk 1 - Dark.png"  alt="Mechanical Turk experiment 1 — peer review WhatsApp group chat">
+            <img class="img-light" style="display:none" src="Mechanical Turk 1 - Light.png" alt="Mechanical Turk experiment 1 — peer review WhatsApp group chat">
           </div>
           <div class="img-caption">Mechanical Turk 01 — Peer review chat group</div>
         </div>
+
         <div>
           <div class="img-wrap" style="margin-top:0;">
-            <img class="img-dark"  src="assets/Mechanical Turk 2 - Dark.png"  alt="Mechanical Turk experiment 2 — location sharing peer connect">
-            <img class="img-light" style="display:none" src="assets/Mechanical Turk 2 - Light.png" alt="Mechanical Turk experiment 2 — location sharing peer connect">
+            <img class="img-dark"  src="Mechanical Turk 2 - Dark.png"  alt="Mechanical Turk experiment 2 — location sharing peer connect">
+            <img class="img-light" style="display:none" src="Mechanical Turk 2 - Light.png" alt="Mechanical Turk experiment 2 — location sharing peer connect">
           </div>
           <div class="img-caption">Mechanical Turk 02 — Peer connect feature validation</div>
         </div>
-      </div>
-    </div>
 
-    <!-- THE VALIDATION -->
-    <div style="margin-top:48px;">
-      <div style="font-family:'Geist Mono',monospace;font-size:var(--t-xs);letter-spacing:1.2px;text-transform:uppercase;color:var(--sub);margin-bottom:16px;">Validation</div>
-      <p style="margin-top:0;">All three assumptions held. Students didn't just engage — they sustained engagement. The fake front door alone drew 36 users and 177 interaction events in week one, before a single line of production code existed. The riskiest assumption — that students would share location with near-strangers — was validated when framed as mutual support rather than surveillance.</p>
-      <div style="display:flex;flex-direction:column;gap:24px;margin-top:24px;">
         <div>
           <div class="img-wrap" style="margin-top:0;">
-            <img class="img-dark"  src="assets/fake-front-door - dark.png"  alt="Fake front door — 36 users, 177 events">
-            <img class="img-light" style="display:none" src="assets/fake-front-door -light.png" alt="Fake front door — 36 users, 177 events">
+            <img class="img-dark"  src="Pretotyping Plan.png"         alt="Pretotyping plan — risky assumption validation results">
+            <img class="img-light" style="display:none" src="Pretotyping Plan - Light.png" alt="Pretotyping plan — risky assumption validation results">
+          </div>
+          <div class="img-caption">Pretotyping plan — all assumptions validated</div>
+        </div>
+
+        <div>
+          <div class="img-wrap" style="margin-top:0;">
+            <img class="img-dark"  src="Fake Front Door - Dark.png"  alt="Fake front door — 36 users, 177 events">
+            <img class="img-light" style="display:none" src="Fake Front Door - Light.png" alt="Fake front door — 36 users, 177 events">
           </div>
           <div class="img-caption">Fake front door — 36 users · 177 interaction events in week one</div>
         </div>
-        <div>
-          <div class="img-wrap" style="margin-top:0;">
-            <img class="img-dark"  src="assets/successful-pretotyping-dark.png"  alt="Successful pretotyping — all assumptions validated">
-            <img class="img-light" style="display:none" src="assets/successful-pretotyping-light.png" alt="Successful pretotyping — all assumptions validated">
-          </div>
-          <div class="img-caption">All assumptions validated — students want this feature</div>
-        </div>
+
       </div>
     </div>
   </div>
@@ -530,11 +577,22 @@
     </div>
 
     <!-- IMPACT IMAGES -->
-    <div style="margin-top:40px;">
-      <div class="img-wrap" style="margin-top:0;">
-        <img src="assets/presentation.png" alt="Presenting research insights to university leadership">
+    <div style="margin-top:40px;display:flex;flex-direction:column;gap:24px;">
+
+      <div>
+        <div class="img-wrap" style="margin-top:0;">
+          <img src="meeting.png" alt="Stakeholder presentation — presenting research findings to the room">
+        </div>
+        <div class="img-caption">Stakeholder presentation — Thomas Jefferson University</div>
       </div>
-      <div class="img-caption">Presenting research insights to university leadership</div>
+
+      <div>
+        <div class="img-wrap" style="margin-top:0;">
+          <img src="presentation.png" alt="Presenting research findings to stakeholders">
+        </div>
+        <div class="img-caption">Presenting research insights to university leadership</div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -549,13 +607,16 @@
     <p>Listening to international students taught me that surface-level observations miss the most meaningful insights. The real work is uncovering why someone does what they do — not just what they do.</p>
     <div>
       <a href="../index.html" class="btn">← Back to Home</a>
-      <a href="index.html" class="btn btn-accent">View Presentation →</a>
+      <a href="index.html" class="btn btn-accent">See Full Case Study →</a>
     </div>
   </div>
 </footer>
 
 <script>
 (function(){
+  /* DESKTOP NAV */
+  if(window.matchMedia('(max-width:640px)').matches) return;
+
   const navTop     = document.getElementById('navTop');
   const navPill    = document.getElementById('navPill');
   const rFill      = document.getElementById('navRingFill');
@@ -582,7 +643,6 @@
     const icon = goLight ? '☀️' : '🌙';
     toggleTop.textContent  = icon;
     togglePill.textContent = icon;
-    // switch adaptive images
     document.querySelectorAll('.img-dark').forEach(function(el){
       el.style.display = goLight ? 'none' : 'block';
     });
@@ -603,8 +663,109 @@
       });
     },{threshold:[0.45,0.55]}).observe(sec);
   });
+})();
 
-  // LIGHTBOX
+/* MOBILE NAV */
+document.addEventListener('DOMContentLoaded', function(){
+(function(){
+  var isMobile = function(){ return window.matchMedia('(max-width:640px)').matches; };
+
+  var mobPill    = document.getElementById('mobPill');
+  var mobBurger  = document.getElementById('mobBurger');
+  var mobDrawer  = document.getElementById('mobDrawer');
+  var mobOverlay = document.getElementById('mobDrawerOverlay');
+  var mobRingFill= document.getElementById('mobRingFill');
+  var mobRingPct = document.getElementById('mobRingPct');
+  var mobOptDark = document.getElementById('mobOptDark');
+  var mobOptLight= document.getElementById('mobOptLight');
+
+  if(!window.matchMedia('(max-width:640px)').matches) return;
+  if(!mobPill || !mobBurger || !mobDrawer || !mobOverlay || !mobRingFill || !mobRingPct) return;
+
+  var MOB_CIRC = 2 * Math.PI * 21;
+  var scrollTimer = null;
+  var drawerOpen  = false;
+  var pillShown   = false;
+
+  setTimeout(function(){
+    mobPill.classList.add('mob-visible');
+    pillShown = true;
+  }, 500);
+
+  function onMobScroll(){
+    if(!isMobile()) return;
+    var h = document.documentElement;
+    var scrollY = h.scrollTop;
+    var total = h.scrollHeight - h.clientHeight;
+    var pct = total > 0 ? Math.min(scrollY / total, 1) : 0;
+    mobRingFill.style.strokeDashoffset = MOB_CIRC * (1 - pct);
+    mobRingPct.textContent = Math.round(pct * 100) + '%';
+    if(scrollY > 40){
+      if(!pillShown){ mobPill.classList.add('mob-visible'); pillShown = true; }
+      mobPill.classList.add('mob-scrolling');
+    } else {
+      mobPill.classList.remove('mob-scrolling');
+    }
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(function(){
+      mobPill.classList.remove('mob-scrolling');
+    }, 500);
+  }
+  window.addEventListener('scroll', onMobScroll, {passive:true});
+
+  function openDrawer(){
+    drawerOpen = true;
+    mobDrawer.classList.add('is-open');
+    mobBurger.classList.add('is-open');
+    mobBurger.setAttribute('aria-expanded','true');
+    document.body.style.overflow = 'hidden';
+    var firstLink = mobDrawer.querySelector('a');
+    if(firstLink) setTimeout(function(){ firstLink.focus(); }, 50);
+  }
+  function closeDrawer(){
+    drawerOpen = false;
+    mobDrawer.classList.remove('is-open');
+    mobBurger.classList.remove('is-open');
+    mobBurger.setAttribute('aria-expanded','false');
+    document.body.style.overflow = '';
+    mobBurger.focus();
+  }
+
+  mobBurger.addEventListener('click', function(){
+    drawerOpen ? closeDrawer() : openDrawer();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && drawerOpen) closeDrawer();
+  });
+  mobDrawer.querySelectorAll('a').forEach(function(link){
+    link.addEventListener('click', closeDrawer);
+  });
+
+  function applyMobTheme(goLight){
+    document.body.classList.toggle('light', goLight);
+    mobOptDark.classList.toggle('active', !goLight);
+    mobOptLight.classList.toggle('active', goLight);
+    document.querySelectorAll('.img-dark').forEach(function(el){
+      el.style.display = goLight ? 'none' : 'block';
+    });
+    document.querySelectorAll('.img-light').forEach(function(el){
+      el.style.display = goLight ? 'block' : 'none';
+    });
+    var deskToggle = document.getElementById('themeToggle');
+    var pillToggle = document.getElementById('themeTogglePill');
+    if(deskToggle) deskToggle.textContent = goLight ? '☀️' : '🌙';
+    if(pillToggle) pillToggle.textContent = goLight ? '☀️' : '🌙';
+  }
+  applyMobTheme(false);
+
+  document.getElementById('mobThemeToggle').addEventListener('click', function(){
+    applyMobTheme(!document.body.classList.contains('light'));
+  });
+})();
+}); // DOMContentLoaded
+
+// LIGHTBOX
+(function(){
   const lb = document.createElement('div');
   lb.id = 'lightbox';
   lb.style.cssText = [
@@ -677,5 +838,44 @@
 
 })();
 </script>
+<!-- MOBILE PILL NAV -->
+<nav class="mob-pill" id="mobPill" role="navigation" aria-label="Mobile navigation">
+  <div class="mob-pill__name" aria-hidden="true">Daiwat Thavai</div>
+  <div class="mob-pill__icon" aria-hidden="true">
+    <svg viewBox="0 0 16 16" fill="none"><path d="M3 2L13 8L8 9.5L6.5 14L3 2Z" fill="currentColor"/></svg>
+  </div>
+  <div class="mob-pill__right">
+    <div class="mob-pill__ring" aria-hidden="true">
+      <svg viewBox="0 0 54 54">
+        <circle class="r-track" cx="27" cy="27" r="21"/>
+        <circle class="r-fill" id="mobRingFill" cx="27" cy="27" r="21"/>
+      </svg>
+      <div class="r-pct" id="mobRingPct">0%</div>
+    </div>
+    <button class="mob-pill__burger" id="mobBurger" aria-label="Open menu" aria-expanded="false" aria-controls="mobDrawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- DRAWER OVERLAY -->
+<div class="mob-drawer-overlay" id="mobDrawerOverlay" aria-hidden="true"></div>
+
+<!-- FULL SCREEN DRAWER -->
+<div class="mob-drawer" id="mobDrawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <div class="mob-drawer__handle" aria-hidden="true"></div>
+  <a href="../Work/index.html" class="mob-drawer__link">Work</a>
+  <a href="../AboutMe/index.html" class="mob-drawer__link">About</a>
+  <a href="#" class="mob-drawer__link">Resume</a>
+  <a href="../DaveAI/index.html" class="mob-drawer__link">Dave AI ✦</a>
+  <div class="mob-drawer__divider" aria-hidden="true"></div>
+  <div class="mob-drawer__theme">
+    <div class="mob-theme-toggle" id="mobThemeToggle" role="group" aria-label="Theme toggle">
+      <div class="mob-theme-toggle__opt active" id="mobOptDark" aria-pressed="true">Dark</div>
+      <div class="mob-theme-toggle__opt" id="mobOptLight" aria-pressed="false">Light</div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
