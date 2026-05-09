@@ -45,46 +45,6 @@
     .nav-top__cta { display: none !important; }
   }
 
-  /* ── MOBILE NAV (Global Bridge style) ── */
-  @media(min-width:641px){.mob-pill{display:none !important;}.mob-drawer{display:none !important;}.mob-drawer-overlay{display:none !important;}}
-  @media(max-width:640px){
-    .mob-pill{display:flex;position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-6px);z-index:999999;align-items:center;justify-content:space-between;background:rgba(15,15,15,0.98);border:1px solid rgba(255,255,255,0.1);border-radius:999px;height:64px;width:calc(100vw - 32px);padding:0 5px 0 18px;box-shadow:0 8px 32px rgba(0,0,0,0.3);opacity:0;pointer-events:none;transition:opacity .4s ease,transform .4s ease,width .4s cubic-bezier(.34,1.2,.64,1),padding .4s ease;}
-    .mob-pill.mob-visible{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;}
-    .mob-pill.mob-scrolling{width:128px;padding:0 10px;justify-content:space-between;}
-    .mob-pill__name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#fff;letter-spacing:-.01em;white-space:nowrap;transition:opacity .25s ease,transform .25s ease;opacity:1;transform:translateX(0);flex:1;}
-    .mob-pill.mob-scrolling .mob-pill__name{opacity:0;transform:translateX(6px);pointer-events:none;width:0;flex:0;overflow:hidden;}
-    .mob-pill__icon{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .25s ease;opacity:0;pointer-events:none;}
-    .mob-pill__icon svg{width:20px;height:20px;color:rgba(255,255,255,.85);}
-    .mob-pill.mob-scrolling .mob-pill__icon{opacity:1;pointer-events:all;}
-    .mob-pill__right{display:flex;align-items:center;position:relative;width:54px;height:54px;flex-shrink:0;}
-    .mob-pill__ring{position:absolute;inset:0;flex-shrink:0;width:54px;height:54px;opacity:0;pointer-events:none;transition:opacity .3s ease;}
-    .mob-pill__ring svg{display:block;width:54px;height:54px;transform:rotate(-90deg);}
-    .mob-pill__ring .r-track{fill:none;stroke:rgba(255,255,255,.15);stroke-width:2.2;}
-    .mob-pill__ring .r-fill{fill:none;stroke:rgba(255,255,255,.9);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:131.95;stroke-dashoffset:131.95;transition:stroke-dashoffset .1s linear;}
-    .mob-pill__ring .r-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-family:'Geist Mono',monospace;color:rgba(255,255,255,.9);letter-spacing:-.02em;}
-    .mob-pill.mob-scrolling .mob-pill__ring{opacity:1;pointer-events:all;}
-    .mob-pill__burger{position:absolute;inset:0;width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;flex-shrink:0;transition:opacity .3s ease,background .2s,transform .15s;opacity:1;}
-    .mob-pill__burger span{display:block;width:14px;height:1.5px;background:rgba(255,255,255,.85);border-radius:2px;transition:transform .25s ease,opacity .2s ease;}
-    .mob-pill__burger:active{transform:scale(0.92);background:rgba(255,255,255,0.14);}
-    .mob-pill.mob-scrolling .mob-pill__burger{opacity:0;pointer-events:none;}
-    .mob-pill__burger.is-open span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
-    .mob-pill__burger.is-open span:nth-child(2){opacity:0;transform:scaleX(0);}
-    .mob-pill__burger.is-open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
-    .mob-drawer-overlay{display:none !important;}
-    .mob-drawer{position:fixed;inset:0;z-index:99999;background:var(--bg);display:flex;flex-direction:column;justify-content:center;padding:0 0 max(40px,env(safe-area-inset-bottom)) 0;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,1,.42,1);width:100%;height:100%;top:0;left:0;will-change:transform;border:none;margin:0;max-width:100%;max-height:100%;}
-    .mob-drawer::backdrop{display:none;}
-    .mob-drawer.is-open{transform:translateY(0);}
-    .mob-drawer:not([open]){display:none;}
-    .mob-drawer__handle{display:none;}
-    .mob-drawer__link{display:flex;align-items:center;padding:20px 40px;font-size:36px;font-family:'Instrument Serif',serif;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-.03em;min-height:72px;transition:opacity .18s,transform .12s;}
-    .mob-drawer__link:active{opacity:0.6;transform:scale(0.98);}
-    .mob-drawer__divider{height:1px;background:rgba(255,255,255,0.08);margin:20px 40px;}
-    .mob-drawer__theme{display:flex;align-items:center;justify-content:flex-start;padding:20px 40px;min-height:64px;}
-    .mob-theme-toggle{display:flex;align-items:center;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:999px;padding:4px;gap:4px;cursor:pointer;}
-    .mob-theme-toggle__opt{padding:8px 20px;border-radius:999px;font-size:13px;font-weight:500;color:rgba(255,255,255,0.4);transition:background .2s,color .2s;min-height:36px;display:flex;align-items:center;background:none;border:none;cursor:pointer;font-family:inherit;}
-    .mob-theme-toggle__opt.active{background:#fff;color:#111;}
-  }
-
   /* ── FILTER PILLS ── */
   .filters {
     position: fixed; bottom: 36px; left: 50%;
@@ -242,26 +202,6 @@
   .dot:hover { transform: scale(1.3); }
   .dot.active { background: #fff; transform: scale(1.5); box-shadow: 0 0 0 2px rgba(0,0,0,0.4); }
 
-  /* ── MOBILE PAGINATION COUNTER ── */
-  .mob-counter {
-    display: none;
-    position: fixed; top: 96px; right: 20px;
-    z-index: 9998;
-    font-family: 'Geist Mono', monospace;
-    font-size: 12px; letter-spacing: 1px;
-    color: rgba(255,255,255,0.5);
-    background: rgba(0,0,0,0.35);
-    backdrop-filter: blur(8px);
-    padding: 6px 12px; border-radius: 999px;
-    border: 1px solid rgba(255,255,255,0.12);
-    pointer-events: none;
-  }
-  .mob-counter span { color: rgba(255,255,255,0.9); font-weight: 700; }
-  @media(max-width:640px){
-    .progress-dots { display: none; }
-    .mob-counter { display: block; }
-  }
-
   /* ── EMPTY STATE ── */
   .empty-state {
     display: none;
@@ -368,9 +308,60 @@
     z-index: 9999;
     opacity: 1; transition: opacity 0.5s;
   }
-  .scroll-hint.hidden { opacity: 0; }
+  .scroll-hint.hidden { opacity: 0; pointer-events: none; }
   .hint-arrow { font-size: 14px; animation: nudge 1.5s ease-in-out infinite; }
   @keyframes nudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(6px); } }
+  @media(max-width:640px){
+    .hint-desktop { display: none; }
+    .hint-mobile { display: inline !important; }
+  }
+
+  /* ── MOBILE NAV ── */
+  @media(min-width:641px){.mob-pill{display:none !important;}.mob-drawer{display:none !important;}}
+  @media(max-width:640px){
+    .mob-pill{display:flex;position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-6px);z-index:999999;align-items:center;justify-content:space-between;background:rgba(15,15,15,0.98);border:1px solid rgba(255,255,255,0.1);border-radius:999px;height:64px;width:calc(100vw - 32px);padding:0 5px 0 18px;box-shadow:0 8px 32px rgba(0,0,0,0.3);opacity:0;pointer-events:none;transition:opacity .4s ease,transform .4s ease,width .4s cubic-bezier(.34,1.2,.64,1),padding .4s ease;}
+    .mob-pill.mob-visible{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;}
+    .mob-pill.mob-scrolling{width:128px;padding:0 10px;justify-content:space-between;}
+    .mob-pill__name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#fff;letter-spacing:-.01em;white-space:nowrap;transition:opacity .25s ease,transform .25s ease;opacity:1;transform:translateX(0);flex:1;}
+    .mob-pill.mob-scrolling .mob-pill__name{opacity:0;transform:translateX(6px);pointer-events:none;width:0;flex:0;overflow:hidden;}
+    .mob-pill__right{display:flex;align-items:center;position:relative;width:54px;height:54px;flex-shrink:0;}
+    .mob-pill__ring{position:absolute;inset:0;flex-shrink:0;width:54px;height:54px;opacity:0;pointer-events:none;transition:opacity .3s ease;}
+    .mob-pill__ring svg{display:block;width:54px;height:54px;transform:rotate(-90deg);}
+    .mob-pill__ring .r-track{fill:none;stroke:rgba(255,255,255,.15);stroke-width:2.2;}
+    .mob-pill__ring .r-fill{fill:none;stroke:rgba(255,255,255,.9);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:131.95;stroke-dashoffset:131.95;transition:stroke-dashoffset .1s linear;}
+    .mob-pill__ring .r-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-family:'Geist Mono',monospace;color:rgba(255,255,255,.9);letter-spacing:-.02em;}
+    .mob-pill.mob-scrolling .mob-pill__ring{opacity:1;pointer-events:all;}
+    .mob-pill__burger{position:absolute;inset:0;width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;flex-shrink:0;transition:opacity .3s ease,background .2s,transform .15s;opacity:1;}
+    .mob-pill__burger span{display:block;width:14px;height:1.5px;background:rgba(255,255,255,.85);border-radius:2px;transition:transform .25s ease,opacity .2s ease;}
+    .mob-pill__burger:active{transform:scale(0.92);}
+    .mob-pill.mob-scrolling .mob-pill__burger{opacity:0;pointer-events:none;}
+    .mob-pill__burger.is-open span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
+    .mob-pill__burger.is-open span:nth-child(2){opacity:0;transform:scaleX(0);}
+    .mob-pill__burger.is-open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
+    .mob-drawer{position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999;pointer-events:none;display:flex;flex-direction:column;justify-content:center;}
+    .mob-drawer__inner{position:absolute;inset:0;background:#0a0a0a;display:flex;flex-direction:column;justify-content:center;padding:0 0 max(40px,env(safe-area-inset-bottom)) 0;opacity:0;transition:opacity .3s ease;}
+    .mob-drawer__close{position:absolute;top:16px;left:50%;transform:translateX(-50%);width:calc(100vw - 32px);height:64px;background:rgba(15,15,15,0.98);border:1px solid rgba(255,255,255,0.1);border-radius:999px;display:flex;align-items:center;justify-content:space-between;padding:0 5px 0 18px;z-index:2;}
+    .mob-drawer__close-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#fff;}
+    .mob-drawer__close-btn{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;flex-shrink:0;}
+    .mob-drawer__close-btn span{display:block;width:14px;height:1.5px;background:rgba(255,255,255,.85);border-radius:2px;}
+    .mob-drawer__close-btn span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
+    .mob-drawer__close-btn span:nth-child(2){opacity:0;}
+    .mob-drawer__close-btn span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
+    .mob-drawer__link{display:flex;align-items:center;padding:20px 40px;font-size:36px;font-family:'Instrument Serif',serif;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-.03em;min-height:72px;transition:opacity .18s,transform .12s;}
+    .mob-drawer__link:active{opacity:0.6;transform:scale(0.98);}
+    .mob-drawer__divider{height:1px;background:rgba(255,255,255,0.1);margin:20px 40px;}
+    .mob-drawer__theme{display:flex;align-items:center;justify-content:flex-start;padding:20px 40px;min-height:64px;}
+    .mob-theme-toggle{display:flex;align-items:center;background:#1a1a1a;border:1px solid rgba(255,255,255,0.12);border-radius:999px;padding:4px;gap:4px;}
+    .mob-theme-toggle__opt{padding:8px 20px;border-radius:999px;font-size:13px;font-weight:500;color:rgba(255,255,255,0.4);transition:background .2s,color .2s;min-height:36px;display:flex;align-items:center;background:none;border:none;cursor:pointer;font-family:inherit;}
+    .mob-theme-toggle__opt.active{background:#fff;color:#111;font-weight:600;}
+    /* Mobile counter */
+    .mob-counter{display:none;}
+    @media(max-width:640px){
+      .progress-dots{display:none;}
+      .mob-counter{display:block;position:fixed;top:96px;right:20px;z-index:9998;font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:1px;color:rgba(255,255,255,0.5);background:rgba(0,0,0,0.35);backdrop-filter:blur(8px);padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,0.12);pointer-events:none;}
+      .mob-counter span{color:rgba(255,255,255,0.9);font-weight:700;}
+    }
+  }
 </style>
 </head>
 <body>
@@ -389,9 +380,6 @@
   </div>
 </header>
 
-<!-- MOBILE PAGINATION COUNTER -->
-<div class="mob-counter" id="mobCounter"><span id="mobCurrent">01</span> / <span id="mobTotal">10</span></div>
-
 <!-- FILTER PILLS -->
 <div class="filters" role="group" aria-label="Filter projects">
   <button class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
@@ -406,7 +394,8 @@
 <!-- SCROLL HINT -->
 <div class="scroll-hint" id="scrollHint">
   <span class="hint-arrow">→</span>
-  <span>SCROLL</span>
+  <span class="hint-desktop">SCROLL</span>
+  <span class="hint-mobile" style="display:none;">SWIPE</span>
 </div>
 
 <!-- EMPTY STATE -->
@@ -904,14 +893,6 @@
   }
 
   // Active panel detection
-  var mobCurrent = document.getElementById('mobCurrent');
-  var mobTotal = document.getElementById('mobTotal');
-
-  function updateCounter(idx, total) {
-    if (mobCurrent) mobCurrent.textContent = String(idx + 1).padStart(2, '0');
-    if (mobTotal) mobTotal.textContent = String(total).padStart(2, '0');
-  }
-
   function onScroll() {
     var scrollLeft = container.scrollLeft;
     var w = window.innerWidth;
@@ -919,18 +900,22 @@
     idx = Math.max(0, Math.min(idx, visiblePanels.length - 1));
 
     if (idx !== currentIndex) {
+      // Deactivate old
       if (visiblePanels[currentIndex]) {
         visiblePanels[currentIndex].classList.remove('is-active');
       }
       currentIndex = idx;
+      // Activate new
       if (visiblePanels[currentIndex]) {
         visiblePanels[currentIndex].classList.add('is-active');
       }
       updateDots(currentIndex);
       updateBg(currentIndex);
-      updateCounter(currentIndex, visiblePanels.length);
+      var mc = document.getElementById('mobCurrent');
+      if(mc) mc.textContent = String(currentIndex + 1).padStart(2,'0');
     }
 
+    // Hide scroll hint after first scroll
     if (scrollLeft > 50) {
       scrollHint.classList.add('hidden');
     }
@@ -941,8 +926,12 @@
   // Filter logic
   function applyFilter(filter) {
     currentFilter = filter;
+
+    // Reset scroll
     container.scrollLeft = 0;
     currentIndex = 0;
+
+    // Show/hide panels
     visiblePanels = [];
     allPanels.forEach(function(panel) {
       var tags = panel.getAttribute('data-tags').split(',');
@@ -954,21 +943,29 @@
         panel.classList.add('hidden');
       }
     });
+
+    // Renumber visible panels
     visiblePanels.forEach(function(panel, i) {
       var numEl = panel.querySelector('.panel-number');
       if (numEl) numEl.textContent = String(i + 1).padStart(2, '0');
     });
+
+    // Empty state
     if (visiblePanels.length === 0) {
       emptyState.classList.add('show');
       dotsContainer.innerHTML = '';
-      updateCounter(0, 0);
+      var mc = document.getElementById('mobCurrent'), mt = document.getElementById('mobTotal');
+      if(mc) mc.textContent = '00';
+      if(mt) mt.textContent = '00';
     } else {
       emptyState.classList.remove('show');
       buildDots();
       allPanels.forEach(function(p) { p.classList.remove('is-active'); });
       visiblePanels[0].classList.add('is-active');
       updateBg(0);
-      updateCounter(0, visiblePanels.length);
+      var mc = document.getElementById('mobCurrent'), mt = document.getElementById('mobTotal');
+      if(mc) mc.textContent = '01';
+      if(mt) mt.textContent = String(visiblePanels.length).padStart(2,'0');
     }
   }
 
@@ -984,10 +981,9 @@
     });
   });
 
-  // Convert vertical wheel to horizontal panel nav (desktop only)
+  // Convert vertical wheel scroll to snapped horizontal panel navigation
   var isScrolling = false;
   container.addEventListener('wheel', function(e) {
-    if (window.matchMedia('(max-width:640px)').matches) return;
     e.preventDefault();
     if (isScrolling) return;
     isScrolling = true;
@@ -999,36 +995,34 @@
     setTimeout(function() { isScrolling = false; }, 1200);
   }, { passive: false });
 
-  // Touch swipe — desktop only, let CSS scroll-snap handle mobile natively
+  // Touch swipe for mobile
   var touchStartX = 0;
   var touchStartY = 0;
   var isSwiping = false;
 
-  if (!window.matchMedia('(max-width:640px)').matches) {
-    container.addEventListener('touchstart', function(e) {
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
-      isSwiping = false;
-    }, { passive: true });
+  container.addEventListener('touchstart', function(e) {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    isSwiping = false;
+  }, { passive: true });
 
-    container.addEventListener('touchmove', function(e) {
-      var dx = touchStartX - e.touches[0].clientX;
-      var dy = touchStartY - e.touches[0].clientY;
-      if (!isSwiping && Math.abs(dx) > Math.abs(dy)) {
-        isSwiping = true;
-      }
-      if (isSwiping) e.preventDefault();
-    }, { passive: false });
+  container.addEventListener('touchmove', function(e) {
+    var dx = touchStartX - e.touches[0].clientX;
+    var dy = touchStartY - e.touches[0].clientY;
+    if (!isSwiping && Math.abs(dx) > Math.abs(dy)) {
+      isSwiping = true;
+    }
+    if (isSwiping) e.preventDefault();
+  }, { passive: false });
 
-    container.addEventListener('touchend', function(e) {
-      var dx = touchStartX - e.changedTouches[0].clientX;
-      var dy = touchStartY - e.changedTouches[0].clientY;
-      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
-        if (dx > 0) scrollToPanel(currentIndex + 1);
-        else scrollToPanel(currentIndex - 1);
-      }
-    }, { passive: true });
-  }
+  container.addEventListener('touchend', function(e) {
+    var dx = touchStartX - e.changedTouches[0].clientX;
+    var dy = touchStartY - e.changedTouches[0].clientY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+      if (dx > 0) scrollToPanel(currentIndex + 1);
+      else scrollToPanel(currentIndex - 1);
+    }
+  }, { passive: true });
 
   // Keyboard navigation
   document.addEventListener('keydown', function(e) {
@@ -1040,16 +1034,16 @@
   buildDots();
   visiblePanels[0].classList.add('is-active');
   updateBg(0);
-  updateCounter(0, visiblePanels.length);
+  var mc = document.getElementById('mobCurrent'), mt = document.getElementById('mobTotal');
+  if(mc) mc.textContent = '01';
+  if(mt) mt.textContent = String(visiblePanels.length).padStart(2,'0');
   
 })();
 </script>
+
 <!-- MOBILE PILL NAV -->
 <nav class="mob-pill" id="mobPill" role="navigation" aria-label="Mobile navigation">
   <div class="mob-pill__name" aria-hidden="true">Daiwat Thavai</div>
-  <div class="mob-pill__icon" aria-hidden="true">
-    <svg viewBox="0 0 16 16" fill="none"><path d="M3 2L13 8L8 9.5L6.5 14L3 2Z" fill="currentColor"/></svg>
-  </div>
   <div class="mob-pill__right">
     <div class="mob-pill__ring" aria-hidden="true">
       <svg viewBox="0 0 54 54">
@@ -1058,98 +1052,34 @@
       </svg>
       <div class="r-pct" id="mobRingPct">0%</div>
     </div>
-    <button class="mob-pill__burger" id="mobBurger" aria-label="Open menu" aria-expanded="false" aria-controls="mobDrawer">
+    <button class="mob-pill__burger" id="mobBurger" aria-label="Open menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
   </div>
 </nav>
 
-<div class="mob-drawer-overlay" id="mobDrawerOverlay" aria-hidden="true"></div>
+<div class="mob-counter" id="mobCounter"><span id="mobCurrent">01</span> / <span id="mobTotal">10</span></div>
 
-<!-- Use dialog for guaranteed top-layer rendering, bypasses overflow:hidden -->
-<dialog class="mob-drawer" id="mobDrawer" aria-label="Navigation menu">
-  <div class="mob-drawer__handle" aria-hidden="true"></div>
-  <a href="../Work/index.html" class="mob-drawer__link">Work</a>
-  <a href="../AboutMe/index.html" class="mob-drawer__link">About</a>
-  <a href="#" class="mob-drawer__link">Resume</a>
-  <a href="../DaveAI/index.html" class="mob-drawer__link">Dave AI ✦</a>
-  <div class="mob-drawer__divider" aria-hidden="true"></div>
-  <div class="mob-drawer__theme">
-    <div class="mob-theme-toggle" id="mobThemeToggle" role="group" aria-label="Theme toggle">
-      <button class="mob-theme-toggle__opt active" id="mobOptDark" aria-pressed="true">Dark</button>
-      <button class="mob-theme-toggle__opt" id="mobOptLight" aria-pressed="false">Light</button>
+<div class="mob-drawer" id="mobDrawer">
+  <div class="mob-drawer__inner" id="mobDrawerInner">
+    <div class="mob-drawer__close">
+      <span class="mob-drawer__close-name">Daiwat Thavai</span>
+      <button class="mob-drawer__close-btn" id="mobBurgerClose" aria-label="Close menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <a href="../Work/index.html" class="mob-drawer__link">Work</a>
+    <a href="../AboutMe/index.html" class="mob-drawer__link">About</a>
+    <a href="#" class="mob-drawer__link">Resume</a>
+    <a href="../DaveAI/index.html" class="mob-drawer__link">Dave AI ✦</a>
+    <div class="mob-drawer__divider" aria-hidden="true"></div>
+    <div class="mob-drawer__theme">
+      <div class="mob-theme-toggle" id="mobThemeToggle" role="group" aria-label="Theme toggle">
+        <button class="mob-theme-toggle__opt active" id="mobOptDark" aria-pressed="true">Dark</button>
+        <button class="mob-theme-toggle__opt" id="mobOptLight" aria-pressed="false">Light</button>
+      </div>
     </div>
   </div>
-</dialog>
-
-<script>
-document.addEventListener('DOMContentLoaded', function(){
-(function(){
-  if(!window.matchMedia('(max-width:640px)').matches) return;
-  var mobPill=document.getElementById('mobPill');
-  var mobBurger=document.getElementById('mobBurger');
-  var mobDrawer=document.getElementById('mobDrawer');
-  var mobOverlay=document.getElementById('mobDrawerOverlay');
-  var mobRingFill=document.getElementById('mobRingFill');
-  var mobRingPct=document.getElementById('mobRingPct');
-  var mobOptDark=document.getElementById('mobOptDark');
-  var mobOptLight=document.getElementById('mobOptLight');
-  if(!mobPill||!mobBurger||!mobDrawer||!mobRingFill||!mobRingPct) return;
-
-  var MOB_CIRC=2*Math.PI*21,scrollTimer=null,drawerOpen=false,pillShown=false;
-  setTimeout(function(){mobPill.classList.add('mob-visible');pillShown=true;},500);
-
-  function onMobScroll(){
-    var h=document.documentElement,scrollY=h.scrollTop,total=h.scrollHeight-h.clientHeight;
-    var pct=total>0?Math.min(scrollY/total,1):0;
-    mobRingFill.style.strokeDashoffset=MOB_CIRC*(1-pct);
-    mobRingPct.textContent=Math.round(pct*100)+'%';
-    if(scrollY>40){if(!pillShown){mobPill.classList.add('mob-visible');pillShown=true;}mobPill.classList.add('mob-scrolling');}
-    else{mobPill.classList.remove('mob-scrolling');}
-    clearTimeout(scrollTimer);
-    scrollTimer=setTimeout(function(){mobPill.classList.remove('mob-scrolling');},500);
-  }
-  window.addEventListener('scroll',onMobScroll,{passive:true});
-
-  function openDrawer(){
-    drawerOpen=true;
-    mobDrawer.showModal();
-    setTimeout(function(){ mobDrawer.classList.add('is-open'); }, 10);
-    mobBurger.classList.add('is-open');
-    mobBurger.setAttribute('aria-expanded','true');
-    var fl=mobDrawer.querySelector('a');
-    if(fl)setTimeout(function(){fl.focus();},50);
-  }
-  function closeDrawer(){
-    drawerOpen=false;
-    mobDrawer.classList.remove('is-open');
-    mobBurger.classList.remove('is-open');
-    mobBurger.setAttribute('aria-expanded','false');
-    setTimeout(function(){ mobDrawer.close(); }, 400);
-    mobBurger.focus();
-  }
-
-  mobBurger.addEventListener('click',function(){drawerOpen?closeDrawer():openDrawer();});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&drawerOpen)closeDrawer();});
-  mobDrawer.querySelectorAll('a').forEach(function(l){l.addEventListener('click',closeDrawer);});
-
-  function applyMobTheme(goLight){
-    document.body.classList.toggle('light',goLight);
-    mobOptDark.classList.toggle('active',!goLight);
-    mobOptLight.classList.toggle('active',goLight);
-    mobOptDark.setAttribute('aria-pressed', String(!goLight));
-    mobOptLight.setAttribute('aria-pressed', String(goLight));
-    var dt=document.getElementById('themeToggle');
-    if(dt)dt.textContent=goLight?'☀️':'🌙';
-  }
-  applyMobTheme(false);
-  document.getElementById('mobThemeToggle').addEventListener('click',function(e){
-    if(e.target.id==='mobOptDark') applyMobTheme(false);
-    else if(e.target.id==='mobOptLight') applyMobTheme(true);
-  });
-})();
-});
-</script>
-
+</div>
 </body>
 </html>
