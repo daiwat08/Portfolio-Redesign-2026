@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
 <title>Dave AI — Daiwat Thavai</title>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;700;800&display=swap" rel="stylesheet">
 <style>
@@ -38,8 +38,14 @@
     --bubble-bot-text: #2a2a2a;
   }
 
-  html, body {
+  html {
     height: 100%;
+    height: -webkit-fill-available;
+  }
+
+  body {
+    height: 100%;
+    height: 100dvh;
     background: var(--page-bg);
     font-family: 'Geist', system-ui, sans-serif;
     transition: background .3s;
@@ -61,7 +67,7 @@
   .back-link:hover { color: var(--text-primary); }
   .back-link svg { width: 13px; height: 13px; }
 
-  /* ── Page layout — anchored 40px from bottom ── */
+  /* ── Page layout ── */
   .page-center {
     position: fixed;
     inset: 0;
@@ -70,6 +76,14 @@
     justify-content: center;
     padding: 0 24px 40px;
     z-index: 1;
+  }
+
+  @media (max-width: 600px) {
+    .back-link { top: 16px; left: 16px; }
+    .page-center {
+      padding: 0;
+      align-items: stretch;
+    }
   }
 
   /* ── Chat shell ── */
@@ -83,6 +97,15 @@
     color: var(--text-primary);
     border: 1px solid var(--border);
     transition: background .3s, border-color .3s;
+  }
+
+  @media (max-width: 600px) {
+    .shell {
+      height: 100dvh;
+      max-width: 100%;
+      border-radius: 0;
+      border: none;
+    }
   }
 
   /* ── Header ── */
@@ -127,6 +150,7 @@
     flex: 1; overflow-y: auto;
     padding: 28px 24px 8px;
     display: flex; flex-direction: column; gap: 16px;
+    -webkit-overflow-scrolling: touch;
   }
   .body::-webkit-scrollbar { width: 3px; }
   .body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
@@ -157,6 +181,7 @@
     transition: background .3s, border-color .3s, color .3s;
   }
   .bub.b em { font-family: 'Instrument Serif', serif; font-style: italic; color: var(--accent); }
+  .bub.b a { color: var(--accent); text-decoration: underline; word-break: break-all; }
   .bub.u {
     background: var(--accent); color: #fff;
     border-radius: 14px 14px 3px 14px;
@@ -184,20 +209,24 @@
   .chips-area {
     padding: 16px 24px 14px;
     display: flex; gap: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
+  .chips-area::-webkit-scrollbar { display: none; }
+
   .chip {
-    flex: 1;
     font-size: 14px;
     font-family: 'Geist', sans-serif;
     color: var(--text-muted);
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 999px;
-    padding: 8px 12px;
+    padding: 8px 16px;
     cursor: pointer;
     letter-spacing: -.01em;
-    text-align: center;
     white-space: nowrap;
+    flex-shrink: 0;
     transition: background .18s, color .18s, border-color .18s;
   }
   .chip:hover { background: var(--surface-hover); color: var(--text-primary); border-color: var(--border-hover); }
@@ -209,6 +238,11 @@
     flex-shrink: 0;
     transition: border-color .3s;
   }
+
+  @media (max-width: 600px) {
+    .foot { padding: 12px 16px 16px; }
+  }
+
   .irow {
     display: flex; align-items: flex-end; gap: 10px;
     background: var(--surface);
@@ -237,6 +271,7 @@
   .snd:hover { background: var(--accent-hover); }
   .snd:active { transform: scale(.92); }
   .snd svg { width: 14px; height: 14px; }
+  .snd:disabled { opacity: .5; cursor: not-allowed; }
   .foot-hint {
     text-align: center; margin-top: 10px;
     font-size: 13px; color: var(--text-faint); letter-spacing: .01em;
@@ -245,15 +280,13 @@
 </style>
 </head>
 <body>
-<!-- Top-left back link -->
-<a class="back-link" href="hportfolio-redesign-2026.vercel.app">
+<a class="back-link" href="https://www.daiwatthavai.com/">
   <svg viewBox="0 0 12 12" fill="none">
     <path d="M7.5 2L3.5 6L7.5 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
   Back to Portfolio
 </a>
 
-<!-- Chat shell — anchored 40px from bottom -->
 <div class="page-center">
   <div class="shell" id="shell">
 
@@ -291,7 +324,7 @@
     <div class="foot">
       <div class="irow">
         <textarea id="inp" placeholder="Ask me anything…" rows="1" onkeydown="kd(event)"></textarea>
-        <button class="snd" onclick="send()" aria-label="Send">
+        <button class="snd" id="sndBtn" onclick="send()" aria-label="Send">
           <svg viewBox="0 0 14 14" fill="none">
             <path d="M12 2L1.5 6.5L6 7.5L7 12L12 2Z" fill="white"/>
           </svg>
@@ -308,7 +341,18 @@
   const body    = document.getElementById('body');
   const inp     = document.getElementById('inp');
   const chipsEl = document.getElementById('chips');
+  const sndBtn  = document.getElementById('sndBtn');
   let isLight   = false;
+  let loading   = false;
+  let history   = [];
+
+  // ── Mobile keyboard: scroll input into view when keyboard opens ──
+  inp.addEventListener('focus', () => {
+    setTimeout(() => {
+      inp.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      body.scrollTop = body.scrollHeight;
+    }, 350);
+  });
 
   function toggleTheme() {
     isLight = !isLight;
@@ -319,17 +363,6 @@
       ? `<path d="M13 8.5A5 5 0 0 1 5.5 3a5.5 5.5 0 1 0 7.5 5.5z" fill="currentColor"/>`
       : `<circle cx="8" cy="8" r="3" fill="currentColor"/><path d="M8 1.5V3M8 13v1.5M1.5 8H3M13 8h1.5M3.6 3.6l1 1M11.4 11.4l1 1M11.4 4.6l-1 1M4.6 11.4l-1 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>`;
   }
-
-  const replies = {
-    'design experience': 'I\'ve led UX across mobile and web — always safety-first. <em>Empathy</em> is the starting point, never an afterthought.',
-    'case studies':      'Global Bridge is the flagship — a safety app now deployed at Thomas Jefferson University, backed by unanimous executive approval.',
-    'visa status':       'Daiwat is on a student visa and actively seeking OPT or sponsorship opportunities. Open to conversation.',
-  };
-  const fallback = [
-    'What else can I help with?',
-    'Happy to go deeper — what are you curious about?',
-    'Ask me anything about Daiwat\'s work.',
-  ];
 
   function av() { return `<div class="av">DT</div>`; }
 
@@ -356,26 +389,61 @@
     if (t) t.remove();
   }
 
-  function respond(text) {
+  // Converts plain URLs in text to clickable links
+  function linkify(text) {
+    return text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+  }
+
+  async function callAI(userText) {
+    loading = true;
+    sndBtn.disabled = true;
     showTyping();
-    const key = text.toLowerCase().replace(/[^a-z& ]/g, '').trim();
-    const r = replies[key] || fallback[Math.floor(Math.random() * fallback.length)];
-    setTimeout(() => { removeTyping(); addMsg('bot', r); }, 750 + Math.random() * 350);
+
+    history.push({ role: 'user', content: userText });
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: history }),
+      });
+
+      removeTyping();
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        addMsg('bot', err.error || 'Something went wrong. Please try again.');
+        history.pop();
+      } else {
+        const data = await res.json();
+        const reply = data.reply || '';
+        history.push({ role: 'assistant', content: reply });
+        addMsg('bot', linkify(reply));
+      }
+    } catch (e) {
+      removeTyping();
+      addMsg('bot', 'Network error. Please check your connection and try again.');
+      history.pop();
+    }
+
+    loading = false;
+    sndBtn.disabled = false;
   }
 
   function send() {
     const v = inp.value.trim();
-    if (!v) return;
+    if (!v || loading) return;
     inp.value = ''; inp.style.height = 'auto';
     chipsEl.style.display = 'none';
     addMsg('user', v);
-    respond(v);
+    callAI(v);
   }
 
   function chip(t) {
+    if (loading) return;
     chipsEl.style.display = 'none';
     addMsg('user', t);
-    respond(t);
+    callAI(t);
   }
 
   function kd(e) {
@@ -387,6 +455,5 @@
     this.style.height = Math.min(this.scrollHeight, 100) + 'px';
   });
 </script>
-
 </body>
 </html>
