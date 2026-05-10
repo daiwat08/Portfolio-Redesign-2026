@@ -27,7 +27,7 @@
     --bg:#fffcfa;--surface:#fdf0e8;
     --line:rgba(0,0,0,0.08);
     --text:#1a0d06;--sub:#7a5c4a;--white:#1a0d06;
-    --accent:#c84f00;--accent-text:#a84010;
+    --accent:#b84600;--accent-text:#9a3a00;
     --warm:#a84010;
   }
   body.light .stat-cell,
@@ -122,11 +122,43 @@
   .nav-pill.nav-on-dark .r-fill{stroke:rgba(0,0,0,.8);}
   .nav-pill.nav-on-dark .r-pct{color:rgba(0,0,0,.7);}
 
+  /* ── MOBILE NAV ── */
+  @media(min-width:641px){.mob-pill{display:none !important;}.mob-drawer{display:none !important;}.mob-drawer-overlay{display:none !important;}}
   @media(max-width:640px){
-    .nav-top{width:calc(100vw - 32px);padding:0 8px 0 16px;}
-    .nav-top__links{display:none;}
-    .nav-pill:hover{width:calc(100vw - 32px);}
-    .nav-pill__link{padding:8px 10px;font-size:13px;}
+    .nav-top{display:none;}.nav-pill{display:none;}
+    .mob-pill{display:flex;position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-6px);z-index:9999;align-items:center;justify-content:space-between;background:rgba(15,15,15,0.92);border:1px solid rgba(255,255,255,0.1);border-radius:999px;height:64px;width:calc(100vw - 32px);padding:0 5px 0 18px;box-shadow:0 8px 32px rgba(0,0,0,0.3);opacity:0;pointer-events:none;transition:opacity .4s ease,transform .4s ease,width .4s cubic-bezier(.34,1.2,.64,1),padding .4s ease;}
+    .mob-pill.mob-visible{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;}
+    .mob-pill.mob-scrolling{width:128px;padding:0 10px;justify-content:space-between;}
+    .mob-pill__name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#fff;letter-spacing:-.01em;white-space:nowrap;transition:opacity .25s ease,transform .25s ease;opacity:1;transform:translateX(0);flex:1;}
+    .mob-pill.mob-scrolling .mob-pill__name{opacity:0;transform:translateX(6px);pointer-events:none;width:0;flex:0;overflow:hidden;}
+    .mob-pill__icon{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .25s ease;opacity:0;pointer-events:none;}
+    .mob-pill__icon svg{width:20px;height:20px;color:rgba(255,255,255,.85);}
+    .mob-pill.mob-scrolling .mob-pill__icon{opacity:1;pointer-events:all;}
+    .mob-pill__right{display:flex;align-items:center;position:relative;width:54px;height:54px;flex-shrink:0;}
+    .mob-pill__ring{position:absolute;inset:0;flex-shrink:0;width:54px;height:54px;opacity:0;pointer-events:none;transition:opacity .3s ease;}
+    .mob-pill__ring svg{display:block;width:54px;height:54px;transform:rotate(-90deg);}
+    .mob-pill__ring .r-track{fill:none;stroke:rgba(255,255,255,.15);stroke-width:2.2;}
+    .mob-pill__ring .r-fill{fill:none;stroke:rgba(255,255,255,.9);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:131.95;stroke-dashoffset:131.95;transition:stroke-dashoffset .1s linear;}
+    .mob-pill__ring .r-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-family:'Geist Mono',monospace;color:rgba(255,255,255,.9);letter-spacing:-.02em;}
+    .mob-pill.mob-scrolling .mob-pill__ring{opacity:1;pointer-events:all;}
+    .mob-pill__burger{position:absolute;inset:0;width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;flex-shrink:0;transition:opacity .3s ease,background .2s,transform .15s;opacity:1;}
+    .mob-pill__burger span{display:block;width:14px;height:1.5px;background:rgba(255,255,255,.85);border-radius:2px;transition:transform .25s ease,opacity .2s ease;}
+    .mob-pill__burger:active{transform:scale(0.92);background:rgba(255,255,255,0.14);}
+    .mob-pill.mob-scrolling .mob-pill__burger{opacity:0;pointer-events:none;}
+    .mob-pill__burger.is-open span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
+    .mob-pill__burger.is-open span:nth-child(2){opacity:0;transform:scaleX(0);}
+    .mob-pill__burger.is-open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
+    .mob-drawer-overlay{display:none !important;}
+    .mob-drawer{position:fixed;inset:0;z-index:9995;background:var(--bg);display:flex;flex-direction:column;justify-content:center;padding:100px 0 max(40px,env(safe-area-inset-bottom)) 0;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,1,.42,1);}
+    .mob-drawer.is-open{transform:translateY(0);}
+    .mob-drawer__handle{display:none;}
+    .mob-drawer__link{display:flex;align-items:center;padding:20px 40px;font-size:36px;font-family:'Instrument Serif',serif;font-weight:400;color:var(--white);text-decoration:none;letter-spacing:-.03em;min-height:72px;transition:opacity .18s,transform .12s;}
+    .mob-drawer__link:active{opacity:0.6;transform:scale(0.98);}
+    .mob-drawer__divider{height:1px;background:var(--line);margin:20px 40px;}
+    .mob-drawer__theme{display:flex;align-items:center;justify-content:flex-start;padding:20px 40px;min-height:64px;}
+    .mob-theme-toggle{display:flex;align-items:center;background:rgba(255,255,255,0.06);border:1px solid var(--line);border-radius:999px;padding:4px;gap:4px;cursor:pointer;}
+    .mob-theme-toggle__opt{padding:8px 20px;border-radius:999px;font-size:13px;font-weight:500;color:var(--sub);transition:background .2s,color .2s;min-height:36px;display:flex;align-items:center;}
+    .mob-theme-toggle__opt.active{background:var(--accent);color:#1a0d06;}
   }
 
   /* ══════════════════════════════
@@ -155,7 +187,7 @@
 
   /* HERO */
   .hero{padding:140px 0 96px;border-bottom:1px solid var(--line);}
-  .hero-meta{display:flex;gap:48px;margin-top:56px;padding-top:40px;border-top:1px solid var(--line);flex-wrap:wrap;}
+  .hero-meta{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:56px;padding-top:40px;border-top:1px solid var(--line);}
   .meta-item .meta-label{font-family:'Geist Mono',monospace;font-size:var(--t-xs);letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);display:block;margin-bottom:10px;}
   .meta-item span{font-size:22px;color:var(--text);font-weight:400;font-family:'Instrument Serif',serif;}
 
@@ -423,7 +455,7 @@
     .stat-cell{padding:24px 20px;}
     .col{padding:0 16px;}
     .col-wide{padding:0 16px;}
-    .hero-meta{flex-direction:column;gap:16px;}
+    .hero-meta{grid-template-columns:1fr 1fr;gap:16px;}
     .hmw-card{padding:20px;}
     .solutions .solution{padding:24px 20px;}
   }
@@ -433,7 +465,7 @@
 
 <!-- TOP NAV -->
 <header class="nav-top nav-dark" id="navTop">
-  <a href="../index.html" class="nav-top__logo">Portfolio</a>
+  <a href="../index.html" class="nav-top__logo">Daiwat Thavai</a>
   <nav class="nav-top__links">
     <a href="../index.html" class="nav-top__link">Home</a>
     <a href="../index.html" class="nav-top__link">Work</a>
@@ -1052,6 +1084,83 @@
   });
 })();
 </script>
+<!-- MOBILE PILL NAV -->
+<nav class="mob-pill" id="mobPill" role="navigation" aria-label="Mobile navigation">
+  <div class="mob-pill__name" aria-hidden="true">Daiwat Thavai</div>
+  <div class="mob-pill__icon" aria-hidden="true">
+    <svg viewBox="0 0 16 16" fill="none"><path d="M3 2L13 8L8 9.5L6.5 14L3 2Z" fill="currentColor"/></svg>
+  </div>
+  <div class="mob-pill__right">
+    <div class="mob-pill__ring" aria-hidden="true">
+      <svg viewBox="0 0 54 54">
+        <circle class="r-track" cx="27" cy="27" r="21"/>
+        <circle class="r-fill" id="mobRingFill" cx="27" cy="27" r="21"/>
+      </svg>
+      <div class="r-pct" id="mobRingPct">0%</div>
+    </div>
+    <button class="mob-pill__burger" id="mobBurger" aria-label="Open menu" aria-expanded="false" aria-controls="mobDrawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mob-drawer-overlay" id="mobDrawerOverlay" aria-hidden="true"></div>
+<div class="mob-drawer" id="mobDrawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <div class="mob-drawer__handle" aria-hidden="true"></div>
+  <a href="../Work/index.html" class="mob-drawer__link">Work</a>
+  <a href="../AboutMe/index.html" class="mob-drawer__link">About</a>
+  <a href="../ThavaiDaiwat.pdf" class="mob-drawer__link js-resume-link">Resume</a>
+  <a href="../DaveAI/index.html" class="mob-drawer__link">Dave AI ✦</a>
+  <div class="mob-drawer__divider" aria-hidden="true"></div>
+  <div class="mob-drawer__theme">
+    <div class="mob-theme-toggle" id="mobThemeToggle" role="group" aria-label="Theme toggle">
+      <div class="mob-theme-toggle__opt active" id="mobOptDark" aria-pressed="true">Dark</div>
+      <div class="mob-theme-toggle__opt" id="mobOptLight" aria-pressed="false">Light</div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+(function(){
+  var isMobile=function(){return window.matchMedia('(max-width:640px)').matches;};
+  var mobPill=document.getElementById('mobPill'),mobBurger=document.getElementById('mobBurger');
+  var mobDrawer=document.getElementById('mobDrawer'),mobRingFill=document.getElementById('mobRingFill');
+  var mobRingPct=document.getElementById('mobRingPct'),mobOptDark=document.getElementById('mobOptDark');
+  var mobOptLight=document.getElementById('mobOptLight');
+  if(!window.matchMedia('(max-width:640px)').matches) return;
+  if(!mobPill||!mobBurger||!mobDrawer) return;
+  var MOB_CIRC=2*Math.PI*21,scrollTimer=null,drawerOpen=false,pillShown=false;
+  setTimeout(function(){mobPill.classList.add('mob-visible');pillShown=true;},500);
+  function onMobScroll(){
+    if(!isMobile()) return;
+    var h=document.documentElement,scrollY=h.scrollTop,total=h.scrollHeight-h.clientHeight;
+    var pct=total>0?Math.min(scrollY/total,1):0;
+    if(mobRingFill)mobRingFill.style.strokeDashoffset=MOB_CIRC*(1-pct);
+    if(mobRingPct)mobRingPct.textContent=Math.round(pct*100)+'%';
+    if(scrollY>40){if(!pillShown){mobPill.classList.add('mob-visible');pillShown=true;}mobPill.classList.add('mob-scrolling');}
+    else{mobPill.classList.remove('mob-scrolling');}
+    clearTimeout(scrollTimer);
+    scrollTimer=setTimeout(function(){mobPill.classList.remove('mob-scrolling');},500);
+  }
+  window.addEventListener('scroll',onMobScroll,{passive:true});
+  function openDrawer(){drawerOpen=true;mobDrawer.classList.add('is-open');mobBurger.classList.add('is-open');mobBurger.setAttribute('aria-expanded','true');document.body.style.overflow='hidden';var fl=mobDrawer.querySelector('a');if(fl)setTimeout(function(){fl.focus();},50);}
+  function closeDrawer(){drawerOpen=false;mobDrawer.classList.remove('is-open');mobBurger.classList.remove('is-open');mobBurger.setAttribute('aria-expanded','false');document.body.style.overflow='';mobBurger.focus();}
+  mobBurger.addEventListener('click',function(){drawerOpen?closeDrawer():openDrawer();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&drawerOpen)closeDrawer();});
+  mobDrawer.querySelectorAll('a').forEach(function(l){l.addEventListener('click',closeDrawer);});
+  function applyMobTheme(goLight){
+    document.body.classList.toggle('light',goLight);
+    if(mobOptDark)mobOptDark.classList.toggle('active',!goLight);
+    if(mobOptLight)mobOptLight.classList.toggle('active',goLight);
+    var dt=document.getElementById('themeToggle'),pt=document.getElementById('themeTogglePill');
+    if(dt)dt.textContent=goLight?'☀️':'🌙';if(pt)pt.textContent=goLight?'☀️':'🌙';
+  }
+  applyMobTheme(false);
+  document.getElementById('mobThemeToggle').addEventListener('click',function(){applyMobTheme(!document.body.classList.contains('light'));});
+})();
+});
+</script>
+
 <!-- ── RESUME LIGHTBOX ── -->
 <style>
   .resume-lightbox{position:fixed;inset:0;z-index:10001;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .35s cubic-bezier(0.22,1,0.36,1);padding:40px 24px;}
