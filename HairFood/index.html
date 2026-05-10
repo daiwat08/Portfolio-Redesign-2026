@@ -55,14 +55,14 @@
   .nav-top.nav-dark .nav-top__logo{color:#fff;}
   .nav-top.nav-dark .nav-top__link{color:rgba(255,255,255,0.55);}
   .nav-top.nav-dark .nav-top__link:hover{color:#fff;background:rgba(255,255,255,0.08);}
-  .nav-top.nav-dark .nav-top__cta{background:#fff;color:#111;}
+  
   .nav-top.nav-dark .theme-btn{border-color:rgba(255,255,255,0.2);}
   .nav-top__logo{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:-.01em;color:#111;text-decoration:none;white-space:nowrap;flex-shrink:0;transition:color .4s;}
   .nav-top__links{flex:1;display:flex;align-items:center;justify-content:center;}
   .nav-top__link{font-size:14px;color:#777;text-decoration:none;padding:7px 16px;border-radius:999px;transition:background .2s,color .2s;}
   .nav-top__link:hover{color:#111;background:rgba(0,0,0,0.05);}
   .nav-top__right{display:flex;align-items:center;gap:8px;}
-  .nav-top__cta{font-size:13px;font-weight:600;color:#fff;text-decoration:none;background:#111;padding:8px 18px;border-radius:999px;flex-shrink:0;transition:background .2s;}
+  .nav-top__cta{font-size:13px;font-weight:600;color:#000000;text-decoration:none;background:var(--accent);padding:8px 18px;border-radius:999px;flex-shrink:0;transition:background .2s,color .2s;}
   .nav-top__cta:hover{background:#C9A96E;}
   .theme-btn{width:34px;height:34px;border-radius:50%;border:1px solid rgba(0,0,0,0.12);background:transparent;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0;}
   .theme-btn:hover{background:rgba(0,0,0,0.05);}
@@ -129,9 +129,9 @@
     .nav-pill{display:none;}
     .mob-pill{
       display:flex;position:fixed;top:16px;left:50%;
-      transform:translateX(-50%) translateY(-6px);z-index:9999;
+      transform:translateX(-50%) translateY(-6px);z-index:999999;
       align-items:center;justify-content:space-between;
-      background:rgba(15,15,15,0.92);border:1px solid rgba(255,255,255,0.1);
+      background:rgba(15,15,15,0.98);border:1px solid rgba(255,255,255,0.1);
       border-radius:999px;height:64px;width:calc(100vw - 32px);
       padding:0 5px 0 18px;box-shadow:0 8px 32px rgba(0,0,0,0.3);
       opacity:0;pointer-events:none;
@@ -159,7 +159,7 @@
     .mob-pill__burger.is-open span:nth-child(2){opacity:0;transform:scaleX(0);}
     .mob-pill__burger.is-open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
     .mob-drawer-overlay{display:none !important;}
-    .mob-drawer{position:fixed;inset:0;z-index:9995;background:var(--bg);display:flex;flex-direction:column;justify-content:center;padding:0 0 max(40px,env(safe-area-inset-bottom)) 0;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,1,.42,1);}
+    .mob-drawer{position:fixed;inset:0;z-index:99999;background:var(--bg);display:flex;flex-direction:column;justify-content:center;padding:0 0 max(40px,env(safe-area-inset-bottom)) 0;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,1,.42,1),background .4s;width:100%;height:100%;top:0;left:0;}
     .mob-drawer.is-open{transform:translateY(0);}
     .mob-drawer__handle{display:none;}
     .mob-drawer__link{display:flex;align-items:center;padding:20px 40px;font-size:36px;font-family:'Instrument Serif',serif;font-weight:400;color:var(--white);text-decoration:none;letter-spacing:-.03em;min-height:72px;transition:opacity .18s,transform .12s;}
@@ -167,10 +167,10 @@
     body.light .mob-drawer__link:active{opacity:0.5;}
     .mob-drawer__divider{height:1px;background:var(--line);margin:20px 40px;}
     .mob-drawer__theme{display:flex;align-items:center;justify-content:flex-start;padding:20px 40px;min-height:64px;}
-    .mob-theme-toggle{display:flex;align-items:center;background:rgba(255,255,255,0.06);border:1px solid var(--line);border-radius:999px;padding:4px;gap:4px;cursor:pointer;}
-    body.light .mob-theme-toggle{background:rgba(0,0,0,0.05);}
+    .mob-theme-toggle{display:flex;align-items:center;background:#1a1a1a;border:1px solid rgba(255,255,255,0.12);border-radius:999px;padding:4px;gap:4px;cursor:pointer;}
+    
     .mob-theme-toggle__opt{padding:8px 20px;border-radius:999px;font-size:13px;font-weight:500;color:var(--sub);transition:background .2s,color .2s;min-height:36px;display:flex;align-items:center;}
-    .mob-theme-toggle__opt.active{background:var(--accent);color:#000;}
+    .mob-theme-toggle__opt.active{background:var(--accent);color:#fff;font-weight:600;}
     h1{font-size:36px;}
     h2{font-size:26px;}
     .steps{grid-template-columns:1fr 1fr;}
@@ -336,7 +336,7 @@
   </nav>
   <div class="nav-top__right">
     <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">🌙</button>
-    <a href="#" class="nav-top__cta">Dave AI ✦</a>
+    <a href="../DaveAI/index.html" class="nav-top__cta">Dave AI ✦</a>
   </div>
 </header>
 
@@ -699,7 +699,7 @@
     <p>The Hair Food project taught me that e-commerce is not about adding a cart — it is about removing every reason someone might hesitate.</p>
     <div>
       <a href="../index.html" class="btn">← Back to Home</a>
-      <a href="https://www.figma.com/proto/HIqJkMxVburnWUFod1avrE/Hair---Food--Daiwat-?page-id=185%3A11&node-id=606-44623&node-type=frame&viewport=990%2C-1810%2C0.06&t=ovuKfzwoAdVM9SiU-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=606%3A44623" class="btn btn-accent">See Prototype →</a>
+      <a href="#" class="btn btn-accent">See Prototype →</a>
     </div>
   </div>
 </footer>
