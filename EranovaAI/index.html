@@ -206,15 +206,23 @@
     .mob-drawer{position:fixed;inset:0;z-index:99999;background:#0a0a0a;display:flex;flex-direction:column;justify-content:center;padding:0 0 max(40px,env(safe-area-inset-bottom)) 0;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,1,.42,1),background .4s;width:100%;height:100%;top:0;left:0;}
     .mob-drawer.is-open{transform:translateY(0);}
     .mob-drawer__handle{display:none;}
-    .mob-drawer__link{display:flex;align-items:center;padding:20px 40px;font-size:36px;font-family:'Instrument Serif',serif;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-.03em;min-height:72px;transition:opacity .18s,transform .12s;}
+    .mob-drawer__link{display:flex;align-items:center;padding:20px 40px;font-size:36px;font-family:'Instrument Serif',serif;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-.03em;min-height:72px;transition:opacity .18s,transform .12s,color .4s;}
     .mob-drawer__link:active{opacity:0.6;transform:scale(0.98);}
-    body.light .mob-drawer__link:active{opacity:0.5;}
-    .mob-drawer__divider{height:1px;background:rgba(255,255,255,0.1);margin:20px 40px;}
+    .mob-drawer__divider{height:1px;background:rgba(255,255,255,0.1);margin:20px 40px;transition:background .4s;}
     .mob-drawer__theme{display:flex;align-items:center;justify-content:flex-start;padding:20px 40px;min-height:64px;}
-    .mob-theme-toggle{display:flex;align-items:center;background:#1a1a1a;border:1px solid rgba(255,255,255,0.12);border-radius:999px;padding:4px;gap:4px;cursor:pointer;}
+    .mob-theme-toggle{display:flex;align-items:center;background:#1a1a1a;border:1px solid rgba(255,255,255,0.12);border-radius:999px;padding:4px;gap:4px;cursor:pointer;transition:background .4s,border-color .4s;}
     
-    .mob-theme-toggle__opt{padding:8px 20px;border-radius:999px;font-size:13px;font-weight:500;color:rgba(255,255,255,0.5);transition:background .2s,color .2s;min-height:36px;display:flex;align-items:center;}
+    .mob-theme-toggle__opt{padding:8px 20px;border-radius:999px;font-size:13px;font-weight:500;color:rgba(255,255,255,0.75);transition:background .2s,color .2s;min-height:36px;display:flex;align-items:center;}
     .mob-theme-toggle__opt.active{background:#fff;color:#111;font-weight:600;}
+
+    /* Drawer light theme overrides */
+    body.light .mob-drawer{background:#f7f7f5;}
+    body.light .mob-drawer__link{color:#111;}
+    body.light .mob-drawer__link:active{opacity:0.5;}
+    body.light .mob-drawer__divider{background:rgba(0,0,0,0.1);}
+    body.light .mob-theme-toggle{background:#e8e8e6;border-color:rgba(0,0,0,0.12);}
+    body.light .mob-theme-toggle__opt{color:#111;}
+    body.light .mob-theme-toggle__opt.active{background:#111;color:#fff;}
     .stats-row,.stats-row-3{grid-template-columns:1fr !important;}
     .steps{grid-template-columns:1fr 1fr;}
     .solutions{grid-template-columns:1fr;}
@@ -623,10 +631,52 @@
   </div>
 </section>
 
-<!-- ─── 06 LINKEDIN ─── -->
+<!-- ─── 06 DESIGN TOKENS ─── -->
 <section class="section">
   <div class="col">
-    <div class="tag reveal"><span class="tag-dot"></span>06 — Brand & LinkedIn</div>
+    <div class="tag reveal"><span class="tag-dot"></span>06 — Design Tokens</div>
+    <h2 class="reveal d1">A token system built<br>to <em>scale beyond</em> this project.</h2>
+    <p class="reveal d2">One of the quieter wins of this engagement was something most clients never see: a structured design token system built in Figma. Rather than hardcoding colours and decisions into individual components, I mapped every visual decision — icon states, surface backgrounds, border styles — into a single source of truth. Light and dark modes were handled at the token level, not patched component by component.</p>
+    <p class="reveal d3">The result was a toolkit Eranova's team could hand to any future designer or developer and spin up new pages, campaigns, or products without a single design conversation. It reduced design debt before it had a chance to accumulate.</p>
+
+    <div class="solutions reveal" style="margin-top:40px;">
+      <div class="solution">
+        <div class="solution-n">Token Group — Icon</div>
+        <h3>6 semantic icon states</h3>
+        <p>Default, colour, action, error, success, and disabled — each mapped to a foundation or brand alias rather than raw hex values. Swapping the entire icon system across modes is a one-variable change.</p>
+      </div>
+      <div class="solution">
+        <div class="solution-n">Token Group — Surface</div>
+        <h3>5 surface contexts</h3>
+        <p>Page, error, success, neutral, and disabled surfaces all pull from the same token layer. No hardcoded backgrounds buried in individual components — every surface responds to mode automatically.</p>
+      </div>
+      <div class="solution">
+        <div class="solution-n">Token Group — Border</div>
+        <h3>Consistent border language</h3>
+        <p>Default and success border tokens mapped through the alias system, keeping visual hierarchy consistent across components without manual overrides on every breakpoint or theme change.</p>
+      </div>
+      <div class="solution">
+        <div class="solution-n">Architecture — Collections</div>
+        <h3>Mapped · Alias · Brand</h3>
+        <p>Three-layer token architecture: foundation values live in Brand, semantic meaning is applied in Alias, and components consume from Mapped. Changing a brand colour cascades correctly through the entire system.</p>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:40px;">
+      <img src="../design-system-light.png" class="flow-light lightbox-trigger" style="width:100%;border-radius:12px;border:1px solid var(--line);" alt="Design token system — light mode" data-label="Design Tokens · Light Mode" />
+      <img src="../design-system-dark.png"  class="flow-dark  lightbox-trigger" style="width:100%;border-radius:12px;border:1px solid var(--line);" alt="Design token system — dark mode"  data-label="Design Tokens · Dark Mode" />
+    </div>
+
+    <div class="callout reveal" style="margin-top:40px;">
+      <p><strong style="color:var(--white);">Why this mattered beyond Eranova —</strong> Because the token system was built on a three-layer alias architecture, it wasn't just reusable within this project — it gave Eranova's team a foundation they could extend to future products and campaigns without starting from scratch. Design infrastructure that compounds over time.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 07 LINKEDIN ─── -->
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>07 — Brand & LinkedIn</div>
     <h2 class="reveal d1">50 posts.<br>All <em>data-driven</em>.</h2>
     <p class="reveal d2">The LinkedIn work wasn't production for the sake of production. It started with research. I studied existing post formats and performance patterns for Eranova's audience, then ran A/B tests across different post types before designing a single deliverable. The content strategy came directly from what the data showed — not from assumptions.</p>
     <div class="iter-list reveal d3">
@@ -661,7 +711,7 @@
 <!-- ─── 07 REFLECTION ─── -->
 <section class="section">
   <div class="col">
-    <div class="tag reveal"><span class="tag-dot"></span>07 — Reflection</div>
+    <div class="tag reveal"><span class="tag-dot"></span>08 — Reflection</div>
     <h2 class="reveal d1">What I carried<br>out of this.</h2>
     <div class="insights-grid reveal d3" style="margin-top: 40px;">
       <div class="insight-cell">
@@ -691,6 +741,7 @@
     <p>Three months. One audit. One rebrand. One site launch. Fifty posts. One team that went from a generic landing page to a brand that looked like it belonged in the room with enterprise clients.</p>
     <div style="margin-top:32px;">
       <a href="../index.html" class="btn">← Back to Work</a>
+      <a href="https://eranova.ai" target="_blank" rel="noopener" class="btn btn-primary">View Website ↗</a>
     </div>
   </div>
 </footer>
