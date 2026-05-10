@@ -4,1197 +4,460 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Work — Daiwat Thavai</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Geist:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-  html { height: 100%; scroll-behavior: smooth; }
-  body {
-    font-family: 'Geist', sans-serif;
-    font-weight: 400;
-    -webkit-font-smoothing: antialiased;
-    overflow: hidden;
-    height: 100%;
-    background-color: #F5F5F7;
-    transition: background-color 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-  }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{font-family:"Geist",sans-serif;-webkit-font-smoothing:antialiased;background:#0a0a0a;transition:background .8s ease;}
 
-  /* ── NAV ── */
-  .nav-top {
-    position: fixed; top: 20px; left: 50%;
-    transform: translateX(-50%); z-index: 9999;
-    display: flex; align-items: center; justify-content: space-between; gap: 8px;
-    background: rgba(15,15,15,0.85);
-    backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 999px; height: 52px;
-    width: min(680px, calc(100vw - 48px));
-    padding: 0 8px 0 20px;
-    box-shadow: 0 2px 24px rgba(0,0,0,0.4);
-    transition: background .4s, border-color .4s, box-shadow .4s, opacity .3s, transform .3s;
-  }
-  .nav-top__logo { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: #fff; text-decoration: none; white-space: nowrap; flex-shrink: 0; }
-  .nav-top__links { flex: 1; display: flex; align-items: center; justify-content: center; }
-  .nav-top__link { font-size: 14px; color: rgba(255,255,255,0.6); text-decoration: none; padding: 7px 16px; border-radius: 999px; transition: background .2s, color .2s; }
-  .nav-top__link:hover { color: #fff; background: rgba(255,255,255,0.1); }
-  .nav-top__link.active { color: #fff; font-weight: 700; }
-  .nav-top__cta { font-size: 12px; font-weight: 400; color: #111; text-decoration: none; background: #fff; padding: 8px 18px; border-radius: 999px; flex-shrink: 0; transition: background .2s, color .2s; }
-  .nav-top__cta:hover { background: #4A7CFF; color: #fff; }
-  .nav-hamburger { display: none; }
-  @media (max-width: 768px) {
-    .nav-top__links { display: none !important; }
-    .nav-top__cta { display: none !important; }
-  }
-  @media (max-width: 640px) {
-    .nav-top { display: none !important; }
-  }
+/* ── DESKTOP NAV ── */
+.nav-top{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:9000;display:flex;align-items:center;gap:8px;background:rgba(15,15,15,0.9);backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.1);border-radius:999px;height:52px;width:min(680px,calc(100vw - 48px));padding:0 8px 0 20px;}
+.nav-logo{font-family:"Syne",sans-serif;font-size:15px;font-weight:700;color:#fff;text-decoration:none;flex-shrink:0;}
+.nav-links{flex:1;display:flex;align-items:center;justify-content:center;gap:4px;}
+.nav-link{font-size:14px;color:rgba(255,255,255,0.6);text-decoration:none;padding:7px 14px;border-radius:999px;transition:background .2s,color .2s;}
+.nav-link:hover,.nav-link.active{color:#fff;background:rgba(255,255,255,0.1);}
+.nav-cta{font-size:13px;font-weight:600;color:#000;text-decoration:none;background:#fff;padding:8px 18px;border-radius:999px;flex-shrink:0;transition:background .2s;}
+.nav-cta:hover{background:#ddd;}
+.theme-btn{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);background:transparent;cursor:pointer;font-size:15px;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 
-  /* ── FILTER PILLS ── */
-  .filters {
-    position: fixed; bottom: 36px; left: 50%;
-    transform: translateX(-50%);
-    z-index: 9999;
-    display: flex; align-items: center; gap: 4px;
-    background: rgba(15,15,15,0.85);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 999px;
-    padding: 6px 8px;
-    transition: background 0.4s, border-color 0.4s;
-  }
-  .filter-btn {
-    font-family: 'Geist Mono', monospace;
-    font-size: 11px; letter-spacing: 0.5px;
-    padding: 7px 16px; border-radius: 999px;
-    border: none; cursor: pointer;
-    background: transparent; color: rgba(255,255,255,0.5);
-    transition: background 0.2s, color 0.2s;
-    white-space: nowrap;
-  }
-  .filter-btn:hover { color: #fff; background: rgba(255,255,255,0.1); }
-  .filter-btn.active { background: #fff; color: #111; }
+/* ── SCROLL CONTAINER ── */
+main{position:fixed;inset:0;}
+.scroll-wrap{display:flex;width:100%;height:100%;overflow-x:scroll;overflow-y:hidden;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;scrollbar-width:none;}
+.scroll-wrap::-webkit-scrollbar{display:none;}
 
-  /* ── HORIZONTAL SCROLL CONTAINER ── */
-  .scroll-container {
-    display: flex;
-    width: 100%;
-    height: 100vh;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-x: contain;
-    touch-action: pan-x;
-    scrollbar-width: none;
-    will-change: scroll-position;
-  }
-  .scroll-container::-webkit-scrollbar { display: none; }
+/* ── PANEL ── */
+.panel{min-width:100vw;height:100%;scroll-snap-align:start;display:flex;align-items:center;padding:0 8vw;position:relative;overflow:hidden;flex-shrink:0;}
+.panel.hidden{display:none;}
+.p-inner{position:relative;z-index:2;max-width:520px;opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;}
+.panel.active .p-inner{opacity:1;transform:translateY(0);}
+.p-num{font-family:"Geist Mono",monospace;font-size:12px;letter-spacing:2px;color:rgba(255,255,255,0.35);display:block;margin-bottom:4px;}
+.p-cat{font-family:"Geist Mono",monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.4);display:block;margin-bottom:18px;}
+.p-title{font-family:"Syne",sans-serif;font-size:clamp(42px,7vw,88px);font-weight:800;color:#fff;line-height:.92;letter-spacing:-2px;margin-bottom:22px;}
+.p-desc{font-size:16px;color:rgba(255,255,255,0.6);line-height:1.7;margin-bottom:26px;max-width:440px;}
+.p-desc strong{color:rgba(255,255,255,0.9);}
+.p-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:30px;}
+.p-tag{font-family:"Geist Mono",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.45);border:1px solid rgba(255,255,255,0.18);padding:5px 12px;border-radius:999px;}
+.p-cta{display:inline-flex;align-items:center;font-size:14px;font-weight:500;color:#fff;text-decoration:none;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);padding:12px 24px;border-radius:999px;transition:background .2s;}
+.p-cta:hover{background:rgba(255,255,255,0.2);}
 
-  /* ── PROJECT PANEL ── */
-  .panel {
-    min-width: 100vw;
-    height: 100vh;
-    scroll-snap-align: start;
-    display: flex;
-    align-items: center;
-    padding: 0 8vw;
-    position: relative;
-    overflow: hidden;
-    flex-shrink: 0;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    will-change: transform;
-    touch-action: pan-x;
-  }
-  .panel.hidden {
-    display: none;
-  }
+/* ── MARQUEE ── */
+.p-marquee{position:absolute;bottom:44px;left:0;right:0;overflow:hidden;opacity:.05;pointer-events:none;z-index:1;}
+.marquee-tr{display:flex;white-space:nowrap;animation:mq 20s linear infinite;}
+.panel:not(.active) .marquee-tr{animation-play-state:paused;}
+.marquee-tr span{font-family:"Syne",sans-serif;font-size:clamp(60px,12vw,140px);font-weight:800;color:#fff;letter-spacing:-2px;}
+@keyframes mq{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 
-  /* ── MARQUEE ── */
-  .panel-marquee {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    overflow: hidden; pointer-events: none;
-    opacity: 0.06;
-  }
-  .marquee-track {
-    display: flex; width: max-content;
-    animation: marquee-scroll 22s linear infinite;
-  }
-  .marquee-track span {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: clamp(80px, 14vw, 160px);
-    color: #fff;
-    white-space: nowrap;
-    line-height: 1;
-    padding-bottom: 0.1em;
-  }
-  @keyframes marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+/* ── MOCKUP ── */
+.mockup{position:absolute;right:6vw;top:50%;transform:translateY(-50%);width:min(320px,36vw);z-index:1;opacity:.9;}
+.mk-inner{background:rgba(18,18,18,0.95);border:1px solid rgba(255,255,255,0.08);border-radius:14px;overflow:hidden;}
+.mk-bar{display:flex;align-items:center;gap:5px;padding:9px 12px;border-bottom:1px solid rgba(255,255,255,0.05);}
+.mk-dot{width:9px;height:9px;border-radius:50%;}
+.mk-ttl{font-family:"Geist Mono",monospace;font-size:9px;color:rgba(255,255,255,0.25);margin-left:6px;}
+.mk-body{padding:10px;display:flex;flex-direction:column;gap:7px;}
+.mk-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.05);border-radius:9px;padding:10px;}
+.mk-lbl{font-family:"Geist Mono",monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.25);display:block;margin-bottom:7px;}
+.mk-big{font-family:"Syne",sans-serif;font-size:22px;font-weight:800;color:rgba(255,255,255,0.85);line-height:1;}
+.mk-sub{font-size:9px;color:rgba(255,255,255,0.3);margin-top:3px;}
+.mk-g2{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.mk-chart{display:flex;align-items:flex-end;gap:3px;height:50px;margin-top:6px;}
+.mk-b{flex:1;background:rgba(255,255,255,0.12);border-radius:2px 2px 0 0;}
+.mk-b.hi{background:rgba(255,255,255,0.55);}
+.mk-ln{height:5px;background:rgba(255,255,255,0.12);border-radius:3px;margin:3px 0;}
+.mk-ln.br{background:rgba(255,255,255,0.38);}
+.mk-ln.s{width:38%;}
+.mk-ln.m{width:62%;}
+.mk-ln.l{width:88%;}
+.mk-row{display:flex;align-items:center;gap:7px;margin:3px 0;}
+.mk-av{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.12);flex-shrink:0;}
+.mk-ci{display:flex;align-items:center;gap:7px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.mk-ch{width:14px;height:14px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.18);flex-shrink:0;}
+.mk-ch.dn{background:rgba(255,255,255,0.55);border-color:transparent;}
+.mk-map{position:relative;background:rgba(255,255,255,0.03);border-radius:7px;overflow:hidden;min-height:80px;}
+.mk-pin{position:absolute;width:9px;height:9px;border-radius:50%;transform:translate(-50%,-50%);}
+.mk-ring{position:absolute;width:22px;height:22px;border-radius:50%;border:2px solid;opacity:.35;transform:translate(-50%,-50%);}
 
-  /* ── PANEL CONTENT ── */
-  .panel-inner {
-    display: flex; flex-direction: column;
-    align-items: flex-start;
-    max-width: 48%;
-    min-width: 300px;
-    position: relative; z-index: 2;
-    opacity: 0; transform: translateY(30px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .panel.is-active .panel-inner { opacity: 1; transform: translateY(0); }
+/* ── FILTERS ── */
+.filters{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);z-index:9000;display:flex;align-items:center;gap:4px;background:rgba(15,15,15,0.9);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:999px;padding:5px;}
+.f-btn{font-family:"Geist Mono",monospace;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:rgba(255,255,255,0.45);background:none;border:none;padding:8px 16px;border-radius:999px;cursor:pointer;transition:background .2s,color .2s;white-space:nowrap;}
+.f-btn:hover{color:#fff;background:rgba(255,255,255,0.08);}
+.f-btn.active{background:#fff;color:#111;}
 
-  .panel-number {
-    font-family: 'Geist Mono', monospace;
-    font-size: 11px; letter-spacing: 1.5px;
-    color: rgba(255,255,255,0.45);
-    margin-bottom: 8px;
-    text-transform: uppercase;
-  }
-  .panel-category {
-    font-family: 'Geist Mono', monospace;
-    font-size: 11px; letter-spacing: 1px;
-    color: rgba(255,255,255,0.5);
-    margin-bottom: 20px;
-    text-transform: uppercase;
-  }
-  .panel-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: clamp(36px, 5vw, 64px);
-    color: #fff;
-    line-height: 1.05;
-    letter-spacing: -0.5px;
-    margin-bottom: 16px;
-  }
-  .panel-desc {
-    font-size: 16px;
-    color: rgba(255,255,255,0.7);
-    line-height: 1.7;
-    margin-bottom: 28px;
-    max-width: 480px;
-  }
-  .panel-desc strong { font-weight: 600; color: rgba(255,255,255,0.95); }
-  .panel-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
-  .panel-tag {
-    font-family: 'Geist Mono', monospace;
-    font-size: 10px; letter-spacing: 1px;
-    padding: 6px 14px; border-radius: 999px;
-    border: 1px solid rgba(255,255,255,0.25);
-    color: rgba(255,255,255,0.55);
-    text-transform: uppercase;
-  }
-  .panel-cta {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-family: 'Geist', sans-serif;
-    font-size: 14px; font-weight: 400;
-    color: #fff; text-decoration: none;
-    border: 1px solid rgba(255,255,255,0.35);
-    padding: 12px 24px; border-radius: 999px;
-    transition: background 0.2s, border-color 0.2s, color 0.2s;
-  }
-  .panel-cta:hover { background: #fff; color: #111; border-color: #fff; }
+/* ── DOTS ── */
+.dots{position:fixed;right:28px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:9000;}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.25);border:none;cursor:pointer;padding:0;transition:background .3s,transform .3s;}
+.dot.active{background:#fff;transform:scale(1.5);}
 
-  /* ── PROGRESS DOTS ── */
-  .progress-dots {
-    position: fixed; right: 32px; top: 50%;
-    transform: translateY(-50%);
-    display: flex; flex-direction: column; gap: 12px;
-    z-index: 9999;
-  }
-  .dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: rgba(255,255,255,0.9);
-    border: none; cursor: pointer; padding: 0;
-    display: block;
-    box-shadow: 0 0 0 2px rgba(0,0,0,0.3);
-    transition: background 0.3s, transform 0.3s;
-  }
-  .dot:hover { transform: scale(1.3); }
-  .dot.active { background: #fff; transform: scale(1.5); box-shadow: 0 0 0 2px rgba(0,0,0,0.4); }
+/* ── SCROLL HINT ── */
+.hint{position:fixed;bottom:86px;right:28px;display:flex;align-items:center;gap:7px;font-family:"Geist Mono",monospace;font-size:11px;letter-spacing:1px;color:rgba(255,255,255,0.3);z-index:9000;transition:opacity .5s;}
+.hint.hidden{opacity:0;pointer-events:none;}
+.hint-arr{animation:nh 1.5s ease-in-out infinite;}
+@keyframes nh{0%,100%{transform:translateX(0);}50%{transform:translateX(6px);}}
 
-  /* ── EMPTY STATE ── */
-  .empty-state {
-    display: none;
-    position: fixed; inset: 0;
-    align-items: center; justify-content: center;
-    flex-direction: column; gap: 16px;
-    z-index: 100;
-  }
-  .empty-state.show { display: flex; }
-  .empty-title { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; color: rgba(255,255,255,0.4); }
-  .empty-sub { font-size: 14px; color: rgba(255,255,255,0.25); }
+/* ── EMPTY STATE ── */
+.empty{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;opacity:0;pointer-events:none;transition:opacity .3s;z-index:9000;}
+.empty.show{opacity:1;}
+.empty-t{font-family:"Syne",sans-serif;font-size:22px;font-weight:700;color:rgba(255,255,255,0.4);}
+.empty-s{font-size:13px;color:rgba(255,255,255,0.25);margin-top:8px;}
 
-  /* ── WCAG: Focus indicators ── */
-  *:focus-visible {
-    outline: 2px solid #fff;
-    outline-offset: 3px;
-    border-radius: 4px;
-  }
-  .filter-btn:focus-visible, .panel-cta:focus-visible, .nav-top__link:focus-visible, .nav-top__logo:focus-visible, .nav-top__cta:focus-visible {
-    outline: 2px solid #fff;
-    outline-offset: 3px;
-  }
-  .dot:focus-visible { outline: 2px solid #fff; outline-offset: 4px; border-radius: 50%; }
-
-  /* ── WCAG: Contrast fixes — bump opacity on low-contrast text ── */
-  .panel-number { color: rgba(255,255,255,0.7); }
-  .panel-category { color: rgba(255,255,255,0.75); }
-  .panel-tag { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.4); }
-  .panel-desc { color: rgba(255,255,255,0.85); }
-  .empty-sub { color: rgba(255,255,255,0.6); }
-  .empty-title { color: rgba(255,255,255,0.7); }
-  .dot { background: rgba(255,255,255,0.5); }
-
-  /* ── WCAG: Reduced motion ── */
-  @media (prefers-reduced-motion: reduce) {
-    .marquee-track { animation: none; }
-    .panel-inner { transition: none; opacity: 1; transform: none; }
-    * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
-  }
-  /* ── MOCKUP PREVIEW ── */
-  .mockup {
-    position: absolute; right: 8vw; top: 50%;
-    transform: translateY(-50%) translateX(60px) scale(0.94);
-    width: clamp(280px, 28vw, 400px);
-    height: clamp(400px, 62vh, 540px);
-    border-radius: 24px; overflow: hidden;
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.1s,
-                transform 1s cubic-bezier(0.16,1,0.3,1) 0.1s;
-    z-index: 3;
-    background: #0d0d0d;
-    border: 1px solid rgba(255,255,255,0.1);
-    box-shadow: 0 40px 80px rgba(0,0,0,0.5);
-  }
-  .panel:has(.panel-cta:hover) .mockup {
-    transform: translateY(-50%) translateX(0) scale(1);
-    opacity: 1;
-  }
-  .mock-bar { display: flex; align-items: center; gap: 6px; padding: 12px 16px; background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.06); flex-shrink: 0; }
-  .mock-dot { width: 8px; height: 8px; border-radius: 50%; }
-  .mock-title-bar { font-family: 'Geist Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.35); margin-left: 6px; letter-spacing: 1px; }
-  .mock-content { flex: 1; padding: 18px; display: flex; flex-direction: column; gap: 10px; overflow: hidden; }
-  .mock-inner { width: 100%; height: 100%; display: flex; flex-direction: column; }
-  .mock-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 14px; }
-  .mock-label { font-family: 'Geist Mono', monospace; font-size: 9px; letter-spacing: 1.5px; color: rgba(255,255,255,0.3); text-transform: uppercase; margin-bottom: 8px; display: block; }
-  .mock-line { height: 7px; border-radius: 4px; background: rgba(255,255,255,0.1); margin-bottom: 5px; }
-  .mock-line.s { width: 45%; } .mock-line.m { width: 70%; } .mock-line.l { width: 95%; }
-  .mock-line.bright { background: rgba(255,255,255,0.25); height: 9px; }
-  .mock-stat-num { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; color: rgba(255,255,255,0.9); line-height: 1; }
-  .mock-stat-sub { font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 3px; }
-  .mock-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .mock-avatar { width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.12); flex-shrink: 0; }
-  .mock-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-  .mock-chart { display: flex; align-items: flex-end; gap: 3px; height: 50px; }
-  .mock-bar-c { flex: 1; border-radius: 3px 3px 0 0; background: rgba(255,255,255,0.12); }
-  .mock-bar-c.hi { background: rgba(255,255,255,0.4); }
-  .mock-check-item { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-  .mock-check-circle { width: 15px; height: 15px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.25); flex-shrink: 0; }
-  .mock-check-circle.done { background: rgba(255,255,255,0.18); border-color: transparent; }
-  .mock-map-area { flex: 1; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); position: relative; overflow: hidden; min-height: 100px; }
-  .mock-pin { width: 8px; height: 8px; border-radius: 50%; position: absolute; }
-  .mock-pin-ring { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid; position: absolute; opacity: 0.35; }
-  @media (max-width: 960px) { .mockup { display: none; } }
-
-  /* ── DARK MODE ── */
-  body.dark .nav { background: rgba(15,15,15,0.85); border-color: rgba(255,255,255,0.1); }
-  body.dark .nav__logo { color: #fff; }
-  body.dark .nav__link { color: rgba(255,255,255,0.5); }
-  body.dark .nav__link:hover { color: #fff; background: rgba(255,255,255,0.1); }
-  body.dark .nav__link.active { color: #fff; }
-  body.dark .nav__link.active::after { background: #fff; }
-  body.dark .nav__cta { background: rgba(255,255,255,0.1); color: #fff; border-color: rgba(255,255,255,0.15); }
-  body.dark #themeToggle { border-color: rgba(255,255,255,0.15); }
-  body.dark .filters { background: rgba(20,20,20,0.85); border-color: rgba(255,255,255,0.1); }
-  body.dark .filter-btn { color: rgba(255,255,255,0.4); }
-  body.dark .filter-btn:hover { color: #fff; background: rgba(255,255,255,0.1); }
-  body.dark .filter-btn.active { background: #fff; color: #111; }
-  .scroll-hint {
-    position: fixed; bottom: 100px; right: 32px;
-    display: flex; align-items: center; gap: 8px;
-    font-family: 'Geist Mono', monospace;
-    font-size: 10px; letter-spacing: 1px;
-    color: rgba(255,255,255,0.3);
-    z-index: 9999;
-    opacity: 1; transition: opacity 0.5s;
-  }
-  .scroll-hint.hidden { opacity: 0; pointer-events: none; }
-  .hint-arrow { font-size: 14px; animation: nudge 1.5s ease-in-out infinite; }
-  @keyframes nudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(6px); } }
-  @media(max-width:640px){
-    .hint-desktop { display: none; }
-    .hint-mobile { display: inline !important; }
-  }
-
-  /* ── MOBILE NAV ── */
-  @media(min-width:641px){.mob-pill{display:none !important;}.mob-drawer{display:none !important;}}
-  @media(max-width:640px){
-    .mob-pill{display:flex;position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-6px);z-index:999999;align-items:center;justify-content:space-between;background:rgba(15,15,15,0.98);border:1px solid rgba(255,255,255,0.1);border-radius:999px;height:64px;width:calc(100vw - 32px);padding:0 5px 0 18px;box-shadow:0 8px 32px rgba(0,0,0,0.3);opacity:0;pointer-events:none;transition:opacity .4s ease,transform .4s ease,width .4s cubic-bezier(.34,1.2,.64,1),padding .4s ease;}
-    .mob-pill.mob-visible{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;}
-    .mob-pill.mob-scrolling{width:128px;padding:0 10px;justify-content:space-between;}
-    .mob-pill__name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#fff;letter-spacing:-.01em;white-space:nowrap;transition:opacity .25s ease,transform .25s ease;opacity:1;transform:translateX(0);flex:1;}
-    .mob-pill.mob-scrolling .mob-pill__name{opacity:0;transform:translateX(6px);pointer-events:none;width:0;flex:0;overflow:hidden;}
-    .mob-pill__right{display:flex;align-items:center;position:relative;width:54px;height:54px;flex-shrink:0;}
-    .mob-pill__ring{position:absolute;inset:0;flex-shrink:0;width:54px;height:54px;opacity:0;pointer-events:none;transition:opacity .3s ease;}
-    .mob-pill__ring svg{display:block;width:54px;height:54px;transform:rotate(-90deg);}
-    .mob-pill__ring .r-track{fill:none;stroke:rgba(255,255,255,.15);stroke-width:2.2;}
-    .mob-pill__ring .r-fill{fill:none;stroke:rgba(255,255,255,.9);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:131.95;stroke-dashoffset:131.95;transition:stroke-dashoffset .1s linear;}
-    .mob-pill__ring .r-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-family:'Geist Mono',monospace;color:rgba(255,255,255,.9);letter-spacing:-.02em;}
-    .mob-pill.mob-scrolling .mob-pill__ring{opacity:1;pointer-events:all;}
-    .mob-pill__burger{position:absolute;inset:0;width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;flex-shrink:0;transition:opacity .3s ease,background .2s,transform .15s;opacity:1;}
-    .mob-pill__burger span{display:block;width:14px;height:1.5px;background:rgba(255,255,255,.85);border-radius:2px;transition:transform .25s ease,opacity .2s ease;}
-    .mob-pill__burger:active{transform:scale(0.92);}
-    .mob-pill.mob-scrolling .mob-pill__burger{opacity:0;pointer-events:none;}
-    .mob-pill__burger.is-open span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
-    .mob-pill__burger.is-open span:nth-child(2){opacity:0;transform:scaleX(0);}
-    .mob-pill__burger.is-open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
-    .mob-drawer{position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999;pointer-events:none;display:flex;flex-direction:column;justify-content:center;}
-    .mob-drawer__inner{position:absolute;inset:0;background:#0a0a0a;display:flex;flex-direction:column;justify-content:center;padding:0 0 max(40px,env(safe-area-inset-bottom)) 0;opacity:0;transition:opacity .3s ease;}
-    .mob-drawer__close{position:absolute;top:16px;left:50%;transform:translateX(-50%);width:calc(100vw - 32px);height:64px;background:rgba(15,15,15,0.98);border:1px solid rgba(255,255,255,0.1);border-radius:999px;display:flex;align-items:center;justify-content:space-between;padding:0 5px 0 18px;z-index:2;}
-    .mob-drawer__close-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#fff;}
-    .mob-drawer__close-btn{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;flex-shrink:0;}
-    .mob-drawer__close-btn span{display:block;width:14px;height:1.5px;background:rgba(255,255,255,.85);border-radius:2px;}
-    .mob-drawer__close-btn span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
-    .mob-drawer__close-btn span:nth-child(2){opacity:0;}
-    .mob-drawer__close-btn span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
-    .mob-drawer__link{display:flex;align-items:center;padding:20px 40px;font-size:36px;font-family:'Instrument Serif',serif;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-.03em;min-height:72px;transition:opacity .18s,transform .12s;}
-    .mob-drawer__link:active{opacity:0.6;transform:scale(0.98);}
-    .mob-drawer__divider{height:1px;background:rgba(255,255,255,0.1);margin:20px 40px;}
-    .mob-drawer__theme{display:flex;align-items:center;justify-content:flex-start;padding:20px 40px;min-height:64px;}
-    .mob-theme-toggle{display:flex;align-items:center;background:#1a1a1a;border:1px solid rgba(255,255,255,0.12);border-radius:999px;padding:4px;gap:4px;}
-    .mob-theme-toggle__opt{padding:8px 20px;border-radius:999px;font-size:13px;font-weight:500;color:rgba(255,255,255,0.4);transition:background .2s,color .2s;min-height:36px;display:flex;align-items:center;background:none;border:none;cursor:pointer;font-family:inherit;}
-    .mob-theme-toggle__opt.active{background:#fff;color:#111;font-weight:600;}
-    /* Mobile counter */
-    .mob-counter{display:none;}
-    @media(max-width:640px){
-      .progress-dots{display:none;}
-      .mob-counter{display:block;position:fixed;top:96px;right:20px;z-index:9998;font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:1px;color:rgba(255,255,255,0.5);background:rgba(0,0,0,0.35);backdrop-filter:blur(8px);padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,0.12);pointer-events:none;}
-      .mob-counter span{color:rgba(255,255,255,0.9);font-weight:700;}
-    }
-  }
+/* ── MOBILE ── */
+@media(max-width:640px){
+  .nav-top,.dots{display:none !important;}
+  .filters{bottom:24px;gap:2px;}
+  .f-btn{padding:7px 12px;font-size:10px;}
+  .hint{bottom:80px;right:auto;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.15);border-radius:999px;padding:8px 18px;color:rgba(255,255,255,0.75);font-size:11px;white-space:nowrap;}
+  .mockup{display:none;}
+  .panel{padding:0 20px;align-items:flex-end;padding-bottom:130px;}
+  .p-title{font-size:clamp(36px,10vw,52px);}
+  /* MOB COUNTER */
+  .mob-ctr{display:block;position:fixed;top:24px;right:20px;z-index:9999;font-family:"Geist Mono",monospace;font-size:12px;letter-spacing:1px;color:rgba(255,255,255,0.6);background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);padding:6px 14px;border-radius:999px;border:1px solid rgba(255,255,255,0.15);pointer-events:none;}
+  .mob-ctr span{color:#fff;font-weight:700;}
+  /* MOB PILL */
+  .mob-pill{display:flex;position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:999999;align-items:center;justify-content:space-between;background:rgba(15,15,15,0.97);border:1px solid rgba(255,255,255,0.15);border-radius:999px;height:54px;width:calc(100vw - 36px);padding:0 4px 0 18px;box-shadow:0 8px 32px rgba(0,0,0,0.6);}
+  .mob-pill-name{font-family:"Syne",sans-serif;font-size:13px;font-weight:700;color:#fff;flex:1;}
+  .mob-burger{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;flex-shrink:0;}
+  .mob-burger span{display:block;width:14px;height:1.5px;background:#fff;border-radius:2px;transition:transform .25s ease,opacity .2s ease;}
+  .mob-burger.open span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
+  .mob-burger.open span:nth-child(2){opacity:0;}
+  .mob-burger.open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
+  /* MOB DRAWER */
+  .mob-drawer{display:flex;position:fixed;inset:0;z-index:99999;background:#0a0a0a;flex-direction:column;justify-content:center;padding-bottom:max(40px,env(safe-area-inset-bottom));transform:translateY(100%);transition:transform .4s cubic-bezier(.32,1,.42,1);pointer-events:none;}
+  .mob-drawer.open{transform:translateY(0);pointer-events:all;}
+  .drw-top{position:absolute;top:20px;left:50%;transform:translateX(-50%);width:calc(100vw - 36px);height:54px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:999px;display:flex;align-items:center;justify-content:space-between;padding:0 4px 0 18px;}
+  .drw-name{font-family:"Syne",sans-serif;font-size:13px;font-weight:700;color:#fff;}
+  .drw-close{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;}
+  .drw-close span{display:block;width:14px;height:1.5px;background:#fff;border-radius:2px;}
+  .drw-close span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
+  .drw-close span:nth-child(2){opacity:0;}
+  .drw-close span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
+  .drw-link{display:flex;align-items:center;padding:18px 40px;font-size:34px;font-family:"Instrument Serif",serif;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-.03em;}
+  .drw-link:active{opacity:0.6;}
+  .drw-div{height:1px;background:rgba(255,255,255,0.1);margin:14px 40px;}
+  .drw-theme{padding:14px 40px;}
+  .drw-toggle{display:inline-flex;align-items:center;background:#1a1a1a;border:1px solid rgba(255,255,255,0.15);border-radius:999px;padding:4px;gap:4px;}
+  .drw-opt{padding:8px 20px;border-radius:999px;font-size:13px;font-weight:500;color:rgba(255,255,255,0.4);background:none;border:none;cursor:pointer;font-family:"Geist",sans-serif;transition:background .2s,color .2s;}
+  .drw-opt.active{background:#fff;color:#111;font-weight:600;}
+}
+@media(min-width:641px){
+  .mob-pill,.mob-drawer,.mob-ctr{display:none !important;}
+}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- DESKTOP NAV -->
 <header class="nav-top">
-  <a href="../index.html" class="nav-top__logo">Daiwat Thavai</a>
-  <nav class="nav-top__links">
-    <a href="#" class="nav-top__link active">Work</a>
-    <a href="../AboutMe/index.html" class="nav-top__link">About</a>
-    <a href="#" class="nav-top__link">Resume</a>
+  <a href="../index.html" class="nav-logo">Daiwat Thavai</a>
+  <nav class="nav-links">
+    <a href="../Work/index.html" class="nav-link active">Work</a>
+    <a href="../AboutMe/index.html" class="nav-link">About</a>
+    <a href="#" class="nav-link">Resume</a>
   </nav>
-  <div style="display:flex; align-items:center; gap:8px;">
-    <button id="themeToggle" style="width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);background:transparent;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0;" aria-label="Toggle dark mode">🌙</button>
-    <a href="../DaveAI/index.html" class="nav-top__cta">Dave AI ✦</a>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <button class="theme-btn" id="themeBtn">🌙</button>
+    <a href="../DaveAI/index.html" class="nav-cta">Dave AI ✦</a>
   </div>
 </header>
 
-<!-- FILTER PILLS -->
-<div class="filters" role="group" aria-label="Filter projects">
-  <button class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
-  <button class="filter-btn" data-filter="ux" aria-pressed="false">UX</button>
-  <button class="filter-btn" data-filter="ai" aria-pressed="false">AI</button>
-  <button class="filter-btn" data-filter="research" aria-pressed="false">Research</button>
-  <button class="filter-btn" data-filter="0-1" aria-pressed="false">0→1</button>
+<!-- MOBILE COUNTER -->
+<div class="mob-ctr" id="mobCtr"><span id="mobCur">01</span> / <span id="mobTot">10</span></div>
+
+<!-- MOBILE PILL -->
+<div class="mob-pill" id="mobPill">
+  <span class="mob-pill-name">Daiwat Thavai</span>
+  <button class="mob-burger" id="mobBurger" aria-label="Open menu"><span></span><span></span><span></span></button>
 </div>
 
-<div class="progress-dots" id="progressDots" role="group" aria-label="Project navigation"></div>
-
-<!-- SCROLL HINT -->
-<div class="scroll-hint" id="scrollHint">
-  <span class="hint-arrow">→</span>
-  <span class="hint-desktop">SCROLL</span>
-  <span class="hint-mobile" style="display:none;">SWIPE</span>
+<!-- MOBILE DRAWER -->
+<div class="mob-drawer" id="mobDrawer">
+  <a href="../Work/index.html" class="drw-link">Work</a>
+  <a href="../AboutMe/index.html" class="drw-link">About</a>
+  <a href="#" class="drw-link">Resume</a>
+  <a href="../DaveAI/index.html" class="drw-link">Dave AI ✦</a>
+  <div class="drw-div"></div>
+  <div class="drw-theme">
+    <div class="drw-toggle">
+      <button class="drw-opt active" id="optDark">Dark</button>
+      <button class="drw-opt" id="optLight">Light</button>
+    </div>
+  </div>
 </div>
 
-<!-- EMPTY STATE -->
-<div class="empty-state" id="emptyState">
-  <div class="empty-title">No projects found</div>
-  <div class="empty-sub">Try a different filter</div>
+<!-- FILTERS -->
+<div class="filters">
+  <button class="f-btn active" data-f="all">All</button>
+  <button class="f-btn" data-f="ux">UX</button>
+  <button class="f-btn" data-f="ai">AI</button>
+  <button class="f-btn" data-f="research">Research</button>
+  <button class="f-btn" data-f="0-1">0→1</button>
 </div>
 
-<!-- HORIZONTAL SCROLL CONTAINER -->
+<!-- DOTS -->
+<div class="dots" id="dots"></div>
+
+<!-- HINT -->
+<div class="hint" id="hint">
+  <span class="hint-arr">→</span>
+  <span class="hint-d">SCROLL</span>
+  <span class="hint-m" style="display:none">SWIPE</span>
+</div>
+
+<!-- EMPTY -->
+<div class="empty" id="empty">
+  <div class="empty-t">No projects found</div>
+  <div class="empty-s">Try a different filter</div>
+</div>
+
+<!-- GALLERY -->
 <main>
-<div class="scroll-container" id="scrollContainer" role="region" aria-label="Project gallery" tabindex="0">
+<div class="scroll-wrap" id="sw">
 
-  <!-- 1. Eranova AI -->
-  <div class="panel" data-color="#0A0A0A" data-tags="ai">
-    <div class="panel-marquee" aria-hidden="true"><div class="marquee-track"><span>Eranova AI&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Eranova AI&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Eranova AI&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Eranova AI&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
-    <div class="mockup" aria-hidden="true">
-      <div class="mock-inner">
-        <div class="mock-bar"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div><span class="mock-title-bar">Eranova AI · Enterprise</span></div>
-        <div class="mock-content">
-          <div class="mock-card">
-            <span class="mock-label">Design Audit</span>
-            <div class="mock-grid2" style="margin-top:6px;">
-              <div style="text-align:center;"><div class="mock-stat-num" style="font-size:20px;">8</div><div class="mock-stat-sub">Heuristic violations</div></div>
-              <div style="text-align:center;"><div class="mock-stat-num" style="font-size:20px;">186</div><div class="mock-stat-sub">Tokens rebranded</div></div>
-            </div>
-          </div>
-          <div class="mock-card">
-            <span class="mock-label">LinkedIn Content Scale</span>
-            <div class="mock-chart">
-              <div class="mock-bar-c" style="height:30%"></div><div class="mock-bar-c" style="height:45%"></div><div class="mock-bar-c" style="height:55%"></div><div class="mock-bar-c hi" style="height:70%"></div><div class="mock-bar-c" style="height:80%"></div><div class="mock-bar-c hi" style="height:95%"></div><div class="mock-bar-c hi" style="height:100%"></div>
-            </div>
-          </div>
-          <div class="mock-grid2">
-            <div class="mock-card"><div class="mock-stat-num">50</div><div class="mock-stat-sub">Posts at scale</div></div>
-            <div class="mock-card"><div class="mock-stat-num">4 wk</div><div class="mock-stat-sub">Full site shipped</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="panel-inner">
-      <span class="panel-number">01</span>
-      <span class="panel-category">AI · Product Design</span>
-      <h2 class="panel-title">Eranova AI</h2>
-      <p class="panel-desc">How might we design a website that makes <strong>enterprise clients</strong> feel instantly <strong>confident and informed</strong>?</p>
-      <div class="panel-tags">
-        <span class="panel-tag">AI Design</span>
-        <span class="panel-tag">Enterprise UX</span>
-        <span class="panel-tag">Workflow</span>
-      </div>
-      <a href="../Eranova AI/index.html" class="panel-cta">View Case Study →</a>
-    </div>
+  <!-- 1 Eranova AI -->
+  <div class="panel" data-color="#0A0A0A" data-dark="#000000" data-tags="ai">
+    <div class="p-marquee"><div class="marquee-tr"><span>Eranova AI&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Eranova AI&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Eranova AI&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Eranova AI&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="mockup"><div class="mk-inner"><div class="mk-bar"><div class="mk-dot" style="background:#ff5f57"></div><div class="mk-dot" style="background:#febc2e"></div><div class="mk-dot" style="background:#28c840"></div><span class="mk-ttl">Eranova AI · Enterprise</span></div><div class="mk-body"><div class="mk-card"><span class="mk-lbl">Design Audit</span><div class="mk-g2"><div style="text-align:center"><div class="mk-big">8</div><div class="mk-sub">Heuristics</div></div><div style="text-align:center"><div class="mk-big">186</div><div class="mk-sub">Tokens</div></div></div></div><div class="mk-card"><span class="mk-lbl">Content Scale</span><div class="mk-chart"><div class="mk-b" style="height:30%"></div><div class="mk-b" style="height:45%"></div><div class="mk-b" style="height:55%"></div><div class="mk-b hi" style="height:70%"></div><div class="mk-b" style="height:80%"></div><div class="mk-b hi" style="height:95%"></div><div class="mk-b hi" style="height:100%"></div></div></div><div class="mk-g2"><div class="mk-card"><div class="mk-big">50</div><div class="mk-sub">Posts at scale</div></div><div class="mk-card"><div class="mk-big">4wk</div><div class="mk-sub">Shipped</div></div></div></div></div></div>
+    <div class="p-inner"><span class="p-num">01</span><span class="p-cat">AI · Product Design</span><h2 class="p-title">Eranova AI</h2><p class="p-desc">How might we design a website that makes <strong>enterprise clients</strong> feel instantly <strong>confident and informed</strong>?</p><div class="p-tags"><span class="p-tag">AI Design</span><span class="p-tag">Enterprise UX</span><span class="p-tag">Workflow</span></div><a href="../Eranova AI/index.html" class="p-cta">View Case Study →</a></div>
   </div>
 
-  <!-- 2. Global Bridge -->
-  <div class="panel" data-color="#007AFF" data-tags="ux,research">
-
-    <div class="panel-marquee" aria-hidden="true"><div class="marquee-track"><span>Global Bridge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Global Bridge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Global Bridge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Global Bridge&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
-    <div class="mockup" aria-hidden="true">
-      <div class="mock-inner">
-        <div class="mock-bar"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div><span class="mock-title-bar">Global Bridge · Safety Map</span></div>
-        <div class="mock-content">
-          <div class="mock-card">
-            <span class="mock-label">Nearby Safe Spots</span>
-            <div class="mock-map-area" style="min-height:130px;">
-              <div class="mock-pin" style="background:#4A7CFF;top:40%;left:50%;"></div>
-              <div class="mock-pin-ring" style="border-color:#4A7CFF;top:calc(40% - 7px);left:calc(50% - 7px);"></div>
-              <div class="mock-pin" style="background:#34C759;top:25%;left:30%;"></div>
-              <div class="mock-pin" style="background:#34C759;top:60%;left:70%;"></div>
-              <div class="mock-pin" style="background:#FF9500;top:70%;left:25%;"></div>
-            </div>
-          </div>
-          <div class="mock-grid2">
-            <div class="mock-card"><div class="mock-stat-num">12</div><div class="mock-stat-sub">Safe spots nearby</div></div>
-            <div class="mock-card"><div class="mock-stat-num">4.8</div><div class="mock-stat-sub">Avg safety score</div></div>
-          </div>
-          <div class="mock-card">
-            <span class="mock-label">Community Alerts</span>
-            <div class="mock-row"><div class="mock-avatar"></div><div><div class="mock-line bright m"></div><div class="mock-line s"></div></div></div>
-            <div class="mock-row"><div class="mock-avatar"></div><div><div class="mock-line bright l"></div><div class="mock-line m"></div></div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="panel-inner">
-      <span class="panel-number">02</span>
-      <span class="panel-category">UX/UI Design · Research</span>
-      <h2 class="panel-title">Global Bridge</h2>
-      <p class="panel-desc">How might we build a <strong>community safety net</strong> for international students navigating <strong>Philadelphia alone</strong>?</p>
-      <div class="panel-tags">
-        <span class="panel-tag">UX</span>
-        <span class="panel-tag">Research</span>
-        <span class="panel-tag">Mobile</span>
-      </div>
-      <a href="../global-bridge/index.html" class="panel-cta">View Case Study →</a>
-    </div>
+  <!-- 2 Global Bridge -->
+  <div class="panel" data-color="#007AFF" data-dark="#003f85" data-tags="ux,research">
+    <div class="p-marquee"><div class="marquee-tr"><span>Global Bridge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Global Bridge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Global Bridge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Global Bridge&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="mockup"><div class="mk-inner"><div class="mk-bar"><div class="mk-dot" style="background:#ff5f57"></div><div class="mk-dot" style="background:#febc2e"></div><div class="mk-dot" style="background:#28c840"></div><span class="mk-ttl">Global Bridge · Safety Map</span></div><div class="mk-body"><div class="mk-card"><span class="mk-lbl">Nearby Safe Spots</span><div class="mk-map" style="min-height:80px;"><div class="mk-pin" style="background:#4A7CFF;top:40%;left:50%;"></div><div class="mk-ring" style="border-color:#4A7CFF;top:40%;left:50%;"></div><div class="mk-pin" style="background:#34C759;top:25%;left:30%;"></div><div class="mk-pin" style="background:#34C759;top:60%;left:70%;"></div></div></div><div class="mk-g2"><div class="mk-card"><div class="mk-big">12</div><div class="mk-sub">Safe spots</div></div><div class="mk-card"><div class="mk-big">4.8</div><div class="mk-sub">Safety score</div></div></div><div class="mk-card"><span class="mk-lbl">Community Alerts</span><div class="mk-row"><div class="mk-av"></div><div><div class="mk-ln br m"></div><div class="mk-ln s"></div></div></div></div></div></div></div>
+    <div class="p-inner"><span class="p-num">02</span><span class="p-cat">UX/UI Design · Research</span><h2 class="p-title">Global Bridge</h2><p class="p-desc">How might we build a <strong>community safety net</strong> for international students navigating <strong>Philadelphia alone</strong>?</p><div class="p-tags"><span class="p-tag">UX</span><span class="p-tag">Research</span><span class="p-tag">Mobile</span></div><a href="../global-bridge/index.html" class="p-cta">View Case Study →</a></div>
   </div>
 
-  <!-- 3. TATA Fleet Edge -->
-  <div class="panel" data-color="#CC2200" data-tags="ux,0-1">
-    <div class="panel-marquee" aria-hidden="true"><div class="marquee-track"><span>TATA Fleet Edge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>TATA Fleet Edge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>TATA Fleet Edge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>TATA Fleet Edge&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
-    <div class="mockup" aria-hidden="true">
-      <div class="mock-inner">
-        <div class="mock-bar"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div><span class="mock-title-bar">Fleet Edge · Dashboard</span></div>
-        <div class="mock-content">
-          <div class="mock-grid2">
-            <div class="mock-card"><div class="mock-stat-num">248</div><div class="mock-stat-sub">Active vehicles</div></div>
-            <div class="mock-card"><div class="mock-stat-num">94%</div><div class="mock-stat-sub">On-time rate</div></div>
-          </div>
-          <div class="mock-card">
-            <span class="mock-label">Fleet Performance</span>
-            <div class="mock-chart">
-              <div class="mock-bar-c" style="height:40%"></div><div class="mock-bar-c" style="height:60%"></div><div class="mock-bar-c hi" style="height:80%"></div><div class="mock-bar-c" style="height:55%"></div><div class="mock-bar-c" style="height:70%"></div><div class="mock-bar-c hi" style="height:90%"></div><div class="mock-bar-c" style="height:65%"></div>
-            </div>
-          </div>
-          <div class="mock-card">
-            <span class="mock-label">Active Routes</span>
-            <div class="mock-check-item"><div class="mock-check-circle done"></div><div><div class="mock-line bright m"></div></div></div>
-            <div class="mock-check-item"><div class="mock-check-circle done"></div><div><div class="mock-line bright l"></div></div></div>
-            <div class="mock-check-item"><div class="mock-check-circle"></div><div><div class="mock-line m"></div></div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="panel-inner">
-      <span class="panel-number">03</span>
-      <span class="panel-category">Enterprise Dashboard · 0→1</span>
-      <h2 class="panel-title">TATA Fleet Edge</h2>
-      <p class="panel-desc">How might we give fleet managers <strong>real-time clarity</strong> over hundreds of vehicles without <strong>overwhelming complexity</strong>?</p>
-      <div class="panel-tags">
-        <span class="panel-tag">UX</span>
-        <span class="panel-tag">0→1</span>
-        <span class="panel-tag">Enterprise</span>
-      </div>
-      <a href="../TataFleet/index.html" class="panel-cta">View Case Study →</a>
-    </div>
+  <!-- 3 TATA Fleet Edge -->
+  <div class="panel" data-color="#CC2200" data-dark="#6b0f00" data-tags="ux,0-1">
+    <div class="p-marquee"><div class="marquee-tr"><span>TATA Fleet Edge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>TATA Fleet Edge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>TATA Fleet Edge&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>TATA Fleet Edge&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="mockup"><div class="mk-inner"><div class="mk-bar"><div class="mk-dot" style="background:#ff5f57"></div><div class="mk-dot" style="background:#febc2e"></div><div class="mk-dot" style="background:#28c840"></div><span class="mk-ttl">Fleet Edge · Dashboard</span></div><div class="mk-body"><div class="mk-g2"><div class="mk-card"><div class="mk-big">248</div><div class="mk-sub">Active vehicles</div></div><div class="mk-card"><div class="mk-big">94%</div><div class="mk-sub">On-time rate</div></div></div><div class="mk-card"><span class="mk-lbl">Fleet Performance</span><div class="mk-chart"><div class="mk-b" style="height:40%"></div><div class="mk-b" style="height:60%"></div><div class="mk-b hi" style="height:80%"></div><div class="mk-b" style="height:55%"></div><div class="mk-b" style="height:70%"></div><div class="mk-b hi" style="height:90%"></div><div class="mk-b" style="height:65%"></div></div></div><div class="mk-card"><span class="mk-lbl">Active Routes</span><div class="mk-ci"><div class="mk-ch dn"></div><div><div class="mk-ln br m"></div></div></div><div class="mk-ci"><div class="mk-ch dn"></div><div><div class="mk-ln br l"></div></div></div><div class="mk-ci" style="border:none"><div class="mk-ch"></div><div><div class="mk-ln m"></div></div></div></div></div></div></div>
+    <div class="p-inner"><span class="p-num">03</span><span class="p-cat">Enterprise Dashboard · 0→1</span><h2 class="p-title">TATA Fleet Edge</h2><p class="p-desc">How might we give fleet managers <strong>real-time clarity</strong> over hundreds of vehicles without <strong>overwhelming complexity</strong>?</p><div class="p-tags"><span class="p-tag">UX</span><span class="p-tag">0→1</span><span class="p-tag">Enterprise</span></div><a href="../TataFleet/index.html" class="p-cta">View Case Study →</a></div>
   </div>
 
-  <!-- 4. Richie AI -->
-  <div class="panel" data-color="#1B5E20" data-tags="ai,0-1">
-    <div class="panel-marquee" aria-hidden="true"><div class="marquee-track"><span>Richie AI&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Richie AI&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Richie AI&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Richie AI&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
-    <div class="mockup" aria-hidden="true">
-      <div class="mock-inner">
-        <div class="mock-bar"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div><span class="mock-title-bar">Richie AI · Portfolio</span></div>
-        <div class="mock-content">
-          <div class="mock-card">
-            <span class="mock-label">Portfolio Value</span>
-            <div class="mock-stat-num" style="font-size:28px;">$24,830</div>
-            <div class="mock-stat-sub" style="color:rgba(52,199,89,0.8);margin-top:4px;">↑ 12.4% this month</div>
-          </div>
-          <div class="mock-card">
-            <span class="mock-label">Performance</span>
-            <div class="mock-chart">
-              <div class="mock-bar-c" style="height:35%"></div><div class="mock-bar-c" style="height:50%"></div><div class="mock-bar-c" style="height:45%"></div><div class="mock-bar-c hi" style="height:70%"></div><div class="mock-bar-c" style="height:60%"></div><div class="mock-bar-c hi" style="height:85%"></div><div class="mock-bar-c hi" style="height:95%"></div>
-            </div>
-          </div>
-          <div class="mock-grid2">
-            <div class="mock-card"><div class="mock-stat-num">8</div><div class="mock-stat-sub">Holdings</div></div>
-            <div class="mock-card"><div class="mock-stat-num">3</div><div class="mock-stat-sub">AI insights</div></div>
-          </div>
-          <div class="mock-card">
-            <span class="mock-label">AI Recommendation</span>
-            <div class="mock-line bright l"></div>
-            <div class="mock-line m"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="panel-inner">
-      <span class="panel-number">04</span>
-      <span class="panel-category">Fintech · AI · 0→1</span>
-      <h2 class="panel-title">Richie AI</h2>
-      <p class="panel-desc">How might we make <strong>portfolio management</strong> feel personal enough to keep users coming <strong>back every day</strong>?</p>
-      <div class="panel-tags">
-        <span class="panel-tag">AI</span>
-        <span class="panel-tag">0→1</span>
-        <span class="panel-tag">Fintech</span>
-      </div>
-      <a href="../RichieAI/index.html" class="panel-cta">View Case Study →</a>
-    </div>
+  <!-- 4 Richie AI -->
+  <div class="panel" data-color="#1B5E20" data-dark="#0a2e0d" data-tags="ai,0-1">
+    <div class="p-marquee"><div class="marquee-tr"><span>Richie AI&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Richie AI&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Richie AI&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Richie AI&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="mockup"><div class="mk-inner"><div class="mk-bar"><div class="mk-dot" style="background:#ff5f57"></div><div class="mk-dot" style="background:#febc2e"></div><div class="mk-dot" style="background:#28c840"></div><span class="mk-ttl">Richie AI · Portfolio</span></div><div class="mk-body"><div class="mk-card"><span class="mk-lbl">Portfolio Value</span><div class="mk-big" style="font-size:26px">$24,830</div><div class="mk-sub" style="color:rgba(52,199,89,0.8);margin-top:4px">↑ 12.4% this month</div></div><div class="mk-card"><span class="mk-lbl">Performance</span><div class="mk-chart"><div class="mk-b" style="height:35%"></div><div class="mk-b" style="height:50%"></div><div class="mk-b" style="height:45%"></div><div class="mk-b hi" style="height:70%"></div><div class="mk-b" style="height:60%"></div><div class="mk-b hi" style="height:85%"></div><div class="mk-b hi" style="height:95%"></div></div></div><div class="mk-g2"><div class="mk-card"><div class="mk-big">8</div><div class="mk-sub">Holdings</div></div><div class="mk-card"><div class="mk-big">3</div><div class="mk-sub">AI insights</div></div></div></div></div></div>
+    <div class="p-inner"><span class="p-num">04</span><span class="p-cat">Fintech · AI · 0→1</span><h2 class="p-title">Richie AI</h2><p class="p-desc">How might we make <strong>portfolio management</strong> feel personal enough to keep users coming <strong>back every day</strong>?</p><div class="p-tags"><span class="p-tag">AI</span><span class="p-tag">0→1</span><span class="p-tag">Fintech</span></div><a href="../RichieAI/index.html" class="p-cta">View Case Study →</a></div>
   </div>
 
-  <!-- 4. TJU Course Registration -->
-  <div class="panel" data-color="#4B0082" data-tags="ux,research">
-    <div class="panel-marquee" aria-hidden="true"><div class="marquee-track"><span>TJU Course Registration&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>TJU Course Registration&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>TJU Course Registration&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
-    <div class="mockup" aria-hidden="true">
-      <div class="mock-inner">
-        <div class="mock-bar"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div><span class="mock-title-bar">TJU · Course Registration</span></div>
-        <div class="mock-content">
-          <div class="mock-card">
-            <span class="mock-label">Spring 2025 — My Schedule</span>
-            <div class="mock-check-item"><div class="mock-check-circle done"></div><div><div class="mock-line bright l"></div><div class="mock-line s"></div></div></div>
-            <div class="mock-check-item"><div class="mock-check-circle done"></div><div><div class="mock-line bright m"></div><div class="mock-line s"></div></div></div>
-            <div class="mock-check-item"><div class="mock-check-circle"></div><div><div class="mock-line m"></div><div class="mock-line s"></div></div></div>
-            <div class="mock-check-item" style="border:none"><div class="mock-check-circle"></div><div><div class="mock-line m"></div><div class="mock-line s"></div></div></div>
-          </div>
-          <div class="mock-grid2">
-            <div class="mock-card"><div class="mock-stat-num">18</div><div class="mock-stat-sub">Credits enrolled</div></div>
-            <div class="mock-card"><div class="mock-stat-num">2</div><div class="mock-stat-sub">Slots remaining</div></div>
-          </div>
-          <div class="mock-card">
-            <span class="mock-label">Prerequisite Check</span>
-            <div class="mock-line bright l"></div>
-            <div class="mock-line m"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="panel-inner">
-      <span class="panel-number">05</span>
-      <span class="panel-category">Educational Platform · UX</span>
-      <h2 class="panel-title">TJU Course Registration</h2>
-      <p class="panel-desc">How might we make university course registration feel <strong>intuitive and stress-free</strong> for every student?</p>
-      <div class="panel-tags">
-        <span class="panel-tag">UX</span>
-        <span class="panel-tag">Research</span>
-        <span class="panel-tag">Education</span>
-      </div>
-      <a href="../TJU/index.html" class="panel-cta">View Case Study →</a>
-    </div>
+  <!-- 5 TJU -->
+  <div class="panel" data-color="#4B0082" data-dark="#26003f" data-tags="ux,research">
+    <div class="p-marquee"><div class="marquee-tr"><span>TJU Course Registration&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>TJU Course Registration&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>TJU Course Registration&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="mockup"><div class="mk-inner"><div class="mk-bar"><div class="mk-dot" style="background:#ff5f57"></div><div class="mk-dot" style="background:#febc2e"></div><div class="mk-dot" style="background:#28c840"></div><span class="mk-ttl">TJU · Course Registration</span></div><div class="mk-body"><div class="mk-card"><span class="mk-lbl">Spring 2025 — My Schedule</span><div class="mk-ci"><div class="mk-ch dn"></div><div><div class="mk-ln br l"></div><div class="mk-ln s"></div></div></div><div class="mk-ci"><div class="mk-ch dn"></div><div><div class="mk-ln br m"></div><div class="mk-ln s"></div></div></div><div class="mk-ci" style="border:none"><div class="mk-ch"></div><div><div class="mk-ln m"></div><div class="mk-ln s"></div></div></div></div><div class="mk-g2"><div class="mk-card"><div class="mk-big">18</div><div class="mk-sub">Credits enrolled</div></div><div class="mk-card"><div class="mk-big">2</div><div class="mk-sub">Slots remaining</div></div></div><div class="mk-card"><span class="mk-lbl">Prerequisite Check</span><div class="mk-ln br l"></div><div class="mk-ln m"></div></div></div></div></div>
+    <div class="p-inner"><span class="p-num">05</span><span class="p-cat">Educational Platform · UX</span><h2 class="p-title">TJU Course Registration</h2><p class="p-desc">How might we make university course registration feel <strong>intuitive and stress-free</strong> for every student?</p><div class="p-tags"><span class="p-tag">UX</span><span class="p-tag">Research</span><span class="p-tag">Education</span></div><a href="../TJU/index.html" class="p-cta">View Case Study →</a></div>
   </div>
 
-  <!-- 5. Calorie Wise -->
-  <div class="panel" data-color="#1A3A7A" data-tags="ux,0-1">
-    <div class="panel-marquee" aria-hidden="true"><div class="marquee-track"><span>Calorie Wise&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Calorie Wise&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Calorie Wise&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Calorie Wise&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
-    <div class="mockup" aria-hidden="true">
-      <div class="mock-inner">
-        <div class="mock-bar"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div><span class="mock-title-bar">Calorie Wise · Today</span></div>
-        <div class="mock-content">
-          <div class="mock-card" style="text-align:center">
-            <span class="mock-label">Calories Remaining</span>
-            <div class="mock-stat-num" style="font-size:36px;text-align:center">842</div>
-            <div class="mock-stat-sub" style="text-align:center">of 2,000 goal</div>
-          </div>
-          <div class="mock-grid2">
-            <div class="mock-card"><div class="mock-stat-num">142g</div><div class="mock-stat-sub">Protein</div></div>
-            <div class="mock-card"><div class="mock-stat-num">68g</div><div class="mock-stat-sub">Carbs</div></div>
-          </div>
-          <div class="mock-card">
-            <span class="mock-label">Today's Meals</span>
-            <div class="mock-check-item"><div class="mock-check-circle done"></div><div><div class="mock-line bright m"></div></div></div>
-            <div class="mock-check-item"><div class="mock-check-circle done"></div><div><div class="mock-line bright l"></div></div></div>
-            <div class="mock-check-item" style="border:none"><div class="mock-check-circle"></div><div><div class="mock-line s"></div></div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="panel-inner">
-      <span class="panel-number">06</span>
-      <span class="panel-category">Mobile App · 0→1</span>
-      <h2 class="panel-title">Calorie Wise</h2>
-      <p class="panel-desc">How might we make <strong>nutrition tracking</strong> feel effortless enough that users actually <strong>stick with it</strong>?</p>
-      <div class="panel-tags">
-        <span class="panel-tag">UX</span>
-        <span class="panel-tag">0→1</span>
-        <span class="panel-tag">Mobile</span>
-      </div>
-      <a href="../CalorieWise/index.html" class="panel-cta">View Case Study →</a>
-    </div>
+  <!-- 6 Calorie Wise -->
+  <div class="panel" data-color="#1A3A7A" data-dark="#0a1d3d" data-tags="ux,0-1">
+    <div class="p-marquee"><div class="marquee-tr"><span>Calorie Wise&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Calorie Wise&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Calorie Wise&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Calorie Wise&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="mockup"><div class="mk-inner"><div class="mk-bar"><div class="mk-dot" style="background:#ff5f57"></div><div class="mk-dot" style="background:#febc2e"></div><div class="mk-dot" style="background:#28c840"></div><span class="mk-ttl">Calorie Wise · Today</span></div><div class="mk-body"><div class="mk-card" style="text-align:center"><span class="mk-lbl">Calories Remaining</span><div class="mk-big" style="font-size:32px;text-align:center">842</div><div class="mk-sub" style="text-align:center">of 2,000 goal</div></div><div class="mk-g2"><div class="mk-card"><div class="mk-big">142g</div><div class="mk-sub">Protein</div></div><div class="mk-card"><div class="mk-big">68g</div><div class="mk-sub">Carbs</div></div></div><div class="mk-card"><span class="mk-lbl">Today's Meals</span><div class="mk-ci"><div class="mk-ch dn"></div><div><div class="mk-ln br m"></div></div></div><div class="mk-ci" style="border:none"><div class="mk-ch"></div><div><div class="mk-ln s"></div></div></div></div></div></div></div>
+    <div class="p-inner"><span class="p-num">06</span><span class="p-cat">Mobile App · 0→1</span><h2 class="p-title">Calorie Wise</h2><p class="p-desc">How might we make <strong>nutrition tracking</strong> feel effortless enough that users actually <strong>stick with it</strong>?</p><div class="p-tags"><span class="p-tag">UX</span><span class="p-tag">0→1</span><span class="p-tag">Mobile</span></div><a href="../CalorieWise/index.html" class="p-cta">View Case Study →</a></div>
   </div>
 
-  <!-- 6. Hair Food -->
-  <div class="panel" data-color="#8B0057" data-tags="ux,0-1">
-    <div class="panel-marquee" aria-hidden="true"><div class="marquee-track"><span>Hair Food&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Hair Food&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Hair Food&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Hair Food&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
-    <div class="mockup" aria-hidden="true">
-      <div class="mock-inner">
-        <div class="mock-bar"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div><span class="mock-title-bar">Hair Food · Shop</span></div>
-        <div class="mock-content">
-          <div class="mock-card">
-            <span class="mock-label">Your Hair Profile</span>
-            <div class="mock-row"><div class="mock-avatar" style="width:40px;height:40px;"></div><div style="flex:1"><div class="mock-line bright m"></div><div class="mock-line s"></div></div></div>
-          </div>
-          <div class="mock-card">
-            <span class="mock-label">Recommended For You</span>
-            <div class="mock-grid2" style="gap:6px">
-              <div style="background:rgba(255,255,255,0.06);border-radius:8px;padding:10px;"><div class="mock-line bright l"></div><div class="mock-line m"></div><div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:rgba(255,255,255,0.8);margin-top:6px;">$24</div></div>
-              <div style="background:rgba(255,255,255,0.06);border-radius:8px;padding:10px;"><div class="mock-line bright l"></div><div class="mock-line s"></div><div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:rgba(255,255,255,0.8);margin-top:6px;">$18</div></div>
-            </div>
-          </div>
-          <div class="mock-grid2">
-            <div class="mock-card"><div class="mock-stat-num">4.9</div><div class="mock-stat-sub">Match score</div></div>
-            <div class="mock-card"><div class="mock-stat-num">12</div><div class="mock-stat-sub">Products found</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="panel-inner">
-      <span class="panel-number">07</span>
-      <span class="panel-category">E-commerce · 0→1</span>
-      <h2 class="panel-title">Hair Food</h2>
-      <p class="panel-desc">How might we build a <strong>personalized shopping experience</strong> that makes finding the right hair product feel <strong>effortless</strong>?</p>
-      <div class="panel-tags">
-        <span class="panel-tag">UX</span>
-        <span class="panel-tag">0→1</span>
-        <span class="panel-tag">E-commerce</span>
-      </div>
-      <a href="../HairFood/index.html" class="panel-cta">View Case Study →</a>
-    </div>
+  <!-- 7 Hair Food -->
+  <div class="panel" data-color="#8B0057" data-dark="#45002b" data-tags="ux,0-1">
+    <div class="p-marquee"><div class="marquee-tr"><span>Hair Food&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Hair Food&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Hair Food&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Hair Food&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="mockup"><div class="mk-inner"><div class="mk-bar"><div class="mk-dot" style="background:#ff5f57"></div><div class="mk-dot" style="background:#febc2e"></div><div class="mk-dot" style="background:#28c840"></div><span class="mk-ttl">Hair Food · Shop</span></div><div class="mk-body"><div class="mk-card"><span class="mk-lbl">Your Hair Profile</span><div class="mk-row"><div class="mk-av"></div><div style="flex:1"><div class="mk-ln br m"></div><div class="mk-ln s"></div></div></div></div><div class="mk-card"><span class="mk-lbl">Recommended For You</span><div class="mk-g2"><div style="background:rgba(255,255,255,0.05);border-radius:7px;padding:8px"><div class="mk-ln br l"></div><div class="mk-ln m"></div><div style="font-family:Syne,sans-serif;font-size:13px;font-weight:800;color:rgba(255,255,255,0.7);margin-top:5px">$24</div></div><div style="background:rgba(255,255,255,0.05);border-radius:7px;padding:8px"><div class="mk-ln br l"></div><div class="mk-ln s"></div><div style="font-family:Syne,sans-serif;font-size:13px;font-weight:800;color:rgba(255,255,255,0.7);margin-top:5px">$18</div></div></div></div><div class="mk-g2"><div class="mk-card"><div class="mk-big">4.9</div><div class="mk-sub">Match score</div></div><div class="mk-card"><div class="mk-big">12</div><div class="mk-sub">Products</div></div></div></div></div></div>
+    <div class="p-inner"><span class="p-num">07</span><span class="p-cat">E-commerce · 0→1</span><h2 class="p-title">Hair Food</h2><p class="p-desc">How might we build a <strong>personalized shopping experience</strong> that makes finding the right hair product feel <strong>effortless</strong>?</p><div class="p-tags"><span class="p-tag">UX</span><span class="p-tag">0→1</span><span class="p-tag">E-commerce</span></div><a href="../HairFood/index.html" class="p-cta">View Case Study →</a></div>
   </div>
 
-  <!-- 7. WIFY Mobile App -->
-  <div class="panel" data-color="#1A6B1A" data-tags="ux,0-1">
-    <div class="panel-marquee" aria-hidden="true"><div class="marquee-track"><span>WIFY Mobile App&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>WIFY Mobile App&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>WIFY Mobile App&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>WIFY Mobile App&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
-    <div class="mockup" aria-hidden="true">
-      <div class="mock-inner">
-        <div class="mock-bar"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div><span class="mock-title-bar">WIFY · Nearby Spots</span></div>
-        <div class="mock-content">
-          <div class="mock-card">
-            <span class="mock-label">WiFi Map</span>
-            <div class="mock-map-area" style="min-height:120px;">
-              <div class="mock-pin" style="background:#34C759;top:45%;left:48%;"></div>
-              <div class="mock-pin-ring" style="border-color:#34C759;top:calc(45% - 7px);left:calc(48% - 7px);"></div>
-              <div class="mock-pin" style="background:#fff;top:30%;left:65%;width:6px;height:6px;"></div>
-              <div class="mock-pin" style="background:#fff;top:65%;left:30%;width:6px;height:6px;"></div>
-              <div class="mock-pin" style="background:#fff;top:25%;left:35%;width:6px;height:6px;"></div>
-            </div>
-          </div>
-          <div class="mock-grid2">
-            <div class="mock-card"><div class="mock-stat-num">7</div><div class="mock-stat-sub">Free spots</div></div>
-            <div class="mock-card"><div class="mock-stat-num">98ms</div><div class="mock-stat-sub">Avg ping</div></div>
-          </div>
-          <div class="mock-card">
-            <span class="mock-label">Top Spot</span>
-            <div class="mock-line bright l"></div>
-            <div class="mock-line m"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="panel-inner">
-      <span class="panel-number">08</span>
-      <span class="panel-category">Mobile App · 0→1</span>
-      <h2 class="panel-title">WIFY Mobile App</h2>
-      <p class="panel-desc">How might we help users find <strong>trusted WiFi spots</strong> and stay <strong>connected anywhere</strong> without the guesswork?</p>
-      <div class="panel-tags">
-        <span class="panel-tag">UX</span>
-        <span class="panel-tag">0→1</span>
-        <span class="panel-tag">Mobile</span>
-      </div>
-      <a href="#" class="panel-cta">View Case Study →</a>
-    </div>
+  <!-- 8 WIFY -->
+  <div class="panel" data-color="#1A6B1A" data-dark="#0a350a" data-tags="ux,0-1">
+    <div class="p-marquee"><div class="marquee-tr"><span>WIFY Mobile App&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>WIFY Mobile App&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>WIFY Mobile App&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>WIFY Mobile App&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="mockup"><div class="mk-inner"><div class="mk-bar"><div class="mk-dot" style="background:#ff5f57"></div><div class="mk-dot" style="background:#febc2e"></div><div class="mk-dot" style="background:#28c840"></div><span class="mk-ttl">WIFY · Nearby Spots</span></div><div class="mk-body"><div class="mk-card"><span class="mk-lbl">WiFi Map</span><div class="mk-map" style="min-height:80px;"><div class="mk-pin" style="background:#34C759;top:45%;left:48%;"></div><div class="mk-ring" style="border-color:#34C759;top:45%;left:48%;"></div><div class="mk-pin" style="background:#fff;top:30%;left:65%;width:7px;height:7px;"></div><div class="mk-pin" style="background:#fff;top:65%;left:30%;width:7px;height:7px;"></div></div></div><div class="mk-g2"><div class="mk-card"><div class="mk-big">7</div><div class="mk-sub">Free spots</div></div><div class="mk-card"><div class="mk-big">98ms</div><div class="mk-sub">Avg ping</div></div></div><div class="mk-card"><span class="mk-lbl">Top Spot</span><div class="mk-ln br l"></div><div class="mk-ln m"></div></div></div></div></div>
+    <div class="p-inner"><span class="p-num">08</span><span class="p-cat">Mobile App · 0→1</span><h2 class="p-title">WIFY Mobile App</h2><p class="p-desc">How might we help users find <strong>trusted WiFi spots</strong> and stay <strong>connected anywhere</strong> without the guesswork?</p><div class="p-tags"><span class="p-tag">UX</span><span class="p-tag">0→1</span><span class="p-tag">Mobile</span></div><a href="#" class="p-cta">View Case Study →</a></div>
   </div>
 
-  <!-- 8. Analytics -->
-  <div class="panel" data-color="#7A5500" data-tags="ai,ux">
-    <div class="panel-marquee" aria-hidden="true"><div class="marquee-track"><span>Analytics&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Analytics&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Analytics&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Analytics&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
-    <div class="mockup" aria-hidden="true">
-      <div class="mock-inner">
-        <div class="mock-bar"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div><span class="mock-title-bar">Analytics · Dashboard</span></div>
-        <div class="mock-content">
-          <div class="mock-grid2">
-            <div class="mock-card"><div class="mock-stat-num">128k</div><div class="mock-stat-sub">Total events</div></div>
-            <div class="mock-card"><div class="mock-stat-num">↑38%</div><div class="mock-stat-sub">vs last week</div></div>
-          </div>
-          <div class="mock-card">
-            <span class="mock-label">Event Trend</span>
-            <div class="mock-chart">
-              <div class="mock-bar-c" style="height:30%"></div><div class="mock-bar-c" style="height:45%"></div><div class="mock-bar-c" style="height:40%"></div><div class="mock-bar-c hi" style="height:65%"></div><div class="mock-bar-c hi" style="height:75%"></div><div class="mock-bar-c hi" style="height:90%"></div><div class="mock-bar-c hi" style="height:100%"></div>
-            </div>
-          </div>
-          <div class="mock-card">
-            <span class="mock-label">Top Funnels</span>
-            <div class="mock-check-item"><div class="mock-check-circle done"></div><div><div class="mock-line bright l"></div></div></div>
-            <div class="mock-check-item"><div class="mock-check-circle done"></div><div><div class="mock-line bright m"></div></div></div>
-            <div class="mock-check-item" style="border:none"><div class="mock-check-circle"></div><div><div class="mock-line s"></div></div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="panel-inner">
-      <span class="panel-number">09</span>
-      <span class="panel-category">AI · Analytics</span>
-      <h2 class="panel-title">Analytics</h2>
-      <p class="panel-desc">How might we turn <strong>complex data</strong> into insights that anyone on the team can <strong>understand and act on</strong>?</p>
-      <div class="panel-tags">
-        <span class="panel-tag">AI</span>
-        <span class="panel-tag">UX</span>
-        <span class="panel-tag">Dashboard</span>
-      </div>
-      <a href="#" class="panel-cta">View Case Study →</a>
-    </div>
+  <!-- 9 Analytics -->
+  <div class="panel" data-color="#7A5500" data-dark="#3d2a00" data-tags="ai,ux">
+    <div class="p-marquee"><div class="marquee-tr"><span>Analytics&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Analytics&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Analytics&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Analytics&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="mockup"><div class="mk-inner"><div class="mk-bar"><div class="mk-dot" style="background:#ff5f57"></div><div class="mk-dot" style="background:#febc2e"></div><div class="mk-dot" style="background:#28c840"></div><span class="mk-ttl">Analytics · Dashboard</span></div><div class="mk-body"><div class="mk-g2"><div class="mk-card"><div class="mk-big">128k</div><div class="mk-sub">Total events</div></div><div class="mk-card"><div class="mk-big">↑38%</div><div class="mk-sub">vs last week</div></div></div><div class="mk-card"><span class="mk-lbl">Event Trend</span><div class="mk-chart"><div class="mk-b" style="height:30%"></div><div class="mk-b" style="height:45%"></div><div class="mk-b" style="height:40%"></div><div class="mk-b hi" style="height:65%"></div><div class="mk-b hi" style="height:75%"></div><div class="mk-b hi" style="height:90%"></div><div class="mk-b hi" style="height:100%"></div></div></div><div class="mk-card"><span class="mk-lbl">Top Funnels</span><div class="mk-ci"><div class="mk-ch dn"></div><div><div class="mk-ln br l"></div></div></div><div class="mk-ci" style="border:none"><div class="mk-ch"></div><div><div class="mk-ln m"></div></div></div></div></div></div></div>
+    <div class="p-inner"><span class="p-num">09</span><span class="p-cat">AI · Analytics</span><h2 class="p-title">Analytics</h2><p class="p-desc">How might we turn <strong>complex data</strong> into insights that anyone on the team can <strong>understand and act on</strong>?</p><div class="p-tags"><span class="p-tag">AI</span><span class="p-tag">UX</span><span class="p-tag">Dashboard</span></div><a href="#" class="p-cta">View Case Study →</a></div>
   </div>
 
-  <!-- 9. Wanderer -->
-  <div class="panel" data-color="#C44A00" data-tags="ux,0-1">
-    <div class="panel-marquee" aria-hidden="true"><div class="marquee-track"><span>Wanderer&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Wanderer&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Wanderer&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Wanderer&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
-    <div class="mockup" aria-hidden="true">
-      <div class="mock-inner">
-        <div class="mock-bar"><div class="mock-dot" style="background:#ff5f57"></div><div class="mock-dot" style="background:#febc2e"></div><div class="mock-dot" style="background:#28c840"></div><span class="mock-title-bar">Wanderer · Plan Trip</span></div>
-        <div class="mock-content">
-          <div class="mock-card">
-            <span class="mock-label">Philadelphia → NYC</span>
-            <div class="mock-stat-num" style="font-size:20px;">3 days · 14 stops</div>
-          </div>
-          <div class="mock-card">
-            <span class="mock-label">Itinerary</span>
-            <div class="mock-check-item"><div class="mock-check-circle done"></div><div><div class="mock-line bright l"></div><div class="mock-line s"></div></div></div>
-            <div class="mock-check-item"><div class="mock-check-circle done"></div><div><div class="mock-line bright m"></div><div class="mock-line s"></div></div></div>
-            <div class="mock-check-item"><div class="mock-check-circle"></div><div><div class="mock-line m"></div><div class="mock-line s"></div></div></div>
-            <div class="mock-check-item" style="border:none"><div class="mock-check-circle"></div><div><div class="mock-line s"></div></div></div>
-          </div>
-          <div class="mock-grid2">
-            <div class="mock-card"><div class="mock-stat-num">$340</div><div class="mock-stat-sub">Est. budget</div></div>
-            <div class="mock-card"><div class="mock-stat-num">4.7</div><div class="mock-stat-sub">AI score</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="panel-inner">
-      <span class="panel-number">10</span>
-      <span class="panel-category">Mobile App · 0→1</span>
-      <h2 class="panel-title">Wanderer</h2>
-      <p class="panel-desc">How might we make <strong>solo travel planning</strong> feel exciting rather than <strong>overwhelming</strong>?</p>
-      <div class="panel-tags">
-        <span class="panel-tag">UX</span>
-        <span class="panel-tag">0→1</span>
-        <span class="panel-tag">Mobile</span>
-      </div>
-      <a href="#" class="panel-cta">View Case Study →</a>
-    </div>
+  <!-- 10 Wanderer -->
+  <div class="panel" data-color="#C44A00" data-dark="#622500" data-tags="ux,0-1">
+    <div class="p-marquee"><div class="marquee-tr"><span>Wanderer&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Wanderer&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Wanderer&nbsp;&nbsp;·&nbsp;&nbsp;</span><span>Wanderer&nbsp;&nbsp;·&nbsp;&nbsp;</span></div></div>
+    <div class="mockup"><div class="mk-inner"><div class="mk-bar"><div class="mk-dot" style="background:#ff5f57"></div><div class="mk-dot" style="background:#febc2e"></div><div class="mk-dot" style="background:#28c840"></div><span class="mk-ttl">Wanderer · Plan Trip</span></div><div class="mk-body"><div class="mk-card"><span class="mk-lbl">Philadelphia → NYC</span><div class="mk-big" style="font-size:18px">3 days · 14 stops</div></div><div class="mk-card"><span class="mk-lbl">Itinerary</span><div class="mk-ci"><div class="mk-ch dn"></div><div><div class="mk-ln br l"></div><div class="mk-ln s"></div></div></div><div class="mk-ci"><div class="mk-ch dn"></div><div><div class="mk-ln br m"></div><div class="mk-ln s"></div></div></div><div class="mk-ci" style="border:none"><div class="mk-ch"></div><div><div class="mk-ln m"></div></div></div></div><div class="mk-g2"><div class="mk-card"><div class="mk-big">$340</div><div class="mk-sub">Est. budget</div></div><div class="mk-card"><div class="mk-big">4.7</div><div class="mk-sub">AI score</div></div></div></div></div></div>
+    <div class="p-inner"><span class="p-num">10</span><span class="p-cat">Mobile App · 0→1</span><h2 class="p-title">Wanderer</h2><p class="p-desc">How might we make <strong>solo travel planning</strong> feel exciting rather than <strong>overwhelming</strong>?</p><div class="p-tags"><span class="p-tag">UX</span><span class="p-tag">0→1</span><span class="p-tag">Mobile</span></div><a href="#" class="p-cta">View Case Study →</a></div>
   </div>
 
 </div>
 </main>
 
 <script>
-(function() {
-  var container = document.getElementById('scrollContainer');
-  var dotsContainer = document.getElementById('progressDots');
-  var scrollHint = document.getElementById('scrollHint');
-  var emptyState = document.getElementById('emptyState');
-  var filterBtns = document.querySelectorAll('.filter-btn');
-  var allPanels = Array.from(document.querySelectorAll('.panel'));
-  var visiblePanels = allPanels.slice();
-  var currentFilter = 'all';
-  var currentIndex = 0;
-
-  // Build dots
-  function buildDots() {
-    dotsContainer.innerHTML = '';
-    visiblePanels.forEach(function(panel, i) {
-      var dot = document.createElement('button');
-      var title = panel.querySelector('.panel-title');
-      dot.className = 'dot' + (i === 0 ? ' active' : '');
-      dot.setAttribute('aria-label', 'Go to project ' + (title ? title.textContent : i + 1));
-      dot.setAttribute('aria-current', i === 0 ? 'true' : 'false');
-      dot.addEventListener('click', function() { scrollToPanel(i); });
-      dotsContainer.appendChild(dot);
-    });
-  }
-
-  function updateDots(idx) {
-    var dots = dotsContainer.querySelectorAll('.dot');
-    dots.forEach(function(d, i) {
-      d.classList.toggle('active', i === idx);
-      d.setAttribute('aria-current', i === idx ? 'true' : 'false');
-    });
-  }
-
-  function scrollToPanel(idx) {
-    if (!visiblePanels[idx]) return;
-    visiblePanels[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-  }
-
-  // Dark mode color map — deeper versions of each brand color
-  var darkColors = {
-    '#0A0A0A': '#000000',
-    '#007AFF': '#003f85',
-    '#CC2200': '#6b0f00',
-    '#1B5E20': '#0a2e0d',
-    '#4B0082': '#26003f',
-    '#1A3A7A': '#0a1d3d',
-    '#8B0057': '#45002b',
-    '#1A6B1A': '#0a350a',
-    '#7A5500': '#3d2a00',
-    '#C44A00': '#622500'
-  };
-
-  // Theme toggle
-  var themeToggle = document.getElementById('themeToggle');
-  var isDark = false;
-  themeToggle.addEventListener('click', function() {
-    isDark = !isDark;
-    document.body.classList.toggle('dark', isDark);
-    themeToggle.textContent = isDark ? '☀️' : '🌙';
-    updateBg(currentIndex);
-  });
-
-  // Background color update
-  function updateBg(idx) {
-    if (!visiblePanels[idx]) return;
-    var lightColor = visiblePanels[idx].getAttribute('data-color');
-    var color = isDark ? (darkColors[lightColor] || lightColor) : lightColor;
-    document.body.style.backgroundColor = color;
-    
-  }
-
-  // Active panel detection
-  function onScroll() {
-    var scrollLeft = container.scrollLeft;
-    var w = window.innerWidth;
-    var idx = Math.round(scrollLeft / w);
-    idx = Math.max(0, Math.min(idx, visiblePanels.length - 1));
-
-    if (idx !== currentIndex) {
-      // Deactivate old
-      if (visiblePanels[currentIndex]) {
-        visiblePanels[currentIndex].classList.remove('is-active');
-      }
-      currentIndex = idx;
-      // Activate new
-      if (visiblePanels[currentIndex]) {
-        visiblePanels[currentIndex].classList.add('is-active');
-      }
-      updateDots(currentIndex);
-      updateBg(currentIndex);
-      var mc = document.getElementById('mobCurrent');
-      if(mc) mc.textContent = String(currentIndex + 1).padStart(2,'0');
-    }
-
-    // Hide scroll hint after first scroll
-    if (scrollLeft > 50) {
-      scrollHint.classList.add('hidden');
-    }
-  }
-
-  container.addEventListener('scroll', onScroll, { passive: true });
-
-  // Filter logic
-  function applyFilter(filter) {
-    currentFilter = filter;
-
-    // Reset scroll
-    container.scrollLeft = 0;
-    currentIndex = 0;
-
-    // Show/hide panels
-    visiblePanels = [];
-    allPanels.forEach(function(panel) {
-      var tags = panel.getAttribute('data-tags').split(',');
-      var show = filter === 'all' || tags.indexOf(filter) !== -1;
-      if (show) {
-        panel.classList.remove('hidden');
-        visiblePanels.push(panel);
-      } else {
-        panel.classList.add('hidden');
-      }
-    });
-
-    // Renumber visible panels
-    visiblePanels.forEach(function(panel, i) {
-      var numEl = panel.querySelector('.panel-number');
-      if (numEl) numEl.textContent = String(i + 1).padStart(2, '0');
-    });
-
-    // Empty state
-    if (visiblePanels.length === 0) {
-      emptyState.classList.add('show');
-      dotsContainer.innerHTML = '';
-      var mc = document.getElementById('mobCurrent'), mt = document.getElementById('mobTotal');
-      if(mc) mc.textContent = '00';
-      if(mt) mt.textContent = '00';
-    } else {
-      emptyState.classList.remove('show');
-      buildDots();
-      allPanels.forEach(function(p) { p.classList.remove('is-active'); });
-      visiblePanels[0].classList.add('is-active');
-      updateBg(0);
-      var mc = document.getElementById('mobCurrent'), mt = document.getElementById('mobTotal');
-      if(mc) mc.textContent = '01';
-      if(mt) mt.textContent = String(visiblePanels.length).padStart(2,'0');
-    }
-  }
-
-  filterBtns.forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      filterBtns.forEach(function(b) {
-        b.classList.remove('active');
-        b.setAttribute('aria-pressed', 'false');
-      });
-      btn.classList.add('active');
-      btn.setAttribute('aria-pressed', 'true');
-      applyFilter(btn.getAttribute('data-filter'));
-    });
-  });
-
-  // Convert vertical wheel scroll to snapped horizontal panel navigation
-  var isScrolling = false;
-  container.addEventListener('wheel', function(e) {
-    e.preventDefault();
-    if (isScrolling) return;
-    isScrolling = true;
-    if (e.deltaY > 0 || e.deltaX > 0) {
-      scrollToPanel(currentIndex + 1);
-    } else {
-      scrollToPanel(currentIndex - 1);
-    }
-    setTimeout(function() { isScrolling = false; }, 1200);
-  }, { passive: false });
-
-  // Touch swipe for mobile
-  var touchStartX = 0;
-  var touchStartY = 0;
-  var isSwiping = false;
-
-  container.addEventListener('touchstart', function(e) {
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-    isSwiping = false;
-  }, { passive: true });
-
-  container.addEventListener('touchmove', function(e) {
-    var dx = touchStartX - e.touches[0].clientX;
-    var dy = touchStartY - e.touches[0].clientY;
-    if (!isSwiping && Math.abs(dx) > Math.abs(dy)) {
-      isSwiping = true;
-    }
-    if (isSwiping) e.preventDefault();
-  }, { passive: false });
-
-  container.addEventListener('touchend', function(e) {
-    var dx = touchStartX - e.changedTouches[0].clientX;
-    var dy = touchStartY - e.changedTouches[0].clientY;
-    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
-      if (dx > 0) scrollToPanel(currentIndex + 1);
-      else scrollToPanel(currentIndex - 1);
-    }
-  }, { passive: true });
-
-  // Keyboard navigation
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'ArrowRight') scrollToPanel(currentIndex + 1);
-    if (e.key === 'ArrowLeft') scrollToPanel(currentIndex - 1);
-  });
-
-  // Init
-  buildDots();
-  visiblePanels[0].classList.add('is-active');
-  updateBg(0);
-  var mc = document.getElementById('mobCurrent'), mt = document.getElementById('mobTotal');
-  if(mc) mc.textContent = '01';
-  if(mt) mt.textContent = String(visiblePanels.length).padStart(2,'0');
-  
-})();
-</script>
-
-<script>
-/* MOBILE NAV */
-document.addEventListener('DOMContentLoaded', function(){
 (function(){
-  if(!window.matchMedia('(max-width:640px)').matches) return;
+  var sw = document.getElementById('sw');
+  var dotsEl = document.getElementById('dots');
+  var hintEl = document.getElementById('hint');
+  var emptyEl = document.getElementById('empty');
+  var allPanels = Array.from(document.querySelectorAll('.panel'));
+  var visible = allPanels.slice();
+  var cur = 0;
+  var isDark = false;
 
-  var mobPill     = document.getElementById('mobPill');
-  var mobBurger   = document.getElementById('mobBurger');
-  var mobBurgerClose = document.getElementById('mobBurgerClose');
-  var mobDrawer   = document.getElementById('mobDrawer');
-  var mobDrawerInner = document.getElementById('mobDrawerInner');
-  var mobRingFill = document.getElementById('mobRingFill');
-  var mobRingPct  = document.getElementById('mobRingPct');
-  var mobOptDark  = document.getElementById('mobOptDark');
-  var mobOptLight = document.getElementById('mobOptLight');
-  var mobCurrent  = document.getElementById('mobCurrent');
-  var mobTotal    = document.getElementById('mobTotal');
-
-  if(!mobPill || !mobBurger || !mobDrawer) return;
-
-  var MOB_CIRC = 2 * Math.PI * 21;
-  var scrollTimer = null, drawerOpen = false, pillShown = false;
-
-  // Show pill after 500ms
-  setTimeout(function(){ mobPill.classList.add('mob-visible'); pillShown = true; }, 500);
-
-  // Track horizontal scroll for ring
-  var container = document.getElementById('scrollContainer');
-  if(container){
-    container.addEventListener('scroll', function(){
-      var pct = container.scrollWidth > container.clientWidth
-        ? container.scrollLeft / (container.scrollWidth - container.clientWidth) : 0;
-      if(mobRingFill) mobRingFill.style.strokeDashoffset = MOB_CIRC * (1 - pct);
-      if(mobRingPct)  mobRingPct.textContent = Math.round(pct * 100) + '%';
-    }, {passive:true});
+  /* hint mobile/desktop label */
+  var isMob = window.innerWidth <= 640;
+  if(isMob){
+    var hd = hintEl.querySelector('.hint-d');
+    var hm = hintEl.querySelector('.hint-m');
+    if(hd) hd.style.display='none';
+    if(hm) hm.style.display='inline';
+    /* hide hint after 4s on mobile */
+    setTimeout(function(){ hintEl.classList.add('hidden'); }, 4000);
   }
 
-  // Pill shrink on any scroll
-  window.addEventListener('scroll', function(){
-    var scrollY = window.scrollY || document.documentElement.scrollTop;
-    if(scrollY > 40){
-      if(!pillShown){ mobPill.classList.add('mob-visible'); pillShown = true; }
-      mobPill.classList.add('mob-scrolling');
-    } else { mobPill.classList.remove('mob-scrolling'); }
-    clearTimeout(scrollTimer);
-    scrollTimer = setTimeout(function(){ mobPill.classList.remove('mob-scrolling'); }, 500);
+  function setCounter(i, total){
+    var c = document.getElementById('mobCur');
+    var t = document.getElementById('mobTot');
+    if(c) c.textContent = String(i+1).padStart(2,'0');
+    if(t) t.textContent = String(total).padStart(2,'0');
+  }
+
+  function buildDots(){
+    dotsEl.innerHTML = '';
+    visible.forEach(function(p,i){
+      var d = document.createElement('button');
+      d.className = 'dot' + (i===0?' active':'');
+      var ti = p.querySelector('.p-title');
+      d.setAttribute('aria-label', 'Go to ' + (ti?ti.textContent:i+1));
+      d.addEventListener('click', function(){ goTo(i); });
+      dotsEl.appendChild(d);
+    });
+  }
+
+  function updateDots(i){
+    Array.from(dotsEl.querySelectorAll('.dot')).forEach(function(d,j){
+      d.classList.toggle('active', j===i);
+    });
+  }
+
+  function goTo(i){
+    if(!visible[i]) return;
+    visible[i].scrollIntoView({behavior:'smooth',block:'nearest',inline:'start'});
+  }
+
+  function updateBg(i){
+    if(!visible[i]) return;
+    var col = isDark ? visible[i].getAttribute('data-dark') : visible[i].getAttribute('data-color');
+    document.body.style.background = col;
+  }
+
+  function activate(i){
+    cur = i;
+    allPanels.forEach(function(p){ p.classList.remove('active'); });
+    if(visible[i]) visible[i].classList.add('active');
+    updateDots(i);
+    updateBg(i);
+    setCounter(i, visible.length);
+  }
+
+  /* scroll listener */
+  sw.addEventListener('scroll', function(){
+    var idx = Math.round(sw.scrollLeft / sw.clientWidth);
+    if(idx !== cur) activate(idx);
+    /* hide hint on first swipe */
+    if(sw.scrollLeft > 20) hintEl.classList.add('hidden');
   }, {passive:true});
 
-  function openDrawer(){
-    drawerOpen = true;
-    mobDrawer.style.pointerEvents = 'all';
-    requestAnimationFrame(function(){ requestAnimationFrame(function(){
-      if(mobDrawerInner) mobDrawerInner.style.opacity = '1';
-    });});
-    mobBurger.classList.add('is-open');
-    mobBurger.setAttribute('aria-expanded','true');
-  }
-  function closeDrawer(){
-    drawerOpen = false;
-    if(mobDrawerInner) mobDrawerInner.style.opacity = '0';
-    mobBurger.classList.remove('is-open');
-    mobBurger.setAttribute('aria-expanded','false');
-    setTimeout(function(){ mobDrawer.style.pointerEvents = 'none'; }, 300);
-    mobBurger.focus();
-  }
-
-  mobBurger.addEventListener('click', function(){ drawerOpen ? closeDrawer() : openDrawer(); });
-  if(mobBurgerClose) mobBurgerClose.addEventListener('click', closeDrawer);
-  document.addEventListener('keydown', function(e){ if(e.key==='Escape' && drawerOpen) closeDrawer(); });
-  mobDrawer.querySelectorAll('a').forEach(function(l){ l.addEventListener('click', closeDrawer); });
-
-  // Theme toggle — clicks desktop button to trigger existing isDark/updateBg
-  function applyMobTheme(goDark){
-    var themeBtn = document.getElementById('themeToggle');
-    var isDarkNow = document.body.classList.contains('dark');
-    if((goDark && !isDarkNow) || (!goDark && isDarkNow)){
-      if(themeBtn) themeBtn.click();
+  /* filter */
+  function applyFilter(f){
+    visible = allPanels.filter(function(p){
+      if(f==='all') return true;
+      var tags = p.getAttribute('data-tags') || '';
+      return tags.split(',').indexOf(f) !== -1;
+    });
+    allPanels.forEach(function(p){ p.classList.toggle('hidden', visible.indexOf(p)===-1); });
+    if(visible.length===0){
+      emptyEl.classList.add('show');
+      dotsEl.innerHTML='';
+      setCounter(0,0);
+    } else {
+      emptyEl.classList.remove('show');
+      buildDots();
+      sw.scrollLeft = 0;
+      activate(0);
     }
-    mobOptDark.classList.toggle('active', goDark);
-    mobOptLight.classList.toggle('active', !goDark);
-    mobOptDark.setAttribute('aria-pressed', String(goDark));
-    mobOptLight.setAttribute('aria-pressed', String(!goDark));
   }
 
-  // Init state
-  var isDarkNow = document.body.classList.contains('dark');
-  mobOptDark.classList.toggle('active', isDarkNow);
-  mobOptLight.classList.toggle('active', !isDarkNow);
-
-  document.getElementById('mobThemeToggle').addEventListener('click', function(e){
-    var isDarkNow = document.body.classList.contains('dark');
-    if(e.target.id === 'mobOptDark' && !isDarkNow) applyMobTheme(true);
-    else if(e.target.id === 'mobOptLight' && isDarkNow) applyMobTheme(false);
+  document.querySelectorAll('.f-btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('.f-btn').forEach(function(x){
+        x.classList.remove('active');
+        x.setAttribute('aria-pressed','false');
+      });
+      b.classList.add('active');
+      b.setAttribute('aria-pressed','true');
+      applyFilter(b.getAttribute('data-f'));
+    });
   });
 
-  // Sync with desktop toggle
-  var themeBtn = document.getElementById('themeToggle');
-  if(themeBtn){
-    themeBtn.addEventListener('click', function(){
-      var isDarkNow = document.body.classList.contains('dark');
-      mobOptDark.classList.toggle('active', isDarkNow);
-      mobOptLight.classList.toggle('active', !isDarkNow);
-    });
+  /* theme */
+  var themeBtn = document.getElementById('themeBtn');
+  function applyTheme(dark){
+    isDark = dark;
+    document.body.classList.toggle('dark', dark);
+    if(themeBtn) themeBtn.textContent = dark ? '☀️' : '🌙';
+    updateBg(cur);
+    /* sync mobile toggle */
+    var od = document.getElementById('optDark');
+    var ol = document.getElementById('optLight');
+    if(od) od.classList.toggle('active', !dark);
+    if(ol) ol.classList.toggle('active', dark);
   }
+  if(themeBtn) themeBtn.addEventListener('click', function(){ applyTheme(!isDark); });
+
+  /* wheel → horizontal */
+  sw.addEventListener('wheel', function(e){
+    if(window.innerWidth <= 640) return;
+    e.preventDefault();
+    goTo(e.deltaY > 0 ? cur+1 : cur-1);
+  }, {passive:false});
+
+  /* keyboard */
+  document.addEventListener('keydown', function(e){
+    if(e.key==='ArrowRight') goTo(cur+1);
+    if(e.key==='ArrowLeft') goTo(cur-1);
+  });
+
+  /* MOBILE NAV */
+  var pill = document.getElementById('mobPill');
+  var burger = document.getElementById('mobBurger');
+  var drawer = document.getElementById('mobDrawer');
+  var optDark = document.getElementById('optDark');
+  var optLight = document.getElementById('optLight');
+
+  if(burger && drawer){
+    burger.addEventListener('click', function(){
+      var isOpen = drawer.classList.contains('open');
+      if(isOpen){
+        drawer.classList.remove('open');
+        burger.classList.remove('open');
+      } else {
+        drawer.classList.add('open');
+        burger.classList.add('open');
+      }
+    });
+    drawer.querySelectorAll('.drw-link').forEach(function(l){
+      l.addEventListener('click', function(){
+        drawer.classList.remove('open');
+        burger.classList.remove('open');
+      });
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key==='Escape'){
+        drawer.classList.remove('open');
+        burger.classList.remove('open');
+      }
+    });
+    if(optDark) optDark.addEventListener('click', function(){ applyTheme(false); });
+    if(optLight) optLight.addEventListener('click', function(){ applyTheme(true); });
+  }
+
+  /* init */
+  buildDots();
+  activate(0);
+
 })();
-}); // DOMContentLoaded
-
-<!-- MOBILE PILL NAV -->
-<nav class="mob-pill" id="mobPill" role="navigation" aria-label="Mobile navigation">
-  <div class="mob-pill__name" aria-hidden="true">Daiwat Thavai</div>
-  <div class="mob-pill__right">
-    <div class="mob-pill__ring" aria-hidden="true">
-      <svg viewBox="0 0 54 54">
-        <circle class="r-track" cx="27" cy="27" r="21"/>
-        <circle class="r-fill" id="mobRingFill" cx="27" cy="27" r="21"/>
-      </svg>
-      <div class="r-pct" id="mobRingPct">0%</div>
-    </div>
-    <button class="mob-pill__burger" id="mobBurger" aria-label="Open menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
-
-<div class="mob-counter" id="mobCounter"><span id="mobCurrent">01</span> / <span id="mobTotal">10</span></div>
-
-<div class="mob-drawer" id="mobDrawer">
-  <div class="mob-drawer__inner" id="mobDrawerInner">
-    <div class="mob-drawer__close">
-      <span class="mob-drawer__close-name">Daiwat Thavai</span>
-      <button class="mob-drawer__close-btn" id="mobBurgerClose" aria-label="Close menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-    <a href="../Work/index.html" class="mob-drawer__link">Work</a>
-    <a href="../AboutMe/index.html" class="mob-drawer__link">About</a>
-    <a href="#" class="mob-drawer__link">Resume</a>
-    <a href="../DaveAI/index.html" class="mob-drawer__link">Dave AI ✦</a>
-    <div class="mob-drawer__divider" aria-hidden="true"></div>
-    <div class="mob-drawer__theme">
-      <div class="mob-theme-toggle" id="mobThemeToggle" role="group" aria-label="Theme toggle">
-        <button class="mob-theme-toggle__opt active" id="mobOptDark" aria-pressed="true">Dark</button>
-        <button class="mob-theme-toggle__opt" id="mobOptLight" aria-pressed="false">Light</button>
-      </div>
-    </div>
-  </div>
-</div>
+</script>
 </body>
 </html>
