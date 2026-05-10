@@ -113,7 +113,7 @@
   }
   .nav-pill:hover .nav-pill__links{opacity:1;pointer-events:all;transition-delay:.1s;}
   .nav-pill__link{
-    font-size:14px;font-weight:400;color:rgba(255,255,255,.6);
+    font-size:14px;font-weight:400;color:rgba(255,255,255,0.65);
     text-decoration:none;padding:8px 16px;border-radius:999px;
     transition:background .2s,color .2s,font-weight .15s,transform .1s;white-space:nowrap;
   }
@@ -297,7 +297,7 @@
       display:flex;flex-direction:column;justify-content:center;
       padding:100px 0 max(40px, env(safe-area-inset-bottom)) 0;
       transform:translateY(100%);
-      transition:transform .4s cubic-bezier(.32,1,.42,1);
+      transition:transform .4s cubic-bezier(.32,1,.42,1),background .4s;
     }
     .mob-drawer.is-open{transform:translateY(0);}
     /* hide handle — full screen doesn't need it */
@@ -313,6 +313,8 @@
       transition:opacity .18s,transform .12s;
     }
     .mob-drawer__link:active{opacity:0.6;transform:scale(0.98);}
+    body.light .mob-drawer__link{color:#111;}
+    body.light .mob-drawer{background:var(--bg);}
     body.light .mob-drawer__link:active{opacity:0.5;}
 
     .mob-drawer__divider{height:1px;background:var(--line);margin:20px 40px;}
@@ -327,7 +329,9 @@
       border:1px solid var(--line);border-radius:999px;
       padding:4px;gap:4px;cursor:pointer;
     }
-    body.light .mob-theme-toggle{background:rgba(0,0,0,0.05);}
+    body.light .mob-theme-toggle{background:rgba(0,0,0,0.05);border-color:rgba(0,0,0,0.12);}
+    body.light .mob-theme-toggle__opt{color:#222;}
+    body.light .mob-theme-toggle__opt.active{background:var(--accent);color:#fff;}
     .mob-theme-toggle__opt{
       padding:8px 20px;border-radius:999px;
       font-size:13px;font-weight:500;color:var(--sub);
@@ -648,10 +652,10 @@
       <div><div class="dn-num"><em>100</em>%</div><div class="dn-label">Critical Path Resolution for Jefferson students.</div></div>
     </div>
     <div style="margin-top:40px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-      <img src="Assets/Meeting1.png" class="lb-trigger" alt="TJU meeting" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;">
-      <img src="Assets/Meeting2.png" class="lb-trigger" alt="Presenting at TJU" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;">
-      <img src="Assets/Meeting3.png" class="lb-trigger" alt="TJU presentation" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;">
-      <img src="Assets/Meeting4.png" class="lb-trigger" alt="With TJU director" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;">
+      <img src="../global-bridge/Assets/Meeting1.png" class="lb-trigger" alt="TJU meeting" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;">
+      <img src="../global-bridge/Assets/Meeting2.png" class="lb-trigger" alt="Presenting at TJU" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;">
+      <img src="../global-bridge/Assets/Meeting3.png" class="lb-trigger" alt="TJU presentation" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;">
+      <img src="../global-bridge/Assets/Meeting4.png" class="lb-trigger" alt="With TJU director" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;">
     </div>
   </div>
 </section>
@@ -662,8 +666,8 @@
     <h2>From wireframe to final design.</h2>
     <p>Every screen went through at least 3 iterations.</p>
     <div style="margin-top:40px;">
-      <img src="Assets/screens-dark.png" alt="Final UI screens" class="screens-img--dark lb-trigger">
-      <img src="Assets/screens-light.png" alt="Final UI screens" class="screens-img--light lb-trigger">
+      <img src="../global-bridge/Assets/screens-dark.png" alt="Final UI screens" class="screens-img--dark lb-trigger">
+      <img src="../global-bridge/Assets/screens-light.png" alt="Final UI screens" class="screens-img--light lb-trigger">
     </div>
   </div>
 </section>
@@ -914,8 +918,8 @@ document.addEventListener('DOMContentLoaded', function(){
   <div class="mob-drawer__divider" aria-hidden="true"></div>
   <div class="mob-drawer__theme">
     <div class="mob-theme-toggle" id="mobThemeToggle" role="group" aria-label="Theme toggle">
-      <div class="mob-theme-toggle__opt" id="mobOptDark" aria-pressed="true">Dark</div>
-      <div class="mob-theme-toggle__opt active" id="mobOptLight" aria-pressed="false">Light</div>
+      <div class="mob-theme-toggle__opt active" id="mobOptDark" aria-pressed="true">Dark</div>
+      <div class="mob-theme-toggle__opt" id="mobOptLight" aria-pressed="false">Light</div>
     </div>
   </div>
 </div>
