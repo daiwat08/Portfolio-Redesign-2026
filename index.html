@@ -536,7 +536,7 @@
     .mob-pill__burger.is-open span:nth-child(2){opacity:0;transform:scaleX(0);}
     .mob-pill__burger.is-open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
     .mob-drawer-overlay{display:none !important;}
-    .mob-drawer{position:fixed;inset:0;z-index:99998;background:#0f0f0f;display:flex;flex-direction:column;justify-content:center;padding:96px 0 max(40px,env(safe-area-inset-bottom)) 0;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,1,.42,1),background .4s;}
+    .mob-drawer{position:fixed;inset:0;z-index:99998;background:#0f0f0f;display:flex;flex-direction:column;justify-content:center;padding:100px 0 max(40px,env(safe-area-inset-bottom)) 0;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,1,.42,1),background .4s;}
     .mob-drawer.is-open{transform:translateY(0);}
     .mob-drawer__handle{display:none;}
     .mob-drawer__link{display:flex;align-items:center;padding:20px 40px;font-size:36px;font-family:'Instrument Serif',serif;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-.03em;min-height:72px;transition:opacity .18s,transform .12s,color .4s;}
@@ -585,8 +585,8 @@
 <header class="nav-top" id="navTop">
   <a href="#" class="nav-top__logo">Daiwat Thavai</a>
   <nav class="nav-top__links">
-    <a href="#" class="nav-top__link">Work</a>
-    <a href="#" class="nav-top__link">About</a>
+    <a href="Work/index.html" class="nav-top__link">Work</a>
+    <a href="AboutMe/index.html" class="nav-top__link">About</a>
     <a href="ThavaiDaiwat.pdf" class="nav-top__link js-resume-link">Resume</a>
   </nav>
   <div style="display:flex; align-items:center; gap:8px;">
@@ -594,7 +594,7 @@
     <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
-    <a href="#" class="nav-top__cta" id="navCta">Dave AI ✦</a>
+    <a href="DaveAI/index.html" class="nav-top__cta" id="navCta">Dave AI ✦</a>
   </div>
 </header>
 
@@ -615,8 +615,8 @@
     </svg>
   </div>
   <div class="nav-pill__links">
-    <a href="#" class="nav-pill__link">Work</a>
-    <a href="#" class="nav-pill__link">About</a>
+    <a href="Work/index.html" class="nav-pill__link">Work</a>
+    <a href="AboutMe/index.html" class="nav-pill__link">About</a>
     <a href="ThavaiDaiwat.pdf" class="nav-pill__link js-resume-link">Resume</a>
   </div>
   <div class="nav-pill__theme">
@@ -949,9 +949,10 @@
 <div class="mob-drawer" id="mobDrawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
   <div class="mob-drawer__handle" aria-hidden="true"></div>
   <a href="#" class="mob-drawer__link">Home</a>
-  <a href="../Work/index.html" class="mob-drawer__link">Work</a>
-  <a href="../AboutMe/index.html" class="mob-drawer__link">About</a>
+  <a href="Work/index.html" class="mob-drawer__link">Work</a>
+  <a href="AboutMe/index.html" class="mob-drawer__link">About</a>
   <a href="ThavaiDaiwat.pdf" class="mob-drawer__link js-resume-link">Resume</a>
+  <a href="DaveAI/index.html" class="mob-drawer__link">Dave AI ✦</a>
   <div class="mob-drawer__divider" aria-hidden="true"></div>
   <div class="mob-drawer__theme">
     <div class="mob-theme-toggle" id="mobThemeToggle" role="group" aria-label="Theme toggle">
