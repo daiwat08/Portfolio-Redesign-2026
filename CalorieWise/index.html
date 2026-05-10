@@ -371,7 +371,7 @@
 
   @media(max-width:768px){
     /* Typography */
-    h1{font-size:32px;line-height:1.1;}
+    
     h2{font-size:22px;}
 
     /* Sections */
@@ -444,7 +444,7 @@
   }
 
   @media(max-width:480px){
-    h1{font-size:28px;}
+    h1{font-size:clamp(28px,7vw,48px);}
     h2{font-size:20px;}
     .steps{grid-template-columns:1fr;}
     .stats-row{grid-template-columns:1fr;}
@@ -462,11 +462,11 @@
 
 <!-- TOP NAV -->
 <header class="nav-top nav-dark" id="navTop">
-  <a href="../index.html" class="nav-top__logo">Portfolio</a>
+  <a href="../index.html" class="nav-top__logo">Daiwat Thavai</a>
   <nav class="nav-top__links">
     <a href="../index.html" class="nav-top__link">Home</a>
-    <a href="../index.html" class="nav-top__link">Work</a>
-    <a href="#" class="nav-top__link">About</a>
+    <a href="../Work/index.html" class="nav-top__link">Work</a>
+    <a href="../AboutMe/index.html" class="nav-top__link">About</a>
     <a href="#" class="nav-top__link">Resume</a>
   </nav>
   <div class="nav-top__right">
@@ -485,8 +485,8 @@
   </div>
   <div class="nav-pill__links">
     <a href="../index.html" class="nav-pill__link">Home</a>
-    <a href="../index.html" class="nav-pill__link">Work</a>
-    <a href="#" class="nav-pill__link">About</a>
+    <a href="../Work/index.html" class="nav-pill__link">Work</a>
+    <a href="../AboutMe/index.html" class="nav-pill__link">About</a>
     <a href="#" class="nav-pill__link">Resume</a>
   </div>
   <div class="nav-pill__theme">
