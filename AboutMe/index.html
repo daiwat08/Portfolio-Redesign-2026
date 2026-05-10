@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Daiwat Thavai — About</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<!-- SND UI sound library (SND01 sine kit) -->
+<script src="https://cdn.jsdelivr.net/gh/snd-lib/snd-lib@v1.2.4/dist/browser/snd.js?kit=01"></script>
 <style>
   :root {
     --bg:#0a0a0a; --surface:#141414;
@@ -105,18 +107,18 @@
     .mob-pill__burger.is-open span:nth-child(2){opacity:0;transform:scaleX(0);}
     .mob-pill__burger.is-open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
     .mob-drawer-overlay{display:none !important;}
-    .mob-drawer{position:fixed;inset:0;z-index:99999;background:var(--bg);display:flex;flex-direction:column;justify-content:center;padding:0 0 max(40px,env(safe-area-inset-bottom)) 0;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,1,.42,1),background .4s;width:100%;height:100%;top:0;left:0;}
+    .mob-drawer{position:fixed;inset:0;z-index:99999;background:#0a0a0a;display:flex;flex-direction:column;justify-content:center;padding:0 0 max(40px,env(safe-area-inset-bottom)) 0;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,1,.42,1),background .4s;width:100%;height:100%;top:0;left:0;}
     .mob-drawer.is-open{transform:translateY(0);}
     .mob-drawer__handle{display:none;}
-    .mob-drawer__link{display:flex;align-items:center;padding:20px 40px;font-size:36px;font-family:'Instrument Serif',serif;font-weight:400;color:var(--white);text-decoration:none;letter-spacing:-.03em;min-height:72px;transition:opacity .18s,transform .12s;}
+    .mob-drawer__link{display:flex;align-items:center;padding:20px 40px;font-size:36px;font-family:'Instrument Serif',serif;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-.03em;min-height:72px;transition:opacity .18s,transform .12s;}
     .mob-drawer__link:active{opacity:0.6;transform:scale(0.98);}
     body.light .mob-drawer__link:active{opacity:0.5;}
-    .mob-drawer__divider{height:1px;background:var(--line);margin:20px 40px;}
+    .mob-drawer__divider{height:1px;background:rgba(255,255,255,0.1);margin:20px 40px;}
     .mob-drawer__theme{display:flex;align-items:center;justify-content:flex-start;padding:20px 40px;min-height:64px;}
     .mob-theme-toggle{display:flex;align-items:center;background:#1a1a1a;border:1px solid rgba(255,255,255,0.12);border-radius:999px;padding:4px;gap:4px;cursor:pointer;}
     
-    .mob-theme-toggle__opt{padding:8px 20px;border-radius:999px;font-size:13px;font-weight:500;color:rgba(255,255,255,0.4);transition:background .2s,color .2s;min-height:36px;display:flex;align-items:center;background:none;border:none;cursor:pointer;font-family:inherit;}
-    .mob-theme-toggle__opt.active{background:var(--accent);color:#fff;font-weight:600;}
+    .mob-theme-toggle__opt{padding:8px 20px;border-radius:999px;font-size:13px;font-weight:500;color:rgba(255,255,255,0.5);transition:background .2s,color .2s;min-height:36px;display:flex;align-items:center;background:none;border:none;cursor:pointer;font-family:inherit;}
+    .mob-theme-toggle__opt.active{background:#fff;color:#111;font-weight:600;}
     .hero-split{grid-template-columns:1fr;}
     .expertise-grid{grid-template-columns:1fr;}
     .stats-row{grid-template-columns:1fr 1fr;}
@@ -359,7 +361,7 @@
     <a href="../index.html" class="nav-top__link">Home</a>
     <a href="../Work/index.html" class="nav-top__link">Work</a>
     <a href="../AboutMe/index.html" class="nav-top__link">About</a>
-    <a href="#" class="nav-top__link">Resume</a>
+    <a href="ThavaiDaiwat.pdf" class="nav-top__link js-resume-link">Resume</a>
   </nav>
   <div class="nav-top__right">
     <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">🌙</button>
@@ -373,7 +375,7 @@
     <a href="../index.html" class="nav-pill__link">Home</a>
     <a href="../Work/index.html" class="nav-pill__link">Work</a>
     <a href="../AboutMe/index.html" class="nav-pill__link">About</a>
-    <a href="#" class="nav-pill__link">Resume</a>
+    <a href="ThavaiDaiwat.pdf" class="nav-pill__link js-resume-link">Resume</a>
   </div>
   <div class="nav-pill__theme"><button class="theme-btn" id="themeTogglePill" aria-label="Toggle theme">🌙</button></div>
   <div class="nav-pill__ring">
@@ -393,7 +395,7 @@
 
     <!-- Photo AFTER headline, BEFORE body text -->
     <div class="hero-img-wrap">
-      <img src="assets/photo.jpg" alt="Daiwat Thavai" class="hero-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <img src="AboutMe/assets/Photo" alt="Daiwat Thavai" class="hero-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
       <div class="hero-img-placeholder" style="display:none;">Add assets/photo.jpg</div>
       <div class="hero-caption">Philadelphia, PA · 2026</div>
     </div>
@@ -428,19 +430,19 @@
     <p class="reveal d1">These aren't stock photos. This is what it actually looks like when design gets approved — six executive directors at Thomas Jefferson University, unanimous.</p>
     <div class="photo-grid reveal d2">
       <div class="photo-cell">
-        <img src="assets/Meeting1.png" alt="Presenting Global Bridge at TJU" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <img src="AboutMe/assets/1.png" alt="Presenting Global Bridge at TJU" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="photo-cell-placeholder" style="display:none;">Meeting 1</div>
       </div>
       <div class="photo-cell">
-        <img src="assets/Meeting2.png" alt="With TJU executive directors" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <img src="AboutMe/assets/2.png" alt="With TJU executive directors" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="photo-cell-placeholder" style="display:none;">Meeting 2</div>
       </div>
       <div class="photo-cell">
-        <img src="assets/Meeting3.png" alt="Research session" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <img src="AboutMe/assets/3.png" alt="Research session" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="photo-cell-placeholder" style="display:none;">Meeting 3</div>
       </div>
       <div class="photo-cell">
-        <img src="assets/Meeting4.png" alt="With team at TJU" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <img src="AboutMe/assets/4.png" alt="With team at TJU" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="photo-cell-placeholder" style="display:none;">Meeting 4</div>
       </div>
     </div>
@@ -713,7 +715,7 @@ document.addEventListener('DOMContentLoaded', function(){
     if(pt)pt.textContent=goLight?'☀️':'🌙';
   }
   applyMobTheme(false);
-  document.getElementById('mobThemeToggle').addEventListener('click',function(){applyMobTheme(!document.body.classList.contains('light'));});
+  document.getElementById('mobThemeToggle').addEventListener('click',function(e){if(e.target.id==='mobOptLight')applyMobTheme(true);else if(e.target.id==='mobOptDark')applyMobTheme(false);});
 })();
 }); // DOMContentLoaded
 </script>
@@ -743,7 +745,7 @@ document.addEventListener('DOMContentLoaded', function(){
   <div class="mob-drawer__handle" aria-hidden="true"></div>
   <a href="../Work/index.html" class="mob-drawer__link">Work</a>
   <a href="../AboutMe/index.html" class="mob-drawer__link">About</a>
-  <a href="#" class="mob-drawer__link">Resume</a>
+  <a href="ThavaiDaiwat.pdf" class="mob-drawer__link js-resume-link">Resume</a>
   <a href="../DaveAI/index.html" class="mob-drawer__link">Dave AI ✦</a>
   <div class="mob-drawer__divider" aria-hidden="true"></div>
   <div class="mob-drawer__theme">
@@ -754,5 +756,146 @@ document.addEventListener('DOMContentLoaded', function(){
   </div>
 </div>
 
+<!-- ── RESUME LIGHTBOX ── -->
+<style>
+  .resume-lightbox {
+    position: fixed; inset: 0; z-index: 10001;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
+    opacity: 0; pointer-events: none;
+    transition: opacity .35s cubic-bezier(0.22,1,0.36,1);
+    padding: 40px 24px;
+  }
+  .resume-lightbox.is-open { opacity: 1; pointer-events: all; }
+  .resume-lightbox__inner {
+    position: relative;
+    width: 100%; max-width: 900px; height: 100%; max-height: 92vh;
+    background: #fff; border-radius: 16px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.45); overflow: hidden;
+    transform: translateY(20px) scale(0.98);
+    transition: transform .4s cubic-bezier(0.22,1,0.36,1);
+  }
+  .resume-lightbox.is-open .resume-lightbox__inner { transform: translateY(0) scale(1); }
+  .resume-lightbox__close {
+    position: absolute; top: 14px; right: 14px; z-index: 2;
+    width: 38px; height: 38px; border-radius: 50%;
+    background: rgba(15,15,15,0.85); backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #fff; font-size: 18px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform .2s, background .2s;
+  }
+  .resume-lightbox__close:hover { transform: scale(1.08); background: rgba(15,15,15,0.95); }
+  .resume-lightbox__frame { width: 100%; height: 100%; border: 0; display: block; }
+  body.resume-open { overflow: hidden; }
+  @media (max-width: 768px) {
+    .resume-lightbox { padding: 16px 12px; }
+    .resume-lightbox__inner { max-height: 96vh; border-radius: 12px; }
+  }
+</style>
+
+<div class="resume-lightbox" id="resumeLightbox" role="dialog" aria-modal="true" aria-label="Resume preview" aria-hidden="true">
+  <div class="resume-lightbox__inner">
+    <button class="resume-lightbox__close" id="resumeLightboxClose" aria-label="Close resume">✕</button>
+    <iframe class="resume-lightbox__frame" id="resumeLightboxFrame" title="Daiwat Thavai Resume" src="about:blank"></iframe>
+  </div>
+</div>
+
+<script>
+(function () {
+  var lightbox = document.getElementById('resumeLightbox');
+  var frame    = document.getElementById('resumeLightboxFrame');
+  var closeBtn = document.getElementById('resumeLightboxClose');
+  var triggers = document.querySelectorAll('.js-resume-link');
+  var pdfUrl   = 'ThavaiDaiwat.pdf';
+  var lastFocus = null;
+
+  function openLightbox(e) {
+    if (e) e.preventDefault();
+    lastFocus = document.activeElement;
+    if (!frame.src.endsWith(pdfUrl)) frame.src = pdfUrl + '#view=FitH';
+    lightbox.classList.add('is-open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('resume-open');
+    setTimeout(function () { closeBtn.focus(); }, 100);
+  }
+  function closeLightbox() {
+    lightbox.classList.remove('is-open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('resume-open');
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  triggers.forEach(function (el) { el.addEventListener('click', openLightbox); });
+  closeBtn.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', function (e) { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && lightbox.classList.contains('is-open')) closeLightbox();
+  });
+})();
+</script>
+
+<!-- ── SOUND + HAPTICS ── -->
+<script>
+(function () {
+  function init() {
+    if (typeof Snd === 'undefined') return setTimeout(init, 100);
+
+    var snd = new Snd({ preloadSoundKit: Snd.KITS.SND01 });
+    Snd.masterVolume = 0.15;
+
+    document.querySelectorAll('a, button').forEach(function (el) {
+      el.classList.add('snd__button');
+    });
+
+    [
+      document.getElementById('themeToggle'),
+      document.getElementById('themeTogglePill')
+    ].forEach(function (el) {
+      if (!el) return;
+      el.classList.remove('snd__button');
+      el.addEventListener('click', function () {
+        var isDarkNow = document.body.classList.contains('dark');
+        isDarkNow ? snd.playToggleOff() : snd.playToggleOn();
+        if (navigator.vibrate) navigator.vibrate(isDarkNow ? 15 : [10, 30, 10]);
+      });
+    });
+
+    var mobOptDark  = document.getElementById('mobOptDark');
+    var mobOptLight = document.getElementById('mobOptLight');
+    if (mobOptDark) {
+      mobOptDark.addEventListener('click', function () {
+        if (!document.body.classList.contains('dark')) {
+          snd.playToggleOn();
+          if (navigator.vibrate) navigator.vibrate([10, 30, 10]);
+        }
+      });
+    }
+    if (mobOptLight) {
+      mobOptLight.addEventListener('click', function () {
+        if (document.body.classList.contains('dark')) {
+          snd.playToggleOff();
+          if (navigator.vibrate) navigator.vibrate(15);
+        }
+      });
+    }
+
+    var isTouch = window.matchMedia('(hover: none)').matches;
+    if (!isTouch) {
+      document.querySelectorAll('a, button').forEach(function (el) {
+        el.addEventListener('mouseenter', function () { snd.playTap(); });
+      });
+    }
+
+    document.querySelectorAll('a, button').forEach(function (el) {
+      el.addEventListener('click', function () {
+        if (navigator.vibrate) navigator.vibrate(10);
+      });
+    });
+  }
+
+  init();
+})();
+</script>
 </body>
 </html>
