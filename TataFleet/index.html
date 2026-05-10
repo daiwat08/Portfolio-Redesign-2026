@@ -3,833 +3,964 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TATA Fleet Edge — Case Study</title>
+<title>Richie AI — Case Study</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<!-- SND UI sound library (SND01 sine kit) -->
+<script src="https://cdn.jsdelivr.net/gh/snd-lib/snd-lib@v1.2.4/dist/browser/snd.js?kit=01"></script>
 <style>
-/* ── WCAG AUDIT NOTES ──────────────────────────────
-   --text  / --bg      : 12.79  AAA ✅
-   --white / --bg      : 15.66  AAA ✅
-   --sub   / --bg      :  6.36  AA  ✅
-   --sub   / --surface :  5.67  AA  ✅
-   --accent-text / --bg:  7.47  AAA ✅  (text labels)
-   --accent-text / surf:  6.66  AA  ✅
-   white / --accent    :  4.91  AA  ✅  (CTA buttons)
-   --warm / --bg       :  8.36  AAA ✅
-   Tag dots / decorative borders: UI chrome → AA-Large (3:1) applies
-──────────────────────────────────────────────────── */
-:root {
-  --bg:#3a0700;        /* dark red bg — from screenshot */
-  --surface:#4d0a00;   /* slightly lighter card surface */
-  --line:rgba(255,200,180,0.1);
-  --accent:#c0392b;    /* button accent — white on this = 4.91 AA ✅ */
-  --accent-text:#ff8878; /* text/label accent — 7.47 AAA on bg ✅ */
-  --warm:#F4A24B;      /* warm amber — 8.36 AAA ✅ */
-  --text:#f0d8d4;      /* warm off-white — 12.79 AAA ✅ */
-  --sub:#c4908a;       /* muted rose — 6.36 AA ✅ */
-  --white:#fff0ee;     /* headings — 15.66 AAA ✅ */
-  --t-xs:12px; --t-sm:14px; --t-base:16px;
-  --t-md:18px; --t-lg:22px; --t-xl:28px; --t-2xl:48px;
-  --max:760px; --wide:1080px;
-}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--text);font-family:'Geist',sans-serif;font-weight:300;font-size:var(--t-base);line-height:1.75;-webkit-font-smoothing:antialiased;}
+  :root {
+    --bg:      #0e2016;
+    --surface: #132a1c;
+    --line:    rgba(255,255,255,0.07);
+    --accent:  #4ade80;
+    --warm:    #FF6B35;
+    --text:    #e4e4e7;
+    --sub:     #b8b8b8;
+    --white:   #ffffff;
 
-/* ── LIGHT MODE (body.dark pattern from reference) ─── */
-body.light{
-  --bg:#f5ece9;--surface:#ede0dc;
-  --text:#1a0400;--sub:#6b2c1e;--white:#0d0200;
-  --line:rgba(100,20,0,0.1);
-  --accent:#a32520;--accent-text:#8b1a14;
-  --warm:#b5620a;
-}
-body.light .nav-top__cta{color:#fff;}
-body.light .btn-accent{color:#fff;}
-body.light .stat-cell,body.light .step,body.light .ps-card-inner{background:#ede0dc;}
-body.light .ba-screen{background:#ddd0cc;}
+    --t-xs:   12px;
+    --t-sm:   14px;
+    --t-base: 16px;
+    --t-md:   18px;
+    --t-lg:   22px;
+    --t-xl:   28px;
+    --t-2xl:  48px;
 
-/* ══ TOP NAV ══ */
-.nav-top{
-  position:fixed;top:16px;left:50%;
-  transform:translateX(-50%);z-index:9999;
-  display:flex;align-items:center;justify-content:space-between;gap:8px;
-  background:rgba(255,255,255,0.93);
-  backdrop-filter:blur(24px) saturate(180%);
-  border:1px solid rgba(0,0,0,0.08);
-  border-radius:999px;height:64px;
-  width:min(780px,calc(100vw - 48px));
-  padding:0 11px 0 22px;
-  box-shadow:0 2px 20px rgba(0,0,0,0.08);
-  transition:opacity .3s,transform .3s,background .4s,border-color .4s;
-}
-.nav-top.nav-hidden{opacity:0;transform:translateX(-50%) translateY(-10px);pointer-events:none;}
-.nav-top.nav-dark{background:rgba(30,3,0,0.92);border-color:rgba(255,160,130,0.15);box-shadow:0 2px 24px rgba(0,0,0,0.5);}
-.nav-top.nav-dark .nav-top__logo{color:#fff0ee;}
-.nav-top.nav-dark .nav-top__link{color:rgba(240,200,190,0.55);}
-.nav-top.nav-dark .nav-top__link:hover{color:#fff0ee;background:rgba(255,160,130,0.1);}
-.nav-top.nav-dark .nav-top__cta{background:#c0392b;color:#fff;}
-.nav-top.nav-dark .theme-btn{border-color:rgba(255,160,130,0.25);}
-.nav-top__logo{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:-.01em;color:#111;text-decoration:none;white-space:nowrap;flex-shrink:0;transition:color .4s;}
-.nav-top__links{flex:1;display:flex;align-items:center;justify-content:center;}
-.nav-top__link{font-size:14px;color:#777;text-decoration:none;padding:7px 16px;border-radius:999px;transition:background .2s,color .2s;}
-.nav-top__link:hover{color:#111;background:rgba(0,0,0,0.05);}
-.nav-top__right{display:flex;align-items:center;gap:8px;}
-.nav-top__cta{font-size:13px;font-weight:600;color:#fff;text-decoration:none;background:#c0392b;padding:8px 18px;border-radius:999px;flex-shrink:0;transition:background .2s;}
-.nav-top__cta:hover{background:#96241e;}
-.theme-btn{width:34px;height:34px;border-radius:50%;border:1px solid rgba(0,0,0,0.12);background:transparent;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0;}
-.theme-btn:hover{background:rgba(0,0,0,0.05);}
-
-/* ══ PILL NAV — exact structure from Global Bridge index.html ══ */
-.nav-pill{
-  position:fixed;
-  top:16px;left:50%;
-  transform:translateX(-50%) translateY(-10px);
-  z-index:9999;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  background:rgba(15,15,15,0.9);
-  backdrop-filter:blur(24px) saturate(180%);
-  border:1px solid rgba(255,255,255,0.1);
-  border-radius:999px;
-  height:64px;
-  /* collapsed: icon(42) + gap(10) + ring(42) + padding(11+11) = 116px */
-  width:116px;
-  padding:0 11px;
-  box-shadow:0 8px 32px rgba(0,0,0,0.3);
-  opacity:0;pointer-events:none;
-  transition:opacity .3s ease, transform .3s ease,
-             width .45s cubic-bezier(.34,1.2,.64,1);
-}
-.nav-pill.nav-visible{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;}
-.nav-pill:hover{width:min(760px,calc(100vw - 48px));}
-
-/* Icon — always visible LEFT (z-index:2 keeps it above absolute links) */
-.nav-pill__icon{
-  flex-shrink:0;
-  width:42px;height:42px;border-radius:50%;
-  background:rgba(255,255,255,0.1);
-  display:flex;align-items:center;justify-content:center;
-  z-index:2;
-}
-.nav-pill__icon svg{width:16px;height:16px;color:rgba(255,255,255,.8);}
-
-/* Links — ABSOLUTE so they don't affect layout of icon/ring */
-.nav-pill__links{
-  position:absolute;inset:0;
-  display:flex;align-items:center;justify-content:center;
-  white-space:nowrap;
-  opacity:0;pointer-events:none;
-  transition:opacity .2s ease;
-}
-.nav-pill:hover .nav-pill__links{opacity:1;pointer-events:all;transition-delay:.1s;}
-.nav-pill__link{
-  font-size:14px;font-weight:500;color:rgba(255,255,255,.6);
-  text-decoration:none;padding:8px 16px;border-radius:999px;
-  transition:background .2s,color .2s;white-space:nowrap;
-}
-.nav-pill__link:hover{color:white;background:rgba(255,255,255,.1);}
-
-/* Theme toggle — sits between links and ring, absolute, appears on hover */
-.nav-pill__theme{
-  position:absolute;
-  right:63px;
-  opacity:0;pointer-events:none;
-  transition:opacity .2s ease;
-  z-index:3;
-}
-.nav-pill:hover .nav-pill__theme{opacity:1;pointer-events:all;transition-delay:.12s;}
-.nav-pill__theme .theme-btn{
-  border-color:rgba(255,255,255,0.25);
-  font-size:14px;
-}
-.nav-pill__theme .theme-btn:hover{background:rgba(255,255,255,0.1);}
-
-/* Ring — always visible RIGHT (z-index:2 keeps it above absolute links) */
-.nav-pill__ring{
-  flex-shrink:0;position:relative;
-  width:42px;height:42px;z-index:2;
-}
-.nav-pill__ring svg{display:block;width:42px;height:42px;transform:rotate(-90deg);}
-.nav-pill__ring .r-track{fill:none;stroke:rgba(255,255,255,.2);stroke-width:1.8;}
-.nav-pill__ring .r-fill{
-  fill:none;stroke:rgba(255,255,255,.95);stroke-width:1.8;
-  stroke-linecap:round;
-  /* r=17, circumference = 2*π*17 = 106.81 */
-  stroke-dasharray:106.81;stroke-dashoffset:106.81;
-  transition:stroke-dashoffset .1s linear;
-}
-.nav-pill__ring .r-pct{
-  position:absolute;inset:0;
-  display:flex;align-items:center;justify-content:center;
-  font-size:10px;font-weight:700;
-  font-family:'Geist Mono',monospace;
-  color:rgba(255,255,255,.95);letter-spacing:-.02em;line-height:1;
-}
-
-/* Pill on light bg sections */
-.nav-pill.nav-on-dark{background:rgba(255,255,255,.92);border-color:rgba(0,0,0,.1);}
-.nav-pill.nav-on-dark .nav-pill__icon{background:rgba(0,0,0,.08);}
-.nav-pill.nav-on-dark .nav-pill__icon svg{color:rgba(0,0,0,.6);}
-.nav-pill.nav-on-dark .nav-pill__link{color:rgba(0,0,0,.5);}
-.nav-pill.nav-on-dark .nav-pill__link:hover{background:rgba(0,0,0,.07);color:#111;}
-.nav-pill.nav-on-dark .nav-pill__theme .theme-btn{border-color:rgba(0,0,0,0.15);}
-.nav-pill.nav-on-dark .nav-pill__theme .theme-btn:hover{background:rgba(0,0,0,0.06);}
-.nav-pill.nav-on-dark .r-track{stroke:rgba(0,0,0,.15);}
-.nav-pill.nav-on-dark .r-fill{stroke:rgba(0,0,0,.8);}
-.nav-pill.nav-on-dark .r-pct{color:rgba(0,0,0,.7);}
-
-@media(max-width:640px){
-  .nav-top{width:calc(100vw - 32px);padding:0 8px 0 16px;}
-  .nav-top__links{display:none;}
-  .nav-pill:hover{width:calc(100vw - 32px);}
-  .nav-pill__link{padding:8px 10px;font-size:13px;}
-}
-
-/* ══ PAGE LAYOUT ══ */
-.col{max-width:var(--max);margin:0 auto;padding:0 24px;}
-.col-wide{max-width:var(--wide);margin:0 auto;padding:0 24px;}
-.section{padding:96px 0;}
-.section+.section{border-top:1px solid var(--line);}
-.tag{display:inline-flex;align-items:center;gap:8px;font-family:'Geist Mono',monospace;font-size:var(--t-xs);letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);margin-bottom:20px;}
-.tag-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0;}
-h1{font-family:'Instrument Serif',serif;font-size:var(--t-2xl);font-weight:400;line-height:.95;letter-spacing:-.03em;color:var(--white);}
-h2{font-family:'Instrument Serif',serif;font-size:var(--t-xl);font-weight:400;line-height:1.3;letter-spacing:-.3px;color:var(--white);}
-h3{font-size:var(--t-md);font-weight:500;color:var(--white);line-height:1.4;}
-em{font-style:italic;color:var(--accent-text);}
-p{color:var(--sub);margin-top:14px;}
-p:first-child{margin-top:0;}
-
-/* ══ HERO ══ */
-.hero{padding:140px 0 96px;border-bottom:1px solid var(--line);}
-.hero-meta{display:flex;gap:64px;margin-top:56px;padding-top:40px;border-top:1px solid var(--line);flex-wrap:wrap;}
-.meta-item .meta-label{font-family:'Geist Mono',monospace;font-size:var(--t-xs);letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);display:block;margin-bottom:10px;}
-.meta-item span{font-size:24px;color:var(--text);font-weight:400;font-family:'Instrument Serif',serif;}
-
-/* ══ STATS ══ */
-.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:48px;}
-.stat-cell{background:var(--bg);padding:36px 32px;}
-.stat-num{font-family:'Instrument Serif',serif;font-size:48px;color:var(--white);line-height:1;letter-spacing:-1px;}
-.stat-num .accent{color:var(--accent-text);}
-.stat-desc{font-size:var(--t-sm);color:var(--sub);margin-top:8px;max-width:200px;line-height:1.6;}
-
-/* ══ QUOTE ══ */
-.quote-block{border-left:2px solid var(--accent);padding:20px 24px;margin:40px 0;background:rgba(255,77,58,0.07);border-radius:0 8px 8px 0;}
-.quote-text{font-family:'Instrument Serif',serif;font-size:var(--t-lg);font-style:italic;color:var(--white);line-height:1.5;}
-.quote-attr{font-size:var(--t-sm);color:var(--sub);margin-top:12px;}
-
-/* ══ PROCESS STEPS ══ */
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:40px;}
-.step{background:var(--bg);padding:28px 24px;}
-.step-n{font-family:'Geist Mono',monospace;font-size:var(--t-xs);color:var(--accent-text);letter-spacing:1px;margin-bottom:10px;}
-.step-title{font-size:var(--t-sm);font-weight:500;color:var(--white);margin-bottom:6px;}
-.step-body{font-size:var(--t-sm);color:var(--sub);line-height:1.6;}
-
-/* ══ CALLOUT BOX ══ */
-.callout-box{border-left:2px solid var(--warm);padding:20px 24px;margin:32px 0;background:rgba(244,162,75,0.07);border-radius:0 8px 8px 0;}
-.callout-box strong{display:block;color:var(--white);font-weight:500;font-size:var(--t-sm);margin-bottom:6px;}
-.callout-box p{margin-top:0;font-size:var(--t-sm);}
-
-/* ══ OBJECTIVES LIST ══ */
-.obj-list{margin-top:32px;display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;}
-.obj-item{background:var(--bg);padding:18px 24px;display:flex;gap:16px;align-items:flex-start;font-size:var(--t-sm);color:var(--sub);line-height:1.6;transition:background .2s;}
-.obj-item:hover{background:var(--surface);}
-.obj-n{font-family:'Geist Mono',monospace;font-size:var(--t-xs);color:var(--accent-text);letter-spacing:1px;padding-top:2px;flex-shrink:0;}
-
-/* ══ MOODBOARD ══ */
-.mood-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:32px;margin-bottom:48px;}
-.mood-cell{background:var(--surface);border:1px solid var(--line);border-radius:10px;aspect-ratio:4/3;display:flex;align-items:flex-end;padding:14px;position:relative;overflow:hidden;transition:border-color .25s;}
-.mood-cell:hover{border-color:rgba(255,77,58,0.5);}
-.mood-label{font-family:'Geist Mono',monospace;font-size:10px;font-weight:400;letter-spacing:.08em;text-transform:uppercase;background:rgba(30,3,0,.8);color:var(--sub);padding:4px 10px;border-radius:999px;backdrop-filter:blur(4px);}
-/* placeholder gradient fills */
-.mood-cell:nth-child(1){background:linear-gradient(135deg,#5a0c00 0%,#2e0500 100%);}
-.mood-cell:nth-child(2){background:linear-gradient(135deg,#4a0900 0%,#280300 100%);}
-.mood-cell:nth-child(3){background:linear-gradient(135deg,#520a00 0%,#300400 100%);}
-.mood-cell:nth-child(4){background:linear-gradient(135deg,#480800 0%,#240200 100%);}
-
-/* ══ DIRECTION CARDS ══ */
-.direction-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:32px;}
-.dir-card{background:var(--bg);display:flex;flex-direction:column;}
-.dir-card.winner{outline:2px solid var(--accent);outline-offset:-1px;border-radius:12px;}
-.dir-head{padding:20px 24px;border-bottom:1px solid var(--line);}
-.dir-tag{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;display:block;}
-.dir-tag.killed{color:#ff8070;}
-.dir-tag.warned{color:var(--warm);}
-.dir-tag.chosen{color:var(--accent-text);}
-.dir-name{font-size:var(--t-sm);font-weight:500;color:var(--white);}
-.dir-body{padding:20px 24px;flex:1;}
-.dir-desc{font-size:var(--t-sm);color:var(--sub);line-height:1.7;}
-.dir-verdict{font-size:12px;font-weight:500;margin-top:16px;padding-top:16px;border-top:1px solid var(--line);line-height:1.5;}
-.dir-verdict.bad{color:#ff8070;}
-.dir-verdict.good{color:#6ee7a0;}
-
-/* ══ DESIGN STRIP ══ */
-.design-strip{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px 32px;display:flex;align-items:center;gap:32px;margin-bottom:56px;flex-wrap:wrap;}
-.swatches{display:flex;gap:8px;}
-.sw{width:34px;height:34px;border-radius:50%;flex-shrink:0;transition:transform .2s;}
-.sw:hover{transform:scale(1.15);}
-.vdivider{width:1px;height:40px;background:var(--line);flex-shrink:0;}
-.type-demo{display:flex;align-items:baseline;gap:10px;}
-.type-big{font-family:'Instrument Serif',serif;font-size:36px;font-weight:400;line-height:1;color:var(--white);}
-.type-note{font-size:12px;color:var(--sub);}
-.comp-samples{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
-.c-btn{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Geist',sans-serif;}
-.c-btn.fill{background:#c0392b;color:white;border:none;}
-.c-btn.out{background:transparent;color:var(--text);border:1px solid var(--line);}
-.c-badge{padding:4px 12px;border-radius:999px;font-size:11px;font-weight:500;font-family:'Geist Mono',monospace;}
-.c-badge.warn{background:rgba(244,162,75,.1);color:var(--warm);border:1px solid rgba(244,162,75,.2);}
-.c-badge.ok{background:rgba(110,231,160,.1);color:#6ee7a0;border:1px solid rgba(110,231,160,.2);}
-
-/* ══ BEFORE / AFTER ══ */
-.ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:40px;}
-.ba-lbl{font-family:'Geist Mono',monospace;font-size:var(--t-xs);letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);margin-bottom:12px;display:block;}
-.ba-lbl.after{color:var(--accent-text);}
-.ba-screen{background:var(--surface);border:1px solid var(--line);border-radius:12px;aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;color:var(--sub);font-size:13px;margin-bottom:16px;font-family:'Geist Mono',monospace;letter-spacing:.5px;}
-.ba-screen.after-screen{border-color:rgba(255,77,58,.4);}
-.ann-list{display:flex;flex-direction:column;gap:10px;}
-.ann{display:flex;gap:10px;align-items:flex-start;}
-.ann-n{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:2px;font-family:'Geist Mono',monospace;}
-.ann-n.old{background:rgba(255,200,180,.08);color:var(--sub);}
-.ann-n.new{background:var(--accent);color:white;}
-.ann-t{font-size:var(--t-sm);color:var(--sub);line-height:1.55;}
-
-/* ══ KEY DECISIONS ══ */
-.ps-list{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:40px;}
-.ps-card-inner{background:var(--bg);padding:36px 32px;transition:background .2s;}
-.ps-card-inner:hover{background:var(--surface);}
-.ps-dec{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px;display:block;}
-.ps-problem{font-family:'Instrument Serif',serif;font-size:var(--t-lg);color:var(--white);line-height:1.35;margin-bottom:20px;}
-.ps-divider{height:1px;background:var(--line);margin-bottom:16px;}
-.ps-sol-lbl{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);margin-bottom:8px;display:block;}
-.ps-sol-body{font-size:var(--t-sm);color:var(--sub);line-height:1.75;}
-.ps-because{font-size:13px;font-style:italic;color:rgba(196,144,138,.45);margin-top:10px;line-height:1.6;font-family:'Instrument Serif',serif;}
-
-/* ══ NDA BANNER ══ */
-.nda-box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 22px;display:flex;gap:14px;align-items:flex-start;margin-bottom:48px;}
-.nda-icon{font-size:16px;flex-shrink:0;padding-top:2px;}
-.nda-title{font-size:var(--t-sm);font-weight:500;color:var(--text);margin-bottom:4px;}
-.nda-desc{font-size:12px;color:var(--sub);line-height:1.65;}
-
-/* ══ IMPACT STATS ══ */
-.deploy-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:40px;}
-.dn-cell{background:var(--bg);padding:36px 28px;}
-.dn-num{font-family:'Instrument Serif',serif;font-size:56px;color:var(--white);line-height:1;letter-spacing:-1px;}
-.dn-num em{font-style:italic;color:var(--accent-text);}
-.dn-label{font-size:var(--t-sm);color:var(--sub);margin-top:8px;line-height:1.5;}
-
-/* ══ LEARNINGS ══ */
-.learning-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:40px;}
-.learning-card{background:var(--bg);padding:32px 28px;transition:background .2s;}
-.learning-card:hover{background:var(--surface);}
-.learning-num{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-text);margin-bottom:14px;display:block;}
-.learning-title{font-size:var(--t-sm);font-weight:500;color:var(--white);margin-bottom:8px;line-height:1.4;}
-.learning-body{font-size:var(--t-sm);color:var(--sub);line-height:1.7;}
-
-/* ══ FOOTER ══ */
-.final{padding:120px 0;text-align:center;border-top:1px solid var(--line);}
-.final h2{margin-bottom:16px;}
-.final p{max-width:440px;margin:0 auto 32px;}
-.btn{display:inline-block;padding:11px 28px;border:1px solid rgba(255,160,140,.2);border-radius:100px;font-size:var(--t-sm);color:var(--text);text-decoration:none;transition:background .2s,border-color .2s;}
-.btn:hover{background:rgba(255,100,70,.08);border-color:rgba(255,160,140,.35);}
-.btn-accent{background:#c0392b;border-color:transparent;color:white;margin-left:10px;}
-.btn-accent:hover{background:#96241e;}
-
-/* ══ ANIMATIONS ══ */
-@keyframes up{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
-.hero .col>*{opacity:0;animation:up .7s ease forwards;}
-.hero .col>*:nth-child(1){animation-delay:.1s;}
-.hero .col>*:nth-child(2){animation-delay:.22s;}
-.hero .col>*:nth-child(3){animation-delay:.34s;}
-.hero .col>*:nth-child(4){animation-delay:.46s;}
-
-/* ══ RESPONSIVE ══ */
-@media(max-width:640px){
-  .steps{grid-template-columns:1fr 1fr;}
-  .direction-grid{grid-template-columns:1fr;}
-  .ba-grid{grid-template-columns:1fr;}
-  .mood-grid{grid-template-columns:1fr;}
-  .deploy-nums{grid-template-columns:1fr;}
-  .learning-grid{grid-template-columns:1fr;}
-  .design-strip{gap:20px;}
-}
-@media(min-width:641px) and (max-width:1024px){
-  :root{ --t-2xl:40px; }
-}
-@media(max-width:640px){
-  :root{ --t-2xl:32px; }
-  h1{ line-height:0.95; }
-}
-@media(max-width:380px){
-  :root{ --t-2xl:28px; }
-}
-
-/* ══ MOBILE NAV ══ */
-@media(min-width:641px){
-  .mob-pill{display:none !important;}
-  .mob-drawer{display:none !important;}
-  .mob-drawer-overlay{display:none !important;}
-}
-@media(max-width:640px){
-  .nav-top{display:none;}
-  .nav-pill{display:none;}
-  .mob-pill{
-    display:flex;position:fixed;top:16px;left:50%;
-    transform:translateX(-50%) translateY(-6px);z-index:999999;
-    align-items:center;justify-content:space-between;
-    background:rgba(10,10,10,0.95);border:1px solid rgba(255,255,255,0.1);
-    border-radius:999px;height:64px;width:calc(100vw - 32px);
-    padding:0 5px 0 18px;box-shadow:0 8px 32px rgba(0,0,0,0.3);
-    opacity:0;pointer-events:none;
-    transition:opacity .4s ease,transform .4s ease,width .4s cubic-bezier(.34,1.2,.64,1),padding .4s ease;
+    --max: 760px;
+    --wide: 1080px;
   }
-  .mob-pill.mob-visible{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;}
-  .mob-pill.mob-scrolling{width:128px;padding:0 10px;justify-content:space-between;}
-  .mob-pill__name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#fff;letter-spacing:-.01em;white-space:nowrap;transition:opacity .25s ease,transform .25s ease;opacity:1;transform:translateX(0);flex:1;}
-  .mob-pill.mob-scrolling .mob-pill__name{opacity:0;transform:translateX(6px);pointer-events:none;width:0;flex:0;overflow:hidden;}
-  .mob-pill__icon{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .25s ease;opacity:0;pointer-events:none;}
-  .mob-pill__icon svg{width:20px;height:20px;color:rgba(255,255,255,.85);}
-  .mob-pill.mob-scrolling .mob-pill__icon{opacity:1;pointer-events:all;}
-  .mob-pill__right{display:flex;align-items:center;position:relative;width:54px;height:54px;flex-shrink:0;}
-  .mob-pill__ring{position:absolute;inset:0;flex-shrink:0;width:54px;height:54px;opacity:0;pointer-events:none;transition:opacity .3s ease;}
-  .mob-pill__ring svg{display:block;width:54px;height:54px;transform:rotate(-90deg);}
-  .mob-pill__ring .r-track{fill:none;stroke:rgba(255,255,255,.15);stroke-width:2.2;}
-  .mob-pill__ring .r-fill{fill:none;stroke:rgba(255,255,255,.9);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:131.95;stroke-dashoffset:131.95;transition:stroke-dashoffset .1s linear;}
-  .mob-pill__ring .r-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-family:'Geist Mono',monospace;color:rgba(255,255,255,.9);letter-spacing:-.02em;}
-  .mob-pill.mob-scrolling .mob-pill__ring{opacity:1;pointer-events:all;}
-  .mob-pill__burger{position:absolute;inset:0;width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;flex-shrink:0;transition:opacity .3s ease,background .2s,transform .15s;opacity:1;}
-  .mob-pill__burger span{display:block;width:14px;height:1.5px;background:rgba(255,255,255,.85);border-radius:2px;transition:transform .25s ease,opacity .2s ease;}
-  .mob-pill__burger:active{transform:scale(0.92);}
-  .mob-pill.mob-scrolling .mob-pill__burger{opacity:0;pointer-events:none;}
-  .mob-pill__burger.is-open span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
-  .mob-pill__burger.is-open span:nth-child(2){opacity:0;transform:scaleX(0);}
-  .mob-pill__burger.is-open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
-  .mob-drawer-overlay{display:none !important;}
-  .mob-drawer{position:fixed;inset:0;z-index:9995;background:#3a0700;display:flex;flex-direction:column;justify-content:center;padding:96px 0 max(40px,env(safe-area-inset-bottom)) 0;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,1,.42,1),background .4s;}
-  .mob-drawer.is-open{transform:translateY(0);}
-  .mob-drawer__handle{display:none;}
-  .mob-drawer__link{display:flex;align-items:center;padding:20px 40px;font-size:36px;font-family:'Instrument Serif',serif;font-weight:400;color:#fff0ee;text-decoration:none;letter-spacing:-.03em;min-height:72px;transition:opacity .18s,transform .12s,color .4s;}
-  .mob-drawer__link:active{opacity:0.6;transform:scale(0.98);}
-  .mob-drawer__divider{height:1px;background:rgba(255,200,180,0.15);margin:20px 40px;transition:background .4s;}
-  .mob-drawer__theme{display:flex;align-items:center;justify-content:flex-start;padding:20px 40px;min-height:64px;}
-  .mob-theme-toggle{display:flex;align-items:center;background:rgba(255,255,255,0.06);border:1px solid rgba(255,200,180,0.15);border-radius:999px;padding:4px;gap:4px;cursor:pointer;transition:background .4s,border-color .4s;}
-  .mob-theme-toggle__opt{padding:8px 20px;border-radius:999px;font-size:13px;font-weight:500;color:rgba(255,255,255,0.75);transition:background .2s,color .2s;min-height:36px;display:flex;align-items:center;}
-  .mob-theme-toggle__opt.active{background:#c0392b;color:#fff;font-weight:600;}
-  /* Light theme overrides */
-  body.light .mob-pill{background:rgba(10,10,10,0.95);border-color:rgba(255,255,255,0.12);}
-  body.light .mob-pill__name{color:#fff;}
-  body.light .mob-pill__burger span{background:rgba(255,255,255,.85);}
-  body.light .mob-pill__burger{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.12);}
-  body.light .mob-drawer{background:#f5ece9;}
-  body.light .mob-drawer__link{color:#1a0400;}
-  body.light .mob-drawer__link:active{opacity:0.5;}
-  body.light .mob-drawer__divider{background:rgba(0,0,0,0.1);}
-  body.light .mob-theme-toggle{background:rgba(0,0,0,0.05);border-color:rgba(0,0,0,0.1);}
-  body.light .mob-theme-toggle__opt{color:#1a0400;}
-  body.light .mob-theme-toggle__opt.active{background:#a32520;color:#fff;}
-}
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Geist', sans-serif;
+    font-weight: 300;
+    font-size: var(--t-base);
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── LIGHT THEME ── */
+  body.light {
+    --bg: #f7f7f5;
+    --surface: #efefed;
+    --line: rgba(0,0,0,0.08);
+    --text: #222;
+    --sub: #555;
+    --white: #111;
+    --accent: #166534;
+    --accent-text: #166534;
+    --warm: #92400e;
+  }
+  /* Fix badge contrast in light mode */
+  body.light .badge-green {
+    background: rgba(22,101,52,0.08);
+    color: #14532d;           /* 7.8:1 on light bg ✅ */
+    border-color: rgba(22,101,52,0.25);
+  }
+  body.light .badge-orange {
+    background: rgba(146,64,14,0.08);
+    color: #78350f;           /* 7.2:1 on light bg ✅ */
+    border-color: rgba(146,64,14,0.25);
+  }
+  body.light .badge-blue {
+    background: rgba(29,78,216,0.08);
+    color: #1e3a8a;           /* 8.1:1 on light bg ✅ */
+    border-color: rgba(29,78,216,0.25);
+  }
+  /* Fix quote text contrast in light mode */
+  body.light .quote-text {
+    color: #1a1a1a;           /* 16:1 ✅✅ */
+  }
+  body.light .quote-attr {
+    color: #444;              /* 8.5:1 ✅ */
+  }
+  /* Fix iter-round contrast */
+  body.light .iter-round {
+    color: #444;              /* 8.5:1 ✅ */
+  }
+  /* Fix tag-dot stays visible */
+  body.light .tag {
+    color: #444;
+  }
+  body.light .stat-cell { background: #f7f7f5; }
+  body.light .step { background: #f7f7f5; }
+  body.light .solution { background: #f7f7f5; }
+  body.light h1, body.light h2, body.light h3 { color: #111; }
+  body.light .quote-block { background: rgba(0,0,0,0.03); border-color: #4ade80; }
+  body.light .quote-text { color: #111; }
+  body.light em { color: #1a6b45; }
+
+  /* ── SKIP LINK ── */
+  .skip-link {
+    position:absolute;top:-100%;left:16px;
+    background:var(--accent);color:#000;
+    padding:8px 16px;border-radius:0 0 8px 8px;
+    font-size:var(--t-sm);font-weight:500;
+    text-decoration:none;z-index:200;transition:top .15s;
+  }
+  .skip-link:focus { top:0; }
+
+  /* ── FLOW THEME TOGGLE ── */
+  body.light .flow-light { display: block !important; }
+  body.light .flow-dark  { display: none !important; }
+  body:not(.light) .flow-light { display: none !important; }
+  body:not(.light) .flow-dark  { display: block !important; }
+
+  /* Flow image lightbox trigger */
+  .flow-light, .flow-dark {
+    cursor: zoom-in;
+    transition: opacity 0.2s;
+    border-radius: 16px;
+  }
+  .flow-light:hover, .flow-dark:hover { opacity: 0.9; }
+
+  /* ── LIGHTBOX ── */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(0,0,0,0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    cursor: zoom-out;
+    visibility: hidden;
+    transition: background 0.35s ease, visibility 0s linear 0.35s;
+  }
+  .lightbox.open {
+    background: rgba(0,0,0,0.92);
+    visibility: visible;
+    transition: background 0.35s ease, visibility 0s linear 0s;
+  }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 12px;
+    object-fit: contain;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.35s ease, transform 0.35s cubic-bezier(.16,1,.3,1);
+    cursor: default;
+  }
+  .lightbox.open img {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: white;
+    font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .lightbox-close:hover { background: rgba(255,255,255,0.2); }
+
+  /* ── SCREENS SHOWCASE ── */
+  .screens-showcase {
+    margin-top: 40px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    cursor: zoom-in;
+    transition: opacity 0.2s;
+  }
+  .screens-showcase:hover { opacity: 0.92; }
+  .screens-showcase img {
+    width: 100%;
+    height: auto;
+    display: block;
+    pointer-events: none;
+  }
+
+  /* ── SCREEN THEME TOGGLE ── */
+  body.light .screen-dark  { display: none !important; }
+  body.light .screen-light { display: block !important; }
+  body:not(.light) .screen-dark  { display: block !important; }
+  body:not(.light) .screen-light { display: none !important; }
+
+  /* ── REDUCED MOTION ── */
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity:1; transform:none; transition:none; }
+    html { scroll-behavior:auto; }
+  }
+
+  /* ══ TOP NAV ══ */
+  .nav-top{
+    position:fixed;top:16px;left:50%;
+    transform:translateX(-50%);z-index:9999;
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+    background:rgba(255,255,255,0.93);
+    backdrop-filter:blur(24px) saturate(180%);
+    border:1px solid rgba(0,0,0,0.08);
+    border-radius:999px;height:64px;
+    width:min(780px,calc(100vw - 48px));
+    padding:0 11px 0 22px;
+    box-shadow:0 2px 20px rgba(0,0,0,0.08);
+    transition:opacity .3s,transform .3s,background .4s,border-color .4s;
+  }
+  .nav-top.nav-hidden{opacity:0;transform:translateX(-50%) translateY(-10px);pointer-events:none;}
+  .nav-top.nav-dark{background:rgba(15,15,15,0.85);border-color:rgba(255,255,255,0.1);box-shadow:0 2px 24px rgba(0,0,0,0.4);}
+  .nav-top.nav-dark .nav-top__logo{color:#fff;}
+  .nav-top.nav-dark .nav-top__link{color:rgba(255,255,255,0.55);}
+  .nav-top.nav-dark .nav-top__link:hover{color:#fff;background:rgba(255,255,255,0.08);}
+  .nav-top.nav-dark .nav-top__cta{background:#fff;color:#111;}
+  .nav-top.nav-dark .theme-btn{border-color:rgba(255,255,255,0.2);}
+  .nav-top__logo{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:-.01em;color:#111;text-decoration:none;white-space:nowrap;flex-shrink:0;transition:color .4s;}
+  .nav-top__links{flex:1;display:flex;align-items:center;justify-content:center;}
+  .nav-top__link{font-size:14px;color:#777;text-decoration:none;padding:7px 16px;border-radius:999px;transition:background .2s,color .2s;}
+  .nav-top__link:hover{color:#111;background:rgba(0,0,0,0.05);}
+  .nav-top__right{display:flex;align-items:center;gap:8px;}
+  .nav-top__cta{font-size:13px;font-weight:600;color:#fff;text-decoration:none;background:#111;padding:8px 18px;border-radius:999px;flex-shrink:0;transition:background .2s;}
+  .nav-top__cta:hover{background:#4A7CFF;}
+  .theme-btn{width:40px;height:40px;border-radius:50%;border:1px solid rgba(0,0,0,0.12);background:transparent;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0;}
+  /* On mobile, show theme btn inside pill right side */
+  @media(max-width:640px){
+    .theme-btn#themeToggle{
+      width:28px;height:28px;
+      font-size:13px;
+    }
+  }
+  .theme-btn:hover{background:rgba(0,0,0,0.05);}
+
+  /* ══ PILL NAV ══ */
+  .nav-pill{
+    position:fixed;top:16px;left:50%;
+    transform:translateX(-50%) translateY(-10px);
+    z-index:9998;
+    display:flex;align-items:center;justify-content:space-between;gap:6px;
+    background:rgba(15,15,15,0.9);
+    backdrop-filter:blur(24px) saturate(180%);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:999px;height:56px;width:124px;
+    padding:0 8px;
+    box-shadow:0 8px 32px rgba(0,0,0,0.3);
+    opacity:0;pointer-events:none;visibility:hidden;
+    transition:opacity .3s ease,transform .3s ease,width .45s cubic-bezier(.34,1.2,.64,1),visibility 0s linear .3s;
+  }
+  .nav-pill.nav-visible{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;visibility:visible;transition:opacity .3s ease,transform .3s ease,width .45s cubic-bezier(.34,1.2,.64,1),visibility 0s linear 0s;}
+  .nav-pill.nav-visible:hover{width:min(760px,calc(100vw - 48px));}
+  .nav-pill.nav-visible:hover .nav-pill__links{opacity:1;pointer-events:all;transition-delay:.1s;}
+  .nav-pill.nav-visible:hover .nav-pill__theme{opacity:1;pointer-events:all;transition-delay:.12s;}
+  .nav-pill__icon{flex-shrink:0;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;z-index:2;}
+  .nav-pill__icon svg{width:15px;height:15px;color:rgba(255,255,255,.8);}
+  .nav-pill__links{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s ease;}
+  .nav-pill__link{font-size:14px;font-weight:500;color:rgba(255,255,255,.6);text-decoration:none;padding:8px 16px;border-radius:999px;transition:background .2s,color .2s;white-space:nowrap;}
+  .nav-pill__link:hover{color:white;background:rgba(255,255,255,.1);}
+  .nav-pill__theme{position:absolute;right:58px;opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:3;}
+  .nav-pill__theme .theme-btn{width:40px;height:40px;border-color:rgba(255,255,255,0.25);font-size:14px;}
+  .nav-pill__theme .theme-btn:hover{background:rgba(255,255,255,0.1);}
+  .nav-pill__ring{flex-shrink:0;position:relative;width:40px;height:40px;z-index:2;}
+  .nav-pill__ring svg{display:block;width:40px;height:40px;transform:rotate(-90deg);}
+  .nav-pill__ring .r-track{fill:none;stroke:rgba(255,255,255,.2);stroke-width:2;}
+  .nav-pill__ring .r-fill{fill:none;stroke:rgba(255,255,255,.95);stroke-width:2;stroke-linecap:round;stroke-dasharray:131.95;stroke-dashoffset:131.95;transition:stroke-dashoffset .1s linear;}
+  .nav-pill__ring .r-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-family:'Geist Mono',monospace;color:rgba(255,255,255,.95);letter-spacing:-.02em;line-height:1;}
+  .nav-pill.nav-on-dark{background:rgba(255,255,255,.92);border-color:rgba(0,0,0,.1);}
+  .nav-pill.nav-on-dark .nav-pill__icon{background:rgba(0,0,0,.08);}
+  .nav-pill.nav-on-dark .nav-pill__icon svg{color:rgba(0,0,0,.6);}
+  .nav-pill.nav-on-dark .nav-pill__link{color:rgba(0,0,0,.5);}
+  .nav-pill.nav-on-dark .nav-pill__link:hover{background:rgba(0,0,0,.07);color:#111;}
+  .nav-pill.nav-on-dark .nav-pill__theme .theme-btn{border-color:rgba(0,0,0,0.15);}
+  .nav-pill.nav-on-dark .r-track{stroke:rgba(0,0,0,.15);}
+  .nav-pill.nav-on-dark .r-fill{stroke:rgba(0,0,0,.8);}
+  .nav-pill.nav-on-dark .r-pct{color:rgba(0,0,0,.7);}
+  /* ── MOBILE NAV PILL ── */
+  /* ── MOBILE NAV (Global Bridge style) ── */
+  @media(min-width:641px){
+    .mob-pill{display:none !important;}
+    .mob-drawer{display:none !important;}
+    .mob-drawer-overlay{display:none !important;}
+  }
+  @media(max-width:640px){
+    .nav-top{display:none;}
+    .nav-pill{display:none;}
+    .mob-pill{
+      display:flex;position:fixed;top:16px;left:50%;
+      transform:translateX(-50%) translateY(-6px);z-index:9999;
+      align-items:center;justify-content:space-between;
+      background:rgba(15,15,15,0.92);border:1px solid rgba(255,255,255,0.1);
+      border-radius:999px;height:64px;width:calc(100vw - 32px);
+      padding:0 5px 0 18px;box-shadow:0 8px 32px rgba(0,0,0,0.3);
+      opacity:0;pointer-events:none;
+      transition:opacity .4s ease,transform .4s ease,width .4s cubic-bezier(.34,1.2,.64,1),padding .4s ease;
+    }
+    .mob-pill.mob-visible{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:all;}
+    .mob-pill.mob-scrolling{width:128px;padding:0 10px;justify-content:space-between;}
+    .mob-pill__name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:#fff;letter-spacing:-.01em;white-space:nowrap;transition:opacity .25s ease,transform .25s ease;opacity:1;transform:translateX(0);flex:1;}
+    .mob-pill.mob-scrolling .mob-pill__name{opacity:0;transform:translateX(6px);pointer-events:none;width:0;flex:0;overflow:hidden;}
+    .mob-pill__icon{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .25s ease;opacity:0;pointer-events:none;}
+    .mob-pill__icon svg{width:20px;height:20px;color:rgba(255,255,255,.85);}
+    .mob-pill.mob-scrolling .mob-pill__icon{opacity:1;pointer-events:all;}
+    .mob-pill__right{display:flex;align-items:center;position:relative;width:54px;height:54px;flex-shrink:0;}
+    .mob-pill__ring{position:absolute;inset:0;flex-shrink:0;width:54px;height:54px;opacity:0;pointer-events:none;transition:opacity .3s ease;}
+    .mob-pill__ring svg{display:block;width:54px;height:54px;transform:rotate(-90deg);}
+    .mob-pill__ring .r-track{fill:none;stroke:rgba(255,255,255,.15);stroke-width:2.2;}
+    .mob-pill__ring .r-fill{fill:none;stroke:rgba(255,255,255,.9);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:131.95;stroke-dashoffset:131.95;transition:stroke-dashoffset .1s linear;}
+    .mob-pill__ring .r-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-family:'Geist Mono',monospace;color:rgba(255,255,255,.9);letter-spacing:-.02em;}
+    .mob-pill.mob-scrolling .mob-pill__ring{opacity:1;pointer-events:all;}
+    .mob-pill__burger{position:absolute;inset:0;width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;flex-shrink:0;transition:opacity .3s ease,background .2s,transform .15s;opacity:1;}
+    .mob-pill__burger span{display:block;width:14px;height:1.5px;background:rgba(255,255,255,.85);border-radius:2px;transition:transform .25s ease,opacity .2s ease;}
+    .mob-pill__burger:active{transform:scale(0.92);background:rgba(255,255,255,0.14);}
+    .mob-pill.mob-scrolling .mob-pill__burger{opacity:0;pointer-events:none;}
+    .mob-pill__burger.is-open span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
+    .mob-pill__burger.is-open span:nth-child(2){opacity:0;transform:scaleX(0);}
+    .mob-pill__burger.is-open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
+    .mob-drawer-overlay{display:none !important;}
+    .mob-drawer{position:fixed;inset:0;z-index:9995;background:var(--bg);display:flex;flex-direction:column;justify-content:center;padding:100px 0 max(40px,env(safe-area-inset-bottom)) 0;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,1,.42,1);}
+    .mob-drawer.is-open{transform:translateY(0);}
+    .mob-drawer__handle{display:none;}
+    .mob-drawer__link{display:flex;align-items:center;padding:20px 40px;font-size:36px;font-family:'Instrument Serif',serif;font-weight:400;color:var(--white);text-decoration:none;letter-spacing:-.03em;min-height:72px;transition:opacity .18s,transform .12s;}
+    .mob-drawer__link:active{opacity:0.6;transform:scale(0.98);}
+    .mob-drawer__divider{height:1px;background:var(--line);margin:20px 40px;}
+    .mob-drawer__theme{display:flex;align-items:center;justify-content:flex-start;padding:20px 40px;min-height:64px;}
+    .mob-theme-toggle{display:flex;align-items:center;background:rgba(255,255,255,0.06);border:1px solid var(--line);border-radius:999px;padding:4px;gap:4px;cursor:pointer;}
+    .mob-theme-toggle__opt{padding:8px 20px;border-radius:999px;font-size:13px;font-weight:500;color:var(--sub);transition:background .2s,color .2s;min-height:36px;display:flex;align-items:center;}
+    .mob-theme-toggle__opt.active{background:var(--accent);color:#0a1a0f;}
+  }
+
+  /* ─── LAYOUT HELPERS ─── */
+  .col {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .col-wide {
+    max-width: var(--wide);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .section { padding: 96px 0; }
+  .section + .section { border-top: 1px solid var(--line); }
+
+  /* ─── TAG ─── */
+  .tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--sub);
+    margin-bottom: 20px;
+  }
+  .tag-dot {
+    width: 4px; height: 4px; border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ─── TYPOGRAPHY ─── */
+  h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: var(--t-2xl);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--white);
+  }
+
+  /* Responsive h1 size */
+  @media(min-width:641px) and (max-width:1024px){:root{--t-2xl:40px;}}
+  @media(max-width:640px){:root{--t-2xl:32px;}h1{line-height:0.95;}}
+  @media(max-width:380px){:root{--t-2xl:28px;}}
+  h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: var(--t-xl);
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: -0.3px;
+    color: var(--white);
+  }
+  h3 {
+    font-size: var(--t-md);
+    font-weight: 500;
+    color: var(--white);
+    line-height: 1.4;
+  }
+  em { font-style: italic; color: var(--accent); }
+  p { color: var(--sub); margin-top: 14px; }
+  p:first-child { margin-top: 0; }
+
+  /* ─── HERO ─── */
+  .hero {
+    padding: 140px 0 96px;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero-meta {
+    display: flex; gap: 64px;
+    margin-top: 56px;
+    padding-top: 40px;
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+  .meta-item label {
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--sub);
+    display: block;
+    margin-bottom: 10px;
+  }
+  .meta-item span {
+    font-size: 24px;
+    color: var(--text);
+    font-weight: 400;
+    font-family: 'Instrument Serif', serif;
+  }
+
+  /* ─── STATS ROW ─── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 48px;
+  }
+  .stats-row-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .stat-cell {
+    background: var(--bg);
+    padding: 36px 32px;
+  }
+  .stat-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 48px;
+    color: var(--white);
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+  .stat-num .accent { color: var(--accent); }
+  .stat-desc {
+    font-size: var(--t-sm);
+    color: var(--sub);
+    margin-top: 8px;
+    max-width: 200px;
+    line-height: 1.6;
+  }
+
+  /* ─── QUOTE BLOCK ─── */
+  .quote-block {
+    border-left: 2px solid var(--accent);
+    padding: 20px 24px;
+    margin: 40px 0;
+    background: rgba(74,222,128,0.04);
+    border-radius: 0 8px 8px 0;
+  }
+  .quote-text {
+    font-family: 'Instrument Serif', serif;
+    font-size: var(--t-lg);
+    font-style: italic;
+    color: var(--white);
+    line-height: 1.5;
+  }
+  .quote-attr {
+    font-size: var(--t-sm);
+    color: var(--sub);
+    margin-top: 12px;
+  }
+
+  /* ─── PROCESS STEPS ─── */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 40px;
+  }
+  .step {
+    background: var(--bg);
+    padding: 28px 24px;
+  }
+  .step-n {
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs);
+    color: var(--accent);
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+  .step-title { font-size: var(--t-sm); font-weight: 500; color: var(--white); margin-bottom: 6px; }
+  .step-body { font-size: var(--t-sm); color: var(--sub); line-height: 1.6; }
+
+  /* ─── JOURNEY TABLE ─── */
+  .jtable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 40px;
+    font-size: var(--t-sm);
+  }
+  .jtable th {
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--sub);
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+    font-weight: 400;
+  }
+  .jtable td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--line);
+    color: var(--sub);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .jtable tr:last-child td { border-bottom: none; }
+  .jtable td:first-child {
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--sub);
+    width: 110px;
+  }
+  .jtable td.pain { color: var(--warm); }
+  .jtable td.ok   { color: #4ade80; }
+  .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+  .dot-g { background: #4ade80; }
+  .dot-y { background: #facc15; }
+  .dot-r { background: #f87171; }
+
+  /* ─── SOLUTIONS ─── */
+  .solutions {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 12px; overflow: hidden;
+    margin-top: 40px;
+  }
+  .solution {
+    background: var(--bg);
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+  }
+  .solution p:last-child { margin-top: auto; padding-top: 16px; }
+  .solution-n {
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs); color: var(--accent);
+    letter-spacing: 1.5px; margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+
+  /* ─── PERSONAS ─── */
+  .personas-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 12px; overflow: hidden;
+    margin-top: 40px;
+  }
+  .persona-cell {
+    background: var(--bg);
+    padding: 36px 32px;
+    display: flex; flex-direction: column;
+  }
+  .persona-quote { margin-top: auto; }
+  .persona-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(74,222,128,0.12);
+    border: 1px solid rgba(74,222,128,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs); letter-spacing: 1px;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+  .persona-name {
+    font-size: var(--t-md); font-weight: 500;
+    color: var(--white); margin-bottom: 4px;
+  }
+  .persona-type {
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs); color: var(--sub);
+    letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .persona-divider { height: 1px; background: var(--line); margin-bottom: 20px; }
+  .persona-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs); letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 8px; display: block;
+  }
+  .persona-text { font-size: var(--t-sm); color: var(--sub); line-height: 1.65; margin-bottom: 16px; }
+  .persona-quote {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic; font-size: var(--t-sm);
+    color: var(--sub); line-height: 1.6;
+    padding: 12px 16px;
+    border-left: 2px solid var(--line);
+    background: rgba(255,255,255,0.02);
+    border-radius: 0 6px 6px 0;
+  }
+
+  /* ─── INSIGHTS ─── */
+  .insights-grid {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 1px; background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 12px; overflow: hidden;
+    margin-top: 40px;
+  }
+  .insight-cell {
+    background: var(--bg); padding: 32px 28px;
+  }
+  .insight-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 40px; color: var(--accent);
+    opacity: 0.2; line-height: 1;
+    margin-bottom: 12px; display: block;
+  }
+  .insight-tag {
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs); letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 10px; display: block;
+  }
+  .insight-body { font-size: var(--t-sm); color: var(--sub); line-height: 1.7; }
+
+  /* ─── FEATURE LIST ─── */
+  .feature-list { margin-top: 40px; }
+  .feature-row {
+    display: grid; grid-template-columns: 200px 1fr;
+    gap: 32px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: start;
+  }
+  .feature-row:first-child { border-top: 1px solid var(--line); }
+  .feature-name {
+    font-size: var(--t-sm);
+    font-weight: 500;
+    color: var(--white);
+  }
+  .feature-desc { font-size: var(--t-sm); color: var(--sub); line-height: 1.7; }
+
+  /* ─── ITERATION LIST ─── */
+  .iter-list { margin-top: 40px; }
+  .iter-row {
+    display: grid; grid-template-columns: 80px 1fr auto;
+    gap: 24px; padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: start;
+  }
+  .iter-row:first-child { border-top: 1px solid var(--line); }
+  .iter-round {
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs); color: var(--sub);
+    letter-spacing: 1px; text-transform: uppercase;
+    padding-top: 2px;
+  }
+  .iter-title { font-size: var(--t-sm); font-weight: 500; color: var(--white); margin-bottom: 6px; }
+  .iter-body { font-size: var(--t-sm); color: var(--sub); line-height: 1.6; }
+  .badge {
+    display: inline-flex;
+    padding: 3px 10px; border-radius: 20px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px; letter-spacing: 0.5px;
+    white-space: nowrap;
+    align-self: start;
+    margin-top: 2px;
+  }
+  .badge-green { background: rgba(74,255,128,.08); color: #4ade80; border: 1px solid rgba(74,255,128,.15); }
+  .badge-orange { background: rgba(255,107,53,.08); color: var(--warm); border: 1px solid rgba(255,107,53,.15); }
+  .badge-blue { background: rgba(74,222,128,.08); color: var(--accent); border: 1px solid rgba(74,222,128,.15); }
+
+  /* ─── COLOR PALETTE ─── */
+  .palette {
+    display: flex; gap: 8px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--line);
+  }
+  .swatch {
+    height: 56px; flex: 1; min-width: 80px;
+    display: flex; align-items: flex-end; padding: 8px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.5px;
+  }
+
+  /* ─── WIREFRAME GRID ─── */
+  .wf-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 16px; margin-top: 40px;
+  }
+  .wf-frame {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .wf-frame img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px 10px 0 0;
+  }
+  .wf-tag {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px; color: var(--sub);
+    letter-spacing: 1px; text-transform: uppercase;
+    padding: 10px 14px;
+    border-top: 1px solid var(--line);
+  }
+
+  /* ─── DEPLOY NUMBERS ─── */
+  .deploy-nums {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 40px;
+  }
+  .deploy-nums > div {
+    background: var(--bg);
+    padding: 36px 32px;
+  }
+  .dn-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 48px; color: var(--white);
+    line-height: 1; letter-spacing: -1px;
+  }
+  .dn-num em { color: var(--accent); font-style: normal; }
+  .dn-label { font-size: var(--t-sm); color: var(--sub); margin-top: 8px; max-width: 180px; line-height: 1.6; }
+
+  /* ─── CALLOUT ─── */
+  .callout {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-top: 32px;
+  }
+  .callout p { color: var(--text); margin: 0; font-size: var(--t-sm); }
+
+  /* ─── FINAL ─── */
+  .final {
+    padding: 120px 0;
+    text-align: center;
+    border-top: 1px solid var(--line);
+  }
+  .final h2 { margin-bottom: 16px; }
+  .final p { max-width: 440px; margin: 0 auto 32px; }
+  .btn {
+    display: inline-block;
+    padding: 11px 28px;
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 100px;
+    font-size: var(--t-sm);
+    color: var(--text);
+    text-decoration: none;
+    transition: background .2s, border-color .2s;
+  }
+  .btn:hover { background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.25); }
+  .btn-primary {
+    background: var(--accent);
+    border-color: transparent;
+    color: #0a1a0f;
+    margin-left: 10px;
+  }
+  .btn-primary:hover { background: #22c55e; }
+  body.light .btn-primary { color: #ffffff; }
+
+  /* ─── SPLIT ─── */
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  /* ─── FADE IN ─── */
+  @keyframes up {
+    from { opacity:0; transform: translateY(16px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+  .hero .col > * {
+    opacity: 0;
+    animation: up 0.7s ease forwards;
+  }
+  .hero .col > *:nth-child(1) { animation-delay: .1s; }
+  .hero .col > *:nth-child(2) { animation-delay: .22s; }
+  .hero .col > *:nth-child(3) { animation-delay: .34s; }
+  .hero .col > *:nth-child(4) { animation-delay: .46s; }
+
+  /* ─── REVEAL ─── */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity .65s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.16,1,.3,1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal.d1 { transition-delay: .08s; }
+  .reveal.d2 { transition-delay: .16s; }
+  .reveal.d3 { transition-delay: .24s; }
+
+  hr { border: none; border-top: 1px solid var(--line); }
+
+  .meta-item .meta-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--sub);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  /* ── TABLET (641px – 1024px) ── */
+  @media (min-width: 641px) and (max-width: 1024px) {
+    :root {
+      --t-2xl: 38px;
+      --t-xl:  24px;
+    }
+    .hero { padding: 120px 0 72px; }
+    .section { padding: 72px 0; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .stats-row-3 { grid-template-columns: 1fr 1fr; }
+    .solutions { grid-template-columns: 1fr 1fr; }
+    .personas-grid { grid-template-columns: 1fr 1fr; }
+    .insights-grid { grid-template-columns: 1fr 1fr; }
+    .deploy-nums { grid-template-columns: 1fr 1fr; }
+    .wf-grid { grid-template-columns: repeat(2,1fr); }
+    .split { grid-template-columns: 1fr; gap: 40px; }
+    .hero-meta { gap: 32px; }
+    .feature-row { grid-template-columns: 160px 1fr; gap: 24px; }
+    .iter-row { grid-template-columns: 60px 1fr auto; gap: 16px; }
+    .jtable { font-size: 13px; }
+    .jtable td:first-child { width: 90px; }
+  }
+
+  /* ── MOBILE (≤ 640px) ── */
+  @media (max-width: 640px) {
+    :root {
+      --t-2xl: 32px;
+      --t-xl:  22px;
+      --t-lg:  18px;
+      --t-md:  16px;
+    }
+
+    /* Nav — hide desktop navs entirely, show mobile pill only */
+    .nav-top  { display: none !important; }
+    .nav-pill { display: none !important; visibility: hidden !important; pointer-events: none !important; }
+    .nav-mobile { display: flex; }
+
+    /* Layout */
+    .hero { padding: 100px 0 56px; }
+    .section { padding: 64px 0; }
+    .col { padding: 0 20px; }
+    .col-wide { padding: 0 20px; }
+
+    /* Typography */
+    h2 { font-size: var(--t-xl); }
+    .stat-num { font-size: 36px; }
+    .dn-num { font-size: 36px; }
+
+    /* Hero meta */
+    .hero-meta { gap: 20px; margin-top: 36px; }
+    .meta-item { min-width: 40%; }
+    .meta-item span { font-size: 18px; }
+
+    /* Grids → single column */
+    .steps { grid-template-columns: 1fr 1fr; }
+    .stats-row { grid-template-columns: 1fr !important; }
+    .stats-row-3 { grid-template-columns: 1fr !important; }
+    .solutions { grid-template-columns: 1fr !important; }
+    .personas-grid { grid-template-columns: 1fr !important; }
+    .insights-grid { grid-template-columns: 1fr !important; }
+    .deploy-nums { grid-template-columns: 1fr !important; }
+    .wf-grid { grid-template-columns: 1fr; }
+    .split { grid-template-columns: 1fr; gap: 28px; }
+
+    /* Feature rows */
+    .feature-row { grid-template-columns: 1fr; gap: 6px; padding: 20px 0; }
+
+    /* Iter rows */
+    .iter-row { grid-template-columns: 1fr; gap: 10px; padding: 20px 0; }
+    .iter-row .badge { align-self: flex-start; margin-top: 4px; }
+    .iter-round { display: none; }
+
+    /* Journey table — scroll horizontally */
+    .jtable-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .jtable { min-width: 480px; }
+
+    /* Cells padding */
+    .stat-cell { padding: 24px 20px; }
+    .solution { padding: 24px 20px; }
+    .persona-cell { padding: 24px 20px; }
+    .insight-cell { padding: 24px 20px; }
+    .deploy-nums > div { padding: 24px 20px; }
+    .callout { padding: 20px; }
+
+    /* Palette */
+    .palette { flex-wrap: wrap; }
+    .swatch { min-width: 72px; }
+
+    /* Final footer buttons */
+    .final { padding: 72px 0; }
+    .btn { display: block; width: 100%; text-align: center; margin: 0 0 10px 0; }
+    .btn-primary { margin-left: 0; }
+
+    /* Quote block */
+    .quote-text { font-size: var(--t-md); }
+
+    /* Steps — 2 col on small screens */
+    .step { padding: 20px 16px; }
+  }
+
+  /* ── VERY SMALL (≤ 380px) ── */
+  @media (max-width: 380px) {
+    :root { --t-2xl: 28px; }
+    .steps { grid-template-columns: 1fr; }
+    .hero-meta { flex-direction: column; gap: 16px; }
+    .nav-top { padding: 0 4px 0 12px; }
+  }
 </style>
 </head>
 <body>
-
-<!-- TOP NAV -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<!-- TOP NAV — desktop -->
 <header class="nav-top nav-dark" id="navTop">
-  <a href="#" class="nav-top__logo">Daiwat Thavai</a>
+  <a href="../index.html" class="nav-top__logo">Daiwat Thavai</a>
   <nav class="nav-top__links">
-    <a href="#" class="nav-top__link">Home</a>
-    <a href="#" class="nav-top__link">Work</a>
-    <a href="#" class="nav-top__link">About</a>
-    <a href="#" class="nav-top__link">Resume</a>
+    <a href="../Work/index.html" class="nav-top__link">Work</a>
+    <a href="../AboutMe/index.html" class="nav-top__link">About</a>
+    <a href="../ThavaiDaiwat.pdf" class="nav-top__link js-resume-link">Resume</a>
   </nav>
   <div class="nav-top__right">
     <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">🌙</button>
-    <a href="#" class="nav-top__cta">Fleet Edge ✦</a>
+    <a href="#" class="nav-top__cta">Dave AI ✦</a>
   </div>
 </header>
 
-<!-- PILL NAV — exact structure from Global Bridge index.html -->
-<nav class="nav-pill" id="navPill">
-
-  <!-- Icon LEFT — always visible, z-index:2 -->
-  <div class="nav-pill__icon">
-    <svg viewBox="0 0 16 16" fill="none">
-      <path d="M3 2L13 8L8 9.5L6.5 14L3 2Z" fill="currentColor"/>
-    </svg>
-  </div>
-
-  <!-- Links — absolute center, fade in on hover -->
-  <div class="nav-pill__links">
-    <a href="#" class="nav-pill__link">Home</a>
-    <a href="#" class="nav-pill__link">Work</a>
-    <a href="#" class="nav-pill__link">About</a>
-    <a href="#" class="nav-pill__link">Resume</a>
-  </div>
-
-  <!-- Theme toggle — absolute, appears on hover just left of ring -->
-  <div class="nav-pill__theme">
-    <button class="theme-btn" id="themeTogglePill" aria-label="Toggle theme">🌙</button>
-  </div>
-
-  <!-- Ring RIGHT — always visible, z-index:2 -->
-  <div class="nav-pill__ring">
-    <svg viewBox="0 0 42 42">
-      <circle class="r-track" cx="21" cy="21" r="17"/>
-      <circle class="r-fill" id="navRingFill" cx="21" cy="21" r="17"/>
-    </svg>
-    <div class="r-pct" id="navRingPct">0%</div>
-  </div>
-
-</nav>
-
-<main>
-
-<!-- HERO -->
-<div class="hero" data-theme="dark">
-  <div class="col">
-    <div class="tag"><span class="tag-dot"></span>UI/UX Case Study · B2B SaaS · ZenFishive Labs</div>
-    <h1>The brief said:<br>tame a <em>fleet</em>.</h1>
-    <p style="max-width:480px;margin-top:16px;">Designing an enterprise fleet management platform that turns dense operational data into fast, clear decisions — across mobile and web.</p>
-    <div class="hero-meta">
-      <div class="meta-item"><span class="meta-label">Role</span><span>UI/UX Designer · Solo</span></div>
-      <div class="meta-item"><span class="meta-label">Duration</span><span>6 Months</span></div>
-      <div class="meta-item"><span class="meta-label">Scope</span><span>Mobile + Web</span></div>
-      <div class="meta-item"><span class="meta-label">Client</span><span>TATA Brand</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- 01 CONTEXT -->
-<section class="section" data-theme="dark">
-  <div class="col">
-    <div class="tag"><span class="tag-dot"></span>01 — Context</div>
-    <h2>A fleet management platform<br>built for scale.</h2>
-    <p>TATA Fleet Edge is an enterprise platform enabling businesses to monitor vehicles in real time, track health and violations, schedule maintenance, and surface driver behaviour insights across large fleets.</p>
-    <p style="margin-top:12px;">Working exclusively on the TATA brand at ZenFishive Labs, I spanned multiple modules across mobile and web — designing interfaces that transform dense operational data into clear, fast decisions.</p>
-    <div class="stats-row" style="margin-top:40px;">
-      <div class="stat-cell">
-        <div class="stat-num"><span class="accent">100</span>+</div>
-        <div class="stat-desc">vehicles a fleet manager must scan and act on — instantly</div>
-      </div>
-      <div class="stat-cell">
-        <div class="stat-num"><span class="accent">4</span></div>
-        <div class="stat-desc">core platform modules designed end-to-end across web and mobile</div>
-      </div>
-    </div>
-    <div class="callout-box" style="margin-top:32px;">
-      <strong>The core design challenge</strong>
-      <p>Fleet managers need to scan the status of 100+ vehicles instantly and act on critical alerts in seconds — without being overwhelmed by the data they don't immediately need.</p>
-    </div>
-  </div>
-</section>
-
-<!-- 02 OBJECTIVES -->
-<section class="section" data-theme="dark">
-  <div class="col">
-    <div class="tag"><span class="tag-dot"></span>02 — Objectives</div>
-    <h2>Five goals that shaped<br>every decision.</h2>
-    <p>Before any wireframe, I defined what success looked like.</p>
-    <div class="obj-list">
-      <div class="obj-item"><span class="obj-n">01</span>Design a real-time tracking map that stays readable at any fleet size — from 5 vehicles to 500.</div>
-      <div class="obj-item"><span class="obj-n">02</span>Surface critical vehicle health alerts and violations without burying routine data.</div>
-      <div class="obj-item"><span class="obj-n">03</span>Build a maintenance scheduling module that reduces missed services through proactive alerts.</div>
-      <div class="obj-item"><span class="obj-n">04</span>Create a design system that scales across the full platform — consistent on both web and mobile.</div>
-      <div class="obj-item"><span class="obj-n">05</span>Meet TATA brand standards while preserving functional clarity for daily enterprise use.</div>
-    </div>
-  </div>
-</section>
-
-<!-- 03 PROCESS -->
-<section class="section" data-theme="dark">
-  <div class="col">
-    <div class="tag"><span class="tag-dot"></span>03 — Process</div>
-    <h2>Thinking on paper before<br>touching Figma.</h2>
-    <p>Four phases. No skipping steps.</p>
-    <div class="steps">
-      <div class="step"><div class="step-n">01</div><div class="step-title">Discover</div><div class="step-body">Competitive audit of fleet platforms, stakeholder interviews, existing workflow mapping</div></div>
-      <div class="step"><div class="step-n">02</div><div class="step-title">Define</div><div class="step-body">Information architecture, alert hierarchy, HMW framing around fleet manager workflows</div></div>
-      <div class="step"><div class="step-n">03</div><div class="step-title">Ideate</div><div class="step-body">Three directions explored — data-dense, consumer minimal, and progressive disclosure</div></div>
-      <div class="step"><div class="step-n">04</div><div class="step-title">Build</div><div class="step-body">Design system first, then modules — map, alerts, maintenance, driver insights</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- 04 CATALYST -->
-<section class="section" data-theme="dark">
-  <div class="col">
-    <div class="tag"><span class="tag-dot"></span>04 — The Insight</div>
-    <h2>The insight that changed<br>everything.</h2>
-    <p>One stakeholder session reframed the entire design direction.</p>
-    <blockquote class="quote-block" style="margin-top:32px;">
-      <p class="quote-text">"When everything is urgent, nothing is urgent. I stop reading the alerts after the first ten minutes of my shift."</p>
-      <footer class="quote-attr"><cite>— Fleet Manager, TATA logistics partner</cite></footer>
-    </blockquote>
-    <p>Every design decision after that moment was filtered through one question: <em>does this make the important thing faster to find?</em></p>
-  </div>
-</section>
-
-<!-- 05 IDEATION -->
-<section class="section" data-theme="dark">
-  <div class="col">
-    <div class="tag"><span class="tag-dot"></span>05 — Ideation</div>
-    <h2>Exploring directions before<br>touching Figma.</h2>
-    <p>I explored reference interfaces and competitive fleet platforms to understand B2B dashboard conventions — then deliberately challenged the patterns that didn't serve real fleet manager workflows.</p>
-
-    <div style="margin-top:32px;margin-bottom:8px;">
-      <div class="tag" style="margin-bottom:12px;"><span class="tag-dot" style="background:var(--sub)"></span>Moodboard references</div>
-    </div>
-    <div class="mood-grid">
-      <div class="mood-cell"><span class="mood-label">Dashboard layout</span></div>
-      <div class="mood-cell"><span class="mood-label">Map interface</span></div>
-      <div class="mood-cell"><span class="mood-label">Data tables</span></div>
-      <div class="mood-cell"><span class="mood-label">Mobile patterns</span></div>
-    </div>
-
-    <div class="tag" style="margin-bottom:16px;"><span class="tag-dot" style="background:var(--sub)"></span>Three directions explored</div>
-    <div class="direction-grid">
-      <div class="dir-card">
-        <div class="dir-head">
-          <span class="dir-tag killed">Explored + Discarded</span>
-          <div class="dir-name">Data-dense Dashboard</div>
-        </div>
-        <div class="dir-body">
-          <div class="dir-desc">Packed every metric onto one screen. Concept testing showed fleet managers couldn't locate critical alerts — everything competed equally for attention.</div>
-          <div class="dir-verdict bad">✕ Cognitive overload. No clear hierarchy of urgency.</div>
-        </div>
-      </div>
-      <div class="dir-card">
-        <div class="dir-head">
-          <span class="dir-tag warned">Explored + Discarded</span>
-          <div class="dir-name">Consumer-style Minimal</div>
-        </div>
-        <div class="dir-body">
-          <div class="dir-desc">Clean and simple but hid too much critical data beneath taps. Enterprise fleet managers need density and control — not a consumer app experience.</div>
-          <div class="dir-verdict bad">✕ Insufficient data visibility for daily enterprise use.</div>
-        </div>
-      </div>
-      <div class="dir-card winner">
-        <div class="dir-head">
-          <span class="dir-tag chosen">Chosen Direction</span>
-          <div class="dir-name">Progressive Disclosure</div>
-        </div>
-        <div class="dir-body">
-          <div class="dir-desc">High-level summary at a glance, full detail one tap away. Matches how fleet managers actually work: scan first, investigate second.</div>
-          <div class="dir-verdict good">✓ Balances density with scanability. Maps to real workflows.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 06 DESIGN CRAFT -->
-<section class="section" data-theme="dark">
-  <div class="col">
-    <div class="tag"><span class="tag-dot"></span>06 — Design Craft</div>
-    <h2>Building the<br>system first.</h2>
-    <p>Before designing screens, I built the component library. Every new module took days instead of weeks.</p>
-    
-    <div class="design-strip" style="margin-top:40px;">
-      <div class="swatches">
-        <div class="sw" style="background:#6B0C00" title="Dark Red — brand bg"></div>
-        <div class="sw" style="background:#1A1A2E" title="Dark Navy"></div>
-        <div class="sw" style="background:#2563EB" title="Action Blue — interactive"></div>
-        <div class="sw" style="background:#F59E0B" title="Alert Amber — warnings"></div>
-        <div class="sw" style="background:#22C55E" title="Active Green — moving"></div>
-        <div class="sw" style="background:#27272a;border:1px solid rgba(255,255,255,.1)" title="Surface"></div>
-      </div>
-      <div class="vdivider"></div>
-      <div class="type-demo">
-        <span class="type-big">Aa</span>
-        <span class="type-note">Inter / SF Pro</span>
-      </div>
-      <div class="vdivider"></div>
-      <div class="comp-samples">
-        <button class="c-btn fill">Track vehicle</button>
-        <button class="c-btn out">View report</button>
-        <span class="c-badge warn">⚠ Alert</span>
-        <span class="c-badge ok">● Moving</span>
-      </div>
-    </div>
-
-    <div class="tag" style="margin-bottom:20px;margin-top:8px;"><span class="tag-dot" style="background:var(--sub)"></span>Key interaction redesign — Alert & Map modules</div>
-    <div class="ba-grid">
-      <div>
-        <span class="ba-lbl">Before</span>
-        <div class="ba-screen">Wireframe / early concept</div>
-        <div class="ann-list">
-          <div class="ann"><div class="ann-n old">1</div><div class="ann-t">All severity levels shown equally — no visual hierarchy</div></div>
-          <div class="ann"><div class="ann-n old">2</div><div class="ann-t">Map clusters unreadable above 50 vehicles</div></div>
-          <div class="ann"><div class="ann-n old">3</div><div class="ann-t">TATA red used for both brand and warning states — ambiguous</div></div>
-        </div>
-      </div>
-      <div>
-        <span class="ba-lbl after">After</span>
-        <div class="ba-screen after-screen">Final UI — modified for NDA</div>
-        <div class="ann-list">
-          <div class="ann"><div class="ann-n new">1</div><div class="ann-t">Critical alerts surface to top automatically, routine data deprioritised</div></div>
-          <div class="ann"><div class="ann-n new">2</div><div class="ann-t">Vehicle clustering system — groups at low zoom, expands on zoom-in</div></div>
-          <div class="ann"><div class="ann-n new">3</div><div class="ann-t">Red reserved for brand only — amber for warnings, blue for actions</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 07 KEY DECISIONS -->
-<section class="section" data-theme="dark">
-  <div class="col">
-    <div class="tag"><span class="tag-dot"></span>07 — Key Decisions</div>
-    <h2>Three decisions that<br>shaped the product.</h2>
-    <p>Not everything is worth explaining. These three defined the platform.</p>
-    <div class="ps-list">
-      <div class="ps-card-inner">
-        <span class="ps-dec">Decision 01</span>
-        <div class="ps-problem">Fleet managers were drowning in undifferentiated data.</div>
-        <div class="ps-divider"></div>
-        <span class="ps-sol-lbl">Solution</span>
-        <div class="ps-sol-body">Introduced a severity-tiered alert system. Critical vehicle issues surface to the top of every module automatically. Routine data sits one level deeper — accessible but not competing.</div>
-        <div class="ps-because">"When everything is urgent, nothing is urgent — and a missed alert in fleet management means a vehicle off the road."</div>
-      </div>
-      <div class="ps-card-inner">
-        <span class="ps-dec">Decision 02</span>
-        <div class="ps-problem">The map became unreadable with 100+ vehicles on screen.</div>
-        <div class="ps-divider"></div>
-        <span class="ps-sol-lbl">Solution</span>
-        <div class="ps-sol-body">Designed an intelligent clustering system that groups nearby vehicles at lower zoom levels and expands on zoom-in. Status colours follow a strict 3-tier system: green (moving), amber (idle), red (alert).</div>
-        <div class="ps-because">"A map that only works when the fleet is small isn't a product — it's a prototype."</div>
-      </div>
-      <div class="ps-card-inner">
-        <span class="ps-dec">Decision 03</span>
-        <div class="ps-problem">TATA brand red conflicted with functional warning states.</div>
-        <div class="ps-divider"></div>
-        <span class="ps-sol-lbl">Solution</span>
-        <div class="ps-sol-body">Reserved TATA red exclusively for brand moments — header, logo, primary CTAs. Amber for warnings. Blue for interactive actions. Each colour earns a single meaning across the entire platform.</div>
-        <div class="ps-because">"Colour ambiguity in a safety-critical enterprise context is a UX failure, not just an aesthetic one."</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 08 IMPACT -->
-<section class="section" data-theme="dark">
-  <div class="col">
-    <div class="tag"><span class="tag-dot"></span>08 — Impact</div>
-    <h2>What the work<br>achieved.</h2>
-    <p>Six months of solo design work across mobile and web. Four core platform modules designed end-to-end.</p>
-    <div class="nda-box">
-      <div class="nda-icon">🔒</div>
-      <div>
-        <div class="nda-title">NDA Disclosure</div>
-        <div class="nda-desc">Due to NDA restrictions, original designs have been modified. Brand names have been changed and screen content has been altered. These outcomes and metrics reflect real results from the engagement.</div>
-      </div>
-    </div>
-    <div class="deploy-nums">
-      <div class="dn-cell">
-        <div class="dn-num"><em>15</em>%</div>
-        <div class="dn-label">improvement in vehicle monitoring efficiency post-deployment</div>
-      </div>
-      <div class="dn-cell">
-        <div class="dn-num"><em>4</em>+</div>
-        <div class="dn-label">core platform modules designed end-to-end across web and mobile</div>
-      </div>
-      <div class="dn-cell">
-        <div class="dn-num"><em>6</em></div>
-        <div class="dn-label">months of solo design work spanning mobile and web platforms</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 09 LEARNINGS -->
-<section class="section" data-theme="dark">
-  <div class="col">
-    <div class="tag"><span class="tag-dot"></span>09 — Learnings</div>
-    <h2>What broke.<br>What I learned.</h2>
-    <p>The lessons that will follow me into every enterprise project.</p>
-    <div class="learning-grid">
-      <div class="learning-card">
-        <span class="learning-num">01</span>
-        <div class="learning-title">Enterprise UX is about reducing friction, not adding delight</div>
-        <div class="learning-body">Fleet managers don't want beautiful — they want fast. Every decision was measured against a single question: does this make the task faster or slower?</div>
-      </div>
-      <div class="learning-card">
-        <span class="learning-num">02</span>
-        <div class="learning-title">Brand compliance and functional clarity can coexist</div>
-        <div class="learning-body">Navigating TATA's brand guidelines while maintaining UX quality taught me how to find creative constraints within rigid systems — and turn them into design decisions.</div>
-      </div>
-      <div class="learning-card">
-        <span class="learning-num">03</span>
-        <div class="learning-title">Design systems pay off immediately on large platforms</div>
-        <div class="learning-body">Building the component library first meant every new module took days instead of weeks. I saw the compounding value of systems thinking firsthand on this project.</div>
-      </div>
-      <div class="learning-card">
-        <span class="learning-num">04</span>
-        <div class="learning-title">Colour must earn its meaning in safety-critical UI</div>
-        <div class="learning-body">Using TATA red for both brand and warning states created ambiguity. The discipline of assigning each colour a single function across the platform was one of the defining decisions.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-</main>
-
-<!-- FOOTER / REFLECTION -->
-<footer class="final" data-theme="dark">
-  <div class="col">
-    <div class="tag" style="justify-content:center;"><span class="tag-dot"></span>Reflection</div>
-    <h2>Good enterprise design disappears — users notice the outcome, not the interface.</h2>
-    <p>This project shaped how I think about B2B product design. Enterprise users are experts in their domain. My job was to respect that expertise and remove every unnecessary decision from their path.</p>
-    <div>
-      <a href="#" class="btn">← All Work</a>
-      <a href="#" class="btn btn-accent">Next Case Study →</a>
-    </div>
-  </div>
-</footer>
-
-<script>
-(function(){
-  const navTop     = document.getElementById('navTop');
-  const navPill    = document.getElementById('navPill');
-  const rFill      = document.getElementById('navRingFill');
-  const rPct       = document.getElementById('navRingPct');
-  const toggleTop  = document.getElementById('themeToggle');
-  const togglePill = document.getElementById('themeTogglePill');
-  const CIRC = 2 * Math.PI * 17; /* r=17, circumference ≈ 106.81 */
-
-  function onScroll(){
-    const h = document.documentElement;
-    const scrollY = h.scrollTop;
-    const total = h.scrollHeight - h.clientHeight;
-    const pct = total > 0 ? Math.min(scrollY / total, 1) : 0;
-    navTop.classList.toggle('nav-hidden', scrollY > 60);
-    navPill.classList.toggle('nav-visible', scrollY > 60);
-    rFill.style.strokeDashoffset = CIRC * (1 - pct);
-    rPct.textContent = Math.round(pct * 100) + '%';
-  }
-  window.addEventListener('scroll', onScroll, {passive:true});
-  onScroll();
-
-  function applyTheme(goLight){
-    document.body.classList.toggle('light', goLight);
-    const icon = goLight ? '☀️' : '🌙';
-    toggleTop.textContent  = icon;
-    togglePill.textContent = icon;
-  }
-  function toggleTheme(){ applyTheme(!document.body.classList.contains('light')); }
-  toggleTop.addEventListener('click', toggleTheme);
-  togglePill.addEventListener('click', toggleTheme);
-
-  /* Pill adapts to section bg */
-  document.querySelectorAll('[data-theme]').forEach(function(sec){
-    new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.intersectionRatio > 0.45)
-          navPill.classList.toggle('nav-on-dark',
-            e.target.getAttribute('data-theme') !== 'dark');
-      });
-    },{threshold:[0.45,0.55]}).observe(sec);
-  });
-})();
-</script>
+<!-- MOBILE NAV PILL — hamburger · theme · progress ring -->
 <!-- MOBILE PILL NAV -->
 <nav class="mob-pill" id="mobPill" role="navigation" aria-label="Mobile navigation">
   <div class="mob-pill__name" aria-hidden="true">Daiwat Thavai</div>
@@ -857,7 +988,8 @@ p:first-child{margin-top:0;}
   <a href="../index.html" class="mob-drawer__link">Home</a>
   <a href="../Work/index.html" class="mob-drawer__link">Work</a>
   <a href="../AboutMe/index.html" class="mob-drawer__link">About</a>
-  <a href="#" class="mob-drawer__link">Resume</a>
+  <a href="../ThavaiDaiwat.pdf" class="mob-drawer__link js-resume-link">Resume</a>
+  <a href="../DaveAI/index.html" class="mob-drawer__link">Dave AI ✦</a>
   <div class="mob-drawer__divider" aria-hidden="true"></div>
   <div class="mob-drawer__theme">
     <div class="mob-theme-toggle" id="mobThemeToggle" role="group" aria-label="Theme toggle">
@@ -867,25 +999,456 @@ p:first-child{margin-top:0;}
   </div>
 </div>
 
+<!-- PILL NAV -->
+<nav class="nav-pill" id="navPill">
+  <div class="nav-pill__icon">
+    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M3 2L13 8L8 9.5L6.5 14L3 2Z" fill="currentColor"/>
+    </svg>
+  </div>
+  <div class="nav-pill__links">
+    <a href="../index.html" class="nav-pill__link">Home</a>
+    <a href="../Work/index.html" class="nav-pill__link">Work</a>
+    <a href="../AboutMe/index.html" class="nav-pill__link">About</a>
+    <a href="../ThavaiDaiwat.pdf" class="nav-pill__link js-resume-link">Resume</a>
+  </div>
+  <div class="nav-pill__theme">
+    <button class="theme-btn" id="themeTogglePill" aria-label="Toggle theme">🌙</button>
+  </div>
+  <div class="nav-pill__ring">
+    <svg viewBox="0 0 54 54">
+      <circle class="r-track" cx="27" cy="27" r="21"/>
+      <circle class="r-fill" id="navRingFill" cx="27" cy="27" r="21"/>
+    </svg>
+    <div class="r-pct" id="navRingPct">0%</div>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<main id="main-content">
+<div class="hero">
+  <div class="col">
+    <div class="tag"><span class="tag-dot"></span>Product Design · Fintech · 2023</div>
+    <h1>Designing a <em>trusted</em><br>AI companion.</h1>
+    <p style="max-width:480px; margin-top:16px;">A personalised AI investment companion that makes financial decision-making feel intuitive, proactive, and human — built for Verde Finance.</p>
+    <div class="hero-meta">
+      <div class="meta-item"><span class="meta-label">Role</span><span>Design Intern</span></div>
+      <div class="meta-item"><span class="meta-label">Duration</span><span>3 Months</span></div>
+      <div class="meta-item"><span class="meta-label">Platform</span><span>iOS · Android</span></div>
+      <div class="meta-item"><span class="meta-label">Status</span><span>Deployed</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 01 CONTEXT ─── -->
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>01 — Context</div>
+    <h2 class="reveal d1">Investing is intimidating.<br>Richie AI makes it personal.</h2>
+    <p class="reveal d2">Most Fintech apps overwhelm users with data. Richie AI needed to do the opposite — surface the right insight at the right moment, in language that feels personal rather than algorithmic.</p>
+    <div class="stats-row stats-row-3 reveal d3">
+      <div class="stat-cell">
+        <div class="stat-num"><span class="accent">67</span>%</div>
+        <div class="stat-desc">of users felt overwhelmed by the investment dashboard on first use</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num"><span class="accent">43</span>%</div>
+        <div class="stat-desc">dropped off before completing the onboarding flow</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num"><span class="accent">2.1</span>×</div>
+        <div class="stat-desc">higher retention when users received a personalised insight in session one</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 02 CATALYST ─── -->
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>02 — The Insight</div>
+    <h2 class="reveal d1">The research finding that<br>changed everything.</h2>
+    <p class="reveal d2">My quantitative data showed the what, but it didn't explain the why. After eight user interviews, a clear pattern emerged: Users didn't distrust the AI—they distrusted themselves. </p>
+    <div class="quote-block reveal d3">
+      <div class="quote-text">"Most people don't avoid investing because they lack money — they avoid it because they don't trust themselves to make the right call."</div>
+      <div class="quote-attr">— Recurring theme across 6 of 8 user interviews</div>
+    </div>
+    <p class="reveal d3">Every design decision after that moment was filtered through one question: <em>Does this build trust, or erode it?</em></p>
+  </div>
+</section>
+
+<!-- ─── 03 PROCESS ─── -->
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>03 — Process</div>
+    <h2 class="reveal d1">From user insight to execution.</h2>
+    <p class="reveal d2">Four phases. No skipping steps.</p>
+    <div class="steps reveal d3">
+      <div class="step">
+        <div class="step-n">01</div>
+        <div class="step-title">Discover</div>
+        <div class="step-body">8 user interviews, analytics review, session recordings, competitive audit</div>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div>
+        <div class="step-title">Define</div>
+        <div class="step-body">Persona synthesis, journey mapping, HMW framing, trust framework</div>
+      </div>
+      <div class="step">
+        <div class="step-n">03</div>
+        <div class="step-title">Ideate</div>
+        <div class="step-body">Crazy-8s, paper wireframes, design principles for AI transparency</div>
+      </div>
+      <div class="step">
+        <div class="step-n">04</div>
+        <div class="step-title">Build</div>
+        <div class="step-body">High-fidelity screens, design system, component library in Figma</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 03B USER FLOW ─── -->
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>03b — User Flow</div>
+    <h2 class="reveal d1">Mapping the system before<br>designing the screens.</h2>
+    <p class="reveal d2">Before any screen was designed, the full app flow was mapped — every entry point, every decision, every dead end. The key discovery: Richie Chat needed to be reachable from anywhere in the app, not siloed as a tab.</p>
+  </div>
+  <div class="col-wide reveal d3" style="margin-top:40px; padding: 0 24px;">
+    <!-- Light theme: original PNG -->
+    <img
+      class="flow-light"
+      src="/RichieAI/assets/workflow-light.png"
+      alt="Richie AI user flow diagram"
+      style="width:100%; border-radius:16px; display:none;"
+    />
+    <!-- Dark theme: SVG -->
+    <img
+      class="flow-dark"
+      src="/RichieAI/assets/workflow-dark.png"
+      alt="Richie AI user flow dark"
+      style="width:100%; border-radius:16px; display:block; cursor:zoom-in;"
+    />
+  <div class="col" style="margin-top:24px;">
+    <div class="callout reveal">
+      <p><strong style="color:var(--white);">Key flow decision —</strong> Richie Chat is accessible from a persistent bottom bar on every screen. Users don't navigate to it — it's always there. This was a deliberate choice to reduce the friction between having a question and asking it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 04 RESEARCH ─── -->
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>04 — Research Insights</div>
+    <h2 class="reveal d1">Three findings.<br>One clear direction.</h2>
+    <p class="reveal d2">Insights drawn from analytics data, session recordings, and user interviews across varying levels of investment experience.</p>
+    <div class="insights-grid reveal d3">
+      <div class="insight-cell">
+        <span class="insight-num">01</span>
+        <span class="insight-tag">Top Finding</span>
+        <div class="insight-body">Users trusted AI recommendations more when they could see the reasoning — not just the outcome. Opacity killed trust faster than a bad recommendation.</div>
+      </div>
+      <div class="insight-cell">
+        <span class="insight-num">02</span>
+        <span class="insight-tag">Biggest Surprise</span>
+        <div class="insight-body">Users didn't want more features. They wanted fewer, better-timed moments. A single well-placed insight beat a dashboard full of charts every time.</div>
+      </div>
+      <div class="insight-cell">
+        <span class="insight-num">03</span>
+        <span class="insight-tag">Key Pivot</span>
+        <div class="insight-body">Onboarding wasn't a form — it was a relationship. Users who felt heard during setup were significantly more likely to trust the AI's first recommendation.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 05 PERSONAS ─── -->
+<section class="section">
+  <div class="col-wide">
+    <div class="col" style="max-width:var(--max); margin: 0 auto; padding: 0 24px;">
+      <div class="tag reveal"><span class="tag-dot"></span>05 — User Personas</div>
+      <h2 class="reveal d1">Three users.<br>Three relationships with money.</h2>
+      <p class="reveal d2">Every design decision was filtered through these three archetypes — real patterns drawn from our interview sessions and usage data.</p>
+    </div>
+    <div class="personas-grid reveal d3" style="margin: 40px 24px 0;">
+      <div class="persona-cell">
+        <div class="persona-avatar">AM</div>
+        <div class="persona-name">Alex M.</div>
+        <div class="persona-type">Anxious Beginner · Age 26</div>
+        <div class="persona-divider"></div>
+        <span class="persona-label">Background</span>
+        <div class="persona-text">First job, some savings. Wants to invest but paralysed by fear of making the wrong call. Opens the app, sees charts, closes the app.</div>
+        <span class="persona-label">Needs</span>
+        <div class="persona-text">Reassurance. Simple language. A clear first step that doesn't feel risky.</div>
+        <div class="persona-quote">"Just tell me what to do — I don't need to understand all of it yet."</div>
+      </div>
+      <div class="persona-cell">
+        <div class="persona-avatar">SP</div>
+        <div class="persona-name">Sarah P.</div>
+        <div class="persona-type">Busy Professional · Age 34</div>
+        <div class="persona-divider"></div>
+        <span class="persona-label">Background</span>
+        <div class="persona-text">Earns well, has a portfolio, checks it once a month. Knows she should be more hands-on but doesn't have the time to manage it actively.</div>
+        <span class="persona-label">Needs</span>
+        <div class="persona-text">Proactive alerts that matter. No noise. Tell her when she needs to act — not just when something changed.</div>
+        <div class="persona-quote">"I don't want to check daily. I want it to tell me when I need to pay attention."</div>
+      </div>
+      <div class="persona-cell">
+        <div class="persona-avatar">JK</div>
+        <div class="persona-name">James K.</div>
+        <div class="persona-type">Active Investor · Age 41</div>
+        <div class="persona-divider"></div>
+        <span class="persona-label">Background</span>
+        <div class="persona-text">Experienced. Uses multiple platforms. Switched to Richie AI for the AI layer but frustrated that the interface treats him like a beginner.</div>
+        <span class="persona-label">Needs</span>
+        <div class="persona-text">Depth on demand. Full data when he wants it. Explanations that match his knowledge level — not dumbed down.</div>
+        <div class="persona-quote">"I already know what a P/E ratio is. Stop explaining the basics."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 06 THE BIG IDEA ─── -->
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>06 — The Big Idea</div>
+    <h2 class="reveal d1">Stop showing users everything.<br>Let them <em>ask</em> instead.</h2>
+    <p class="reveal d2">The core insight from research was simple but uncomfortable: traditional stock dashboards show users everything about a stock — price, volume, P/E ratio, 52-week range — all at once. For most users, that's not information. That's paralysis.</p>
+    <div class="quote-block reveal d3">
+      <div class="quote-text">"I just wanted to know if I should be worried about Tesla. Instead I got a page of numbers I didn't understand."</div>
+      <div class="quote-attr">— Interview participant, 5 months into investing</div>
+    </div>
+    <p class="reveal d3">The answer wasn't to simplify the data — it was to change the interaction model entirely. Instead of presenting everything and hoping the user finds what matters, <em>Richie Chat</em> lets users ask exactly what's on their mind and get a direct, conversational answer.</p>
+    <div class="solutions reveal d3" style="margin-top:40px;">
+      <div class="solution">
+        <div class="solution-n">Old Model</div>
+        <h3>Dashboard dumps everything</h3>
+        <p style="margin-top:10px;">Open a stock. See 20 data points. Feel overwhelmed. Close the app. Repeat. The information was technically accurate but emotionally useless — users couldn't locate what they actually needed to make a decision.</p>
+        <p style="margin-top:10px; font-style:italic; font-size: var(--t-sm);">More data, less confidence.</p>
+      </div>
+      <div class="solution">
+        <div class="solution-n">Richie Chat</div>
+        <h3>Conversation surfaces what matters</h3>
+        <p style="margin-top:10px;">User types "Is Apple a good buy right now?" Richie responds with a 3-sentence answer tailored to their risk profile and portfolio — with the option to go deeper. The full data is still there. It just doesn't lead anymore.</p>
+        <p style="margin-top:10px; font-style:italic; font-size: var(--t-sm);">One question. One answer. One decision.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 07 DESIGN SYSTEM ─── -->
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>07 — Design System</div>
+    <h2 class="reveal d1">Building the visual language<br>for Richie Chat.</h2>
+    <p class="reveal d2">Every component was designed around one principle: the interface should feel like a knowledgeable friend, not a financial terminal.</p>
+    <div class="palette reveal d3">
+      <div class="swatch" style="background:#1A6B45;">Brand</div>
+      <div class="swatch" style="background:#0F0F0F;">Dark</div>
+      <div class="swatch" style="background:#22913D;">Success</div>
+      <div class="swatch" style="background:#EF4444;">Loss</div>
+      <div class="swatch" style="background:#F59E0B;">Caution</div>
+      <div class="swatch" style="background:#F7F7F5; color:rgba(0,0,0,0.3);">Surface</div>
+    </div>
+    <div class="feature-list reveal d3">
+      <div class="feature-row">
+        <div class="feature-name">Richie Chat Interface</div>
+        <div class="feature-desc">The core surface — a conversational input that lets users ask any question about any stock. Richie responds in plain language, personalised to their risk profile. The full data is always available one tap deeper, but it never leads. The question leads.</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-name">Adaptive Response Depth</div>
+        <div class="feature-desc">Richie's default answer is always 3 sentences — beginner-friendly, jargon-free. A "Show me more" tap reveals charts, ratios, and full analyst data. This single toggle served Alex, Sarah, and James without ever asking them to declare their experience level.</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-name">Conversational Onboarding</div>
+        <div class="feature-desc">Goal-setting and risk tolerance captured through the same chat interface — not a form. Users enter the app already familiar with how Richie talks, because onboarding and the core product feel identical. No mode switch, no learning curve.</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-name">Proactive Follow-ups</div>
+        <div class="feature-desc">Richie surfaces unprompted check-ins when something meaningful changes in a stock the user has asked about before. Not a price alert — a contextual nudge: "You asked about Apple last week. Here's what changed." Relevance over frequency.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 07B PROCESS NARRATIVE ─── -->
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>07b — How It Was Designed</div>
+    <h2 class="reveal d1">The decisions behind<br>the screens.</h2>
+    <p class="reveal d2">I didn't start with the chat interface. I started with the question: <em>at what moment does a user actually need information about a stock?</em> Not when the app opens — when they have a specific thought. "Should I sell?" "Is this dip temporary?" "What happened today?" That's a question-shaped moment, not a dashboard-shaped moment.</p>
+    <div class="feature-list reveal d3">
+      <div class="feature-row">
+        <div class="feature-name">Why conversational?</div>
+        <div class="feature-desc">In every interview, users described their anxiety in the form of a question — never a statement. "I don't know if I should be buying right now." "Is my portfolio too risky?" That language told me the interface needed to match how they were already thinking. A chat input is the most natural container for a question.</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-name">Why not just search?</div>
+        <div class="feature-desc">Search returns results. Richie Chat returns an answer — shaped by the user's portfolio, risk tolerance, and history. That personalisation is what makes it feel like a financial advisor rather than a search engine. The underlying data is the same; the framing is completely different.</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-name">How I handled depth</div>
+        <div class="feature-desc">The hardest design challenge was serving Alex (anxious beginner) and James (active investor) in the same interface. The solution: Richie's default answer is always beginner-friendly — 3 sentences, plain language, one recommendation. A "Show me more" tap reveals the full data layer. Depth on demand, not depth by default.</div>
+      </div>
+      <div class="feature-row">
+        <div class="feature-name">The constraint I worked within</div>
+        <div class="feature-desc">This was a 3-month internship with an existing product and engineering team. I couldn't redesign the entire app — I had to identify the highest-leverage intervention. Richie Chat was a feature addition, not a rebuild. That constraint actually sharpened the thinking: one new surface, maximum impact.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 08 ITERATIONS ─── -->
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>08 — Iteration</div>
+    <h2 class="reveal d1">What broke.<br>What we fixed.</h2>
+    <div class="iter-list reveal d2">
+      <div class="iter-row">
+        <div class="iter-round">Round 1</div>
+        <div>
+          <div class="iter-title">Users didn't know what to ask Richie</div>
+          <div class="iter-body">The first version launched with a blank chat input. Users froze — a blank prompt felt like an exam question. Added suggested prompts ("Is Tesla a good buy?", "Why is my portfolio down?") that disappear once the user starts typing. Engagement with the chat jumped significantly.</div>
+        </div>
+        <span class="badge badge-green">Fixed</span>
+      </div>
+      <div class="iter-row">
+        <div class="iter-round">Round 2</div>
+        <div>
+          <div class="iter-title">Richie's answers felt too long and text-heavy</div>
+          <div class="iter-body">Early responses averaged 6–8 sentences. Users skimmed and missed the key point. Redesigned the response format: one bold headline answer, two supporting sentences, then a "Show me more" tap for depth. Reading time dropped, comprehension improved.</div>
+        </div>
+        <span class="badge badge-orange">Redesigned</span>
+      </div>
+      <div class="iter-row">
+        <div class="iter-round">Round 3</div>
+        <div>
+          <div class="iter-title">Users couldn't find the chat from the home screen</div>
+          <div class="iter-body">Richie Chat was buried in the navigation in early builds. Users went straight to their portfolio and never discovered it. Moved the chat input to a persistent bar at the bottom of every screen — always one tap away, regardless of where the user is in the app.</div>
+        </div>
+        <span class="badge badge-blue">Validated</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 09 SCREENS ─── -->
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>09 — Screens</div>
+    <h2 class="reveal d1">From wireframe to final design.</h2>
+    <p class="reveal d2">Every screen went through at least 3 iterations. Getting the flow right before the pixels.</p>
+    <div class="screens-showcase reveal d3">
+      <img class="screen-dark"  src="/RichieAI/assets/screens-dark.png"  alt="Richie AI screens dark"/>
+      <img class="screen-light" src="/RichieAI/assets/screens-light.png" alt="Richie AI screens light"/>
+    </div>
+    <div class="callout reveal d3" style="margin-top:24px;">
+      <p>Replace these wireframe placeholders with final Figma exports — modified for NDA as needed. The layout and labels are already structured to match your screen titles.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 10 OUTCOMES ─── -->
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>10 — Outcomes</div>
+    <h2 class="reveal d1">Designed for trust.<br>Measured by retention.</h2>
+    <p class="reveal d2">Within the internship period, redesigned flows were shipped to production. Early metrics from A/B testing showed meaningful movement across all three target areas.</p>
+    <div class="deploy-nums reveal d3">
+      <div>
+        <div class="dn-num"><em>41</em>%</div>
+        <div class="dn-label">AI recommendation action rate — up from 12%</div>
+      </div>
+      <div>
+        <div class="dn-num"><em>2.1</em>×</div>
+        <div class="dn-label">Retention lift for users with a personalised session-1 insight</div>
+      </div>
+      <div>
+        <div class="dn-num"><em>3</em></div>
+        <div class="dn-label">Rounds of usability testing across all three personas</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ─── WHAT I'D DO DIFFERENTLY ─── -->
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>11 — Next Time</div>
+    <h2 class="reveal d1">What I'd do differently<br>with more time.</h2>
+    <div class="iter-list reveal d2">
+      <div class="iter-row">
+        <div class="iter-round">01</div>
+        <div>
+          <div class="iter-title">Test the chat input earlier — much earlier</div>
+          <div class="iter-body">I validated the concept through interviews before designing, but I wish I'd put a rough prototype of the chat interface in front of users in week two rather than week six. Some of the wording and tone decisions I made late would have been better informed by early conversation testing.</div>
+        </div>
+        <span class="badge badge-orange">Earlier</span>
+      </div>
+      <div class="iter-row">
+        <div class="iter-round">02</div>
+        <div>
+          <div class="iter-title">Map the edge cases for bad or uncertain AI responses</div>
+          <div class="iter-body">What does Richie say when it genuinely doesn't know? When market conditions are too volatile to give a clear answer? I designed the happy path well. The error states and uncertain states deserved the same rigour — in fintech, those moments are high stakes.</div>
+        </div>
+        <span class="badge badge-orange">Incomplete</span>
+      </div>
+      <div class="iter-row">
+        <div class="iter-round">03</div>
+        <div>
+          <div class="iter-title">Build a conversation history that creates value over time</div>
+          <div class="iter-body">Richie Chat in its current form is stateless — each conversation starts fresh. With more time, I'd design a history layer where Richie remembers past questions and proactively follows up: "Last month you asked about Tesla's dip — here's what happened since." That's where the real retention lives.</div>
+        </div>
+        <span class="badge badge-blue">Future</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FINAL ─── -->
+<footer class="final">
+  <div class="col">
+    <div class="tag" style="justify-content:center;"><span class="tag-dot"></span>Reflection</div>
+    <h2>The best financial tool is one<br>that feels like a conversation.</h2>
+    <p>Richie AI taught me that in fintech, the interface <em>is</em> the trust. Every word, every response, every empty state either builds a user's confidence or erodes it. Designing Richie Chat meant thinking less like a UI designer and more like a financial advisor — what does this person actually need to hear right now, and how do I say it in a way that helps them act?</p>
+    <p style="margin-top:12px;">That question is the one I'll carry into every product I work on next.</p>
+    <div style="margin-top:32px;">
+      <a href="../index.html" class="btn">← Back to Home</a>
+      <a href="#" class="btn btn-primary">See Prototype →</a>
+    </div>
+  </div>
+</footer>
+
 <script>
+// Reveal on scroll
+const revObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); revObs.unobserve(e.target); }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+// Mobile nav — Global Bridge style
 document.addEventListener('DOMContentLoaded', function(){
 (function(){
   var isMobile = function(){ return window.matchMedia('(max-width:640px)').matches; };
   var mobPill    = document.getElementById('mobPill');
   var mobBurger  = document.getElementById('mobBurger');
   var mobDrawer  = document.getElementById('mobDrawer');
+  var mobOverlay = document.getElementById('mobDrawerOverlay');
   var mobRingFill= document.getElementById('mobRingFill');
   var mobRingPct = document.getElementById('mobRingPct');
   var mobOptDark = document.getElementById('mobOptDark');
   var mobOptLight= document.getElementById('mobOptLight');
 
   if(!window.matchMedia('(max-width:640px)').matches) return;
-  if(!mobPill || !mobBurger || !mobDrawer || !mobRingFill || !mobRingPct) return;
+  if(!mobPill || !mobBurger || !mobDrawer) return;
 
   var MOB_CIRC = 2 * Math.PI * 21;
-  var scrollTimer = null;
-  var drawerOpen = false;
-  var pillShown  = false;
+  var scrollTimer = null, drawerOpen = false, pillShown = false;
 
   setTimeout(function(){ mobPill.classList.add('mob-visible'); pillShown = true; }, 500);
 
@@ -895,14 +1458,12 @@ document.addEventListener('DOMContentLoaded', function(){
     var scrollY = h.scrollTop;
     var total = h.scrollHeight - h.clientHeight;
     var pct = total > 0 ? Math.min(scrollY / total, 1) : 0;
-    mobRingFill.style.strokeDashoffset = MOB_CIRC * (1 - pct);
-    mobRingPct.textContent = Math.round(pct * 100) + '%';
+    if(mobRingFill) mobRingFill.style.strokeDashoffset = MOB_CIRC * (1 - pct);
+    if(mobRingPct) mobRingPct.textContent = Math.round(pct * 100) + '%';
     if(scrollY > 40){
       if(!pillShown){ mobPill.classList.add('mob-visible'); pillShown = true; }
       mobPill.classList.add('mob-scrolling');
-    } else {
-      mobPill.classList.remove('mob-scrolling');
-    }
+    } else { mobPill.classList.remove('mob-scrolling'); }
     clearTimeout(scrollTimer);
     scrollTimer = setTimeout(function(){ mobPill.classList.remove('mob-scrolling'); }, 500);
   }
@@ -925,28 +1486,207 @@ document.addEventListener('DOMContentLoaded', function(){
     document.body.style.overflow = '';
     mobBurger.focus();
   }
-
   mobBurger.addEventListener('click', function(){ drawerOpen ? closeDrawer() : openDrawer(); });
-  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && drawerOpen) closeDrawer(); });
-  mobDrawer.querySelectorAll('a').forEach(function(link){ link.addEventListener('click', closeDrawer); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape'&&drawerOpen) closeDrawer(); });
+  mobDrawer.querySelectorAll('a').forEach(function(l){ l.addEventListener('click', closeDrawer); });
 
   function applyMobTheme(goLight){
     document.body.classList.toggle('light', goLight);
-    mobOptDark.classList.toggle('active', !goLight);
-    mobOptLight.classList.toggle('active', goLight);
+    if(mobOptDark) mobOptDark.classList.toggle('active', !goLight);
+    if(mobOptLight) mobOptLight.classList.toggle('active', goLight);
     var deskToggle = document.getElementById('themeToggle');
     var pillToggle = document.getElementById('themeTogglePill');
     if(deskToggle) deskToggle.textContent = goLight ? '☀️' : '🌙';
     if(pillToggle) pillToggle.textContent = goLight ? '☀️' : '🌙';
   }
   applyMobTheme(false);
-
-  document.getElementById('mobThemeToggle').addEventListener('click', function(e){
-    if(e.target.id === 'mobOptLight') applyMobTheme(true);
-    else if(e.target.id === 'mobOptDark') applyMobTheme(false);
+  document.getElementById('mobThemeToggle').addEventListener('click', function(){
+    applyMobTheme(!document.body.classList.contains('light'));
   });
 })();
-}); // DOMContentLoaded
+});
+
+// Navbar
+(function(){
+  const navTop     = document.getElementById('navTop');
+  const navPill    = document.getElementById('navPill');
+  const rFill      = document.getElementById('navRingFill');
+  const rPct       = document.getElementById('navRingPct');
+  const toggleTop  = document.getElementById('themeToggle');
+  const togglePill = document.getElementById('themeTogglePill');
+  const CIRC = 2 * Math.PI * 21;
+
+  function onScroll(){
+    const h = document.documentElement;
+    const scrollY = h.scrollTop;
+    const total = h.scrollHeight - h.clientHeight;
+    const pct = total > 0 ? Math.min(scrollY / total, 1) : 0;
+    const isMobile = window.innerWidth <= 640;
+    if(!isMobile){
+      navTop.classList.toggle('nav-hidden', scrollY > 80);
+      navPill.classList.toggle('nav-visible', scrollY > 80);
+    } else {
+      navTop.classList.remove('nav-hidden');
+      navPill.classList.remove('nav-visible');
+    }
+    rFill.style.strokeDashoffset = CIRC * (1 - pct);
+    rPct.textContent = Math.round(pct * 100) + '%';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  function applyTheme(goLight){
+    document.body.classList.toggle('light', goLight);
+    const icon = goLight ? '☀️' : '🌙';
+    toggleTop.textContent  = icon;
+    togglePill.textContent = icon;
+  }
+  function toggleTheme(){ applyTheme(!document.body.classList.contains('light')); }
+  toggleTop.addEventListener('click', toggleTheme);
+  togglePill.addEventListener('click', toggleTheme);
+
+  document.querySelectorAll('[data-theme]').forEach(function(sec){
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.intersectionRatio > 0.45)
+          navPill.classList.toggle('nav-on-dark',
+            e.target.getAttribute('data-theme') !== 'dark');
+      });
+    },{threshold:[0.45,0.55]}).observe(sec);
+  });
+})();
+</script>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" role="dialog" aria-label="Screen preview">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕</button>
+  <img id="lightboxImg" src="" alt="Screen preview"/>
+</div>
+
+<script>
+// Lightbox
+(function(){
+  var lightbox = document.getElementById('lightbox');
+  var lightboxImg = document.getElementById('lightboxImg');
+  var showcase = document.querySelector('.screens-showcase');
+
+  function openLightbox(src){
+    lightboxImg.src = src;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox(){
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Screens showcase
+  if(showcase){
+    showcase.addEventListener('click', function(){
+      var activeImg = showcase.querySelector('.screen-dark');
+      var isLight = document.body.classList.contains('light');
+      if(isLight){
+        activeImg = showcase.querySelector('.screen-light') || activeImg;
+      }
+      openLightbox(activeImg.src);
+    });
+  }
+
+  // Flow images
+  document.querySelectorAll('.flow-light, .flow-dark').forEach(function(img){
+    img.addEventListener('click', function(){
+      openLightbox(this.src);
+    });
+  });
+
+  // Also wire up the inline SVG flow container
+  var flowDark = document.querySelector('.flow-dark');
+  if(flowDark){
+    flowDark.style.cursor = 'zoom-in';
+  }
+
+  // Close on backdrop click
+  lightbox.addEventListener('click', function(e){
+    if(e.target === lightbox) closeLightbox();
+  });
+
+  // Close on image click
+  lightboxImg.addEventListener('click', function(e){
+    e.stopPropagation();
+  });
+
+  // Close on X button
+  document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+
+  // Close on Escape
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeLightbox();
+  });
+})();
+</script>
+<!-- ── RESUME LIGHTBOX ── -->
+<style>
+  .resume-lightbox{position:fixed;inset:0;z-index:10001;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .35s cubic-bezier(0.22,1,0.36,1);padding:40px 24px;}
+  .resume-lightbox.is-open{opacity:1;pointer-events:all;}
+  .resume-lightbox__inner{position:relative;width:100%;max-width:900px;height:100%;max-height:92vh;background:#fff;border-radius:16px;box-shadow:0 30px 80px rgba(0,0,0,0.45);overflow:hidden;transform:translateY(20px) scale(0.98);transition:transform .4s cubic-bezier(0.22,1,0.36,1);}
+  .resume-lightbox.is-open .resume-lightbox__inner{transform:translateY(0) scale(1);}
+  .resume-lightbox__close{position:absolute;top:14px;right:14px;z-index:2;width:38px;height:38px;border-radius:50%;background:rgba(15,15,15,0.85);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.15);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s;}
+  .resume-lightbox__close:hover{transform:scale(1.08);background:rgba(15,15,15,0.95);}
+  .resume-lightbox__frame{width:100%;height:100%;border:0;display:block;}
+  body.resume-open{overflow:hidden;}
+  @media(max-width:768px){.resume-lightbox{padding:16px 12px;}.resume-lightbox__inner{max-height:96vh;border-radius:12px;}}
+</style>
+<div class="resume-lightbox" id="resumeLightbox" role="dialog" aria-modal="true" aria-label="Resume preview" aria-hidden="true">
+  <div class="resume-lightbox__inner">
+    <button class="resume-lightbox__close" id="resumeLightboxClose" aria-label="Close resume">✕</button>
+    <iframe class="resume-lightbox__frame" id="resumeLightboxFrame" title="Daiwat Thavai Resume" src="about:blank"></iframe>
+  </div>
+</div>
+<script>
+(function(){
+  var lightbox=document.getElementById('resumeLightbox');
+  var frame=document.getElementById('resumeLightboxFrame');
+  var closeBtn=document.getElementById('resumeLightboxClose');
+  var triggers=document.querySelectorAll('.js-resume-link');
+  var pdfUrl='../ThavaiDaiwat.pdf';
+  var lastFocus=null;
+  function openLightbox(e){if(e)e.preventDefault();lastFocus=document.activeElement;if(!frame.src.endsWith('ThavaiDaiwat.pdf'))frame.src=pdfUrl+'#view=FitH';lightbox.classList.add('is-open');lightbox.setAttribute('aria-hidden','false');document.body.classList.add('resume-open');setTimeout(function(){closeBtn.focus();},100);}
+  function closeLightbox(){lightbox.classList.remove('is-open');lightbox.setAttribute('aria-hidden','true');document.body.classList.remove('resume-open');if(lastFocus&&lastFocus.focus)lastFocus.focus();}
+  triggers.forEach(function(el){el.addEventListener('click',openLightbox);});
+  closeBtn.addEventListener('click',closeLightbox);
+  lightbox.addEventListener('click',function(e){if(e.target===lightbox)closeLightbox();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lightbox.classList.contains('is-open'))closeLightbox();});
+})();
+</script>
+
+<!-- ── SOUND + HAPTICS ── -->
+<script>
+(function(){
+  function init(){
+    if(typeof Snd==='undefined') return setTimeout(init,100);
+    var snd=new Snd({preloadSoundKit:Snd.KITS.SND01});
+    Snd.masterVolume=0.15;
+    document.querySelectorAll('a, button').forEach(function(el){el.classList.add('snd__button');});
+    [document.getElementById('themeToggle'),document.getElementById('themeTogglePill')].forEach(function(el){
+      if(!el) return;
+      el.classList.remove('snd__button');
+      el.addEventListener('click',function(){
+        var isDark=document.body.classList.contains('dark');
+        isDark?snd.playToggleOff():snd.playToggleOn();
+        if(navigator.vibrate)navigator.vibrate(isDark?15:[10,30,10]);
+      });
+    });
+    var mobOptDark=document.getElementById('mobOptDark');
+    var mobOptLight=document.getElementById('mobOptLight');
+    if(mobOptDark){mobOptDark.addEventListener('click',function(){if(!document.body.classList.contains('dark')){snd.playToggleOn();if(navigator.vibrate)navigator.vibrate([10,30,10]);}});}
+    if(mobOptLight){mobOptLight.addEventListener('click',function(){if(document.body.classList.contains('dark')){snd.playToggleOff();if(navigator.vibrate)navigator.vibrate(15);}});}
+    var isTouch=window.matchMedia('(hover: none)').matches;
+    if(!isTouch){document.querySelectorAll('a, button').forEach(function(el){el.addEventListener('mouseenter',function(){snd.playTap();});});}
+    document.querySelectorAll('a, button').forEach(function(el){el.addEventListener('click',function(){if(navigator.vibrate)navigator.vibrate(10);});});
+  }
+  init();
+})();
 </script>
 </body>
 </html>
