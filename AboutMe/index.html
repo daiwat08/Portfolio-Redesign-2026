@@ -107,18 +107,21 @@
     .mob-pill__burger.is-open span:nth-child(2){opacity:0;transform:scaleX(0);}
     .mob-pill__burger.is-open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
     .mob-drawer-overlay{display:none !important;}
-    .mob-drawer{position:fixed;inset:0;z-index:99999;background:#0a0a0a;display:flex;flex-direction:column;justify-content:center;padding:100px 0 max(40px,env(safe-area-inset-bottom)) 0;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,1,.42,1),background .4s;width:100%;height:100%;top:0;left:0;}
+    .mob-drawer{position:fixed;inset:0;z-index:99999;background:var(--bg);display:flex;flex-direction:column;justify-content:center;padding:100px 0 max(40px,env(safe-area-inset-bottom)) 0;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,1,.42,1),background .4s;width:100%;height:100%;top:0;left:0;}
     .mob-drawer.is-open{transform:translateY(0);}
     .mob-drawer__handle{display:none;}
     .mob-drawer__link{display:flex;align-items:center;padding:20px 40px;font-size:36px;font-family:'Instrument Serif',serif;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-.03em;min-height:72px;transition:opacity .18s,transform .12s;}
     .mob-drawer__link:active{opacity:0.6;transform:scale(0.98);}
-    body.light .mob-drawer__link:active{opacity:0.5;}
+    body.light .mob-drawer{background:var(--bg);} body.light .mob-drawer__link{color:#111;} body.light .mob-drawer__link:active{opacity:0.5;}
     .mob-drawer__divider{height:1px;background:rgba(255,255,255,0.1);margin:20px 40px;}
     .mob-drawer__theme{display:flex;align-items:center;justify-content:flex-start;padding:20px 40px;min-height:64px;}
-    .mob-theme-toggle{display:flex;align-items:center;background:#1a1a1a;border:1px solid rgba(255,255,255,0.12);border-radius:999px;padding:4px;gap:4px;cursor:pointer;}
+    .mob-theme-toggle{display:flex;align-items:center;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:999px;padding:4px;gap:4px;cursor:pointer;transition:background .3s,border-color .3s;}
+    body.light .mob-theme-toggle{background:rgba(0,0,0,0.05);border-color:rgba(0,0,0,0.12);}
+    body.light .mob-theme-toggle__opt{color:#222;}
+    body.light .mob-theme-toggle__opt.active{background:var(--accent);color:#fff;}
     
-    .mob-theme-toggle__opt{padding:8px 20px;border-radius:999px;font-size:13px;font-weight:500;color:rgba(255,255,255,0.5);transition:background .2s,color .2s;min-height:36px;display:flex;align-items:center;background:none;border:none;cursor:pointer;font-family:inherit;}
-    .mob-theme-toggle__opt.active{background:#fff;color:#111;font-weight:600;}
+    .mob-theme-toggle__opt{padding:8px 20px;border-radius:999px;font-size:13px;font-weight:500;color:rgba(255,255,255,0.65);transition:background .2s,color .2s;min-height:36px;display:flex;align-items:center;background:none;border:none;cursor:pointer;font-family:inherit;}
+    .mob-theme-toggle__opt.active{background:var(--accent);color:#fff;font-weight:500;}
     .hero-split{grid-template-columns:1fr;}
     .expertise-grid{grid-template-columns:1fr;}
     .stats-row{grid-template-columns:1fr 1fr;}
@@ -138,6 +141,9 @@
 
   /* ── TYPOGRAPHY — identical to GB ── */
   h1{font-family:'Instrument Serif',serif;font-size:var(--t-2xl);font-weight:400;line-height:.95;letter-spacing:-.03em;color:var(--white);}
+  @media(min-width:641px) and (max-width:1024px){:root{--t-2xl:40px;}}
+  @media(max-width:640px){:root{--t-2xl:32px;}h1{line-height:0.95;}}
+  @media(max-width:380px){:root{--t-2xl:28px;}}
   h2{font-family:'Instrument Serif',serif;font-size:var(--t-xl);font-weight:400;line-height:1.3;letter-spacing:-.3px;color:var(--white);}
   h3{font-size:var(--t-md);font-weight:500;color:var(--white);line-height:1.4;}
   em{font-style:italic;color:var(--accent-text);}
@@ -395,7 +401,7 @@
 
     <!-- Photo AFTER headline, BEFORE body text -->
     <div class="hero-img-wrap">
-      <img src="AboutMe/assets/Photo" alt="Daiwat Thavai" class="hero-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <img src="assets/Photo" alt="Daiwat Thavai" class="hero-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
       <div class="hero-img-placeholder" style="display:none;">Add assets/photo.jpg</div>
       <div class="hero-caption">Philadelphia, PA · 2026</div>
     </div>
@@ -430,19 +436,19 @@
     <p class="reveal d1">These aren't stock photos. This is what it actually looks like when design gets approved — six executive directors at Thomas Jefferson University, unanimous.</p>
     <div class="photo-grid reveal d2">
       <div class="photo-cell">
-        <img src="AboutMe/assets/1.png" alt="Presenting Global Bridge at TJU" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <img src="assets/1.png" alt="Presenting Global Bridge at TJU" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="photo-cell-placeholder" style="display:none;">Meeting 1</div>
       </div>
       <div class="photo-cell">
-        <img src="AboutMe/assets/2.png" alt="With TJU executive directors" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <img src="assets/2.png" alt="With TJU executive directors" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="photo-cell-placeholder" style="display:none;">Meeting 2</div>
       </div>
       <div class="photo-cell">
-        <img src="AboutMe/assets/3.png" alt="Research session" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <img src="assets/3.png" alt="Research session" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="photo-cell-placeholder" style="display:none;">Meeting 3</div>
       </div>
       <div class="photo-cell">
-        <img src="AboutMe/assets/4.png" alt="With team at TJU" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <img src="assets/4.png" alt="With team at TJU" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="photo-cell-placeholder" style="display:none;">Meeting 4</div>
       </div>
     </div>
