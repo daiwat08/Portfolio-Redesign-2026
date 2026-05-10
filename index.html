@@ -639,7 +639,7 @@
     <p>Elegant design solutions, brought to life through creative coding.</p>
     <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:36px;">
       <a href="#" class="btn-outline btn-primary" style="margin-top:0;">Chat with Dave AI ✦</a>
-      <a href="ThavaiDaiwat.pdf" class="btn-outline btn-secondary js-resume-link" style="margin-top:0;">Download Resume</a>
+      <a href="ThavaiDaiwat.pdf" class="btn-outline btn-secondary js-resume-link" style="margin-top:0;">View Resume</a>
     </div>
   </div>
 </section>
@@ -1120,47 +1120,64 @@
   function init() {
     if (typeof Snd === 'undefined') return setTimeout(init, 100);
 
-    // Use snd-lib's built-in easySetup — it handles AudioContext unlock automatically
     var snd = new Snd({ preloadSoundKit: Snd.KITS.SND01 });
+    Snd.masterVolume = 0.3; // subtle — 30% of full volume
 
-    // Add snd-lib's built-in class to every link/button for automatic click sounds
+    // Add snd__button class — library handles click sounds automatically
     document.querySelectorAll('a, button').forEach(function (el) {
       el.classList.add('snd__button');
     });
 
-    // Hover sound — desktop only, quieter tap
-    var isTouch = window.matchMedia('(hover: none)').matches;
-    if (!isTouch) {
-      document.querySelectorAll('a, button').forEach(function (el) {
-        el.addEventListener('mouseenter', function () {
-          snd.play(Snd.SOUNDS.tap, { volume: 0.2 });
-        });
-      });
-    }
-
-    // Vibration helper
-    function vibrate(pattern) {
-      if (navigator.vibrate) navigator.vibrate(pattern);
-    }
-
-    // Vibration on click
-    document.querySelectorAll('a, button').forEach(function (el) {
-      el.addEventListener('click', function () { vibrate(10); });
-    });
-
-    // Toggle sound + vibration for theme buttons (override the generic button sound)
+    // Theme toggles — read state BEFORE click, play correct toggle sound
+    // Desktop toggles are buttons; mobile uses div children
     [
       document.getElementById('themeToggle'),
-      document.getElementById('themeTogglePill'),
-      document.getElementById('mobThemeToggle')
+      document.getElementById('themeTogglePill')
     ].forEach(function (el) {
       if (!el) return;
       el.classList.remove('snd__button');
       el.addEventListener('click', function () {
-        var isDark = document.body.classList.contains('dark');
-        // isDark is the state BEFORE the click fires applyTheme
-        snd.play(isDark ? Snd.SOUNDS.toggle_off : Snd.SOUNDS.toggle_on);
-        vibrate(isDark ? 15 : [10, 30, 10]);
+        // Read BEFORE applyTheme flips the class
+        var isDarkNow = document.body.classList.contains('dark');
+        isDarkNow ? snd.playToggleOff() : snd.playToggleOn();
+        if (navigator.vibrate) navigator.vibrate(isDarkNow ? 15 : [10, 30, 10]);
+      });
+    });
+
+    // Mobile theme toggle — fires on the child opt divs
+    var mobOptDark  = document.getElementById('mobOptDark');
+    var mobOptLight = document.getElementById('mobOptLight');
+    if (mobOptDark) {
+      mobOptDark.addEventListener('click', function () {
+        if (!document.body.classList.contains('dark')) {
+          snd.playToggleOn();
+          if (navigator.vibrate) navigator.vibrate([10, 30, 10]);
+        }
+      });
+    }
+    if (mobOptLight) {
+      mobOptLight.addEventListener('click', function () {
+        if (document.body.classList.contains('dark')) {
+          snd.playToggleOff();
+          if (navigator.vibrate) navigator.vibrate(15);
+        }
+      });
+    }
+
+    // Hover sound — desktop only, no options object (browser build limitation)
+    var isTouch = window.matchMedia('(hover: none)').matches;
+    if (!isTouch) {
+      document.querySelectorAll('a, button').forEach(function (el) {
+        el.addEventListener('mouseenter', function () {
+          snd.playTap();
+        });
+      });
+    }
+
+    // Vibration on click
+    document.querySelectorAll('a, button').forEach(function (el) {
+      el.addEventListener('click', function () {
+        if (navigator.vibrate) navigator.vibrate(10);
       });
     });
   }
