@@ -44,6 +44,9 @@
     .nav-top__links { display: none !important; }
     .nav-top__cta { display: none !important; }
   }
+  @media (max-width: 640px) {
+    .nav-top { display: none !important; }
+  }
 
   /* ── FILTER PILLS ── */
   .filters {
@@ -79,7 +82,10 @@
     overflow-y: hidden;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
     scrollbar-width: none;
+    will-change: scroll-position;
   }
   .scroll-container::-webkit-scrollbar { display: none; }
 
@@ -95,6 +101,8 @@
     overflow: hidden;
     flex-shrink: 0;
     transition: opacity 0.5s ease, transform 0.5s ease;
+    will-change: transform;
+    touch-action: pan-x;
   }
   .panel.hidden {
     display: none;
@@ -1040,6 +1048,113 @@
   
 })();
 </script>
+
+<script>
+/* MOBILE NAV */
+document.addEventListener('DOMContentLoaded', function(){
+(function(){
+  if(!window.matchMedia('(max-width:640px)').matches) return;
+
+  var mobPill     = document.getElementById('mobPill');
+  var mobBurger   = document.getElementById('mobBurger');
+  var mobBurgerClose = document.getElementById('mobBurgerClose');
+  var mobDrawer   = document.getElementById('mobDrawer');
+  var mobDrawerInner = document.getElementById('mobDrawerInner');
+  var mobRingFill = document.getElementById('mobRingFill');
+  var mobRingPct  = document.getElementById('mobRingPct');
+  var mobOptDark  = document.getElementById('mobOptDark');
+  var mobOptLight = document.getElementById('mobOptLight');
+  var mobCurrent  = document.getElementById('mobCurrent');
+  var mobTotal    = document.getElementById('mobTotal');
+
+  if(!mobPill || !mobBurger || !mobDrawer) return;
+
+  var MOB_CIRC = 2 * Math.PI * 21;
+  var scrollTimer = null, drawerOpen = false, pillShown = false;
+
+  // Show pill after 500ms
+  setTimeout(function(){ mobPill.classList.add('mob-visible'); pillShown = true; }, 500);
+
+  // Track horizontal scroll for ring
+  var container = document.getElementById('scrollContainer');
+  if(container){
+    container.addEventListener('scroll', function(){
+      var pct = container.scrollWidth > container.clientWidth
+        ? container.scrollLeft / (container.scrollWidth - container.clientWidth) : 0;
+      if(mobRingFill) mobRingFill.style.strokeDashoffset = MOB_CIRC * (1 - pct);
+      if(mobRingPct)  mobRingPct.textContent = Math.round(pct * 100) + '%';
+    }, {passive:true});
+  }
+
+  // Pill shrink on any scroll
+  window.addEventListener('scroll', function(){
+    var scrollY = window.scrollY || document.documentElement.scrollTop;
+    if(scrollY > 40){
+      if(!pillShown){ mobPill.classList.add('mob-visible'); pillShown = true; }
+      mobPill.classList.add('mob-scrolling');
+    } else { mobPill.classList.remove('mob-scrolling'); }
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(function(){ mobPill.classList.remove('mob-scrolling'); }, 500);
+  }, {passive:true});
+
+  function openDrawer(){
+    drawerOpen = true;
+    mobDrawer.style.pointerEvents = 'all';
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      if(mobDrawerInner) mobDrawerInner.style.opacity = '1';
+    });});
+    mobBurger.classList.add('is-open');
+    mobBurger.setAttribute('aria-expanded','true');
+  }
+  function closeDrawer(){
+    drawerOpen = false;
+    if(mobDrawerInner) mobDrawerInner.style.opacity = '0';
+    mobBurger.classList.remove('is-open');
+    mobBurger.setAttribute('aria-expanded','false');
+    setTimeout(function(){ mobDrawer.style.pointerEvents = 'none'; }, 300);
+    mobBurger.focus();
+  }
+
+  mobBurger.addEventListener('click', function(){ drawerOpen ? closeDrawer() : openDrawer(); });
+  if(mobBurgerClose) mobBurgerClose.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape' && drawerOpen) closeDrawer(); });
+  mobDrawer.querySelectorAll('a').forEach(function(l){ l.addEventListener('click', closeDrawer); });
+
+  // Theme toggle — clicks desktop button to trigger existing isDark/updateBg
+  function applyMobTheme(goDark){
+    var themeBtn = document.getElementById('themeToggle');
+    var isDarkNow = document.body.classList.contains('dark');
+    if((goDark && !isDarkNow) || (!goDark && isDarkNow)){
+      if(themeBtn) themeBtn.click();
+    }
+    mobOptDark.classList.toggle('active', goDark);
+    mobOptLight.classList.toggle('active', !goDark);
+    mobOptDark.setAttribute('aria-pressed', String(goDark));
+    mobOptLight.setAttribute('aria-pressed', String(!goDark));
+  }
+
+  // Init state
+  var isDarkNow = document.body.classList.contains('dark');
+  mobOptDark.classList.toggle('active', isDarkNow);
+  mobOptLight.classList.toggle('active', !isDarkNow);
+
+  document.getElementById('mobThemeToggle').addEventListener('click', function(e){
+    var isDarkNow = document.body.classList.contains('dark');
+    if(e.target.id === 'mobOptDark' && !isDarkNow) applyMobTheme(true);
+    else if(e.target.id === 'mobOptLight' && isDarkNow) applyMobTheme(false);
+  });
+
+  // Sync with desktop toggle
+  var themeBtn = document.getElementById('themeToggle');
+  if(themeBtn){
+    themeBtn.addEventListener('click', function(){
+      var isDarkNow = document.body.classList.contains('dark');
+      mobOptDark.classList.toggle('active', isDarkNow);
+      mobOptLight.classList.toggle('active', !isDarkNow);
+    });
+  }
+})();
+}); // DOMContentLoaded
 
 <!-- MOBILE PILL NAV -->
 <nav class="mob-pill" id="mobPill" role="navigation" aria-label="Mobile navigation">
