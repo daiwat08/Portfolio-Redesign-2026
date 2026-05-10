@@ -360,6 +360,16 @@
     .hero-meta { gap:32px; }
   }
 
+  @media(min-width:641px) and (max-width:1024px) {
+    :root { --t-2xl: 40px; }
+  }
+  @media(max-width:640px) {
+    :root { --t-2xl: 32px; }
+  }
+  @media(max-width:380px) {
+    :root { --t-2xl: 28px; }
+  }
+
   /* ── LIGHTBOX ── */
   .lightbox-trigger { cursor: zoom-in; transition: opacity 0.2s, transform 0.2s; }
   .lightbox-trigger:hover { opacity: 0.88; transform: scale(1.005); }
