@@ -153,7 +153,7 @@
   .nav-pill__icon svg { width:16px; height:16px; color:rgba(255,255,255,.8); }
   .nav-pill__links { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .2s ease; }
   .nav-pill:hover .nav-pill__links { opacity:1; pointer-events:all; transition-delay:.1s; }
-  .nav-pill__link { font-size:14px; font-weight:500; color:rgba(255,255,255,.6); text-decoration:none; padding:8px 16px; border-radius:999px; transition:background .2s,color .2s; white-space:nowrap; }
+  .nav-pill__link { font-size:14px; font-weight:500; color:rgba(255,255,255,0.65); text-decoration:none; padding:8px 16px; border-radius:999px; transition:background .2s,color .2s; white-space:nowrap; }
   .nav-pill__link:hover { color:white; background:rgba(255,255,255,.1); }
   .nav-pill__theme { position:absolute; right:63px; opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:3; }
   .nav-pill:hover .nav-pill__theme { opacity:1; pointer-events:all; transition-delay:.12s; }
@@ -205,18 +205,22 @@
     .mob-pill__burger.is-open span:nth-child(2){opacity:0;transform:scaleX(0);}
     .mob-pill__burger.is-open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
     .mob-drawer-overlay{display:none !important;}
-    .mob-drawer{position:fixed;inset:0;z-index:99999;background:#0a0a0a;display:flex;flex-direction:column;justify-content:center;padding:100px 0 max(40px,env(safe-area-inset-bottom)) 0;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,1,.42,1),background .4s;width:100%;height:100%;top:0;left:0;}
+    .mob-drawer{position:fixed;inset:0;z-index:99999;background:var(--bg);display:flex;flex-direction:column;justify-content:center;padding:100px 0 max(40px,env(safe-area-inset-bottom)) 0;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,1,.42,1),background .4s;width:100%;height:100%;top:0;left:0;}
     .mob-drawer.is-open{transform:translateY(0);}
     .mob-drawer__handle{display:none;}
     .mob-drawer__link{display:flex;align-items:center;padding:20px 40px;font-size:36px;font-family:'Instrument Serif',serif;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-.03em;min-height:72px;transition:opacity .18s,transform .12s;}
     .mob-drawer__link:active{opacity:0.6;transform:scale(0.98);}
-    body.light .mob-drawer__link:active{opacity:0.5;}
+    body.light .mob-drawer{background:var(--bg);} body.light .mob-drawer__link{color:#111;} body.light .mob-drawer__link:active{opacity:0.5;}
     .mob-drawer__divider{height:1px;background:rgba(255,255,255,0.1);margin:20px 40px;}
     .mob-drawer__theme{display:flex;align-items:center;justify-content:flex-start;padding:20px 40px;min-height:64px;}
-    .mob-theme-toggle{display:flex;align-items:center;background:#1a1a1a;border:1px solid rgba(255,255,255,0.12);border-radius:999px;padding:4px;gap:4px;cursor:pointer;}
+    .mob-theme-toggle{display:flex;align-items:center;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:999px;padding:4px;gap:4px;cursor:pointer;transition:background .3s,border-color .3s;}
+    body.light .mob-theme-toggle{background:rgba(0,0,0,0.05);border-color:rgba(0,0,0,0.12);}
+    body.light .mob-theme-toggle__opt{color:#222;}
+    body.light .mob-theme-toggle__opt.active{background:var(--accent);color:#fff;}
     
-    .mob-theme-toggle__opt{padding:8px 20px;border-radius:999px;font-size:13px;font-weight:500;color:rgba(255,255,255,0.5);transition:background .2s,color .2s;min-height:36px;display:flex;align-items:center;}
-    .mob-theme-toggle__opt.active{background:#fff;color:#111;font-weight:600;}
+    .mob-theme-toggle__opt{padding:8px 20px;border-radius:999px;font-size:13px;font-weight:500;color:rgba(255,255,255,0.65);transition:background .2s,color .2s;min-height:36px;display:flex;align-items:center;}
+    .mob-theme-toggle__opt.active{background:#333;color:#fff;font-weight:500;}
+  body.light .mob-theme-toggle__opt.active{background:var(--accent);color:#fff;}
     .stats-row,.stats-row-3{grid-template-columns:1fr !important;}
     .steps{grid-template-columns:1fr 1fr;}
     .solutions{grid-template-columns:1fr;}
@@ -224,7 +228,7 @@
     .iter-row{grid-template-columns:1fr;}
     .iter-row .badge{align-self:flex-start;margin-top:8px;}
     .hero-meta{gap:24px;}
-    .meta-item{min-width:40%;}
+    .meta-item{min-width:unset;}
     .section{padding:96px 0;}
     .hero{padding:140px 0 96px;}
     .feature-row{grid-template-columns:1fr;gap:6px;}
@@ -261,7 +265,7 @@
 
   /* ─── HERO ─── */
   .hero { padding:140px 0 96px; border-bottom:1px solid var(--line); }
-  .hero-meta { display:flex; gap:64px; margin-top:56px; padding-top:40px; border-top:1px solid var(--line); flex-wrap:wrap; }
+  .hero-meta { display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-top:56px; padding-top:40px; border-top:1px solid var(--line); }
   .meta-item label { font-family:'Geist Mono',monospace; font-size:var(--t-xs); letter-spacing:1.5px; text-transform:uppercase; color:var(--sub); display:block; margin-bottom:10px; }
   .meta-item span  { font-size:24px; color:var(--text); font-weight:400; font-family:'Instrument Serif',serif; }
 
@@ -334,6 +338,12 @@
   .btn-primary:hover { background:#ffffff; }
   body.light .btn-primary { color:#ffffff; background:#111; }
   body.light .btn { border-color:rgba(0,0,0,.15); color:#222; }
+
+  /* Design system theme-aware images */
+  .ds-img--light { display: none; }
+  .ds-img--dark  { display: block; }
+  body.light .ds-img--dark  { display: none; }
+  body.light .ds-img--light { display: block; }
 
   /* ─── ANIMATIONS ─── */
   @keyframes up { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
@@ -575,10 +585,15 @@
     </div>
 
 
-    <div class="before-after reveal" style="margin-top:40px;display:flex;flex-direction:column;gap:12px;">
+    <div class="before-after reveal" style="margin-top:40px;display:flex;flex-direction:column;gap:24px;">
       <div>
         <div style="font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);margin-bottom:10px;">Before — Dark Grey Charcoal</div>
-        <img src=
+        <img src="../EranovaAI/assets/old" alt="Eranova before rebrand" style="width:100%;border-radius:10px;border:1px solid var(--line);">
+      </div>
+      <div>
+        <div style="font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);margin-bottom:10px;">After — Pure Black & White</div>
+        <img src="../EranovaAI/assets/new" alt="Eranova after rebrand" style="width:100%;border-radius:10px;border:1px solid var(--line);">
+      </div>
     </div>
 
     <div class="feature-list reveal" style="margin-top: 40px;">
@@ -665,10 +680,34 @@
   </div>
 </section>
 
-<!-- ─── 07 REFLECTION ─── -->
+<!-- ─── 07 DESIGN SYSTEM ─── -->
 <section class="section">
   <div class="col">
-    <div class="tag reveal"><span class="tag-dot"></span>07 — Reflection</div>
+    <div class="tag reveal"><span class="tag-dot"></span>07 — Design System</div>
+    <h2 class="reveal d1">Tokens that scale<br>beyond the project.</h2>
+    <p class="reveal d2">One of the most lasting deliverables from this engagement wasn't visible on the website — it was the foundation underneath it. I built out a full token-based design system in Figma: mapped variables for icons, surfaces, and borders, each with defined light and dark mode values. This gave Eranova's internal team a single source of truth they could apply consistently across the site, future product work, and any internal tooling — without needing to re-solve colour decisions from scratch every time.</p>
+    <p class="reveal d3" style="margin-top:16px;">The system covered 16 mapped variables across three groups — Icon, Surface, and Border — all aliased to a foundation layer so updates cascade automatically. What started as a branding exercise became infrastructure.</p>
+
+    <!-- Theme-aware image: shows dark in dark mode, light in light mode -->
+    <div class="reveal d4" style="margin-top:48px;border-radius:12px;overflow:hidden;border:1px solid var(--line);">
+      <img src="../EranovaAI/design-system-dark.png"
+           class="ds-img ds-img--dark"
+           alt="Design system variables panel — dark mode"
+           style="width:100%;">
+      <img src="../EranovaAI/design-system-light.png"
+           class="ds-img ds-img--light"
+           alt="Design system variables panel — light mode"
+           style="width:100%;">
+    </div>
+    <p class="reveal d5" style="margin-top:12px;font-family:'Geist Mono',monospace;font-size:var(--t-xs);color:var(--sub);letter-spacing:1px;text-transform:uppercase;">Figma Variables panel — Mapped collection, 16 tokens</p>
+  </div>
+</section>
+
+<!-- ─── 08 REFLECTION ─── -->
+
+<section class="section">
+  <div class="col">
+    <div class="tag reveal"><span class="tag-dot"></span>08 — Reflection</div>
     <h2 class="reveal d1">What I carried<br>out of this.</h2>
     <div class="insights-grid reveal d3" style="margin-top: 40px;">
       <div class="insight-cell">
@@ -698,6 +737,7 @@
     <p>Three months. One audit. One rebrand. One site launch. Fifty posts. One team that went from a generic landing page to a brand that looked like it belonged in the room with enterprise clients.</p>
     <div style="margin-top:32px;">
       <a href="../index.html" class="btn">← Back to Work</a>
+      <a href="https://eranova.ai" target="_blank" rel="noopener" class="btn" style="margin-left:12px;">Visit Website ↗</a>
     </div>
   </div>
 </footer>
