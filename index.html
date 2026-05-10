@@ -639,7 +639,7 @@
     <p>Elegant design solutions, brought to life through creative coding.</p>
     <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:36px;">
       <a href="#" class="btn-outline btn-primary" style="margin-top:0;">Chat with Dave AI ✦</a>
-      <a href="ThavaiDaiwat.pdf" class="btn-outline btn-secondary js-resume-link" style="margin-top:0;">View Resume</a>
+      <a href="ThavaiDaiwat.pdf" class="btn-outline btn-secondary js-resume-link" style="margin-top:0;">Download Resume</a>
     </div>
   </div>
 </section>
@@ -1121,7 +1121,7 @@
     if (typeof Snd === 'undefined') return setTimeout(init, 100);
 
     var snd = new Snd({ preloadSoundKit: Snd.KITS.SND01 });
-    Snd.masterVolume = 0.3; // subtle — 30% of full volume
+    Snd.masterVolume = 0.15; // very subtle — 15% of full volume
 
     // Add snd__button class — library handles click sounds automatically
     document.querySelectorAll('a, button').forEach(function (el) {
