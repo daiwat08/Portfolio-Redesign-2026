@@ -175,7 +175,7 @@
   /* Hide mobile nav on desktop */
   @media(min-width:641px){
     .mob-pill{display:none !important;}
-    .mob-drawer{display:none !important;}
+    .mob-drawer{position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999;background:#0a0a0a;display:flex;flex-direction:column;justify-content:center;padding:0 0 max(40px,env(safe-area-inset-bottom)) 0;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,1,.42,1);}
     .mob-drawer-overlay{display:none !important;}
   }
   @media(max-width:640px){
@@ -191,10 +191,10 @@
       position:fixed;
       top:16px;left:50%;
       transform:translateX(-50%) translateY(-6px);
-      z-index:9999;
+      z-index:999999;
       align-items:center;
       justify-content:space-between;
-      background:rgba(15,15,15,0.92);
+      background:rgba(15,15,15,0.98);
       border:1px solid rgba(255,255,255,0.1);
       border-radius:999px;
       height:72px;
@@ -319,20 +319,10 @@
       padding:20px 40px;min-height:64px;
     }
     .mob-drawer__theme-label{font-size:14px;color:var(--sub);letter-spacing:.5px;text-transform:uppercase;font-family:'Geist Mono',monospace;font-size:11px;}
-    .mob-theme-toggle{
-      display:flex;align-items:center;
-      background:rgba(255,255,255,0.06);
-      border:1px solid var(--line);border-radius:999px;
-      padding:4px;gap:4px;cursor:pointer;
-    }
+    .mob-theme-toggle{display:flex;align-items:center;background:#1a1a1a;border:1px solid rgba(255,255,255,0.12);border-radius:999px;padding:4px;gap:4px;cursor:pointer;}
     body.light .mob-theme-toggle{background:rgba(0,0,0,0.05);}
-    .mob-theme-toggle__opt{
-      padding:8px 20px;border-radius:999px;
-      font-size:13px;font-weight:500;color:var(--sub);
-      transition:background .2s,color .2s;
-      min-height:36px;display:flex;align-items:center;
-    }
-    .mob-theme-toggle__opt.active{background:var(--accent);color:#fff;}
+    .mob-theme-toggle__opt{padding:8px 20px;border-radius:999px;font-size:13px;font-weight:500;color:rgba(255,255,255,0.4);transition:background .2s,color .2s;min-height:36px;display:flex;align-items:center;background:none;border:none;cursor:pointer;font-family:inherit;}
+    .mob-theme-toggle__opt.active{background:var(--accent);color:#000;font-weight:600;}
 
   }
 
@@ -907,7 +897,7 @@ document.addEventListener('DOMContentLoaded', function(){
   <div class="mob-drawer__divider" aria-hidden="true"></div>
   <div class="mob-drawer__theme">
     <div class="mob-theme-toggle" id="mobThemeToggle" role="group" aria-label="Theme toggle">
-      <div class="mob-theme-toggle__opt" id="mobOptDark" aria-pressed="true">Dark</div>
+      <button class="mob-theme-toggle__opt active" id="mobOptDark" aria-pressed="true">Dark</button>
       <div class="mob-theme-toggle__opt active" id="mobOptLight" aria-pressed="false">Light</div>
     </div>
   </div>
