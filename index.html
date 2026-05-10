@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Daiwat Thavai — Portfolio</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<!-- SND UI sound library (SND01 sine kit) -->
+<script src="https://cdn.jsdelivr.net/gh/snd-lib/snd-lib@v1.2.4/dist/browser/snd.js?kit=01"></script>
 <style>
   :root {
     --t-xs:   12px;
@@ -437,7 +439,7 @@
     opacity: 1 !important;
   }
 
-  .project-section .btn-outline { align-self: center; }
+  .project-section .btn-outline { align-self: flex-start; }
 
   /* ── MOBILE ── */
   @media (max-width: 960px) {
@@ -585,7 +587,7 @@
   <nav class="nav-top__links">
     <a href="#" class="nav-top__link">Work</a>
     <a href="#" class="nav-top__link">About</a>
-    <a href="#" class="nav-top__link">Resume</a>
+    <a href="ThavaiDaiwat.pdf" class="nav-top__link js-resume-link">Resume</a>
   </nav>
   <div style="display:flex; align-items:center; gap:8px;">
     <button id="themeToggle" style="width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);background:transparent;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0;" aria-label="Toggle dark mode">🌙</button>
@@ -600,7 +602,7 @@
 <div class="nav-mobile-menu" id="navMobileMenu">
   <a href="#">Work</a>
   <a href="#">About</a>
-  <a href="#">Resume</a>
+  <a href="ThavaiDaiwat.pdf" class="js-resume-link">Resume</a>
   <div class="menu-divider"></div>
   <a href="#" style="color:#4A7CFF;font-weight:600;">Dave AI ✦</a>
 </div>
@@ -615,7 +617,7 @@
   <div class="nav-pill__links">
     <a href="#" class="nav-pill__link">Work</a>
     <a href="#" class="nav-pill__link">About</a>
-    <a href="#" class="nav-pill__link">Resume</a>
+    <a href="ThavaiDaiwat.pdf" class="nav-pill__link js-resume-link">Resume</a>
   </div>
   <div class="nav-pill__theme">
     <button class="theme-btn" id="themeTogglePill" aria-label="Toggle theme">🌙</button>
@@ -637,7 +639,7 @@
     <p>Elegant design solutions, brought to life through creative coding.</p>
     <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:36px;">
       <a href="#" class="btn-outline btn-primary" style="margin-top:0;">Chat with Dave AI ✦</a>
-      <a href="#" class="btn-outline btn-secondary" style="margin-top:0;">Download Resume</a>
+      <a href="ThavaiDaiwat.pdf" class="btn-outline btn-secondary js-resume-link" style="margin-top:0;">Download Resume</a>
     </div>
   </div>
 </section>
@@ -949,7 +951,7 @@
   <a href="#" class="mob-drawer__link">Home</a>
   <a href="../Work/index.html" class="mob-drawer__link">Work</a>
   <a href="../AboutMe/index.html" class="mob-drawer__link">About</a>
-  <a href="#" class="mob-drawer__link">Resume</a>
+  <a href="ThavaiDaiwat.pdf" class="mob-drawer__link js-resume-link">Resume</a>
   <div class="mob-drawer__divider" aria-hidden="true"></div>
   <div class="mob-drawer__theme">
     <div class="mob-theme-toggle" id="mobThemeToggle" role="group" aria-label="Theme toggle">
@@ -1012,6 +1014,158 @@
       setTimeout(syncToggleState, 30);
     }
   });
+})();
+</script>
+
+<!-- ── RESUME LIGHTBOX ── -->
+<style>
+  .resume-lightbox {
+    position: fixed; inset: 0; z-index: 10001;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(8px);
+    opacity: 0; pointer-events: none;
+    transition: opacity .35s cubic-bezier(0.22,1,0.36,1);
+    padding: 40px 24px;
+  }
+  .resume-lightbox.is-open { opacity: 1; pointer-events: all; }
+  .resume-lightbox__inner {
+    position: relative;
+    width: 100%; max-width: 900px; height: 100%; max-height: 92vh;
+    background: #fff; border-radius: 16px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+    overflow: hidden;
+    transform: translateY(20px) scale(0.98);
+    transition: transform .4s cubic-bezier(0.22,1,0.36,1);
+  }
+  .resume-lightbox.is-open .resume-lightbox__inner { transform: translateY(0) scale(1); }
+  .resume-lightbox__close {
+    position: absolute; top: 14px; right: 14px; z-index: 2;
+    width: 38px; height: 38px; border-radius: 50%;
+    background: rgba(15,15,15,0.85); backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #fff; font-size: 18px; font-weight: 300; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    line-height: 1; padding: 0;
+    transition: transform .2s, background .2s;
+  }
+  .resume-lightbox__close:hover { transform: scale(1.08); background: rgba(15,15,15,0.95); }
+  .resume-lightbox__frame {
+    width: 100%; height: 100%; border: 0; display: block;
+    background: #fff;
+  }
+  body.resume-open { overflow: hidden; }
+  @media (max-width: 768px) {
+    .resume-lightbox { padding: 16px 12px; }
+    .resume-lightbox__inner { max-height: 96vh; border-radius: 12px; }
+  }
+</style>
+
+<div class="resume-lightbox" id="resumeLightbox" role="dialog" aria-modal="true" aria-label="Resume preview" aria-hidden="true">
+  <div class="resume-lightbox__inner">
+    <button class="resume-lightbox__close" id="resumeLightboxClose" aria-label="Close resume">✕</button>
+    <iframe class="resume-lightbox__frame" id="resumeLightboxFrame" title="Daiwat Thavai Resume" src="about:blank"></iframe>
+  </div>
+</div>
+
+<script>
+(function () {
+  var lightbox  = document.getElementById('resumeLightbox');
+  var frame     = document.getElementById('resumeLightboxFrame');
+  var closeBtn  = document.getElementById('resumeLightboxClose');
+  var triggers  = document.querySelectorAll('.js-resume-link');
+  var pdfUrl    = 'ThavaiDaiwat.pdf';
+  var lastFocus = null;
+
+  function openLightbox(e) {
+    if (e) e.preventDefault();
+    lastFocus = document.activeElement;
+    // Load PDF only when opening (saves bandwidth)
+    if (!frame.src.endsWith(pdfUrl)) frame.src = pdfUrl + '#view=FitH';
+    lightbox.classList.add('is-open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('resume-open');
+    setTimeout(function () { closeBtn.focus(); }, 100);
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('is-open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('resume-open');
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  triggers.forEach(function (el) {
+    el.addEventListener('click', openLightbox);
+  });
+
+  closeBtn.addEventListener('click', closeLightbox);
+
+  // Click outside to close
+  lightbox.addEventListener('click', function (e) {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  // Escape key to close
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && lightbox.classList.contains('is-open')) closeLightbox();
+  });
+})();
+</script>
+
+<!-- ── SOUND + HAPTICS ── -->
+
+<script>
+(function () {
+  function init() {
+    if (typeof Snd === 'undefined') return setTimeout(init, 100);
+
+    // Use snd-lib's built-in easySetup — it handles AudioContext unlock automatically
+    var snd = new Snd({ preloadSoundKit: Snd.KITS.SND01 });
+
+    // Add snd-lib's built-in class to every link/button for automatic click sounds
+    document.querySelectorAll('a, button').forEach(function (el) {
+      el.classList.add('snd__button');
+    });
+
+    // Hover sound — desktop only, quieter tap
+    var isTouch = window.matchMedia('(hover: none)').matches;
+    if (!isTouch) {
+      document.querySelectorAll('a, button').forEach(function (el) {
+        el.addEventListener('mouseenter', function () {
+          snd.play(Snd.SOUNDS.tap, { volume: 0.2 });
+        });
+      });
+    }
+
+    // Vibration helper
+    function vibrate(pattern) {
+      if (navigator.vibrate) navigator.vibrate(pattern);
+    }
+
+    // Vibration on click
+    document.querySelectorAll('a, button').forEach(function (el) {
+      el.addEventListener('click', function () { vibrate(10); });
+    });
+
+    // Toggle sound + vibration for theme buttons (override the generic button sound)
+    [
+      document.getElementById('themeToggle'),
+      document.getElementById('themeTogglePill'),
+      document.getElementById('mobThemeToggle')
+    ].forEach(function (el) {
+      if (!el) return;
+      el.classList.remove('snd__button');
+      el.addEventListener('click', function () {
+        var isDark = document.body.classList.contains('dark');
+        // isDark is the state BEFORE the click fires applyTheme
+        snd.play(isDark ? Snd.SOUNDS.toggle_off : Snd.SOUNDS.toggle_on);
+        vibrate(isDark ? 15 : [10, 30, 10]);
+      });
+    });
+  }
+
+  init();
 })();
 </script>
 </body>
