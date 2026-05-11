@@ -442,6 +442,32 @@
     .feature-row{grid-template-columns:1fr;gap:8px;}
     .iter-row{grid-template-columns:1fr;}
     .stats-row{grid-template-columns:1fr;}
+
+    /* ── MOBILE PANEL FIX ── */
+    /* Panel: full-width content, clear top nav (72px pill + gap) and bottom filter bar (~80px) */
+    .panel {
+      padding: 120px 28px 100px;
+      align-items: flex-start;
+    }
+    /* Panel inner: stop the 48% desktop constraint — no mockup on mobile */
+    .panel-inner {
+      max-width: 100%;
+      min-width: unset;
+      width: 100%;
+    }
+    .panel-title {
+      font-size: clamp(28px, 9vw, 40px);
+    }
+    .panel-desc {
+      font-size: 15px;
+      max-width: 100%;
+    }
+    .panel-tags {
+      flex-wrap: wrap;
+    }
+    .panel-cta {
+      margin-top: 4px;
+    }
   }
 
   /* ══════════════════════════════
@@ -1714,6 +1740,65 @@
   }
   init();
 })();
+</script>
+
+<!-- ── MOBILE NAV JS ── -->
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+(function(){
+  if(!window.matchMedia('(max-width:640px)').matches) return;
+  var mobPill    = document.getElementById('mobPill');
+  var mobBurger  = document.getElementById('mobBurger');
+  var mobDrawer  = document.getElementById('mobDrawer');
+  var mobOptDark = document.getElementById('mobOptDark');
+  var mobOptLight= document.getElementById('mobOptLight');
+
+  if(!mobPill||!mobBurger||!mobDrawer) return;
+
+  // Show pill after short delay
+  setTimeout(function(){ mobPill.classList.add('mob-visible'); }, 400);
+
+  // Burger toggle
+  var drawerOpen = false;
+  function openDrawer(){
+    drawerOpen = true;
+    mobDrawer.classList.add('is-open');
+    mobBurger.classList.add('is-open');
+    mobBurger.setAttribute('aria-expanded','true');
+    document.body.style.overflow = 'hidden';
+    var fl = mobDrawer.querySelector('a');
+    if(fl) setTimeout(function(){ fl.focus(); }, 50);
+  }
+  function closeDrawer(){
+    drawerOpen = false;
+    mobDrawer.classList.remove('is-open');
+    mobBurger.classList.remove('is-open');
+    mobBurger.setAttribute('aria-expanded','false');
+    document.body.style.overflow = '';
+    mobBurger.focus();
+  }
+  mobBurger.addEventListener('click', function(){ drawerOpen ? closeDrawer() : openDrawer(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape' && drawerOpen) closeDrawer(); });
+  mobDrawer.querySelectorAll('a').forEach(function(l){ l.addEventListener('click', closeDrawer); });
+
+  // Theme toggle
+  function applyMobTheme(goLight){
+    document.body.classList.toggle('light', goLight);
+    if(mobOptDark)  mobOptDark.classList.toggle('active', !goLight);
+    if(mobOptLight) mobOptLight.classList.toggle('active', goLight);
+    var dt = document.getElementById('themeToggle');
+    if(dt) dt.textContent = goLight ? '☀️' : '🌙';
+  }
+  applyMobTheme(false);
+  var mobThemeToggle = document.getElementById('mobThemeToggle');
+  if(mobThemeToggle){
+    mobThemeToggle.addEventListener('click', function(e){
+      if(e.target.id==='mobOptLight') applyMobTheme(true);
+      else if(e.target.id==='mobOptDark') applyMobTheme(false);
+    });
+  }
+})();
+});
 </script>
 
 </body>
