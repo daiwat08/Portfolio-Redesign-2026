@@ -61,11 +61,11 @@
   .nav-top__link:active{background:rgba(0,0,0,0.1);transform:scale(0.96);}
   .nav-top__right{display:flex;align-items:center;gap:8px;}
   /* Dave AI button — uses brand accent color (--accent) for consistency across themes */
-  .nav-top__cta{font-size:13px;font-weight:500;color:#fff;text-decoration:none;background:var(--accent);padding:8px 18px;border-radius:999px;flex-shrink:0;transition:background .2s,box-shadow .2s,transform .1s;}
-  .nav-top__cta:hover{background:#2952CC;box-shadow:none;}
-  .nav-top.nav-dark .nav-top__cta:hover{background:#2952CC;box-shadow:none;}
-  .nav-top__cta:active{background:#1E3D99;box-shadow:none;transform:scale(0.95);}
-  .nav-top.nav-dark .nav-top__cta:active{background:#1E3D99;box-shadow:none;transform:scale(0.95);}
+  .nav-top__cta{font-size:13px;font-weight:500;color:#fff;text-decoration:none;background:var(--accent);padding:8px 18px;border-radius:999px;flex-shrink:0;transition:background .2s,transform .15s,opacity .15s;}
+  .nav-top__cta:hover{background:#2f5ce0;transform:translateY(-1px);}
+  .nav-top.nav-dark .nav-top__cta:hover{background:#2f5ce0;transform:translateY(-1px);}
+  .nav-top__cta:active{background:#1e46b8;transform:scale(0.94) translateY(0);opacity:0.85;}
+  .nav-top.nav-dark .nav-top__cta:active{background:#1e46b8;transform:scale(0.94) translateY(0);opacity:0.85;}
   .theme-btn{width:38px;height:38px;border-radius:50%;border:1px solid rgba(0,0,0,0.12);background:transparent;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .1s;flex-shrink:0;}
   .theme-btn:hover{background:rgba(0,0,0,0.05);}
   .theme-btn:active{background:rgba(0,0,0,0.1);transform:scale(0.92);}
@@ -346,10 +346,15 @@
   .final{padding:120px 0;text-align:center;border-top:1px solid var(--line);}
   .final h2{margin-bottom:16px;}
   .final p{max-width:440px;margin:0 auto 32px;}
-  .btn{display:inline-block;padding:11px 28px;border:1px solid rgba(255,255,255,.15);border-radius:100px;font-size:var(--t-sm);color:var(--text);text-decoration:none;transition:background .2s,border-color .2s;}
-  .btn:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.25);}
+  .btn{display:inline-block;padding:11px 28px;border:1px solid rgba(255,255,255,.22);border-radius:100px;font-size:var(--t-sm);color:var(--text);text-decoration:none;transition:background .2s,border-color .2s,transform .15s,box-shadow .2s;}
+  .btn:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.45);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.25);}
+  .btn:active{background:rgba(255,255,255,.12);transform:translateY(0) scale(0.97);box-shadow:none;}
+  body.light .btn:not(.btn-accent){border-color:rgba(0,0,0,.18);}
+  body.light .btn:not(.btn-accent):hover{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.30);box-shadow:0 6px 20px rgba(0,0,0,0.10);}
+  body.light .btn:not(.btn-accent):active{background:rgba(0,0,0,.08);}
   .btn-accent{background:var(--accent);border-color:transparent;color:white;margin-left:10px;}
-  .btn-accent:hover{background:#3a6ce8;}
+  .btn-accent:hover{background:#2f5ce0;transform:translateY(-2px);}
+  .btn-accent:active{background:#1e46b8;transform:translateY(0) scale(0.97);}
 
 
   .skip-link{position:absolute;top:-100%;left:16px;background:var(--accent);color:#fff;padding:8px 16px;border-radius:0 0 8px 8px;font-size:var(--t-sm);font-weight:500;text-decoration:none;z-index:200;transition:top .15s;}
@@ -439,7 +444,7 @@
     <!-- IMAGE: Secondary research -->
     <div style="margin-top:32px;">
       <div class="img-wrap" style="margin-top:0;">
-        <img src="secondary-research.png" alt="Secondary research data — campus safety statistics from Data.gov and Clery Act">
+        <img src="../global-bridge-uxr/assets/secondary-research.png" alt="Secondary research data — campus safety statistics from Data.gov and Clery Act">
       </div>
       <div class="img-caption">Secondary research — Data.gov campus safety data</div>
     </div>
@@ -491,9 +496,9 @@
 
     <!-- IMAGE: Interview guide -->
     <div style="margin-top:32px;">
-      <div class="img-wrap" style="margin-top:0;">
-        <img class="img-dark"  src="Interview Guide - Dark.png"  alt="Interview guide — discussion guide used for student interviews">
-        <img class="img-light" style="display:none" src="Interview Guide - Light.png" alt="Interview guide — discussion guide used for student interviews">
+      <div class="img-wrap" style="margin-top:0;border-radius:10px;outline:1px solid rgba(255,255,255,0.12);">
+        <img class="img-dark"  src="../global-bridge-uxr/assets/interview-guide- dark.png"  alt="Interview guide — discussion guide used for student interviews">
+        <img class="img-light" style="display:none;" src="../global-bridge-uxr/assets/interview-guide - light.png" alt="Interview guide — discussion guide used for student interviews">
       </div>
       <div class="img-caption">Interview guide — used across student and stakeholder sessions</div>
     </div>
@@ -525,7 +530,7 @@
     <!-- IMAGE: Affinity map -->
     <div style="margin-top:32px;">
       <div class="img-wrap" style="margin-top:0;">
-        <img src="Synthesis.png" alt="Affinity mapping synthesis board — grouping interview themes into patterns">
+        <img src="../global-bridge-uxr/assets/synthesis.png" alt="Affinity mapping synthesis board — grouping interview themes into patterns">
       </div>
       <div class="img-caption">Affinity mapping — 200+ interview moments grouped into root causes</div>
     </div>
@@ -569,14 +574,6 @@
       </div>
     </div>
 
-    <!-- IMAGE: Rainbow chart — add when ready -->
-    <div class="placeholder" style="aspect-ratio:16/7;margin-top:32px;">
-      <div class="placeholder-icon">🌈</div>
-      <div class="placeholder-label">Rainbow chart / findings summary table</div>
-      <div class="placeholder-hint">Figma export: 760 × 333 px · Your structured findings matrix</div>
-    </div>
-  </div>
-</section>
 
 <!-- 07 HMW -->
 <section class="section" data-theme="dark">
@@ -598,43 +595,44 @@
     <p style="margin-top:32px;">Both Mechanical Turk experiments — one testing peer reviews, one testing location sharing — confirmed willingness to engage when framed as mutual support rather than surveillance.</p>
 
     <!-- PRETOTYPING EVIDENCE -->
-    <div style="margin-top:32px;">
-      <div style="font-family:'Geist Mono',monospace;font-size:var(--t-xs);letter-spacing:1.2px;text-transform:uppercase;color:var(--sub);margin-bottom:16px;">Pretotyping evidence</div>
-      <div style="display:flex;flex-direction:column;gap:24px;">
+    <div style="margin-top:48px;display:flex;flex-direction:column;gap:56px;">
 
-        <div>
-          <div class="img-wrap" style="margin-top:0;">
-            <img class="img-dark"  src="Mechanical Turk 1 - Dark.png"  alt="Mechanical Turk experiment 1 — peer review WhatsApp group chat">
-            <img class="img-light" style="display:none" src="Mechanical Turk 1 - Light.png" alt="Mechanical Turk experiment 1 — peer review WhatsApp group chat">
-          </div>
-          <div class="img-caption">Mechanical Turk 01 — Peer review chat group</div>
+      <div>
+        <div class="tag" style="margin-bottom:12px;"><span class="tag-dot"></span>Pretotyping plan</div>
+        <div class="img-wrap" style="margin-top:0;">
+          <img class="img-dark"  src="../global-bridge-uxr/assets/Pretotyping Plan - Dark.png" alt="Pretotyping plan — risky assumption validation results">
+          <img class="img-light" style="display:none;" src="../global-bridge-uxr/assets/Pretotyping Plan - Light.png" alt="Pretotyping plan — risky assumption validation results">
         </div>
-
-        <div>
-          <div class="img-wrap" style="margin-top:0;">
-            <img class="img-dark"  src="Mechanical Turk 2 - Dark.png"  alt="Mechanical Turk experiment 2 — location sharing peer connect">
-            <img class="img-light" style="display:none" src="Mechanical Turk 2 - Light.png" alt="Mechanical Turk experiment 2 — location sharing peer connect">
-          </div>
-          <div class="img-caption">Mechanical Turk 02 — Peer connect feature validation</div>
-        </div>
-
-        <div>
-          <div class="img-wrap" style="margin-top:0;">
-            <img class="img-dark"  src="Pretotyping Plan.png"         alt="Pretotyping plan — risky assumption validation results">
-            <img class="img-light" style="display:none" src="Pretotyping Plan - Light.png" alt="Pretotyping plan — risky assumption validation results">
-          </div>
-          <div class="img-caption">Pretotyping plan — all assumptions validated</div>
-        </div>
-
-        <div>
-          <div class="img-wrap" style="margin-top:0;">
-            <img class="img-dark"  src="Fake Front Door - Dark.png"  alt="Fake front door — 36 users, 177 events">
-            <img class="img-light" style="display:none" src="Fake Front Door - Light.png" alt="Fake front door — 36 users, 177 events">
-          </div>
-          <div class="img-caption">Fake front door — 36 users · 177 interaction events in week one</div>
-        </div>
-
+        <div class="img-caption">All risky assumptions validated before any design work</div>
       </div>
+
+      <div>
+        <div class="tag" style="margin-bottom:12px;"><span class="tag-dot"></span>Mechanical Turk 01 — Peer review</div>
+        <div class="img-wrap" style="margin-top:0;">
+          <img class="img-dark"  src="../global-bridge-uxr/assets/mechanical-turk-dark.png" alt="Mechanical Turk experiment 1 — peer review WhatsApp group chat">
+          <img class="img-light" style="display:none;" src="../global-bridge-uxr/assets/mechanical-turk1 -light.png" alt="Mechanical Turk experiment 1 — peer review WhatsApp group chat">
+        </div>
+        <div class="img-caption">WhatsApp group chat — peer safety reviews</div>
+      </div>
+
+      <div>
+        <div class="tag" style="margin-bottom:12px;"><span class="tag-dot"></span>Mechanical Turk 02 — Peer connect</div>
+        <div class="img-wrap" style="margin-top:0;">
+          <img class="img-dark"  src="../global-bridge-uxr/assets/Mechanical Turk 2 - Dark.png" alt="Mechanical Turk experiment 2 — location sharing peer connect">
+          <img class="img-light" style="display:none;" src="../global-bridge-uxr/assets/Mechanical Turk 2 - Light.png" alt="Mechanical Turk experiment 2 — location sharing peer connect">
+        </div>
+        <div class="img-caption">Location sharing feature — peer connect validation</div>
+      </div>
+
+      <div>
+        <div class="tag" style="margin-bottom:12px;"><span class="tag-dot"></span>Fake front door</div>
+        <div class="img-wrap" style="margin-top:0;">
+          <img class="img-dark"  src="../global-bridge-uxr/assets/fake-front-door - dark.png" alt="Fake front door — 36 users, 177 events">
+          <img class="img-light" style="display:none;" src="../global-bridge-uxr/assets/fake-front-door -light.png" alt="Fake front door — 36 users, 177 events">
+        </div>
+        <div class="img-caption">36 users · 177 interaction events in week one</div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -665,16 +663,14 @@
 
       <div>
         <div class="img-wrap" style="margin-top:0;">
-          <img src="meeting.png" alt="Stakeholder presentation — presenting research findings to the room">
+          <img src="../global-bridge-uxr/assets/presentation.png" alt="Stakeholder presentation — presenting research findings to the room">
         </div>
         <div class="img-caption">Stakeholder presentation — Thomas Jefferson University</div>
       </div>
 
       <div>
         <div class="img-wrap" style="margin-top:0;">
-          <img src="presentation.png" alt="Presenting research findings to stakeholders">
         </div>
-        <div class="img-caption">Presenting research insights to university leadership</div>
       </div>
 
     </div>
