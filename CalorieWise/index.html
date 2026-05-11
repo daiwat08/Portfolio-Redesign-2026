@@ -24,7 +24,7 @@
 
   /* ── LIGHT THEME ── */
   body.light{
-    --bg:#fffcfa;--surface:#fdf0e8;
+    --bg:#fdf6f0;--surface:#fdf6f0;
     --line:rgba(0,0,0,0.08);
     --text:#1a0d06;--sub:#7a5c4a;--white:#1a0d06;
     --accent:#b84600;--accent-text:#9a3a00;
@@ -36,9 +36,9 @@
   body.light .finding-card,
   body.light .hmw-card,
   body.light .persona-cell { background:var(--bg); }
-  body.light .section-alt { background:#fdf0e8; }
-  body.light .metric-block { background:#fdf0e8;border-color:rgba(0,0,0,0.08); }
-  body.light .nav-top { background:rgba(255,252,250,0.95); }
+  body.light .section-alt { background:#fdf6f0; }
+  body.light .metric-block { background:#fdf6f0;border-color:rgba(0,0,0,0.08); }
+  body.light .nav-top { background:rgba(253,246,240,0.95); }
   body.light .nav-top .nav-top__logo { color:#1a0d06; }
   body.light .hero { background:var(--bg); }
 
@@ -356,6 +356,7 @@
   .jtable td:first-child,.jtable th[scope="row"]{font-family:'Geist Mono',monospace;font-size:var(--t-xs);letter-spacing:1px;text-transform:uppercase;color:var(--sub);width:120px;}
   .jtable td.pain{color:var(--warm);}
   .jtable td.ok{color:#4ade80;}
+  body.light .jtable td.ok{color:#1a7a3a;}
   .dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:6px;vertical-align:middle;}
   .dot-g{background:#4ade80;}.dot-y{background:#facc15;}.dot-r{background:#f87171;}
 
@@ -369,13 +370,16 @@
   .final{padding:120px 0;text-align:center;border-top:1px solid var(--line);}
   .final h2{margin-bottom:16px;}
   .final p{max-width:460px;margin:0 auto 32px;}
-  .btn{display:inline-block;padding:11px 28px;border:1px solid rgba(255,255,255,.2);border-radius:100px;font-size:var(--t-sm);color:var(--text);text-decoration:none;transition:background .2s,border-color .2s;}
+  .btn{display:inline-block;padding:11px 28px;border:1px solid rgba(255,255,255,.2);border-radius:100px;font-size:var(--t-base);font-weight:400;color:var(--text);text-decoration:none;transition:background .2s,border-color .2s;}
   .btn:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.35);}
   body.light .btn{border-color:rgba(0,0,0,.2);color:var(--text);}
   body.light .btn:hover{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.35);}
-  .btn-accent{background:#FF8042;border-color:transparent;color:#1a0d06;margin-left:10px;font-weight:500;transition:background .2s,font-weight .15s,transform .1s,box-shadow .2s;}
-  .btn-accent:hover{background:#e8622a;color:#1a0d06;font-weight:600;opacity:1;}
-  .btn-accent:active{background:#C2510A;color:#1a0d06;transform:scale(0.97);box-shadow:none;}
+  body.light .btn-accent{background:#FF8042;border-color:transparent;color:#111;font-weight:500 !important;}
+  body.light .btn-accent:hover{background:#b84e20;color:#fff;border-color:transparent;font-weight:600 !important;}
+  body.light .btn-accent:active{background:#8f3a10;color:#fff;border-color:transparent;}
+  .btn-accent{background:#FF8042;border-color:transparent;color:#111;margin-left:10px;font-weight:500 !important;transition:background .2s,transform .1s,box-shadow .2s;}
+  .btn-accent:hover{background:#b84e20;color:#fff;font-weight:600 !important;}
+  .btn-accent:active{background:#8f3a10;color:#fff;font-weight:600 !important;transform:scale(0.97);box-shadow:none;}
 
   /* IMAGE PLACEHOLDERS */
   .img-placeholder{
@@ -993,7 +997,7 @@
     </div>
 
     <div style="margin-top:24px;">
-      <a href="#" class="btn" style="font-size:13px;">Link of post pilot study →</a>
+      <a href="https://docs.google.com/spreadsheets/d/1lk7piWKni26q1PgvR1N7YJSO81ufL4Jq/edit?gid=552399169#gid=552399169" class="btn">Link of post pilot study →</a>
     </div>
   </div>
 </section>
