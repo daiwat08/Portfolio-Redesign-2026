@@ -25,7 +25,7 @@
     line-height: 1.8; -webkit-font-smoothing: antialiased;
     overflow-x: hidden; height: 100%;
     background-color: #F5F5F7;
-    transition: background-color 1s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: background-color 1.2s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   /* ── NAV ── */
@@ -318,13 +318,8 @@
   .marquee-track span { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(80px, 14vw, 180px); white-space: nowrap; letter-spacing: -0.03em; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.1); padding-right: 0.5em; line-height: 1; }
   @keyframes marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-  /* ── GRADIENT OVERLAY ── */
-  .section-gradient { position: absolute; inset: 0; z-index: 1; opacity: 0; transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1); pointer-events: none; }
-  .s1 .section-gradient { background: linear-gradient(140deg, rgba(5,5,5,0.55) 0%, rgba(30,30,30,0.35) 60%, rgba(60,60,60,0.15) 100%); }
-  .s2 .section-gradient { background: linear-gradient(140deg, rgba(0,30,80,0.55) 0%, rgba(0,80,180,0.35) 60%, rgba(0,122,255,0.15) 100%); }
-  .s3 .section-gradient { background: linear-gradient(140deg, rgba(6,26,8,0.55) 0%, rgba(18,74,24,0.35) 60%, rgba(34,139,48,0.15) 100%); }
-  .s4 .section-gradient { background: linear-gradient(140deg, rgba(0,20,60,0.55) 0%, rgba(0,50,130,0.35) 60%, rgba(0,80,200,0.15) 100%); }
-  .section.is-active .section-gradient { opacity: 1; }
+  /* ── GRADIENT OVERLAY — removed, body bg handles color ── */
+  .section-gradient { display: none; }
 
   /* ── BUTTONS ── */
   .btn-outline { display: inline-block; margin-top: 36px; padding: 11px 28px; border-radius: 999px; font-size: var(--t-sm); font-weight: 400; text-decoration: none; transition: background .25s, color .25s, border-color .25s, box-shadow .25s, transform .15s; }
@@ -724,14 +719,18 @@
   var prevIndex = 0;
 
   // Once a section is active, keep it active — never hide content on scroll
-  sections.forEach(function(sec) {
+  sections.forEach(function(sec, idx) {
     new IntersectionObserver(function(entries) {
       entries.forEach(function(e) {
         if (e.isIntersecting) {
           sec.classList.add('is-active');
+          // Also update bg color immediately when section enters
+          var COLORS = getColors();
+          var c = COLORS[Math.min(idx, COLORS.length - 1)];
+          document.body.style.backgroundColor = 'rgb(' + c[0] + ',' + c[1] + ',' + c[2] + ')';
         }
       });
-    }, { threshold: 0.05 }).observe(sec);
+    }, { threshold: 0.3 }).observe(sec);
   });
 
   sections[0].classList.add('is-active');
