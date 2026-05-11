@@ -12,19 +12,19 @@
     --bg:      #0f1c3f;
     --surface: #1a2d5a;
     --line:    rgba(255,255,255,0.13);
-    --accent:  #6b9fff;
+    --accent:  #4d87ff;
     --warm:    #FF8C5A;
     --text:    #f0f0f4;
-    --sub:     #a8b8d8;
+    --sub:     #bccce0;
     --white:   #ffffff;
 
-    --t-xs:   12px;
-    --t-sm:   14px;
-    --t-base: 16px;
-    --t-md:   18px;
-    --t-lg:   22px;
-    --t-xl:   28px;
-    --t-2xl:  48px;
+    --t-xs:   0.75rem;
+    --t-sm:   0.875rem;
+    --t-base: 1rem;
+    --t-md:   1.125rem;
+    --t-lg:   1.375rem;
+    --t-xl:   1.75rem;
+    --t-2xl:  3rem;
 
     --max: 760px;
     --wide: 1080px;
@@ -63,6 +63,14 @@
   body.light .hmw-box { background: rgba(29,78,216,0.05); border-color: rgba(29,78,216,0.2); }
   body.light .tag { color: #444; }
   body.light em { color: #1d4ed8; }
+  /* --warm (#FF8C5A) is 2.14:1 on light bg — replace text uses with a darker orange */
+  .section-warm-label { color: var(--warm); }
+  body.light .flow-head-label.red { color: #444; }
+  body.light .section-warm-label { color: #444; }
+  /* .btn border is rgba(255,255,255,0.15) — invisible on light bg */
+  body.light .btn { border-color: rgba(0,0,0,0.18); color: #222; }
+  body.light .btn:hover { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.3); }
+  body.light .btn-primary { border-color: transparent; color: #fff; }
 
 
   /* ── FOCUS VISIBLE ── */
@@ -105,7 +113,7 @@
   .nav-top.nav-dark .theme-btn{border-color:rgba(255,255,255,0.2);}
   .nav-top__logo{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:-.01em;color:#111;text-decoration:none;white-space:nowrap;flex-shrink:0;transition:color .4s;}
   .nav-top__links{flex:1;display:flex;align-items:center;justify-content:center;}
-  .nav-top__link{font-size:14px;color:#777;text-decoration:none;padding:7px 16px;border-radius:999px;transition:background .2s,color .2s,transform .1s;}
+  .nav-top__link{font-size:14px;color:#666;text-decoration:none;padding:7px 16px;border-radius:999px;transition:background .2s,color .2s,transform .1s;}
   .nav-top__link:hover{color:#111;background:rgba(0,0,0,0.05);}
   .nav-top__link:active{background:rgba(0,0,0,0.1);transform:scale(0.96);}
   .nav-top__right{display:flex;align-items:center;gap:8px;}
@@ -302,12 +310,12 @@
   .tag-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
 
   /* ─── TYPOGRAPHY ─── */
-  h1 { font-family: 'Instrument Serif', serif; font-size: var(--t-2xl); font-weight: 400; line-height: 0.95; letter-spacing: -0.03em; color: var(--white); }
+  h1 { font-family: 'Instrument Serif', serif; font-size: var(--t-2xl); font-weight: 400; line-height: 1.05; letter-spacing: -0.03em; color: var(--white); }
 
   /* Responsive h1 size */
-  @media(min-width:641px) and (max-width:1024px){:root{--t-2xl:40px;}}
-  @media(max-width:640px){:root{--t-2xl:32px;}h1{line-height:0.95;}}
-  @media(max-width:380px){:root{--t-2xl:28px;}}
+  @media(min-width:641px) and (max-width:1024px){:root{--t-2xl:2.5rem;}}
+  @media(max-width:640px){:root{--t-2xl:2rem;}h1{line-height:1.05;}}
+  @media(max-width:380px){:root{--t-2xl:1.75rem;}}
   h2 { font-family: 'Instrument Serif', serif; font-size: 32px; font-weight: 400; line-height: 1.25; letter-spacing: -0.3px; color: var(--white); }
   h3 { font-size: var(--t-md); font-weight: 500; color: var(--white); line-height: 1.4; }
   em { font-style: italic; color: var(--accent); }
@@ -327,7 +335,9 @@
     border: 1px solid var(--line); border-radius: 12px;
     overflow: hidden; margin-top: 48px;
   }
+  @media(max-width:640px){ .stats-row { grid-template-columns: 1fr; } }
   .stats-row-2 { grid-template-columns: 1fr 1fr; }
+  @media(max-width:640px){ .stats-row-2 { grid-template-columns: 1fr; } }
   .stat-cell { background: var(--bg); padding: 36px 32px; }
   .stat-num { font-family: 'Instrument Serif', serif; font-size: 48px; color: var(--white); line-height: 1; letter-spacing: -1px; }
   .stat-num .accent { color: var(--accent); }
@@ -349,6 +359,10 @@
     border: 1px solid var(--line); border-radius: 12px;
     overflow: hidden; margin-top: 40px;
   }
+  @media(max-width:640px){ .steps { grid-template-columns: 1fr; } }
+  .steps--3 { grid-template-columns: repeat(3,1fr); }
+  @media(max-width:640px){ .steps--3 { grid-template-columns: 1fr; } }
+  @media(max-width:640px){ .reflow-grid { grid-template-columns: 1fr !important; } }
   .step { background: var(--bg); padding: 28px 24px; }
   .step-n { font-family: 'Geist Mono', monospace; font-size: var(--t-xs); color: var(--accent); letter-spacing: 1px; margin-bottom: 10px; }
   .step-title { font-size: var(--t-sm); font-weight: 500; color: var(--white); margin-bottom: 6px; }
@@ -372,6 +386,7 @@
     border: 1px solid var(--line); border-radius: 12px;
     overflow: hidden; margin-top: 40px;
   }
+  @media(max-width:640px){ .insight-grid { grid-template-columns: 1fr; } }
   .insight-card { background: var(--bg); padding: 32px 28px; }
   .insight-n { font-family: 'Geist Mono', monospace; font-size: var(--t-xs); color: var(--accent); letter-spacing: 1px; margin-bottom: 10px; }
   .insight-tag-label { font-size: var(--t-xs); font-family: 'Geist Mono', monospace; letter-spacing: 1px; text-transform: uppercase; color: var(--sub); margin-bottom: 10px; display: block; }
@@ -459,6 +474,7 @@
     border: 1px solid var(--line); border-radius: 12px;
     overflow: hidden; margin-top: 40px;
   }
+  @media(max-width:640px){ .flow-grid { grid-template-columns: 1fr; } }
   .flow-card { background: var(--bg); padding: 0; }
   .flow-head { padding: 20px 28px; border-bottom: 1px solid var(--line); }
   .flow-head-label { font-family: 'Geist Mono', monospace; font-size: var(--t-xs); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; display: block; }
@@ -488,6 +504,7 @@
     gap: 32px; padding: 32px 0;
     border-bottom: 1px solid var(--line); align-items: start;
   }
+  @media(max-width:640px){ .finding-row { grid-template-columns: 1fr; gap: 12px; } }
   .finding-row:first-child { border-top: 1px solid var(--line); }
   .finding-label-wrap { }
   .finding-n { font-family: 'Geist Mono', monospace; font-size: var(--t-xs); color: var(--accent); letter-spacing: 1px; margin-bottom: 8px; display: block; }
@@ -527,10 +544,10 @@
   .final { padding: 120px 0; text-align: center; border-top: 1px solid var(--line); }
   .final h2 { margin-bottom: 16px; }
   .final p { max-width: 440px; margin: 0 auto 32px; }
-  .btn { display: inline-block; padding: 11px 28px; border: 1px solid rgba(255,255,255,.15); border-radius: 100px; font-size: var(--t-sm); color: var(--text); text-decoration: none; transition: background .2s, border-color .2s; }
-  .btn:hover { background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.25); }
+  .btn { display: inline-block; padding: 11px 28px; border: 1px solid rgba(255,255,255,.35); border-radius: 100px; font-size: var(--t-sm); color: var(--text); text-decoration: none; transition: background .2s, border-color .2s; }
+  .btn:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.55); }
   .btn-primary { background: var(--accent); border-color: transparent; color: white; margin-left: 10px; }
-  .btn-primary:hover { background: #3a6ce8; }
+  .btn-primary:hover { background: #3a6ce8; border-color: transparent; }
 
   /* ─── NEXT CASE ─── */
   .next-case {
@@ -693,7 +710,7 @@
     <h2 class="reveal">Three methods.<br>One broken system.</h2>
     <p class="reveal">Research was conducted across three distinct approaches — capturing perspectives from institutional leadership, students in the field, and the university's own documentation.</p>
 
-    <div class="steps reveal" style="grid-template-columns: repeat(3,1fr); margin-top: 40px;">
+    <div class="steps steps--3 reveal" style="margin-top: 40px;">
       <div class="step">
         <div class="step-n">METHOD 01</div>
         <div class="step-title">Stakeholder Interviews</div>
@@ -739,7 +756,7 @@
     <!-- Academic Catalog — placeholder -->
     <div class="reveal" style="margin-top: 40px;">
       <div style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--sub); margin-bottom:16px;">Academic Catalog — TJU 2022–2023</div>
-      <div style="display:grid; grid-template-columns: 1fr 280px; gap:32px; align-items:start;">
+      <div style="display:grid; grid-template-columns: minmax(0,1fr) 280px; gap:32px; align-items:start;" class="reflow-grid">
         <div>
           <p style="margin:0 0 24px;">Background research into the TJU Academic Catalog, graduate course descriptions, and institutional correspondence helped frame the right questions for user interviews — ensuring the study could gather relevant and actionable insights rather than surface-level complaints.</p>
           <div style="display:flex; flex-direction:column; gap:12px;">
@@ -762,7 +779,7 @@
           <img class="theme-img"
             data-dark="assets/academy-catalogue.png"
             data-light="assets/academy-catalogue.png"
-            src="assets/academy-catalogue.png"
+            src="../TJU/academy-catalogue.png"
             alt="TJU Academic Catalog 2022–2023"
             style="width:100%; border-radius:12px; border:1px solid var(--line); display:block;"
             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
@@ -806,7 +823,7 @@
           </div>
           <div style="border-top: 1px solid var(--line); margin-top: 24px; padding-top: 20px;">
             <div style="font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--sub); margin-bottom:10px;">Avg. rating — course registration</div>
-            <div style="font-family:'Instrument Serif',serif; font-size:64px; color:#6b9fff; line-height:1; letter-spacing:-2px;">8<span style="font-size:24px; color:var(--sub); letter-spacing:0; margin-left:2px;">/10</span></div>
+            <div style="font-family:'Instrument Serif',serif; font-size:64px; color:#4d87ff; line-height:1; letter-spacing:-2px;">8<span style="font-size:24px; color:var(--sub); letter-spacing:0; margin-left:2px;">/10</span></div>
           </div>
         </div>
       </div>
@@ -824,7 +841,7 @@
           </div>
           <div style="border-top: 1px solid var(--line); margin-top: 24px; padding-top: 20px;">
             <div style="font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--sub); margin-bottom:10px;">Avg. rating — course registration</div>
-            <div style="font-family:'Instrument Serif',serif; font-size:64px; color:var(--warm); line-height:1; letter-spacing:-2px;">5<span style="font-size:24px; color:var(--sub); letter-spacing:0; margin-left:2px;">/10</span></div>
+            <div class="section-warm-label" style="font-family:'Instrument Serif',serif; font-size:64px; line-height:1; letter-spacing:-2px;">5<span style="font-size:24px; color:var(--sub); letter-spacing:0; margin-left:2px;">/10</span></div>
           </div>
         </div>
       </div>
@@ -977,7 +994,7 @@
     <!-- Current State -->
     <div class="reveal" style="margin-top: 48px;">
       <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
-        <span style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--warm);">Current state — What it is</span>
+        <span class="section-warm-label" style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase;">Current state — What it is</span>
         <div style="flex:1; height:1px; background:var(--line);"></div>
         <span style="font-size:13px; font-weight:500; color:var(--white);">Fragmented + confusing</span>
       </div>
@@ -1060,7 +1077,7 @@
     <!-- Current state -->
     <div class="reveal" style="margin-top: 48px;">
       <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
-        <span style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--warm);">Current state</span>
+        <span class="section-warm-label" style="font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase;">Current state</span>
         <div style="flex:1; height:1px; background:var(--line);"></div>
         <span style="font-size:13px; font-weight:500; color:var(--white);">BannerWeb as it is</span>
       </div>
@@ -1070,8 +1087,7 @@
         src="assets/banner-current-dark.png"
         alt="Current BannerWeb state"
         style="width:100%; border-radius:12px; border:1px solid var(--line); display:block;">
-      <div style="margin-top:20px; display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start;">
-        <p style="margin:0;">The current course detail page surfaces only the bare minimum — a CRN, a time slot, an instructor name. No course description. No way to understand what you're signing up for without leaving BannerWeb entirely. The broken document icon where course info should be is the most honest summary of the problem.</p>
+      <div style="margin-top:20px; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:24px; align-items:start;" class="reflow-grid"> — a CRN, a time slot, an instructor name. No course description. No way to understand what you're signing up for without leaving BannerWeb entirely. The broken document icon where course info should be is the most honest summary of the problem.</p>
         <div class="flow-points">
           <div class="flow-point"><div class="flow-dot red"></div>No inline course description — students must search externally</div>
           <div class="flow-point"><div class="flow-dot red"></div>No faculty profile — instructor is just a name and an icon</div>
@@ -1096,7 +1112,7 @@
         src="assets/banner-current-optimized-dark.png"
         alt="Proposed optimised BannerWeb"
         style="width:100%; border-radius:12px; border:1px solid var(--line); display:block;">
-      <div style="margin-top:20px; display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start;">
+      <div style="margin-top:20px; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:24px; align-items:start;" class="reflow-grid">
         <p style="margin:0;">The proposed state layers the missing context directly into BannerWeb — a Coursicle integration surfaces the full course description inline, faculty profile avatars link to instructor pages, a campus map resolves room codes into real locations, and students with holds can still browse and plan even if they can't yet register.</p>
         <div class="flow-points">
           <div class="flow-point"><div class="flow-dot blue"></div>Course description surfaced inline via Coursicle — no external lookup</div>
@@ -1120,10 +1136,7 @@
       <a href="../Work/index.html" class="btn">← Back to Work</a>
       <a href="#" class="btn btn-primary">View Presentation →</a>
     </div>
-    <div class="next-case">
-      <span>Next case study</span>
-      <a href="../global-bridge/index.html">Global Bridge →</a>
-    </div>
+
   </div>
 </div>
 
