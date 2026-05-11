@@ -212,12 +212,19 @@
   }
   .nav-top.nav-hidden{opacity:0;transform:translateX(-50%) translateY(-10px);pointer-events:none;}
   .nav-top.nav-dark{background:rgba(15,15,15,0.85);border-color:rgba(255,255,255,0.1);box-shadow:0 2px 24px rgba(0,0,0,0.4);}
-  .nav-top.nav-dark .nav-top__logo{color:#fff;}
   .nav-top.nav-dark .nav-top__link{color:rgba(255,255,255,0.55);}
   .nav-top.nav-dark .nav-top__link:hover{color:#fff;background:rgba(255,255,255,0.08);}
-  .nav-top.nav-dark .nav-top__cta{background:var(--accent);color:#fff;}
+  .nav-top.nav-dark .nav-top__cta{background:var(--accent);color:#0a0a0a;}
   .nav-top.nav-dark .theme-btn{border-color:rgba(255,255,255,0.2);}
   .nav-top__logo{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:-.01em;color:#111;text-decoration:none;white-space:nowrap;flex-shrink:0;transition:color .4s;}
+  .nav-top.nav-dark .nav-top__logo{color:#fff;}
+  body.light .nav-top.nav-dark .nav-top__logo{color:#111;}
+  body.light .nav-top.nav-dark .nav-top__cta{background:#166534;color:#ffffff;}
+  body.light .nav-top.nav-dark .nav-top__cta:hover{background:#14532d;color:#ffffff;}
+  body.light .nav-top.nav-dark{background:rgba(255,255,255,0.93);border-color:rgba(0,0,0,0.08);box-shadow:0 2px 20px rgba(0,0,0,0.08);}
+  body.light .nav-top.nav-dark .nav-top__link{color:#777;}
+  body.light .nav-top.nav-dark .nav-top__link:hover{color:#111;background:rgba(0,0,0,0.05);}
+  body.light .nav-top.nav-dark .theme-btn{border-color:rgba(0,0,0,0.12);}
   .nav-top__links{flex:1;display:flex;align-items:center;justify-content:center;}
   .nav-top__link{font-size:14px;color:#777;text-decoration:none;padding:7px 16px;border-radius:999px;transition:background .2s,color .2s,transform .1s;}
   .nav-top__link:hover{color:#111;background:rgba(0,0,0,0.05);}
@@ -848,14 +855,16 @@
   .btn {
     display: inline-block;
     padding: 11px 28px;
-    border: 1px solid rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.35);
     border-radius: 100px;
     font-size: var(--t-sm);
-    color: var(--text);
+    color: #e4e4e7;
     text-decoration: none;
     transition: background .2s, border-color .2s;
   }
-  .btn:hover { background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.25); }
+  .btn:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.5); }
+  body.light .btn { border-color: rgba(0,0,0,.55); color: #111; }
+  body.light .btn:hover { background: rgba(0,0,0,.06); border-color: rgba(0,0,0,.75); }
   .btn-primary {
     background: var(--accent);
     border-color: transparent;
@@ -864,6 +873,7 @@
   }
   .btn-primary:hover { background: #22c55e; }
   body.light .btn-primary { color: #ffffff; }
+  body.light .btn-primary:hover { background: #16a34a; color: #ffffff; }
 
   /* ─── SPLIT ─── */
   .split {
@@ -997,8 +1007,6 @@
 
     /* Final footer buttons */
     .final { padding: 72px 0; }
-    .btn { display: block; width: 100%; text-align: center; margin: 0 0 10px 0; }
-    .btn-primary { margin-left: 0; }
 
     /* Quote block */
     .quote-text { font-size: var(--t-md); }
@@ -1485,7 +1493,7 @@
     <h2>The best financial tool is one<br>that feels like a conversation.</h2>
     <p>Richie AI taught me that in fintech, the interface <em>is</em> the trust. Every word, every response, every empty state either builds a user's confidence or erodes it. Designing Richie Chat meant thinking less like a UI designer and more like a financial advisor — what does this person actually need to hear right now, and how do I say it in a way that helps them act?</p>
     <p style="margin-top:12px;">That question is the one I'll carry into every product I work on next.</p>
-    <div style="margin-top:32px;">
+    <div style="margin-top:32px;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;">
       <a href="../index.html" class="btn">← Back to Home</a>
       <a href="#" class="btn btn-primary">See Prototype →</a>
     </div>
