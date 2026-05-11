@@ -450,10 +450,14 @@
       align-items: flex-start;
     }
     /* Panel inner: stop the 48% desktop constraint — no mockup on mobile */
+    /* Force visible — bypass is-active opacity animation entirely on mobile */
     .panel-inner {
       max-width: 100%;
       min-width: unset;
       width: 100%;
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
     }
     .panel-title {
       font-size: clamp(28px, 9vw, 40px);
@@ -1431,20 +1435,18 @@
     
   }
 
-  // Active panel detection
+  // Active panel detection — reads scrollLeft directly from container (works on mobile Safari)
   function onScroll() {
     var scrollLeft = container.scrollLeft;
-    var w = window.innerWidth;
+    var w = container.offsetWidth || window.innerWidth;
     var idx = Math.round(scrollLeft / w);
     idx = Math.max(0, Math.min(idx, visiblePanels.length - 1));
 
     if (idx !== currentIndex) {
-      // Deactivate old
       if (visiblePanels[currentIndex]) {
         visiblePanels[currentIndex].classList.remove('is-active');
       }
       currentIndex = idx;
-      // Activate new
       if (visiblePanels[currentIndex]) {
         visiblePanels[currentIndex].classList.add('is-active');
       }
@@ -1454,7 +1456,6 @@
       updateBg(currentIndex);
     }
 
-    // Hide scroll hint after first scroll
     if (scrollLeft > 50) {
       scrollHint.classList.add('hidden');
     }
@@ -1557,6 +1558,8 @@
       if (dx > 0) scrollToPanel(currentIndex + 1);
       else scrollToPanel(currentIndex - 1);
     }
+    // Re-check active panel after snap settles
+    setTimeout(onScroll, 400);
   }, { passive: true });
 
   // Keyboard navigation
@@ -1570,7 +1573,10 @@
   visiblePanels[0].classList.add('is-active');
   updatePagination(0);
   updateBg(0);
-  
+  // Re-run after paint to ensure mobile Safari has laid out
+  requestAnimationFrame(function() {
+    onScroll();
+  });
 })();
 </script>
 
