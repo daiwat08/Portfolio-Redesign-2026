@@ -404,6 +404,559 @@
   }
   .skip-link{position:absolute;top:-100%;left:16px;background:var(--accent);color:#fff;padding:8px 16px;border-radius:0 0 8px 8px;font-size:var(--t-sm);font-weight:500;text-decoration:none;z-index:200;transition:top .15s;}
   .skip-link:focus{top:0;}
+
+  /* ══ HAIROMA ══ */
+  @keyframes hpulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.35;transform:scale(.7);}}
+
+  .hairoma-section{padding:0!important;border-top:1px solid var(--line);}
+
+  /* Hero banner */
+  .hairoma-hero{
+    position:relative;overflow:hidden;min-height:560px;
+    display:flex;align-items:flex-end;
+    background:linear-gradient(135deg,#2a2420 0%,#1a1510 100%);
+  }
+  .hairoma-hero__overlay{
+    position:absolute;inset:0;
+    background:linear-gradient(to top,
+      rgba(28,25,23,.97) 0%,rgba(28,25,23,.65) 42%,
+      rgba(28,25,23,.15) 70%,transparent 100%);
+  }
+  body.light .hairoma-hero{background:linear-gradient(135deg,#ede5da 0%,#d9cfc4 100%);}
+  body.light .hairoma-hero__overlay{
+    background:linear-gradient(to top,
+      rgba(247,240,232,.98) 0%,rgba(247,240,232,.6) 42%,
+      rgba(247,240,232,.08) 70%,transparent 100%);
+  }
+  /* decorative scent circles */
+  .hairoma-orbs{position:absolute;inset:0;pointer-events:none;}
+  .hairoma-orb{
+    position:absolute;border-radius:50%;
+    background:radial-gradient(circle,rgba(201,169,110,.18) 0%,transparent 70%);
+    animation:orb-float 8s ease-in-out infinite;
+  }
+  .hairoma-orb:nth-child(1){width:420px;height:420px;top:-80px;right:5%;animation-delay:0s;}
+  .hairoma-orb:nth-child(2){width:280px;height:280px;top:30%;right:25%;animation-delay:-3s;}
+  .hairoma-orb:nth-child(3){width:200px;height:200px;top:10%;right:42%;animation-delay:-6s;}
+  @keyframes orb-float{
+    0%,100%{transform:translateY(0) scale(1);}
+    50%{transform:translateY(-20px) scale(1.04);}
+  }
+  .hairoma-hero__content{
+    position:relative;z-index:2;
+    max-width:var(--max);margin:0 auto;
+    padding:0 24px 72px;width:100%;
+  }
+  .hairoma-badge{
+    display:inline-flex;align-items:center;gap:7px;
+    background:rgba(201,169,110,.13);
+    border:1px solid rgba(201,169,110,.28);
+    border-radius:999px;padding:5px 14px;
+    font-family:'Geist Mono',monospace;font-size:11px;
+    letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--accent-text);margin-bottom:22px;
+  }
+  .hairoma-badge__dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;animation:hpulse 2s ease infinite;}
+  .hairoma-wordmark{
+    font-family:'Instrument Serif',serif;
+    font-size:clamp(52px,9vw,96px);
+    font-weight:400;line-height:.88;
+    letter-spacing:-.04em;color:var(--white);
+    margin-bottom:22px;
+  }
+  .hairoma-wordmark em{color:var(--accent-text);font-style:italic;}
+  .hairoma-hero__desc{
+    max-width:460px;color:var(--text);
+    font-size:var(--t-md);line-height:1.7;
+  }
+
+  /* ─── Hairoma body ─── */
+  .hairoma-body{padding:80px 0 100px;}
+
+  /* ── Split header ── */
+  .hairoma-header{
+    max-width:var(--wide);margin:0 auto 72px;
+    padding:0 24px;
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:80px;align-items:end;
+  }
+  .hairoma-header__stat{
+    display:flex;align-items:baseline;gap:14px;
+    padding:22px 0;border-bottom:1px solid var(--line);
+  }
+  .hairoma-header__stat:first-child{border-top:1px solid var(--line);}
+  .hairoma-header__stat-n{
+    font-family:'Instrument Serif',serif;
+    font-size:44px;font-weight:400;color:var(--accent-text);
+    line-height:1;letter-spacing:-.03em;min-width:52px;
+  }
+  .hairoma-header__stat-label{font-size:var(--t-sm);color:var(--sub);line-height:1.5;}
+
+  /* ── Featured image + step list layout ── */
+  .hairoma-flow{
+    max-width:var(--wide);margin:0 auto;
+    padding:0 24px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:48px;
+    align-items:start;
+  }
+
+  /* Left: featured screen */
+  .hairoma-featured{
+    position:relative;
+    border-radius:20px;overflow:hidden;
+    border:1px solid var(--line);
+    background:var(--surface);
+    cursor:pointer;
+    transition:border-color .3s,box-shadow .3s,transform .3s cubic-bezier(.34,1.2,.64,1);
+  }
+  body.light .hairoma-featured{background:#EDE5DA;}
+  .hairoma-featured:hover{
+    border-color:rgba(201,169,110,.4);
+    box-shadow:0 24px 56px rgba(0,0,0,.35);
+    transform:translateY(-4px);
+  }
+  .hairoma-featured__chrome{
+    height:30px;
+    background:rgba(255,255,255,.03);
+    border-bottom:1px solid var(--line);
+    display:flex;align-items:center;padding:0 12px;gap:5px;
+  }
+  body.light .hairoma-featured__chrome{background:rgba(0,0,0,.03);}
+  .hairoma-dot{width:7px;height:7px;border-radius:50%;}
+  .hairoma-dot:nth-child(1){background:rgba(255,95,87,.4);}
+  .hairoma-dot:nth-child(2){background:rgba(255,189,46,.3);}
+  .hairoma-dot:nth-child(3){background:rgba(40,200,64,.25);}
+  .hairoma-featured__bar{
+    flex:1;height:13px;border-radius:4px;
+    background:rgba(255,255,255,.05);margin:0 8px;
+  }
+  body.light .hairoma-featured__bar{background:rgba(0,0,0,.06);}
+  .hairoma-featured__screen{
+    position:relative;overflow:hidden;aspect-ratio:3/4;
+  }
+  .hairoma-featured__screen img{
+    position:absolute;inset:0;width:100%;height:100%;
+    object-fit:cover;object-position:top center;display:block;
+    transition:transform .6s cubic-bezier(.22,1,.36,1);
+  }
+  .hairoma-featured:hover .hairoma-featured__screen img{transform:scale(1.03);}
+  .hairoma-featured__screen::after{
+    content:'';position:absolute;bottom:0;left:0;right:0;height:35%;
+    background:linear-gradient(to bottom,transparent,var(--surface));
+    pointer-events:none;z-index:1;
+  }
+  body.light .hairoma-featured__screen::after{background:linear-gradient(to bottom,transparent,#EDE5DA);}
+  .hairoma-featured__hint{
+    position:absolute;bottom:14px;right:14px;z-index:3;
+    height:26px;padding:0 12px;border-radius:999px;
+    background:rgba(201,169,110,.18);border:1px solid rgba(201,169,110,.3);
+    display:flex;align-items:center;gap:5px;
+    font-family:'Geist Mono',monospace;font-size:10px;
+    color:var(--accent-text);
+    opacity:0;transition:opacity .2s;
+  }
+  .hairoma-featured:hover .hairoma-featured__hint{opacity:1;}
+  .hairoma-featured__step-pill{
+    position:absolute;top:14px;left:14px;z-index:3;
+    height:26px;padding:0 12px;border-radius:999px;
+    background:rgba(20,18,16,.8);backdrop-filter:blur(12px);
+    border:1px solid rgba(255,255,255,.15);
+    display:flex;align-items:center;
+    font-family:'Geist Mono',monospace;font-size:10px;
+    font-weight:700;color:var(--accent-text);letter-spacing:.5px;
+  }
+  body.light .hairoma-featured__step-pill{background:rgba(255,255,255,.85);color:var(--accent);border-color:rgba(0,0,0,.1);}
+
+  /* Right: step list */
+  .hairoma-steps-list{
+    display:flex;flex-direction:column;
+    padding-top:8px;
+  }
+  .hairoma-step{
+    padding:24px 0;
+    border-bottom:1px solid var(--line);
+    cursor:pointer;
+    transition:opacity .2s;
+    display:grid;
+    grid-template-columns:40px 1fr;
+    gap:16px;
+    align-items:start;
+  }
+  .hairoma-step:first-child{border-top:1px solid var(--line);}
+  .hairoma-step:hover{opacity:.7;}
+  .hairoma-step.is-active{opacity:1;}
+  .hairoma-step__num{
+    font-family:'Geist Mono',monospace;
+    font-size:11px;font-weight:700;
+    color:var(--accent-text);letter-spacing:.5px;
+    padding-top:3px;
+  }
+  .hairoma-step__title{
+    font-family:'Instrument Serif',serif;
+    font-size:20px;font-weight:400;
+    color:var(--white);margin-bottom:6px;
+    line-height:1.2;letter-spacing:-.01em;
+  }
+  body.light .hairoma-step__title{color:#1A1008;}
+  .hairoma-step__desc{font-size:13px;color:var(--sub);line-height:1.7;}
+
+  /* ── Value props ── */
+  .hairoma-values{
+    max-width:var(--wide);margin:56px auto 0;
+    padding:0 24px;
+    display:grid;grid-template-columns:repeat(3,1fr);
+    gap:0;border-top:1px solid var(--line);
+  }
+  .hairoma-value{
+    padding:36px 32px 36px 0;
+    border-right:1px solid var(--line);
+  }
+  .hairoma-value:last-child{border-right:none;padding-left:32px;padding-right:0;}
+  .hairoma-value:nth-child(2){padding-left:32px;}
+  .hairoma-value__rule{width:28px;height:2px;background:var(--accent);border-radius:1px;margin-bottom:16px;}
+  .hairoma-value__title{font-size:var(--t-sm);font-weight:500;color:var(--white);margin-bottom:8px;}
+  body.light .hairoma-value__title{color:#1A1008;}
+  .hairoma-value__desc{font-size:13px;color:var(--sub);line-height:1.7;}
+
+  @media(max-width:768px){
+    .hairoma-header{grid-template-columns:1fr;gap:40px;margin-bottom:48px;}
+    .hairoma-flow{grid-template-columns:1fr !important;padding:0 24px;}
+    .hairoma-featured{max-width:100%;}
+    .hairoma-values{grid-template-columns:1fr;border-top:none;padding:0 24px;}
+    .hairoma-value{border-right:none;border-top:1px solid var(--line);padding:28px 0;}
+    .hairoma-value:last-child{padding-left:0;}
+    .hairoma-value:nth-child(2){padding-left:0;}
+    .hairoma-body{padding:56px 0 72px;}
+  }
+  @media(max-width:480px){
+    .hairoma-steps-rail{grid-template-columns:repeat(4,260px);}
+    .hairoma-wordmark{font-size:48px;}
+    .hairoma-hero{min-height:400px;}
+  }
+
+
+  /* ══ HAIROMA LIGHTBOX ══ */
+  .hlb{
+    position:fixed;inset:0;z-index:10002;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(12,10,8,0.92);
+    backdrop-filter:blur(20px) saturate(160%);
+    opacity:0;pointer-events:none;
+    transition:opacity .35s cubic-bezier(.22,1,.36,1);
+    padding:24px;
+  }
+  .hlb.is-open{opacity:1;pointer-events:all;}
+  body.hlb-open{overflow:hidden;}
+
+  .hlb__inner{
+    position:relative;
+    display:grid;
+    grid-template-columns:1fr 420px;
+    gap:0;
+    width:100%;max-width:1020px;
+    max-height:90vh;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:20px;
+    overflow:hidden;
+    transform:translateY(24px) scale(.97);
+    transition:transform .4s cubic-bezier(.22,1,.36,1);
+  }
+  .hlb.is-open .hlb__inner{transform:translateY(0) scale(1);}
+
+  /* Left — image pane */
+  .hlb__img-pane{
+    position:relative;
+    background:rgba(255,255,255,.025);
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;min-height:480px;
+  }
+  body.light .hlb__img-pane{background:rgba(0,0,0,.04);}
+  .hlb__img{
+    width:100%;height:100%;
+    object-fit:contain;object-position:top center;
+    display:block;
+    opacity:0;transition:opacity .3s ease;
+    padding:32px;
+  }
+  .hlb__img.is-loaded{opacity:1;}
+  /* placeholder when image is missing */
+  .hlb__img-ph{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:12px;padding:40px;
+    font-family:'Geist Mono',monospace;font-size:11px;
+    letter-spacing:1px;color:var(--sub);opacity:.5;text-align:center;
+  }
+  .hlb__img-ph-icon{font-size:36px;opacity:.4;}
+
+  /* Step indicator dots */
+  .hlb__dots{
+    position:absolute;bottom:20px;left:50%;
+    transform:translateX(-50%);
+    display:flex;gap:6px;z-index:2;
+  }
+  .hlb__dot{
+    width:6px;height:6px;border-radius:50%;
+    background:rgba(255,255,255,.25);
+    transition:background .2s,transform .2s;
+    cursor:pointer;
+  }
+  .hlb__dot.active{background:var(--accent);transform:scale(1.3);}
+
+  /* Right — info pane */
+  .hlb__info{
+    display:flex;flex-direction:column;
+    padding:40px 36px;
+    border-left:1px solid var(--line);
+    overflow-y:auto;
+  }
+  .hlb__step-label{
+    font-family:'Geist Mono',monospace;font-size:11px;
+    letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--accent-text);margin-bottom:16px;
+  }
+  .hlb__title{
+    font-family:'Instrument Serif',serif;
+    font-size:28px;font-weight:400;
+    line-height:1.15;letter-spacing:-.02em;
+    color:var(--white);margin-bottom:16px;
+  }
+  body.light .hlb__title{color:#1A1008;}
+  .hlb__desc{font-size:var(--t-sm);color:var(--sub);line-height:1.75;flex:1;}
+  .hlb__asset{
+    font-family:'Geist Mono',monospace;font-size:11px;
+    color:var(--sub);opacity:.45;margin-top:24px;
+    padding-top:16px;border-top:1px solid var(--line);
+  }
+
+  /* Nav arrows */
+  .hlb__nav{display:flex;gap:8px;margin-top:32px;}
+  .hlb__arr{
+    width:44px;height:44px;border-radius:50%;
+    background:rgba(255,255,255,.06);
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;font-size:18px;color:var(--text);
+    transition:background .2s,transform .15s,border-color .2s;
+    user-select:none;
+  }
+  .hlb__arr:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2);}
+  .hlb__arr:active{transform:scale(.92);}
+  .hlb__arr:disabled{opacity:.25;cursor:default;pointer-events:none;}
+  body.light .hlb__arr{background:rgba(0,0,0,.05);border-color:rgba(0,0,0,.1);}
+  body.light .hlb__arr:hover{background:rgba(0,0,0,.1);}
+
+  /* Close */
+  .hlb__close{
+    position:absolute;top:14px;right:14px;z-index:3;
+    width:36px;height:36px;border-radius:50%;
+    background:rgba(15,15,15,.8);backdrop-filter:blur(12px);
+    border:1px solid rgba(255,255,255,.15);
+    color:#fff;font-size:16px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .2s,background .2s;
+  }
+  .hlb__close:hover{transform:scale(1.08);background:rgba(15,15,15,.95);}
+  body.light .hlb__close{background:rgba(247,240,232,.85);color:#1A1008;border-color:rgba(0,0,0,.1);}
+
+  /* Make step cards feel clickable */
+  .hairoma-step{cursor:pointer;}
+
+  .hairoma-step__zoom{
+    position:absolute;bottom:10px;right:10px;z-index:4;
+    width:28px;height:28px;border-radius:8px;
+    background:rgba(20,18,16,.65);backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,.12);
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;opacity:0;
+    transition:opacity .2s;pointer-events:none;
+  }
+  .hairoma-step:hover .hairoma-step__zoom{opacity:1;}
+
+  @media(max-width:768px){
+    .hlb__inner{grid-template-columns:1fr;max-height:95vh;}
+    .hlb__img-pane{min-height:260px;}
+    .hlb__info{padding:24px;}
+    .hlb__title{font-size:22px;}
+    .hlb{padding:12px;}
+  }
+
+  @media(max-width:640px){
+    .screens-grid-07{grid-template-columns:1fr !important;}
+  }
+
+  /* ── Section 07 screen cards ── */
+  .scr-card{
+    border-radius:16px;overflow:hidden;
+    border:1px solid var(--line);
+    background:var(--surface);
+    transition:border-color .25s,box-shadow .25s,transform .25s cubic-bezier(.34,1.2,.64,1);
+  }
+  .scr-card:hover{
+    border-color:rgba(201,169,110,.3);
+    box-shadow:0 16px 48px rgba(0,0,0,.3);
+    transform:translateY(-3px);
+  }
+  body.light .scr-card{background:#EDE5DA;}
+  .scr-card__chrome{
+    height:32px;display:flex;align-items:center;
+    padding:0 14px;gap:6px;
+    background:rgba(255,255,255,.03);
+    border-bottom:1px solid var(--line);
+  }
+  body.light .scr-card__chrome{background:rgba(0,0,0,.03);}
+  .scr-dot{width:8px;height:8px;border-radius:50%;display:inline-block;}
+  .scr-dot--r{background:rgba(255,95,87,.45);}
+  .scr-dot--y{background:rgba(255,189,46,.35);}
+  .scr-dot--g{background:rgba(40,200,64,.3);}
+  .scr-bar{
+    flex:1;height:14px;border-radius:4px;
+    background:rgba(255,255,255,.05);margin:0 10px;
+  }
+  body.light .scr-bar{background:rgba(0,0,0,.06);}
+  .scr-caption-inline{
+    font-family:'Geist Mono',monospace;font-size:10px;
+    color:var(--sub);opacity:.5;white-space:nowrap;
+    overflow:hidden;text-overflow:ellipsis;max-width:200px;
+  }
+  .scr-card__screen{
+    position:relative;overflow:hidden;aspect-ratio:16/9;
+  }
+  .scr-card__screen--wide{aspect-ratio:16/7;}
+  .scr-card__screen img{
+    position:absolute;inset:0;width:100%;height:100%;
+    object-fit:cover;object-position:top center;display:block;
+    transition:transform .5s cubic-bezier(.22,1,.36,1);
+  }
+  .scr-card:hover .scr-card__screen img{transform:scale(1.03);}
+  .scr-card__screen::after{
+    content:'';position:absolute;bottom:0;left:0;right:0;height:30%;
+    background:linear-gradient(to bottom,transparent,var(--surface));
+    pointer-events:none;z-index:1;
+  }
+  body.light .scr-card__screen::after{background:linear-gradient(to bottom,transparent,#EDE5DA);}
+  .scr-card__label{
+    padding:12px 16px;
+    font-family:'Geist Mono',monospace;font-size:11px;
+    letter-spacing:.5px;color:var(--sub);
+    border-top:1px solid var(--line);
+  }
+  @media(max-width:640px){
+    .screens-grid-07{grid-template-columns:1fr !important;}
+    .scr-card__screen--wide{aspect-ratio:16/9;}
+  }
+
+  /* ── Screen Lightbox ── */
+  .scr-lb{
+    position:fixed;inset:0;z-index:10003;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(8,6,4,.96);
+    backdrop-filter:blur(24px) saturate(160%);
+    opacity:0;pointer-events:none;
+    transition:opacity .3s cubic-bezier(.22,1,.36,1);
+    padding:24px;
+  }
+  .scr-lb.is-open{opacity:1;pointer-events:all;}
+  body.scr-lb-open{overflow:hidden;}
+
+  .scr-lb__inner{
+    position:relative;width:100%;max-width:1100px;
+    display:flex;flex-direction:column;
+    transform:translateY(20px) scale(.97);
+    transition:transform .4s cubic-bezier(.22,1,.36,1);
+  }
+  .scr-lb.is-open .scr-lb__inner{transform:translateY(0) scale(1);}
+
+  /* Chrome bar */
+  .scr-lb__chrome{
+    height:36px;display:flex;align-items:center;gap:7px;
+    padding:0 16px;
+    background:rgba(30,28,26,.9);
+    border:1px solid rgba(255,255,255,.1);
+    border-bottom:none;
+    border-radius:12px 12px 0 0;
+  }
+  .scr-lb__dot{width:9px;height:9px;border-radius:50%;}
+  .scr-lb__dot:nth-child(1){background:rgba(255,95,87,.6);}
+  .scr-lb__dot:nth-child(2){background:rgba(255,189,46,.5);}
+  .scr-lb__dot:nth-child(3){background:rgba(40,200,64,.4);}
+  .scr-lb__url{
+    flex:1;height:16px;border-radius:4px;
+    background:rgba(255,255,255,.07);margin:0 12px;
+    font-family:'Geist Mono',monospace;font-size:10px;
+    color:rgba(255,255,255,.3);display:flex;align-items:center;
+    padding:0 10px;letter-spacing:.3px;
+  }
+
+  /* Image frame */
+  .scr-lb__frame{
+    position:relative;overflow:hidden;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:0 0 12px 12px;
+    background:#111;
+    max-height:78vh;
+  }
+  .scr-lb__img{
+    width:100%;display:block;
+    object-fit:contain;object-position:top;
+    max-height:78vh;
+    opacity:0;transition:opacity .35s ease;
+  }
+  .scr-lb__img.is-loaded{opacity:1;}
+
+  /* Caption + nav */
+  .scr-lb__footer{
+    display:flex;align-items:center;justify-content:space-between;
+    margin-top:16px;
+  }
+  .scr-lb__caption{
+    font-family:'Geist Mono',monospace;font-size:11px;
+    letter-spacing:.8px;text-transform:uppercase;
+    color:rgba(255,255,255,.4);
+  }
+  .scr-lb__nav{display:flex;gap:8px;}
+  .scr-lb__btn{
+    width:36px;height:36px;border-radius:50%;
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.12);
+    color:rgba(255,255,255,.7);font-size:16px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    transition:background .2s,transform .15s;
+  }
+  .scr-lb__btn:hover{background:rgba(255,255,255,.14);}
+  .scr-lb__btn:active{transform:scale(.9);}
+  .scr-lb__btn:disabled{opacity:.2;pointer-events:none;}
+
+  /* Close */
+  .scr-lb__close{
+    position:fixed;top:20px;right:20px;z-index:2;
+    width:40px;height:40px;border-radius:50%;
+    background:rgba(20,18,16,.85);backdrop-filter:blur(12px);
+    border:1px solid rgba(255,255,255,.15);
+    color:#fff;font-size:18px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .2s,background .2s;
+  }
+  .scr-lb__close:hover{transform:scale(1.08);}
+
+  /* Make scr-cards feel clickable */
+  .scr-card{cursor:pointer;}
+  .scr-card__screen::before{
+    content:'⤢ expand';
+    position:absolute;bottom:14px;right:14px;z-index:3;
+    height:26px;padding:0 12px;border-radius:999px;
+    background:rgba(201,169,110,.18);border:1px solid rgba(201,169,110,.3);
+    font-family:'Geist Mono',monospace;font-size:10px;
+    color:var(--accent-text);
+    display:flex;align-items:center;
+    opacity:0;transition:opacity .2s;
+    pointer-events:none;
+  }
+  .scr-card:hover .scr-card__screen::before{opacity:1;}
 </style>
 </head>
 <body>
@@ -465,7 +1018,7 @@
       <div class="meta-item"><span class="meta-label">Platform</span><span>Web · Mobile</span></div>
       <div class="meta-item"><span class="meta-label">Tags</span><span>E-Commerce · UX</span></div>
     </div>
-    <div class="hero-visual placeholder">[ Hero product mockup — desktop + mobile ]</div>
+    <img id="heroImg" class="hero-visual" src="assets/mock-up-dark.png" alt="Hair Food product mockup" style="object-fit:cover;object-position:top;" onerror="this.style.opacity=0.12">
   </div>
 </div>
 
@@ -477,18 +1030,14 @@
   <div class="col">
     <div class="tag"><span class="tag-dot"></span>01 — Overview</div>
     <h2>The goal: give Hair Food<br>a real place to sell.</h2>
-    <div class="two-col" style="margin-top:32px;">
-      <div>
-        <p>The Hair Food website lacked a functioning e-commerce layer. Users could browse products but had no seamless path to purchase — a critical gap for a brand competing in a crowded beauty market.</p>
-        <p style="margin-top:16px;">The brief was to add e-commerce functionality and improve the overall shopping experience to increase conversion and brand loyalty.</p>
-      </div>
-      <div>
-        <blockquote class="quote-block" style="margin:0;">
-          <p class="quote-text">How can we offer Hair Food customers a convenient and secure online shopping experience while also encouraging increased shopping frequency?</p>
-          <footer class="quote-attr"><cite>— Design Challenge</cite></footer>
-        </blockquote>
-      </div>
+    <div style="margin-top:32px;max-width:560px;">
+      <p>The Hair Food website lacked a functioning e-commerce layer. Users could browse products but had no seamless path to purchase — a critical gap for a brand competing in a crowded beauty market.</p>
+      <p style="margin-top:16px;">The brief was to add e-commerce functionality and improve the overall shopping experience to increase conversion and brand loyalty.</p>
     </div>
+    <blockquote class="quote-block" style="margin-top:40px;">
+      <p class="quote-text">How can we offer Hair Food customers a convenient and secure online shopping experience while also encouraging increased shopping frequency?</p>
+      <footer class="quote-attr"><cite>— Design Challenge</cite></footer>
+    </blockquote>
   </div>
 </section>
 
@@ -617,7 +1166,7 @@
     </div>
 
     <div style="margin-top:48px;">
-      <div class="placeholder" style="width:100%;aspect-ratio:16/7;">[ Affinity map / research synthesis board — placeholder ]</div>
+      <img id="userJourneyImg" src="assets/user-journey.png" alt="User journey map" style="width:100%;aspect-ratio:16/7;object-fit:cover;object-position:top;border-radius:12px;display:block;" onerror="this.style.opacity=0.12">
     </div>
   </div>
 </section>
@@ -643,6 +1192,181 @@
       </div>
     </div>
   </div>
+</section>
+
+
+<!-- ══════════════════════════════
+     05b — HAIROMA
+══════════════════════════════ -->
+<section class="section hairoma-section" data-theme="dark">
+
+  <!-- Hero banner -->
+  <div class="hairoma-hero">
+    <div class="hairoma-orbs">
+      <div class="hairoma-orb"></div>
+      <div class="hairoma-orb"></div>
+      <div class="hairoma-orb"></div>
+    </div>
+    <div class="hairoma-hero__overlay"></div>
+    <div class="hairoma-hero__content">
+      <div class="hairoma-badge"><span class="hairoma-badge__dot"></span>New Innovation · 05b</div>
+      <div class="hairoma-wordmark">Hair<em>oma</em></div>
+      <p class="hairoma-hero__desc">A fragrance customisation system that lets users blend two scents at a chosen ratio and see exactly what product they're creating — before they buy. It turns passive browsing into a personalised ritual.</p>
+    </div>
+  </div>
+
+  <!-- Steps + value props -->
+  <div class="hairoma-body">
+
+    <div style="max-width:var(--max);margin:0 auto 64px;padding:0 24px;">
+      <div class="tag"><span class="tag-dot"></span>The Hairoma flow</div>
+      <h2 style="margin-top:14px;">Pick. Blend.<br>Make it yours.</h2>
+      <p style="margin-top:16px;color:var(--sub);line-height:1.75;max-width:480px;">A four-step fragrance customisation system. Every step is skippable and reversible — users stay in control without ever feeling committed too early.</p>
+      <div style="margin-top:40px;display:flex;gap:48px;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'Instrument Serif',serif;font-size:44px;color:var(--accent-text);line-height:1;letter-spacing:-.03em;">10</div>
+          <div style="font-size:var(--t-sm);color:var(--sub);margin-top:6px;">Natural scent families</div>
+        </div>
+        <div>
+          <div style="font-family:'Instrument Serif',serif;font-size:44px;color:var(--accent-text);line-height:1;letter-spacing:-.03em;">∞</div>
+          <div style="font-size:var(--t-sm);color:var(--sub);margin-top:6px;">Unique combinations possible</div>
+        </div>
+        <div>
+          <div style="font-family:'Instrument Serif',serif;font-size:44px;color:var(--accent-text);line-height:1;letter-spacing:-.03em;">1</div>
+          <div style="font-size:var(--t-sm);color:var(--sub);margin-top:6px;">Tap to reorder your blend</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hairoma-flow">
+
+      <!-- Left: featured screen, switches on step click -->
+      <div class="hairoma-featured" id="hairomaFeatured" role="button" tabindex="0" aria-label="View current step detail">
+        <div class="hairoma-featured__chrome">
+          <div class="hairoma-dot"></div>
+          <div class="hairoma-dot"></div>
+          <div class="hairoma-dot"></div>
+          <div class="hairoma-featured__bar"></div>
+        </div>
+        <div class="hairoma-featured__screen">
+          <div class="hairoma-featured__step-pill" id="featuredPill">01 · Choose</div>
+          <img id="step1Img" src="assets/step1-dark.png" alt="Choose your first fragrance">
+          <div class="hairoma-featured__hint">⤢ expand</div>
+        </div>
+      </div>
+
+      <!-- Right: step list -->
+      <div class="hairoma-steps-list">
+        <div class="hairoma-step is-active" data-step="0" role="button" tabindex="0">
+          <div class="hairoma-step__num">01</div>
+          <div>
+            <div class="hairoma-step__title">Choose your first fragrance</div>
+            <div class="hairoma-step__desc">Pick from 10 natural scent families — avocado, mango, coconut, jasmine, and more. Ingredient icons explain what each does for your hair.</div>
+          </div>
+        </div>
+        <div class="hairoma-step" data-step="1" role="button" tabindex="0">
+          <div class="hairoma-step__num">02</div>
+          <div>
+            <div class="hairoma-step__title">Add a second scent</div>
+            <div class="hairoma-step__desc">Layer a complementary fragrance to build your unique combination. A pairing guide highlights which scents work best together.</div>
+          </div>
+        </div>
+        <div class="hairoma-step" data-step="2" role="button" tabindex="0">
+          <div class="hairoma-step__num">03</div>
+          <div>
+            <div class="hairoma-step__title">Set the ratio</div>
+            <div class="hairoma-step__desc">A simple slider lets you set the dominant note — 60/40, 50/50, or anything in between. The preview updates in real time.</div>
+          </div>
+        </div>
+        <div class="hairoma-step" data-step="3" role="button" tabindex="0">
+          <div class="hairoma-step__num">04</div>
+          <div>
+            <div class="hairoma-step__title">Your product is ready</div>
+            <div class="hairoma-step__desc">A full order summary shows your custom blend, size, fragrance note, and price — one tap to checkout with your formula saved.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <script>
+    /* Hairoma step switcher */
+    (function(){
+      var STEPS = [
+        { asset:'step1', pill:'01 · Choose',   alt:'Choose your first fragrance' },
+        { asset:'step2', pill:'02 · Layer',    alt:'Add a second scent' },
+        { asset:'step4', pill:'03 · Blend',    alt:'Set the ratio' },
+        { asset:'final', pill:'04 · Checkout', alt:'Your product is ready' },
+      ];
+      var featured    = document.getElementById('hairomaFeatured');
+      var featuredImg = featured ? featured.querySelector('img') : null;
+      var featuredPill= document.getElementById('featuredPill');
+      var rows        = document.querySelectorAll('.hairoma-steps-list .hairoma-step');
+      var current     = 0;
+
+      function sfx(){ return document.body.classList.contains('light') ? 'light' : 'dark'; }
+
+      function activate(idx){
+        current = idx;
+        var s = STEPS[idx];
+        if(featuredImg){
+          /* don't change id — just swap src */
+          featuredImg.src = 'assets/' + s.asset + '-' + sfx() + '.png';
+          featuredImg.alt = s.alt;
+        }
+        if(featuredPill) featuredPill.textContent = s.pill;
+        rows.forEach(function(r,i){ r.classList.toggle('is-active', i===idx); });
+      }
+
+      /* Step list rows — switch image only, do NOT open lightbox */
+      rows.forEach(function(row, i){
+        row.addEventListener('click', function(e){
+          e.stopPropagation();
+          activate(i);
+        });
+        row.addEventListener('keydown', function(e){
+          if(e.key==='Enter'||e.key===' '){ e.preventDefault(); activate(i); }
+        });
+      });
+
+      /* Clicking the featured image opens lightbox at current step */
+      if(featured){
+        featured.addEventListener('click', function(){
+          if(typeof openAt === 'function') openAt(current);
+        });
+      }
+
+      /* Re-swap src on theme change */
+      new MutationObserver(function(){ activate(current); })
+        .observe(document.body, {attributes:true, attributeFilter:['class']});
+
+      /* Init */
+      activate(0);
+    })();
+    </script>
+
+    <div class="hairoma-values">
+      <div class="hairoma-value">
+        <div class="hairoma-value__rule"></div>
+        <div class="hairoma-value__title">Reduces decision fatigue</div>
+        <div class="hairoma-value__desc">Instead of browsing dozens of pre-made SKUs, users build one product. Fewer options, more ownership of the outcome.</div>
+      </div>
+      <div class="hairoma-value">
+        <div class="hairoma-value__rule"></div>
+        <div class="hairoma-value__title">Drives repeat purchase</div>
+        <div class="hairoma-value__desc">A saved blend means users return to reorder their exact formula — not restart discovery from scratch every time.</div>
+      </div>
+      <div class="hairoma-value">
+        <div class="hairoma-value__rule"></div>
+        <div class="hairoma-value__title">A genuine differentiator</div>
+        <div class="hairoma-value__desc">No competing hair care brand offers this level of fragrance customisation. It gives Hair Food a story no competitor can copy.</div>
+      </div>
+    </div>
+
+  </div>
+
+  </div>
+
 </section>
 
 
@@ -682,25 +1406,69 @@
   <div class="col">
     <div class="tag"><span class="tag-dot"></span>07 — Screens</div>
     <h2>From wireframe<br>to final design.</h2>
-    <p>Every key flow — from homepage to checkout — went through at least two rounds of iteration before high-fidelity work began.</p>
-    <div class="screen-grid">
-      <div class="screen-item">
-        <div class="placeholder" style="width:100%;aspect-ratio:4/3;">[ Fragrance Finder — quiz step 1 ]</div>
-        <div class="screen-caption">Fragrance Finder · Quiz step 1</div>
+    <p>Every key flow went through at least two rounds of iteration before high-fidelity work began. Click any screen to expand.</p>
+  </div>
+
+  <div class="col" style="margin-top:48px;">
+
+    <!-- Screen 1: full-width hero -->
+    <div class="scr-card scr-card--full" style="margin-bottom:16px;">
+      <div class="scr-card__chrome">
+        <span class="scr-dot scr-dot--r"></span>
+        <span class="scr-dot scr-dot--y"></span>
+        <span class="scr-dot scr-dot--g"></span>
+        <span class="scr-bar"></span>
+        <span class="scr-caption-inline">hairfood.com</span>
       </div>
-      <div class="screen-item">
-        <div class="placeholder" style="width:100%;aspect-ratio:4/3;">[ Fragrance Finder — results ]</div>
-        <div class="screen-caption">Fragrance Finder · Results & recommendations</div>
+      <div class="scr-card__screen scr-card__screen--wide">
+        <img id="heroScreenImg" data-lb-asset="hero" data-lb-caption="Homepage · Hairoma entry point" src="assets/hero-dark.png" alt="Hair Food homepage" onerror="this.style.opacity=0.06">
       </div>
-      <div class="screen-item">
-        <div class="placeholder" style="width:100%;aspect-ratio:4/3;">[ Product Detail Page ]</div>
-        <div class="screen-caption">Product Detail · Ingredient spotlight</div>
+      <div class="scr-card__label">Homepage · Hairoma entry point</div>
+    </div>
+
+    <!-- Screens 2–3: two column -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;" class="screens-grid-07">
+      <div class="scr-card">
+        <div class="scr-card__chrome">
+          <span class="scr-dot scr-dot--r"></span>
+          <span class="scr-dot scr-dot--y"></span>
+          <span class="scr-dot scr-dot--g"></span>
+          <span class="scr-bar"></span>
+        </div>
+        <div class="scr-card__screen">
+          <img id="hairomaScreenImg" data-lb-asset="hairoma" data-lb-caption="Hairoma · Customisation landing" src="assets/hairoma-dark.png" alt="Hairoma landing" onerror="this.style.opacity=0.06">
+        </div>
+        <div class="scr-card__label">Hairoma · Customisation landing</div>
       </div>
-      <div class="screen-item">
-        <div class="placeholder" style="width:100%;aspect-ratio:4/3;">[ Routine Builder / Cart ]</div>
-        <div class="screen-caption">Routine Builder · Bundle checkout</div>
+      <div class="scr-card">
+        <div class="scr-card__chrome">
+          <span class="scr-dot scr-dot--r"></span>
+          <span class="scr-dot scr-dot--y"></span>
+          <span class="scr-dot scr-dot--g"></span>
+          <span class="scr-bar"></span>
+        </div>
+        <div class="scr-card__screen">
+          <img id="step2ScreenImg" data-lb-asset="step2" data-lb-caption="Hairoma · Choose your fragrance" src="assets/step2-dark.png" alt="Choose second fragrance" onerror="this.style.opacity=0.06">
+        </div>
+        <div class="scr-card__label">Hairoma · Choose your fragrance</div>
       </div>
     </div>
+
+    <!-- Screen 4: full-width final -->
+    <div class="scr-card scr-card--full">
+      <div class="scr-card__chrome">
+        <span class="scr-dot scr-dot--r"></span>
+        <span class="scr-dot scr-dot--y"></span>
+        <span class="scr-dot scr-dot--g"></span>
+        <span class="scr-bar"></span>
+        <span class="scr-caption-inline">hairfood.com/hairoma/checkout</span>
+      </div>
+      <div class="scr-card__screen scr-card__screen--wide">
+        <img id="finalScreenImg" data-lb-asset="final" data-lb-caption="Hairoma · Your product is ready" src="assets/final-dark.png" alt="Your product is ready" onerror="this.style.opacity=0.06">
+      </div>
+      <div class="scr-card__label">Hairoma · Your product is ready</div>
+    </div>
+
   </div>
 </section>
 
@@ -750,20 +1518,20 @@
     <div class="tag"><span class="tag-dot"></span>09 — Outcomes</div>
     <h2>Results from<br>usability testing.</h2>
     <p>After two rounds of moderated testing with target users, the redesigned flows showed measurable improvement across every key metric.</p>
-    <div class="deploy-nums">
-      <div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:40px;">
+      <div style="padding:40px 36px;background:var(--bg);">
         <div class="dn-num"><em>92</em>%</div>
         <div class="dn-label">Task completion rate for adding a product to cart</div>
       </div>
-      <div>
+      <div style="padding:40px 36px;background:var(--bg);">
         <div class="dn-num"><em>72</em>%</div>
         <div class="dn-label">Reduction in drop-off at the ingredient detail step</div>
       </div>
-      <div>
+      <div style="padding:40px 36px;background:var(--bg);">
         <div class="dn-num"><em>27</em></div>
         <div class="dn-label">Participants across testing rounds</div>
       </div>
-      <div>
+      <div style="padding:40px 36px;background:var(--bg);">
         <div class="dn-num"><em>5</em></div>
         <div class="dn-label">Screens redesigned end-to-end</div>
       </div>
@@ -817,8 +1585,24 @@
     const icon = goLight ? '☀️' : '🌙';
     toggleTop.textContent  = icon;
     togglePill.textContent = icon;
-    // Update nav-top pill appearance
     navTop.classList.toggle('nav-dark', !goLight);
+    // Swap theme-aware images
+    const sfx = goLight ? 'light' : 'dark';
+    const imgs = {
+      heroImg:          'mock-up',
+      step1Img:         'step1',
+      step2Img:         'step2',
+      step3Img:         'step4',
+      step4Img:         'final',
+      heroScreenImg:    'hero',
+      hairomaScreenImg: 'hairoma',
+      step2ScreenImg:   'step2',
+      finalScreenImg:   'final',
+    };
+    Object.entries(imgs).forEach(([id, base]) => {
+      const el = document.getElementById(id);
+      if (el) el.src = `assets/${base}-${sfx}.png`;
+    });
   }
   function toggleTheme(){ applyTheme(!document.body.classList.contains('light')); }
   toggleTop.addEventListener('click', toggleTheme);
@@ -946,6 +1730,9 @@ document.addEventListener('DOMContentLoaded', function(){
     var pillToggle = document.getElementById('themeTogglePill');
     if(deskToggle) deskToggle.textContent = goLight ? '☀️' : '🌙';
     if(pillToggle) pillToggle.textContent = goLight ? '☀️' : '🌙';
+    var sfx = goLight ? 'light' : 'dark';
+    var imgs = {heroImg:'mock-up',step1Img:'step1',step2Img:'step2',step3Img:'step4',step4Img:'final',heroScreenImg:'hero',hairomaScreenImg:'hairoma',step2ScreenImg:'step2',finalScreenImg:'final'};
+    Object.entries(imgs).forEach(function(e){ var el=document.getElementById(e[0]); if(el) el.src='assets/'+e[1]+'-'+sfx+'.png'; });
   }
   applyMobTheme(false);
 
@@ -1022,5 +1809,248 @@ document.addEventListener('DOMContentLoaded', function(){
   init();
 })();
 </script>
+
+<!-- ══ HAIROMA LIGHTBOX ══ -->
+<div class="hlb" id="hairomaLightbox" role="dialog" aria-modal="true" aria-label="Hairoma step detail" aria-hidden="true">
+  <div class="hlb__inner">
+    <button class="hlb__close" id="hlbClose" aria-label="Close">✕</button>
+
+    <!-- Image pane -->
+    <div class="hlb__img-pane">
+      <img class="hlb__img" id="hlbImg" src="" alt="">
+      <div class="hlb__img-ph" id="hlbPh" style="display:none;">
+        <div class="hlb__img-ph-icon">🖼</div>
+        <div id="hlbPhLabel"></div>
+      </div>
+      <div class="hlb__dots" id="hlbDots"></div>
+    </div>
+
+    <!-- Info pane -->
+    <div class="hlb__info">
+      <div class="hlb__step-label" id="hlbStepLabel"></div>
+      <div class="hlb__title" id="hlbTitle"></div>
+      <div class="hlb__desc" id="hlbDesc"></div>
+      <div class="hlb__asset" id="hlbAsset"></div>
+      <div class="hlb__nav">
+        <button class="hlb__arr" id="hlbPrev" aria-label="Previous step">←</button>
+        <button class="hlb__arr" id="hlbNext" aria-label="Next step">→</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── HAIROMA LIGHTBOX ── */
+(function(){
+  var STEPS = [
+    { num:'01', title:'Choose your first fragrance', desc:'Pick from 10 natural scent families — avocado, mango, coconut, jasmine, and more. The ingredient icons show what each scent does for different hair types.', asset:'step1' },
+    { num:'02', title:'Add a second scent',          desc:'Layer a complementary fragrance to build your unique combination. A pairing guide highlights which scents work well together and which to avoid.', asset:'step2' },
+    { num:'03', title:'Set the ratio',               desc:'A simple slider lets you decide the dominant note — 60/40, 50/50, or anything in between. The preview updates in real time as you drag.', asset:'step4' },
+    { num:'04', title:'Your product is ready',       desc:'A full order summary shows your custom blend, size options, fragrance note label, and pricing — one tap to checkout with your personalised formula saved to your account.', asset:'final' },
+  ];
+
+  var lb      = document.getElementById('hairomaLightbox');
+  var lbImg   = document.getElementById('hlbImg');
+  var lbPh    = document.getElementById('hlbPh');
+  var lbPhLbl = document.getElementById('hlbPhLabel');
+  var lbDots  = document.getElementById('hlbDots');
+  var lbLabel = document.getElementById('hlbStepLabel');
+  var lbTitle = document.getElementById('hlbTitle');
+  var lbDesc  = document.getElementById('hlbDesc');
+  var lbAsset = document.getElementById('hlbAsset');
+  var lbClose = document.getElementById('hlbClose');
+  var lbPrev  = document.getElementById('hlbPrev');
+  var lbNext  = document.getElementById('hlbNext');
+  var current = 0;
+  var lastFocus = null;
+
+  // Build dots
+  STEPS.forEach(function(_, i){
+    var d = document.createElement('button');
+    d.className = 'hlb__dot';
+    d.setAttribute('aria-label', 'Go to step ' + (i+1));
+    d.addEventListener('click', function(){ goTo(i); });
+    lbDots.appendChild(d);
+  });
+
+  function suffix(){ return document.body.classList.contains('light') ? 'light' : 'dark'; }
+
+  function goTo(idx){
+    current = idx;
+    var s = STEPS[idx];
+    var src = 'assets/' + s.asset + '-' + suffix() + '.png';
+
+    lbLabel.textContent = 'Step ' + s.num + ' of 04';
+    lbTitle.textContent = s.title;
+    lbDesc.textContent  = s.desc;
+    lbAsset.textContent = src;
+
+    // image load
+    lbImg.classList.remove('is-loaded');
+    lbPh.style.display = 'none';
+    lbImg.style.display = 'block';
+    lbImg.onload  = function(){ lbImg.classList.add('is-loaded'); };
+    lbImg.onerror = function(){
+      lbImg.style.display = 'none';
+      lbPh.style.display  = 'flex';
+      lbPhLbl.textContent = src;
+    };
+    lbImg.src = src;
+    lbImg.alt = s.title;
+
+    // dots
+    lbDots.querySelectorAll('.hlb__dot').forEach(function(d, i){ d.classList.toggle('active', i === idx); });
+
+    // arrows
+    lbPrev.disabled = (idx === 0);
+    lbNext.disabled = (idx === STEPS.length - 1);
+  }
+
+  function openAt(idx){
+    lastFocus = document.activeElement;
+    goTo(idx);
+    lb.classList.add('is-open');
+    lb.setAttribute('aria-hidden','false');
+    document.body.classList.add('hlb-open');
+    setTimeout(function(){ lbClose.focus(); }, 80);
+  }
+
+  function close(){
+    lb.classList.remove('is-open');
+    lb.setAttribute('aria-hidden','true');
+    document.body.classList.remove('hlb-open');
+    if(lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  // Wire only the featured card to open lightbox (list rows handled by switcher)
+  var featuredCard = document.getElementById('hairomaFeatured');
+  if(featuredCard){
+    featuredCard.setAttribute('aria-label', 'Expand current step');
+  }
+
+  lbClose.addEventListener('click', close);
+  lbPrev.addEventListener('click', function(){ if(current > 0) goTo(current - 1); });
+  lbNext.addEventListener('click', function(){ if(current < STEPS.length - 1) goTo(current + 1); });
+
+  lb.addEventListener('click', function(e){ if(e.target === lb) close(); });
+
+  document.addEventListener('keydown', function(e){
+    if(!lb.classList.contains('is-open')) return;
+    if(e.key === 'Escape') close();
+    if(e.key === 'ArrowRight' && current < STEPS.length - 1) goTo(current + 1);
+    if(e.key === 'ArrowLeft'  && current > 0)                goTo(current - 1);
+  });
+
+  // Re-swap src on theme change (theme toggles call applyTheme which swaps step imgs)
+  // Watch body class changes
+  var obs = new MutationObserver(function(){
+    if(lb.classList.contains('is-open')) goTo(current);
+  });
+  obs.observe(document.body, { attributes:true, attributeFilter:['class'] });
+})();
+</script>
+
+
+<!-- ── Screen Lightbox ── -->
+<div class="scr-lb" id="scrLb" role="dialog" aria-modal="true" aria-hidden="true">
+  <button class="scr-lb__close" id="scrLbClose" aria-label="Close">✕</button>
+  <div class="scr-lb__inner">
+    <div class="scr-lb__chrome">
+      <span class="scr-lb__dot"></span>
+      <span class="scr-lb__dot"></span>
+      <span class="scr-lb__dot"></span>
+      <div class="scr-lb__url" id="scrLbUrl">hairfood.com</div>
+    </div>
+    <div class="scr-lb__frame">
+      <img class="scr-lb__img" id="scrLbImg" src="" alt="">
+    </div>
+    <div class="scr-lb__footer">
+      <div class="scr-lb__caption" id="scrLbCaption"></div>
+      <div class="scr-lb__nav">
+        <button class="scr-lb__btn" id="scrLbPrev" aria-label="Previous">←</button>
+        <button class="scr-lb__btn" id="scrLbNext" aria-label="Next">→</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── Screen Lightbox ── */
+(function(){
+  var SCREENS = [
+    { id:'heroScreenImg',    asset:'hero',    caption:'Homepage · Hairoma entry point',    url:'hairfood.com' },
+    { id:'hairomaScreenImg', asset:'hairoma', caption:'Hairoma · Customisation landing',   url:'hairfood.com/hairoma' },
+    { id:'step2ScreenImg',   asset:'step2',   caption:'Hairoma · Choose your fragrance',   url:'hairfood.com/hairoma/shampoo' },
+    { id:'finalScreenImg',   asset:'final',   caption:'Hairoma · Your product is ready',   url:'hairfood.com/hairoma/checkout' },
+  ];
+
+  var lb      = document.getElementById('scrLb');
+  var lbImg   = document.getElementById('scrLbImg');
+  var lbCaption = document.getElementById('scrLbCaption');
+  var lbUrl   = document.getElementById('scrLbUrl');
+  var lbClose = document.getElementById('scrLbClose');
+  var lbPrev  = document.getElementById('scrLbPrev');
+  var lbNext  = document.getElementById('scrLbNext');
+  var current = 0;
+  var lastFocus = null;
+
+  function sfx(){ return document.body.classList.contains('light') ? 'light' : 'dark'; }
+
+  function show(idx){
+    current = idx;
+    var s = SCREENS[idx];
+    var src = 'assets/' + s.asset + '-' + sfx() + '.png';
+    lbImg.classList.remove('is-loaded');
+    lbImg.onload = function(){ lbImg.classList.add('is-loaded'); };
+    lbImg.src = src;
+    lbImg.alt = s.caption;
+    lbCaption.textContent = s.caption;
+    lbUrl.textContent = s.url;
+    lbPrev.disabled = (idx === 0);
+    lbNext.disabled = (idx === SCREENS.length - 1);
+  }
+
+  function open(idx){
+    lastFocus = document.activeElement;
+    show(idx);
+    lb.classList.add('is-open');
+    lb.setAttribute('aria-hidden','false');
+    document.body.classList.add('scr-lb-open');
+    setTimeout(function(){ lbClose.focus(); }, 80);
+  }
+
+  function close(){
+    lb.classList.remove('is-open');
+    lb.setAttribute('aria-hidden','true');
+    document.body.classList.remove('scr-lb-open');
+    if(lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  /* Wire each scr-card to open at its index */
+  var cards = document.querySelectorAll('.scr-card');
+  cards.forEach(function(card, i){
+    card.setAttribute('tabindex','0');
+    card.setAttribute('role','button');
+    card.setAttribute('aria-label', SCREENS[i] ? SCREENS[i].caption : 'View screen');
+    card.addEventListener('click', function(){ if(SCREENS[i]) open(i); });
+    card.addEventListener('keydown', function(e){
+      if(e.key==='Enter'||e.key===' '){ e.preventDefault(); if(SCREENS[i]) open(i); }
+    });
+  });
+
+  lbClose.addEventListener('click', close);
+  lb.addEventListener('click', function(e){ if(e.target===lb) close(); });
+  lbPrev.addEventListener('click', function(){ if(current>0) show(current-1); });
+  lbNext.addEventListener('click', function(){ if(current<SCREENS.length-1) show(current+1); });
+
+  document.addEventListener('keydown', function(e){
+    if(!lb.classList.contains('is-open')) return;
+    if(e.key==='Escape') close();
+    if(e.key==='ArrowRight' && current<SCREENS.length-1) show(current+1);
+    if(e.key==='ArrowLeft'  && current>0)                show(current-1);
+  });
+})();
+</script>
+
 </body>
 </html>
