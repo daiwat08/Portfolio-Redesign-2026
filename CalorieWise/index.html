@@ -63,18 +63,18 @@
   .nav-top.nav-dark .nav-top__logo{color:#fff;}
   .nav-top.nav-dark .nav-top__link{color:rgba(255,255,255,0.55);}
   .nav-top.nav-dark .nav-top__link:hover{color:#fff;background:rgba(255,255,255,0.08);}
-  .nav-top.nav-dark .nav-top__cta{background:var(--accent);color:#fff;}
+  .nav-top.nav-dark .nav-top__cta{background:#C2510A;color:#fff;}
   .nav-top.nav-dark .theme-btn{border-color:rgba(255,255,255,0.2);}
   .nav-top__logo{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:-.01em;color:#111;text-decoration:none;white-space:nowrap;flex-shrink:0;transition:color .4s;}
   .nav-top__links{flex:1;display:flex;align-items:center;justify-content:center;}
-  .nav-top__link{font-size:14px;color:#777;text-decoration:none;padding:7px 16px;border-radius:999px;transition:background .2s,color .2s,transform .1s;}
+  .nav-top__link{font-size:14px;color:var(--sub);text-decoration:none;padding:7px 16px;border-radius:999px;transition:background .2s,color .2s,transform .1s;}
   .nav-top__link:hover{color:#111;background:rgba(0,0,0,0.05);}
   .nav-top__link:active{background:rgba(0,0,0,0.1);transform:scale(0.96);}
   .nav-top__right{display:flex;align-items:center;gap:8px;}
   /* Dave AI button — uses brand accent color (--accent) for consistency across themes */
-  .nav-top__cta{font-size:13px;font-weight:500;color:#0a0a0a;text-decoration:none;background:var(--accent);padding:8px 18px;border-radius:999px;flex-shrink:0;transition:background .2s,box-shadow .2s,transform .1s;}
-  .nav-top__cta:hover{background:#C2510A;box-shadow:none;}
-  .nav-top.nav-dark .nav-top__cta:hover{background:#C2510A;box-shadow:none;}
+  .nav-top__cta{font-size:13px;font-weight:500;color:#fff;text-decoration:none;background:#C2510A;padding:8px 18px;border-radius:999px;flex-shrink:0;transition:background .2s,box-shadow .2s,transform .1s;}
+  .nav-top__cta:hover{background:#8F3A06;box-shadow:none;}
+  .nav-top.nav-dark .nav-top__cta:hover{background:#8F3A06;box-shadow:none;}
   .nav-top__cta:active{background:#8F3A06;box-shadow:none;transform:scale(0.95);}
   .nav-top.nav-dark .nav-top__cta:active{background:#8F3A06;box-shadow:none;transform:scale(0.95);}
   .theme-btn{width:38px;height:38px;border-radius:50%;border:1px solid rgba(0,0,0,0.12);background:transparent;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .1s;flex-shrink:0;}
@@ -280,6 +280,7 @@
   .stat-cell{background:#1f1008;padding:36px 32px;}
   .stat-num{font-family:'Instrument Serif',serif;font-size:48px;color:var(--white);line-height:1;letter-spacing:-1px;}
   .stat-num .accent{color:var(--accent-text);}
+  .stat-num .stat-unit, .stat-num em.stat-unit{color:var(--white);font-style:normal;}
   .stat-desc{font-size:var(--t-sm);color:var(--sub);margin-top:8px;max-width:220px;line-height:1.6;}
 
   /* 3-col stats */
@@ -372,8 +373,9 @@
   .btn:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.35);}
   body.light .btn{border-color:rgba(0,0,0,.2);color:var(--text);}
   body.light .btn:hover{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.35);}
-  .btn-accent{background:#FF8042;border-color:transparent;color:#1a0d06;margin-left:10px;font-weight:600;}
-  .btn-accent:hover{background:#e8622a;color:#1a0d06;opacity:1;}
+  .btn-accent{background:#FF8042;border-color:transparent;color:#1a0d06;margin-left:10px;font-weight:500;transition:background .2s,font-weight .15s,transform .1s,box-shadow .2s;}
+  .btn-accent:hover{background:#e8622a;color:#1a0d06;font-weight:600;opacity:1;}
+  .btn-accent:active{background:#C2510A;color:#1a0d06;transform:scale(0.97);box-shadow:none;}
 
   /* IMAGE PLACEHOLDERS */
   .img-placeholder{
@@ -620,7 +622,7 @@
         <div class="stat-desc">of users abandon nutrition apps within the first two weeks</div>
       </div>
       <div class="stat-cell">
-        <div class="stat-num"><span class="accent">3×</span></div>
+        <div class="stat-num"><span class="accent">3</span><span class="stat-unit">×</span></div>
         <div class="stat-desc">more likely to reach health goals when using consistent tracking tools</div>
       </div>
     </div>
@@ -886,13 +888,13 @@
         <div class="stat-desc">Unique visitors who reached the page</div>
       </div>
       <div class="stat-cell">
-        <div class="stat-num"><span class="accent">11.8<em style="font-size:22px;">%</em></span></div>
+        <div class="stat-num"><span class="accent">11.8</span><em class="stat-unit" style="font-size:22px;color:#f5ede6;font-style:normal;">%</em></div>
         <div class="stat-desc">Total sign-up conversion rate</div>
       </div>
     </div>
 
     <!-- Fake Front Door: mockup -->
-    <img src="../CalorieWise/assets/fake-front-door.png" alt="Calorie Wise fake front door landing page" style="width:100%;border-radius:12px;margin-top:40px;display:block;">
+    <img src="assets/fake-front-door.png" alt="Calorie Wise fake front door landing page" style="width:100%;border-radius:12px;margin-top:40px;display:block;">
 
     <!-- Fake Front Door: body text -->
     <p style="margin-top:24px;">Before building, we launched a fake landing page to measure real-world interest. The numbers confirmed there was genuine appetite for a better calorie tracking experience.</p>
@@ -903,7 +905,7 @@
     <!-- Insight 1 -->
     <div class="tag" style="margin-top:48px;"><span class="tag-dot"></span>Insight 1 — Mechanical Turk</div>
     <h2 style="margin-top:12px;">A drop in sustained<br>interest over time.</h2>
-    <img src="../CalorieWise/assets/assets/mechanical-turk.png" alt="Mechanical Turk engagement charts" style="width:100%;border-radius:12px;margin-top:40px;display:block;">
+    <img src="assets/mechanical-turk.png" alt="Mechanical Turk engagement charts" style="width:100%;border-radius:12px;margin-top:40px;display:block;">
     <p style="margin-top:24px;">The pretotyping phase using Mechanical Turk provided key insights into user interest and engagement. Initially, users showed moderate interest, but this declined over time, along with their energy levels. While the concept initially engaged users, sustaining their interest proved challenging — their experience became less positive as time went on. These findings highlight the need for improvements to maintain consistent user engagement.</p>
 
     <!-- Divider -->
@@ -913,47 +915,71 @@
     <div class="tag" style="margin-top:48px;"><span class="tag-dot"></span>Insight 2 — Pilot Study</div>
     <h2 style="margin-top:12px;">Pilot study with<br>6 real users.</h2>
 
-    <!-- Participant photos -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px;">
-      <img src="../CalorieWise/assets/Radhika.png" alt="Participant Radhika cooking" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:50%;border:2px solid var(--accent);">
-      <img src="../CalorieWise/assets/Sanket.png" alt="Participant Sanket cooking" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:50%;border:2px solid var(--accent);">
-      <img src="../CalorieWise/assets/Ketki.png" alt="Participant Ketki cooking" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:50%;border:2px solid var(--accent);">
-    </div>
-
-    <!-- Participant breakdown -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:32px;">
-      <div class="stat-cell" style="padding:28px 24px;">
-        <div class="stat-num" style="font-size:40px;"><span class="accent">6</span></div>
-        <div class="stat-desc">Total participants</div>
+    <!-- Participant photo strip -->
+    <div style="display:flex;gap:16px;margin-top:40px;align-items:flex-start;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:10px;flex:1;">
+        <img src="assets/Radhika.png" alt="Participant Radhika cooking" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:16px;border:1.5px solid var(--line);">
+        <span style="font-size:12px;font-family:'Geist Mono',monospace;color:var(--sub);letter-spacing:.5px;text-transform:uppercase;">Radhika</span>
       </div>
-      <div class="stat-cell" style="padding:28px 24px;">
-        <div class="stat-num" style="font-size:40px;"><span class="accent">4</span></div>
-        <div class="stat-desc">Female participants</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:10px;flex:1;">
+        <img src="assets/Sanket.png" alt="Participant Sanket cooking" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:16px;border:1.5px solid var(--line);">
+        <span style="font-size:12px;font-family:'Geist Mono',monospace;color:var(--sub);letter-spacing:.5px;text-transform:uppercase;">Sanket</span>
       </div>
-      <div class="stat-cell" style="padding:28px 24px;">
-        <div class="stat-num" style="font-size:40px;"><span class="accent">2</span></div>
-        <div class="stat-desc">Male participants</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:10px;flex:1;">
+        <img src="assets/Ketki.png" alt="Participant Ketki cooking" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:16px;border:1.5px solid var(--line);">
+        <span style="font-size:12px;font-family:'Geist Mono',monospace;color:var(--sub);letter-spacing:.5px;text-transform:uppercase;">Ketki</span>
       </div>
     </div>
 
-    <!-- Finding stats -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:32px;">
-      <div class="stat-cell" style="padding:24px;">
-        <div class="stat-num" style="font-size:32px;"><span class="accent">3/6</span></div>
-        <div class="stat-desc">Users lost interest after the first day</div>
+    <!-- Bento stats -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:12px;margin-top:28px;">
+
+      <!-- 6/6 — large hero card spanning full width -->
+      <div style="grid-column:1/-1;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
+        <div>
+          <div style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);margin-bottom:8px;">Day 1 interest</div>
+          <div style="font-family:'Instrument Serif',serif;font-size:52px;color:var(--accent-text);line-height:1;letter-spacing:-1px;">6<span style="color:var(--white);font-size:32px;">/6</span></div>
+        </div>
+        <div style="font-size:13px;color:var(--sub);max-width:180px;line-height:1.6;text-align:right;">All 6 users were interested on the first day</div>
       </div>
-      <div class="stat-cell" style="padding:24px;">
-        <div class="stat-num" style="font-size:32px;"><span class="accent">6/6</span></div>
-        <div class="stat-desc">Were interested on the first day</div>
+
+      <!-- 3/6 -->
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;">
+        <div style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);margin-bottom:10px;">Drop-off</div>
+        <div style="font-family:'Instrument Serif',serif;font-size:40px;color:var(--accent-text);line-height:1;letter-spacing:-1px;">3<span style="color:var(--white);font-size:24px;">/6</span></div>
+        <div style="font-size:13px;color:var(--sub);margin-top:10px;line-height:1.6;">Lost interest after day 1</div>
       </div>
-      <div class="stat-cell" style="padding:24px;">
-        <div class="stat-num" style="font-size:32px;"><span class="accent">1/6</span></div>
-        <div class="stat-desc">User found it boring</div>
+
+      <!-- breakdown 4F / 2M -->
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;">
+        <div style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);margin-bottom:10px;">6 Participants</div>
+        <div style="display:flex;gap:16px;align-items:flex-end;margin-top:4px;">
+          <div>
+            <div style="font-family:'Instrument Serif',serif;font-size:40px;color:var(--accent-text);line-height:1;letter-spacing:-1px;">4</div>
+            <div style="font-size:12px;color:var(--sub);margin-top:4px;">Female</div>
+          </div>
+          <div style="width:1px;height:40px;background:var(--line);margin-bottom:4px;"></div>
+          <div>
+            <div style="font-family:'Instrument Serif',serif;font-size:40px;color:var(--accent-text);line-height:1;letter-spacing:-1px;">2</div>
+            <div style="font-size:12px;color:var(--sub);margin-top:4px;">Male</div>
+          </div>
+        </div>
       </div>
-      <div class="stat-cell" style="padding:24px;">
-        <div class="stat-num" style="font-size:32px;"><span class="accent">1/6</span></div>
-        <div class="stat-desc">User wanted to pick their own recipe</div>
+
+      <!-- 1/6 boring -->
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;">
+        <div style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);margin-bottom:10px;">Boredom</div>
+        <div style="font-family:'Instrument Serif',serif;font-size:40px;color:var(--accent-text);line-height:1;letter-spacing:-1px;">1<span style="color:var(--white);font-size:24px;">/6</span></div>
+        <div style="font-size:13px;color:var(--sub);margin-top:10px;line-height:1.6;">Found the experience boring</div>
       </div>
+
+      <!-- 1/6 recipe -->
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;">
+        <div style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);margin-bottom:10px;">Choice</div>
+        <div style="font-family:'Instrument Serif',serif;font-size:40px;color:var(--accent-text);line-height:1;letter-spacing:-1px;">1<span style="color:var(--white);font-size:24px;">/6</span></div>
+        <div style="font-size:13px;color:var(--sub);margin-top:10px;line-height:1.6;">Wanted to pick their own recipe</div>
+      </div>
+
     </div>
 
     <!-- Quotes -->
@@ -979,7 +1005,7 @@
     <h2>Moderated tests<br>with five users.</h2>
     <p>I conducted moderated usability tests with five users to identify interaction gaps and problem areas within the app. The process yielded valuable insights into certain features, leading to design iterations informed by user feedback.</p>
 
-    <img src="../CalorieWise/assets/food-log.png" alt="Usability testing session — food log" style="width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px;margin-top:40px;display:block;">
+    <img src="assets/food-log.png" alt="Usability testing session — food log" style="width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px;margin-top:40px;display:block;">
 
     <div class="tag" style="margin-top:48px;margin-bottom:20px;"><span class="tag-dot"></span>Usability Testing Insights</div>
     <div class="usability-table-wrap">
@@ -1095,7 +1121,7 @@
 
   <!-- Final UI screen: swaps with theme -->
   <div class="col" style="margin-top:48px;">
-    <img id="uiScreenImg" src="../CalorieWise/assets/mobile-screen-dark.png" alt="Calorie Wise UI screens" style="width:100%;border-radius:12px;display:block;">
+    <img id="uiScreenImg" src="assets/mobile-screen-dark.png" alt="Calorie Wise UI screens" style="width:100%;border-radius:12px;display:block;">
   </div>
 </section>
 
