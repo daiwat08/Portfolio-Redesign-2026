@@ -463,6 +463,12 @@
   .li-marquee-section {
     padding: 80px 0;
     border-top: 1px solid var(--line);
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
     overflow: hidden;
   }
   .li-marquee-label {
@@ -506,8 +512,8 @@
   .li-track:hover { animation-play-state: paused; }
   .li-card {
     flex-shrink: 0;
-    width: 260px;
-    height: 260px;
+    width: 360px;
+    height: auto;
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid var(--line);
@@ -522,11 +528,10 @@
   }
   body.light .li-card:hover { border-color: rgba(0,0,0,0.2); }
   .li-card img {
-    width: 100%; height: 100%;
-    object-fit: contain;
+    width: 100%;
+    height: auto;
     display: block;
     pointer-events: none;
-    background: var(--surface);
   }
   .li-card__zoom {
     position: absolute; inset: 0;
@@ -539,7 +544,7 @@
   }
   .li-card:hover .li-card__zoom { opacity: 1; }
   @media (max-width: 640px) {
-    .li-card { width: 200px; height: 200px; }
+    .li-card { width: 240px; height: auto; }
   }
 
   /* ─── ANIMATIONS ─── */
@@ -698,6 +703,17 @@
     <div class="quote-block reveal d3">
       <div class="quote-text">"You can't redesign something well if you haven't understood exactly why it's broken. The audit wasn't just research — it was the pitch for the redesign."</div>
     </div>
+    <!-- Theme-aware heuristics audit images -->
+    <div class="reveal d3" style="margin-top:40px; margin-bottom:40px; border-radius:12px; overflow:hidden; border:1px solid var(--line); position:relative;">
+      <img src="assets/heuristics - dark.png"
+           alt="Nielsen heuristics audit — dark mode"
+           style="width:100%; display:block;">
+      <img src="assets/heuristics - light.png"
+           alt="Nielsen heuristics audit — light mode"
+           style="width:100%; display:none;">
+    </div>
+    <p class="reveal" style="margin-top:-32px; margin-bottom:40px; font-family:'Geist Mono',monospace;font-size:var(--t-xs);color:var(--sub);letter-spacing:1px;text-transform:uppercase;">Nielsen's 10 Heuristics — CEO presentation deck, Month 01</p>
+
     <div class="solutions reveal">
       <div class="solution">
         <div class="solution-n">H1 — Visibility of System Status</div>
@@ -730,8 +746,7 @@
         <p>The overall aesthetic — grey tones, inconsistent spacing, no design system — failed to communicate the quality of the product behind it. The site didn't match the ambition of the business.</p>
       </div>
     </div>
-  </div>
-</section>
+    <!-- end solutions grid -->
 
 <!-- ─── 03 PROCESS ─── -->
 <section class="section">
@@ -878,7 +893,7 @@
 </section>
 
 <!-- ─── LINKEDIN MARQUEE ─── -->
-<section class="li-marquee-section reveal">
+<section class="li-marquee-section">
   <div class="li-marquee-label">
     <span class="tag-dot"></span>
     <span>LinkedIn ·</span>
@@ -1068,6 +1083,11 @@ document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
     const icon = goLight ? '☀️' : '🌙';
     if(toggleTop)  toggleTop.textContent  = icon;
     if(togglePill) togglePill.textContent = icon;
+    // Heuristics images
+    const hDark  = document.querySelector('img[alt="Nielsen heuristics audit — dark mode"]');
+    const hLight = document.querySelector('img[alt="Nielsen heuristics audit — light mode"]');
+    if(hDark)  hDark.style.display  = goLight ? 'none'  : 'block';
+    if(hLight) hLight.style.display = goLight ? 'block' : 'none';
   }
   function toggleTheme(){ applyTheme(!document.body.classList.contains('light')); }
   if(toggleTop)  toggleTop.addEventListener('click', toggleTheme);
@@ -1160,6 +1180,11 @@ document.addEventListener('DOMContentLoaded', function(){
     var pillToggle = document.getElementById('themeTogglePill');
     if(deskToggle) deskToggle.textContent = goLight ? '☀️' : '🌙';
     if(pillToggle) pillToggle.textContent = goLight ? '☀️' : '🌙';
+    // Heuristics images
+    var hDark  = document.querySelector('img[alt="Nielsen heuristics audit — dark mode"]');
+    var hLight = document.querySelector('img[alt="Nielsen heuristics audit — light mode"]');
+    if(hDark)  hDark.style.display  = goLight ? 'none'  : 'block';
+    if(hLight) hLight.style.display = goLight ? 'block' : 'none';
   }
   applyMobTheme(false);
 
