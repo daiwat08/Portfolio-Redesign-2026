@@ -144,7 +144,7 @@
   .nav-top.nav-dark .nav-top__logo{color:#fff;}
   .nav-top.nav-dark .nav-top__link{color:rgba(255,255,255,0.55);}
   .nav-top.nav-dark .nav-top__link:hover{color:#fff;background:rgba(255,255,255,0.08);}
-  .nav-top.nav-dark .nav-top__cta{background:var(--accent);color:#fff;}
+  .nav-top.nav-dark .nav-top__cta{background:var(--accent);color:#0a0a0a;}
   .nav-top.nav-dark .theme-btn{border-color:rgba(255,255,255,0.2);}
   .nav-top__logo{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:-.01em;color:#111;text-decoration:none;white-space:nowrap;flex-shrink:0;transition:color .4s;}
   .nav-top__links{flex:1;display:flex;align-items:center;justify-content:center;}
@@ -154,10 +154,10 @@
   .nav-top__right{display:flex;align-items:center;gap:8px;}
   /* Dave AI button — uses brand accent color (--accent) for consistency across themes */
   .nav-top__cta{font-size:13px;font-weight:500;color:#0a0a0a;text-decoration:none;background:var(--accent);padding:8px 18px;border-radius:999px;flex-shrink:0;transition:background .2s,box-shadow .2s,transform .1s;}
-  .nav-top__cta:hover{background:#B0B0B0;box-shadow:none;}
-  .nav-top.nav-dark .nav-top__cta:hover{background:#B0B0B0;box-shadow:none;}
-  .nav-top__cta:active{background:#888888;box-shadow:none;transform:scale(0.95);}
-  .nav-top.nav-dark .nav-top__cta:active{background:#888888;box-shadow:none;transform:scale(0.95);}
+  .nav-top__cta:hover{background:#B0B0B0;box-shadow:none;color:#0a0a0a;}
+  .nav-top.nav-dark .nav-top__cta:hover{background:#B0B0B0;box-shadow:none;color:#0a0a0a;}
+  .nav-top__cta:active{background:#888888;box-shadow:none;transform:scale(0.95);color:#0a0a0a;}
+  .nav-top.nav-dark .nav-top__cta:active{background:#888888;box-shadow:none;transform:scale(0.95);color:#0a0a0a;}
   .theme-btn{width:38px;height:38px;border-radius:50%;border:1px solid rgba(0,0,0,0.12);background:transparent;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .1s;flex-shrink:0;}
   .theme-btn:hover{background:rgba(0,0,0,0.05);}
   .theme-btn:active{background:rgba(0,0,0,0.1);transform:scale(0.92);}
@@ -459,6 +459,88 @@
   body.light .ds-img--dark  { display: none; }
   body.light .ds-img--light { display: block; }
 
+  /* ─── LINKEDIN MARQUEE ─── */
+  .li-marquee-section {
+    padding: 80px 0;
+    border-top: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .li-marquee-label {
+    max-width: var(--max);
+    margin: 0 auto 40px;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .li-marquee-label span {
+    font-family: 'Geist Mono', monospace;
+    font-size: var(--t-xs);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--sub);
+  }
+  .li-marquee-label em {
+    font-family: 'Instrument Serif', serif;
+    font-size: var(--t-md);
+    font-style: italic;
+    color: var(--white);
+    letter-spacing: -0.2px;
+  }
+  .li-track-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+  }
+  .li-track {
+    display: flex;
+    gap: 14px;
+    width: max-content;
+    will-change: transform;
+  }
+  .li-track--left  { animation: li-scroll-left  28s linear infinite; }
+  .li-track--right { animation: li-scroll-right 28s linear infinite; }
+  @keyframes li-scroll-left  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes li-scroll-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+  .li-track:hover { animation-play-state: paused; }
+  .li-card {
+    flex-shrink: 0;
+    width: 260px;
+    height: 260px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    cursor: zoom-in;
+    position: relative;
+    transition: border-color 0.2s, transform 0.2s;
+    background: var(--surface);
+  }
+  .li-card:hover {
+    border-color: rgba(255,255,255,0.2);
+    transform: scale(1.02);
+  }
+  body.light .li-card:hover { border-color: rgba(0,0,0,0.2); }
+  .li-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+  }
+  .li-card__zoom {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.45);
+    opacity: 0;
+    transition: opacity 0.2s;
+    font-size: 22px;
+    color: #fff;
+  }
+  .li-card:hover .li-card__zoom { opacity: 1; }
+  @media (max-width: 640px) {
+    .li-card { width: 200px; height: 200px; }
+  }
+
   /* ─── ANIMATIONS ─── */
   @keyframes up { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
   .hero .col > * { opacity:0; animation:up 0.7s ease forwards; }
@@ -702,11 +784,11 @@
     <div class="before-after reveal" style="margin-top:40px;display:flex;flex-direction:column;gap:24px;">
       <div>
         <div style="font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);margin-bottom:10px;">Before — Dark Grey Charcoal</div>
-        <img src="../EranovaAI/assets/old" alt="Eranova before rebrand" style="width:100%;border-radius:10px;border:1px solid var(--line);">
+        <img src="assets/Old.png" alt="Eranova before rebrand" style="width:100%;border-radius:10px;border:1px solid var(--line);">
       </div>
       <div>
         <div style="font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--sub);margin-bottom:10px;">After — Pure Black & White</div>
-        <img src="../EranovaAI/assets/new" alt="Eranova after rebrand" style="width:100%;border-radius:10px;border:1px solid var(--line);">
+        <img src="assets/New.png" alt="Eranova after rebrand" style="width:100%;border-radius:10px;border:1px solid var(--line);">
       </div>
     </div>
 
@@ -794,6 +876,92 @@
   </div>
 </section>
 
+<!-- ─── LINKEDIN MARQUEE ─── -->
+<section class="li-marquee-section reveal">
+  <div class="li-marquee-label">
+    <span class="tag-dot"></span>
+    <span>LinkedIn ·</span>
+    <em>50 posts. Every one on-brand.</em>
+  </div>
+  <div class="li-track-wrap">
+
+    <!-- Row 1: scrolls LEFT — posts 1,2,3,4 (doubled for seamless loop) -->
+    <div class="li-track li-track--left" id="liRow1">
+      <div class="li-card" data-src="assets/LI-1.png" data-label="LinkedIn Post 01">
+        <img src="assets/LI-1.png" alt="LinkedIn post 1" loading="lazy">
+        <div class="li-card__zoom">⤢</div>
+      </div>
+      <div class="li-card" data-src="assets/LI-2.png" data-label="LinkedIn Post 02">
+        <img src="assets/LI-2.png" alt="LinkedIn post 2" loading="lazy">
+        <div class="li-card__zoom">⤢</div>
+      </div>
+      <div class="li-card" data-src="assets/LI-3.png" data-label="LinkedIn Post 03">
+        <img src="assets/LI-3.png" alt="LinkedIn post 3" loading="lazy">
+        <div class="li-card__zoom">⤢</div>
+      </div>
+      <div class="li-card" data-src="assets/LI-4.png" data-label="LinkedIn Post 04">
+        <img src="assets/LI-4.png" alt="LinkedIn post 4" loading="lazy">
+        <div class="li-card__zoom">⤢</div>
+      </div>
+      <!-- Duplicate for seamless loop -->
+      <div class="li-card" data-src="assets/LI-1.png" data-label="LinkedIn Post 01">
+        <img src="assets/LI-1.png" alt="LinkedIn post 1" loading="lazy">
+        <div class="li-card__zoom">⤢</div>
+      </div>
+      <div class="li-card" data-src="assets/LI-2.png" data-label="LinkedIn Post 02">
+        <img src="assets/LI-2.png" alt="LinkedIn post 2" loading="lazy">
+        <div class="li-card__zoom">⤢</div>
+      </div>
+      <div class="li-card" data-src="assets/LI-3.png" data-label="LinkedIn Post 03">
+        <img src="assets/LI-3.png" alt="LinkedIn post 3" loading="lazy">
+        <div class="li-card__zoom">⤢</div>
+      </div>
+      <div class="li-card" data-src="assets/LI-4.png" data-label="LinkedIn Post 04">
+        <img src="assets/LI-4.png" alt="LinkedIn post 4" loading="lazy">
+        <div class="li-card__zoom">⤢</div>
+      </div>
+    </div>
+
+    <!-- Row 2: scrolls RIGHT — posts 5,6,7,8 (doubled for seamless loop) -->
+    <div class="li-track li-track--right" id="liRow2">
+      <div class="li-card" data-src="assets/LI-5.png" data-label="LinkedIn Post 05">
+        <img src="assets/LI-5.png" alt="LinkedIn post 5" loading="lazy">
+        <div class="li-card__zoom">⤢</div>
+      </div>
+      <div class="li-card" data-src="assets/LI6.png" data-label="LinkedIn Post 06">
+        <img src="assets/LI6.png" alt="LinkedIn post 6" loading="lazy">
+        <div class="li-card__zoom">⤢</div>
+      </div>
+      <div class="li-card" data-src="assets/LI-7.png" data-label="LinkedIn Post 07">
+        <img src="assets/LI-7.png" alt="LinkedIn post 7" loading="lazy">
+        <div class="li-card__zoom">⤢</div>
+      </div>
+      <div class="li-card" data-src="assets/LI-8.png" data-label="LinkedIn Post 08">
+        <img src="assets/LI-8.png" alt="LinkedIn post 8" loading="lazy">
+        <div class="li-card__zoom">⤢</div>
+      </div>
+      <!-- Duplicate for seamless loop -->
+      <div class="li-card" data-src="assets/LI-5.png" data-label="LinkedIn Post 05">
+        <img src="assets/LI-5.png" alt="LinkedIn post 5" loading="lazy">
+        <div class="li-card__zoom">⤢</div>
+      </div>
+      <div class="li-card" data-src="assets/LI6.png" data-label="LinkedIn Post 06">
+        <img src="assets/LI6.png" alt="LinkedIn post 6" loading="lazy">
+        <div class="li-card__zoom">⤢</div>
+      </div>
+      <div class="li-card" data-src="assets/LI-7.png" data-label="LinkedIn Post 07">
+        <img src="assets/LI-7.png" alt="LinkedIn post 7" loading="lazy">
+        <div class="li-card__zoom">⤢</div>
+      </div>
+      <div class="li-card" data-src="assets/LI-8.png" data-label="LinkedIn Post 08">
+        <img src="assets/LI-8.png" alt="LinkedIn post 8" loading="lazy">
+        <div class="li-card__zoom">⤢</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <!-- ─── 07 DESIGN SYSTEM ─── -->
 <section class="section">
   <div class="col">
@@ -804,11 +972,11 @@
 
     <!-- Theme-aware image: shows dark in dark mode, light in light mode -->
     <div class="reveal d4" style="margin-top:48px;border-radius:12px;overflow:hidden;border:1px solid var(--line);">
-      <img src="design-system-dark.png"
+      <img src="assets/design-system-dark.png"
            class="ds-img ds-img--dark"
            alt="Design system variables panel — dark mode"
            style="width:100%;">
-      <img src="design-system-light.png"
+      <img src="assets/design-system-light.png"
            class="ds-img ds-img--light"
            alt="Design system variables panel — light mode"
            style="width:100%;">
@@ -1031,6 +1199,12 @@ document.addEventListener('DOMContentLoaded', function(){
   document.querySelectorAll('.lightbox-trigger').forEach(function(el) {
     el.addEventListener('click', function() {
       open(el.src, el.alt, el.dataset.label);
+    });
+  });
+
+  document.querySelectorAll('.li-card').forEach(function(card) {
+    card.addEventListener('click', function() {
+      open(card.dataset.src, card.querySelector('img').alt, card.dataset.label);
     });
   });
 
