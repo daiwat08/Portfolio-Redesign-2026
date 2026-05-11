@@ -263,7 +263,7 @@
   /* ── HERO — same as GB ── */
 
 
-  .hero-img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:12px;display:block;}
+  .hero-img{width:100%;border-radius:12px;display:block;}
   .hero-img-placeholder{width:100%;aspect-ratio:1/1;background:var(--surface);border:1px solid var(--line);border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Geist Mono',monospace;font-size:var(--t-xs);color:var(--sub);letter-spacing:1px;text-transform:uppercase;}
   .hero-caption{font-family:'Geist Mono',monospace;font-size:var(--t-xs);color:var(--sub);letter-spacing:1px;text-transform:uppercase;margin-top:12px;}
 
@@ -423,12 +423,12 @@
   .hero-img-wrap {
     margin: 48px 0 40px;
     position: relative;
+    border-radius: 12px;
+    overflow: hidden;
   }
   .hero-img {
     width: 100%;
-    height: 480px;
-    object-fit: cover;
-    object-position: center top;
+    height: auto;
     border-radius: 12px;
     display: block;
   }
@@ -474,7 +474,6 @@
 <header class="nav-top nav-dark" id="navTop">
   <a href="../index.html" class="nav-top__logo">Daiwat Thavai</a>
   <nav class="nav-top__links" aria-label="Main navigation">
-    <a href="../index.html" class="nav-top__link">Home</a>
     <a href="../Work/index.html" class="nav-top__link">Work</a>
     <a href="../AboutMe/index.html" class="nav-top__link">About</a>
     <a href="../ThavaiDaiwat.pdf" class="nav-top__link js-resume-link">Resume</a>
@@ -488,7 +487,6 @@
 <nav class="nav-pill" id="navPill" aria-label="Compact navigation">
   <div class="nav-pill__icon"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 2L13 8L8 9.5L6.5 14L3 2Z" fill="currentColor"/></svg></div>
   <div class="nav-pill__links">
-    <a href="../index.html" class="nav-pill__link">Home</a>
     <a href="../Work/index.html" class="nav-pill__link">Work</a>
     <a href="../AboutMe/index.html" class="nav-pill__link">About</a>
     <a href="../ThavaiDaiwat.pdf" class="nav-pill__link js-resume-link">Resume</a>
@@ -511,9 +509,7 @@
 
     <!-- Photo AFTER headline, BEFORE body text -->
     <div class="hero-img-wrap">
-      <video class="hero-img" autoplay muted loop playsinline>
-        <source src="../AboutMe/me.mov" type="video/mp4">
-      </video>
+      <video class="hero-img" autoplay muted loop playsinline><source src="../AboutMe/me.mov" type="video/mp4"></video>
       <div class="hero-caption">Philadelphia, PA · 2026</div>
     </div>
 
